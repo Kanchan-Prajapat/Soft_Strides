@@ -8,7 +8,7 @@ const Reviews = () => {
   const fetchReviews = async () => {
     const token = localStorage.getItem("adminToken");
 
-    const res = await axios.get("http://localhost:5000/api/reviews", {
+    const res = await axios.get("https://softstrides-backend.onrender.com/api/reviews" || "http://localhost:5000/api/reviews", {
       headers: { Authorization: `Bearer ${token}` },
     });
 
@@ -19,7 +19,7 @@ const Reviews = () => {
     const token = localStorage.getItem("adminToken");
 
     await axios.put(
-      `http://localhost:5000/api/reviews/${productId}/${reviewId}`,
+      `http://localhost:5000/api/reviews/${productId}/${reviewId}`||`https://softstrides-backend.onrender.com/api/reviews${productId}/${reviewId}`,
       { status },
       { headers: { Authorization: `Bearer ${token}` } }
     );
@@ -31,7 +31,7 @@ const Reviews = () => {
     const token = localStorage.getItem("adminToken");
 
     await axios.delete(
-      `http://localhost:5000/api/reviews/${productId}/${reviewId}`,
+      `http://localhost:5000/api/reviews/${productId}/${reviewId}` || `https://softstrides-backend.onrender.com/api/reviews${productId}/${reviewId}`,
       { headers: { Authorization: `Bearer ${token}` } }
     );
 
@@ -51,7 +51,7 @@ const Reviews = () => {
       <div key={review._id} className="review-card">
         <div className="review-left">
           <img
-            src={`http://localhost:5000${product.image}`}
+            src={`http://localhost:5000${product.image}`|| `https://softstrides-backend.onrender.com${product.image}`}
             alt={product.name}
             className="review-product-img"
           />

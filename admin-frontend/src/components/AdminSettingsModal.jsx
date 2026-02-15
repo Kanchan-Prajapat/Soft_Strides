@@ -14,7 +14,7 @@ const AdminSettingsModal = ({ admin, onClose, onUpdated }) => {
   const token = localStorage.getItem("adminToken");
 
   const saveProfile = async () => {
-    const res = await fetch("http://localhost:5000/api/users/profile", {
+    const res = await fetch("https://softstrides-backend.onrender.com/api/users/profile"|| "http://localhost:5000/api/users/profile", {
       method: "PUT",
       headers: {    
         "Content-Type": "application/json",
@@ -30,7 +30,7 @@ const AdminSettingsModal = ({ admin, onClose, onUpdated }) => {
 
   const changePassword = async () => {
     const res = await fetch(
-      "http://localhost:5000/api/users/change-password",
+      "https://softstrides-backend.onrender.com/api/users/change-password"|| "http://localhost:5000/api/users/change-password",
       {
         method: "PUT",
         headers: {
