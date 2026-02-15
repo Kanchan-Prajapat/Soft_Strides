@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { useCart } from "../context/CartContext";
 import { useNavigate } from "react-router-dom";
@@ -15,26 +15,28 @@ const Wishlist = () => {
   /* ======================
      LOAD WISHLIST
   ====================== */
-  useEffect(() => {
-    if (token) {
-      fetchWishlist();
-    }
-  }, [token, API_URL]);
 
-  const fetchWishlist = async () => {
-    try {
-      const res = await axios.get(
-        `${API_URL}/api/users/wishlist`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
 
-      setWishlist(res.data || []);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const fetchWishlist = useCallback(async () => {
+  try {
+    const res = await axios.get(
+      `${API_URL}/api/users/wishlist`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+
+    setWishlist(res.data || []);
+  } catch (error) {
+    console.log(error);
+  }
+}, [API_URL, token]);
+
+ useEffect(() => {
+  if (token) {
+    fetchWishlist();
+  }
+}, [token, fetchWishlist]);
 
   /* ======================
      REMOVE
