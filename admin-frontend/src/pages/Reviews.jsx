@@ -7,8 +7,9 @@ const Reviews = () => {
 
   const fetchReviews = async () => {
     const token = localStorage.getItem("adminToken");
+    const API_URL = import.meta.env.VITE_API_URL;
 
-    const res = await axios.get("https://softstrides-backend.onrender.com/api/reviews" || "http://localhost:5000/api/reviews", {
+    const res = await axios.get(`${API_URL}/api/reviews` , {
       headers: { Authorization: `Bearer ${token}` },
     });
 
@@ -19,7 +20,7 @@ const Reviews = () => {
     const token = localStorage.getItem("adminToken");
 
     await axios.put(
-      `http://localhost:5000/api/reviews/${productId}/${reviewId}`||`https://softstrides-backend.onrender.com/api/reviews${productId}/${reviewId}`,
+      `${API_URL}/api/reviews/${productId}/${reviewId}`,
       { status },
       { headers: { Authorization: `Bearer ${token}` } }
     );
@@ -31,7 +32,7 @@ const Reviews = () => {
     const token = localStorage.getItem("adminToken");
 
     await axios.delete(
-      `http://localhost:5000/api/reviews/${productId}/${reviewId}` || `https://softstrides-backend.onrender.com/api/reviews${productId}/${reviewId}`,
+      `${API_URL}/api/reviews/${productId}/${reviewId}` ,
       { headers: { Authorization: `Bearer ${token}` } }
     );
 
@@ -51,7 +52,7 @@ const Reviews = () => {
       <div key={review._id} className="review-card">
         <div className="review-left">
           <img
-            src={`http://localhost:5000${product.image}`|| `https://softstrides-backend.onrender.com${product.image}`}
+            src={`${API_URL}${product.image}`}
             alt={product.name}
             className="review-product-img"
           />

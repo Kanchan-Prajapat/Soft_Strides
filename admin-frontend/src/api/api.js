@@ -2,7 +2,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "https://softstrides-backend.onrender.com"|| "http://localhost:5000",
+  baseURL: import.meta.env.VITE_API_URL + "/api",
 });
 
 /* 🔐 REQUEST INTERCEPTOR */

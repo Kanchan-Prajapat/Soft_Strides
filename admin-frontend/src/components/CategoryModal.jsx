@@ -5,6 +5,7 @@ import {
 } from "../api/categories";
 import "../styles/theme.css";
 
+
 const CategoryModal = ({ category, onClose, onSuccess }) => {
   const [name, setName] = useState(category?.name || "");
   const [image, setImage] = useState(null);

@@ -1,6 +1,7 @@
 // src/components/AdminSettingsModal.jsx
 import { useState } from "react";
 
+
 const AdminSettingsModal = ({ admin, onClose, onUpdated }) => {
   const [tab, setTab] = useState("profile");
   const [name, setName] = useState(admin.name || "");
@@ -9,12 +10,12 @@ const AdminSettingsModal = ({ admin, onClose, onUpdated }) => {
   const [oldPass, setOldPass] = useState("");
   const [newPass, setNewPass] = useState("");
   const [image, setImage] = useState(null);
-
+const API_URL = import.meta.env.VITE_API_URL;
 
   const token = localStorage.getItem("adminToken");
 
   const saveProfile = async () => {
-    const res = await fetch("https://softstrides-backend.onrender.com/api/users/profile"|| "http://localhost:5000/api/users/profile", {
+    const res = await fetch(`${API_URL}/api/users/profile`, {
       method: "PUT",
       headers: {    
         "Content-Type": "application/json",
@@ -30,7 +31,7 @@ const AdminSettingsModal = ({ admin, onClose, onUpdated }) => {
 
   const changePassword = async () => {
     const res = await fetch(
-      "https://softstrides-backend.onrender.com/api/users/change-password"|| "http://localhost:5000/api/users/change-password",
+      `${API_URL}/api/users/change-password`,
       {
         method: "PUT",
         headers: {
