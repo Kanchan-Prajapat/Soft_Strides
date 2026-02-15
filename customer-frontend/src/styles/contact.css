@@ -1,0 +1,26 @@
+.contact-page {
+  padding: 80px 0;
+  text-align: center;
+}
+
+.contact-page h2 {
+  margin-bottom: 30px;
+}
+
+.contact-info {
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+
+.contact-form {
+  max-width: 500px;
+  margin: auto;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+}

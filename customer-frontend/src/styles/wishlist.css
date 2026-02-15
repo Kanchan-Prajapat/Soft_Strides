@@ -1,0 +1,10 @@
+.wishlist-item,
+.cart-item-info {
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.wishlist-item:hover,
+.cart-item-info:hover {
+  transform: scale(1.03);
+}

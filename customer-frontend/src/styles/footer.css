@@ -1,0 +1,53 @@
+/* =========================
+   H&M STYLE FOOTER
+========================= */
+
+.footer {
+  background: #fff;
+  border-top: 1px solid #e5e5e5;
+  padding: 60px 0 30px;
+  margin-top: 80px;
+  font-family: 'Helvetica Neue', sans-serif;
+}
+
+.footer-container {
+  width: 85%;
+  margin: auto;
+  text-align: center;
+}
+
+/* Links Row */
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+  margin-bottom: 25px;
+}
+
+.footer-links a {
+  text-decoration: none;
+  font-size: 14px;
+  color: #111;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.footer-links a:hover {
+  color: #777;
+}
+
+/* Divider */
+.footer-divider {
+  width: 60%;
+  height: 1px;
+  background: #e5e5e5;
+  margin: 20px auto;
+}
+
+/* Copyright */
+.footer-copy {
+  font-size: 13px;
+  color: #777;
+  letter-spacing: 0.5px;
+}
