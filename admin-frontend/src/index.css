@@ -1,0 +1,20 @@
+:root {
+  --bg: #f4f6f8;
+  --white: #ffffff;
+  --dark: #1f2937;
+  --gray: #6b7280;
+  --border: #e5e7eb;
+  --green: #16a34a;
+  --yellow: #ca8a04;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", system-ui, sans-serif;
+}
+
+body {
+  background-color: var(--bg);
+}

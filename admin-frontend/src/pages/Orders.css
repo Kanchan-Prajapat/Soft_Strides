@@ -1,0 +1,130 @@
+.dashboard {
+  display: flex;
+}
+
+.content {
+  padding: 40px;
+  flex: 1;
+}
+
+.content h1 {
+  margin-bottom: 30px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  gap: 25px;
+}
+
+.card {
+  background: var(--white);
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.04);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  color: var(--gray);
+  border-bottom: 1px solid var(--border);
+}
+
+th, td {
+  padding: 14px 10px;
+  text-align: left;
+}
+
+tbody tr:hover {
+  background: #f9fafb;
+}
+
+.badge {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+}
+
+.paid {
+  background: #dcfce7;
+  color: var(--green);
+}
+
+.pending {
+  background: #fef9c3;
+  color: var(--yellow);
+}
+
+.stats .revenue {
+  font-size: 26px;
+  font-weight: bold;
+}
+
+.stats .sub {
+  color: var(--gray);
+  margin-bottom: 20px;
+}
+
+.progress {
+  margin-bottom: 15px;
+}
+
+.bar {
+  height: 6px;
+  background: #e5e7eb;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.bar span {
+  display: block;
+  height: 100%;
+  background: var(--green);
+}
+
+.bar.yellow span {
+  background: var(--yellow);
+}
+
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: #fff;
+  width: 90%;
+  max-width: 420px;   /* ✅ mobile screenshot friendly */
+  max-height: 85vh;
+  overflow-y: auto;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.modal h2 {
+  margin-bottom: 10px;
+}
+
+.payment-image-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 12px;
+}
+
+.payment-image-wrapper img {
+  max-width: 100%;
+  max-height: 60vh;   /* ✅ important */
+  object-fit: contain;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+}
