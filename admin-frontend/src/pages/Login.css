@@ -23,9 +23,11 @@
 
 /* Logo */
 .login-logo {
-  width: 90px;              /* smaller */
+  width: 90px;    
+  height: 90px;          /* smaller */
   margin-bottom: 20px;
   filter: grayscale(100%);
+  border-radius: 50%;
 }
 
 /* Heading */
