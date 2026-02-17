@@ -33,6 +33,22 @@ import Category from "../models/Category.js";
 import Product from "../models/Product.js";
 import cloudinary from "../config/cloudinary.js";
 
+import streamifier from "streamifier";
+
+const uploadFromBuffer = (file) => {
+  return new Promise((resolve, reject) => {
+    const stream = cloudinary.uploader.upload_stream(
+      { folder: "softstrides/categories" },
+      (error, result) => {
+        if (result) resolve(result);
+        else reject(error);
+      }
+    );
+
+    streamifier.createReadStream(file.buffer).pipe(stream);
+  });
+};
+
 export const createCategory = async (req, res) => {
   try {
     const { name } = req.body;
@@ -41,9 +57,21 @@ export const createCategory = async (req, res) => {
       return res.status(400).json({ message: "Image required" });
     }
 
-    const uploadRes = await cloudinary.uploader.upload(req.file.path, {
-      folder: "softstrides/categories",
-    });
+    const uploadFromBuffer = () => {
+      return new Promise((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream(
+          { folder: "softstrides/categories" },
+          (error, result) => {
+            if (result) resolve(result);
+            else reject(error);
+          }
+        );
+
+        streamifier.createReadStream(req.file.buffer).pipe(stream);
+      });
+    };
+
+    const uploadRes = await uploadFromBuffer(req.file);
 
     const category = await Category.create({
       name,
@@ -55,6 +83,7 @@ export const createCategory = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
 
 export const getCategories = async (req, res) => {
   const categories = await Category.find();

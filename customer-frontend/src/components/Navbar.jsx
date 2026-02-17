@@ -2,7 +2,7 @@ import "../styles/navbar.css";
 import logo from "../assets/Logo.jpg";
 import { useCart } from "../context/CartContext";
 import "../styles/global.css";
-
+import SearchBar from "./SearchBar";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
@@ -25,21 +25,30 @@ const Navbar = () => {
 
 
   return (
-    <nav className="navbar">
-      <Link to="/" className="logo"> <img src={logo} alt="SoftStrides Logo" className="logo-image" /></Link>
-      <Link to="/cart">Cart ({cartItems.length})</Link>
 
-      {isLoggedIn ? (
-        <>
-          <Link to="/my-orders">My Orders</Link>
-          <Link to="/wishlist">Wishlist </Link>
+<nav className="navbar">
+  <div className="nav-left">
+    <Link to="/">
+      <img src={logo} alt="SoftStrides" className="logo-image" />
+    </Link>
+  </div>
 
-          <button onClick={handleLogout}>Logout</button>
-        </>
-      ) : (
-        <Link to="/login">Login</Link>
-      )}
-    </nav>
+  <div className="nav-center">
+    <SearchBar />
+  </div>
+
+  <div className="nav-right">
+    <Link to="/cart">Cart ({cartItems.length})</Link>
+    <Link to="/wishlist">Wishlist</Link>
+
+    {isLoggedIn ? (
+      <button className="logout" onClick={handleLogout}>Logout</button>
+    ) : (
+      <Link to="/login">Login</Link>
+    )}
+  </div>
+</nav>
+
   );
 };
 

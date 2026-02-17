@@ -3,6 +3,8 @@ import axios from "axios";
 import SidebarFilters from "../components/SidebarFilters";
 import ProductCard from "../components/ProductCard";
 import "../styles/products.css";
+import { useLocation } from "react-router-dom";
+
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -14,12 +16,20 @@ const Products = () => {
   const [selectedColor, setSelectedColor] = useState("All");
   const [priceRange, setPriceRange] = useState([0, 10000]);
 
+  const location = useLocation();
+const queryParams = new URLSearchParams(location.search);
+const categoryId = queryParams.get("category");
+
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const res = await axios.get(
-          `${API_URL}/api/products`
-        );
+  `${API_URL}/api/products`,
+  {
+    params: { category: categoryId }
+  }
+);
+
         setProducts(res.data);
       } catch (error) {
         console.error("Error fetching products:", error);

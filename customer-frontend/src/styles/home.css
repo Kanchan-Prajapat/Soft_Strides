@@ -1,46 +1,112 @@
 /* =========================
    HERO SECTION (H&M STYLE)
 ========================= */
+/* ================= HERO SECTION ================= */
 
-.hero-section {
+/* ================= HERO SLIDER ================= */
+
+.hero-slider {
   position: relative;
-  width: 100%;
-  height: 85vh;
+  height: 90vh;
   overflow: hidden;
 }
 
-.hero-image {
+.slide {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.8s ease-in-out;
+}
+
+.slide img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  filter: brightness(40%);
 }
 
-.hero-overlay {
+.slide.active {
+  opacity: 1;
+  z-index: 1;
+}
+
+/* Hero Text */
+.hero-content {
   position: absolute;
-  bottom: 20%;
-  left: 8%;
-  color: #111;
+  top: 50%;
+  left: 10%;
+  transform: translateY(-50%);
+  color: #fff;
+  max-width: 600px;
 }
 
-.hero-overlay h1 {
-  font-size: 48px;
-  margin-bottom: 20px;
+.hero-content h1 {
+  font-size: 60px;
   font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.hero-content p {
+  font-size: 18px;
+  margin-bottom: 30px;
+  color: #ccc;
 }
 
 .hero-btn {
-  background: #000;
-  color: #fff;
-  padding: 12px 30px;
-  border: none;
-  font-size: 14px;
-  letter-spacing: 1px;
-  transition: 0.3s;
+  padding: 14px 32px;
+  background: #fff;
+  color: #000;
+  font-weight: 600;
+  transition: 0.3s ease;
 }
 
 .hero-btn:hover {
-  background: #333;
+  background: #ccc;
 }
+
+/* ================= ARROWS ================= */
+
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 30px;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: #fff;
+  padding: 10px 18px;
+  cursor: pointer;
+  transition: 0.3s;
+  z-index: 2;
+}
+
+.arrow:hover {
+  background: rgba(255, 255, 255, 0.5);
+  color: #000;
+}
+
+.arrow.left {
+  left: 30px;
+}
+
+.arrow.right {
+  right: 30px;
+}
+
+
+/* Animation */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(-40%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(-50%);
+  }
+}
+
 
 /* =========================
    HOME CONTENT SECTIONS
@@ -64,4 +130,216 @@
 .home-content li {
   margin-bottom: 10px;
   color: #444;
+}
+
+/* ================= CATEGORY SECTION ================= */
+
+.category-section {
+  padding: 80px 0;
+  background: #000;
+  color: #fff;
+}
+
+.category-title {
+  text-align: center;
+  margin-bottom: 40px;
+  font-size: 32px;
+  font-weight: 600;
+}
+
+.category-wrapper {
+  position: relative;
+  width: 95%;
+  margin: auto;
+}
+
+.category-slider {
+  display: flex;
+  gap: 30px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 20px 10px;
+}
+
+.category-slider::-webkit-scrollbar {
+  display: none;
+}
+
+/* ================= CATEGORY CARD ================= */
+
+.category-card {
+  min-width: 220px;
+  background: #111;
+  border-radius: 16px;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.3s ease;
+  border: 1px solid #222;
+}
+
+.category-card:hover {
+  transform: translateY(-8px);
+  background: #1a1a1a;
+}
+
+.category-card img {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 15px;
+}
+
+.category-card h4 {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+/* ================= ARROWS ================= */
+
+.cat-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 28px;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: #fff;
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: 0.3s;
+  z-index: 2;
+}
+
+.cat-arrow:hover {
+  background: rgba(255, 255, 255, 0.4);
+  color: #000;
+}
+
+.cat-arrow.left {
+  left: -10px;
+}
+
+.cat-arrow.right {
+  right: -10px;
+}
+
+
+.flash-sale {
+  padding: 80px 0;
+  border-top: 1px solid #111;
+  border-bottom: 1px solid #111;
+}
+
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 25px;
+  margin-top: 40px;
+}
+.product-card {
+  background: #111;
+  color: #fff;
+  padding: 20px;
+  border-radius: 16px;
+  transition: 0.3s;
+  border: 1px solid #222;
+}
+
+.product-card:hover {
+  transform: translateY(-6px);
+  border-color: #444;
+}
+
+.product-card img {
+  width: 100%;
+  height: 260px;
+  object-fit: contain;
+}
+
+.product-card h4 {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.product-card p {
+  font-weight: 600;
+}
+
+.section {
+  padding: 100px 0;
+}
+
+.container {
+  width: 90%;
+  max-width: 1300px;
+  margin: auto;
+}
+
+
+/* ================= ABOUT SECTION ================= */
+
+.about-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  padding: 120px 0;
+  background: #000;
+  color: #fff;
+  width: 90%;
+  margin: auto;
+}
+
+/* LEFT SIDE */
+
+.about-left h2 {
+  font-size: 40px;
+  margin-bottom: 20px;
+}
+
+.about-left p {
+  font-size: 16px;
+  color: #aaa;
+  line-height: 1.7;
+  max-width: 500px;
+}
+
+/* RIGHT SIDE GRID */
+
+.about-right {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 25px;
+}
+
+/* FEATURE CARD */
+
+.feature-card {
+  background: #111;
+  padding: 30px;
+  border-radius: 16px;
+  border: 1px solid #222;
+  transition: 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-8px);
+  background: #181818;
+}
+
+.feature-card span {
+  font-size: 22px;
+}
+
+.feature-card h4 {
+  margin-top: 10px;
+  font-size: 18px;
+}
+
+.feature-card p {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #aaa;
 }

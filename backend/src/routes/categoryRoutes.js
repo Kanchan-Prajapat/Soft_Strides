@@ -11,7 +11,7 @@ import { adminOnly } from "../middleware/adminMiddleware.js";
 
 const router = express.Router();
 
-router.get("/", protect, adminOnly, getCategories);
+router.get("/", getCategories);
 
 router.post(
   "/",
