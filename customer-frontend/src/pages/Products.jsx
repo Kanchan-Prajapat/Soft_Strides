@@ -20,26 +20,28 @@ const Products = () => {
 const queryParams = new URLSearchParams(location.search);
 const categoryId = queryParams.get("category");
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const res = await axios.get(
-  `${API_URL}/api/products`,
-  {
-    params: { category: categoryId }
-  }
-);
+ useEffect(() => {
+  const fetchProducts = async () => {
+    try {
+      setLoading(true);
 
-        setProducts(res.data);
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+      const res = await axios.get(
+        `${API_URL}/api/products`,
+        {
+          params: { category: categoryId }
+        }
+      );
 
-    fetchProducts();
-  }, [API_URL]);
+      setProducts(res.data);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchProducts();
+}, [API_URL, categoryId]);
 
   // ✅ Filtering Logic
   const filteredProducts = products.filter((product) => {
