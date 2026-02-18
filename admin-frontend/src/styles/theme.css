@@ -348,3 +348,40 @@ select.input:focus {
   border-radius: 8px;
 }
 
+.flash-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.date-group {
+  display: flex;
+  gap: 20px;
+}
+
+.product-select-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.product-checkbox {
+  background: #111;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #222;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.product-checkbox:hover {
+  background: #1a1a1a;
+}
+
+
+.btn.danger {
+  background: #ff4d4f;
+  border-color: #ff4d4f;
+}

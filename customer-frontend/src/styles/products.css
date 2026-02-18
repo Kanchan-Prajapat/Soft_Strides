@@ -362,3 +362,20 @@
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   }
 }
+.flash-price {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.old-price {
+  text-decoration: line-through;
+  color: #888;
+  font-size: 14px;
+}
+
+.new-price {
+  color: #ff4d4d;
+  font-weight: 600;
+  font-size: 16px;
+}

@@ -1,0 +1,139 @@
+/* ============================= */
+/* FLASH SALE SECTION */
+/* ============================= */
+
+.flash-sale-section {
+  padding: 20px 0;
+  background: linear-gradient(135deg, #0f0f0f, #1a0000);
+  border-top: 1px solid #222;
+  border-bottom: 1px solid #222;
+}
+
+/* Header */
+.flash-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.flash-header h2 {
+  font-size: 26px;
+  font-weight: 700;
+  color: #ff4d4d;
+  text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+}
+
+/* Timer */
+.timer-box {
+  background: #111;
+  padding: 8px 14px;
+  border-radius: 10px;
+  border: 1px solid #ff4d4d;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.timer-box span {
+  font-size: 12px;
+  color: #aaa;
+}
+
+.timer-box strong {
+  font-size: 16px;
+  color: #ff4d4d;
+}
+
+/* Grid */
+.flash-products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 190px));
+  justify-content: center;
+  gap: 18px;
+}
+
+/* Card Wrapper */
+.flash-card-wrapper {
+  position: relative;
+  width: 180px;
+  transition: all 0.25s ease;
+}
+
+.flash-card-wrapper:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 20px rgba(255, 0, 0, 0.25);
+}
+
+/* SALE Badge */
+.discount-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: #ff0000;
+  color: white;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: bold;
+  border-radius: 20px;
+  z-index: 5;
+  box-shadow: 0 0 8px rgba(255, 0, 0, 0.6);
+}
+
+
+.flash-card-wrapper .product-card {
+  width: 100%;
+  height: auto;
+  padding: 10px;
+}
+
+/* 🔥 Important Fix */
+.flash-card-wrapper .product-image-wrapper {
+  height: 170px;   /* override 400px */
+}
+
+/* Image */
+.flash-card-wrapper .product-image {
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Product Name */
+.flash-card-wrapper h3 {
+  font-size: 14px;
+  margin: 6px 0;
+}
+
+/* Price */
+.flash-card-wrapper .price {
+  font-size: 14px;
+  margin: 4px 0;
+}
+
+/* Rating */
+.flash-card-wrapper .rating {
+  font-size: 13px;
+}
+
+/* Sizes */
+.flash-card-wrapper .sizes {
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+/* Buttons */
+.flash-card-wrapper button {
+  font-size: 12px;
+  padding: 6px 8px;
+}
+
+.old-price {
+  text-decoration: line-through;
+  color: #888;
+  font-size: 13px;
+}
+
+.sale-price {
+  color: #ff4d4d;
+  font-weight: bold;
+}

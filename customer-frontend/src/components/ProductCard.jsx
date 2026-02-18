@@ -4,7 +4,8 @@ import { useWishlist } from "../context/WishlistContext";
 import "../styles/products.css";
 import axios from "axios";
 
-const ProductCard = ({ product }) => {
+
+const ProductCard = ({ product, discountedPrice }) => {
   const { addToCart } = useCart();
   const navigate = useNavigate();
   const { isInWishlist, toggleWishlist } = useWishlist();
@@ -83,7 +84,15 @@ const ProductCard = ({ product }) => {
 
         <div className="rating">⭐⭐⭐⭐☆</div>
 
-        <p className="price">₹{product.price}</p>
+      {discountedPrice ? (
+  <div className="flash-price">
+    <span className="old-price">₹{product.price}</span>
+    <span className="new-price">₹{discountedPrice}</span>
+  </div>
+) : (
+  <p className="price">₹{product.price}</p>
+)}
+
 
         <div className="size-badges">
           {product.sizes?.map((size, i) => (

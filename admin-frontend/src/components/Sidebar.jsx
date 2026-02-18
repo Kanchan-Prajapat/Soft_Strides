@@ -25,7 +25,10 @@ const Sidebar = () => {
           ["Cancelled", "/cancelled"],
           ["Returned", "/returned"],
           ["Rejected", "/rejected"],
-          ["Logout", "/"]
+          ["FlashSales", "/flash-sales"],
+          ["Logout", "/"],
+       
+
         ].map(([label, path]) => (
           <NavLink
             key={path}

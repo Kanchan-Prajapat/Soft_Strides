@@ -14,9 +14,7 @@ import Contact from "./pages/Contact";
 import TermsConditions from "./pages/TermsConditions";
 import RefundPolicy from "./pages/RefundPolicy";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
-
-
-
+  
 
 
 function App() {

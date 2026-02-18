@@ -3,13 +3,18 @@ import "../styles/home.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import CategorySlider from "../components/CategorySlider";
+import FlashSaleSection from "../components/FlashSaleSection";
 
 const Home = () => {
-    const [banners, setBanners] = useState([]);
-   const [current, setCurrent] = useState(0);
+  const [banners, setBanners] = useState([]);
+  const [current, setCurrent] = useState(0);
   const API_URL = process.env.REACT_APP_API_URL;
 
-   useEffect(() => {
+  /* =============================
+        FETCH BANNERS
+  ============================= */
+
+  useEffect(() => {
     const fetchBanners = async () => {
       try {
         const res = await axios.get(`${API_URL}/api/banners`);
@@ -22,19 +27,23 @@ const Home = () => {
     fetchBanners();
   }, [API_URL]);
 
-useEffect(() => {
+  /* =============================
+        AUTO SLIDER
+  ============================= */
+
+  useEffect(() => {
     if (banners.length === 0) return;
 
     const interval = setInterval(() => {
       setCurrent((prev) =>
         prev === banners.length - 1 ? 0 : prev + 1
       );
-    }, 3000);
+    }, 4000);
 
     return () => clearInterval(interval);
   }, [banners]);
 
-   const nextSlide = () => {
+  const nextSlide = () => {
     setCurrent((prev) =>
       prev === banners.length - 1 ? 0 : prev + 1
     );
@@ -49,8 +58,9 @@ useEffect(() => {
   return (
     <div className="home-page">
 
-      {/* HERO SECTION */}
-   {banners.length > 0 && (
+      {/* ================= HERO SLIDER ================= */}
+
+      {banners.length > 0 && (
         <section className="hero-slider">
 
           {banners.map((banner, index) => (
@@ -61,10 +71,18 @@ useEffect(() => {
               }`}
             >
               <img src={banner.image} alt="banner" />
+
               <div className="hero-content">
                 <h1>{banner.title}</h1>
-                {banner.subtitle && <p>{banner.subtitle}</p>}
-                <Link to="/products" className="hero-btn">
+
+                {banner.subtitle && (
+                  <p>{banner.subtitle}</p>
+                )}
+
+                <Link
+                  to="/products"
+                  className="hero-btn"
+                >
                   Shop Now
                 </Link>
               </div>
@@ -82,58 +100,82 @@ useEffect(() => {
 
         </section>
       )}
-<CategorySlider />
 
-<section className="flash-sale">
-  <h2>🔥 Flash Sale</h2>
-  <div className="product-grid">
-    {/* Map 4 products here */}
-  </div>
-</section>
+      {/* ================= CATEGORY SECTION ================= */}
+      <CategorySlider />
 
+      {/* ================= FLASH SALE ================= */}
+      <FlashSaleSection />
 
-      {/* CONTENT SECTION */}
-      <div className="container">
+      {/* ================= PREMIUM BRAND SECTION ================= */}
 
-       <section className="about-section">
+      <section className="premium-hero">
+        <div className="container hero-container">
 
-  <div className="about-left">
-    <h2>Welcome to Soft Strides 👟</h2>
-    <p>
-      Discover premium footwear crafted for comfort, performance,
-      and modern style. Designed for everyday confidence.
-    </p>
-  </div>
+          {/* LEFT SIDE */}
+          <div className="hero-left">
+            <h1>
+              Welcome to <span>Soft Strides</span>
+            </h1>
 
-  <div className="about-right">
-    <div className="feature-card">
-      <span>✔</span>
-      <h4>Premium Materials</h4>
-      <p>High-quality fabrics built for durability.</p>
-    </div>
+            <p>
+              Discover premium footwear crafted for comfort,
+              performance, and modern style.
+              Designed for everyday confidence.
+            </p>
 
-    <div className="feature-card">
-      <span>🔥</span>
-      <h4>Modern Designs</h4>
-      <p>Trendy footwear for every occasion.</p>
-    </div>
+            <Link
+              to="/products"
+              className="hero-cta-btn"
+            >
+              Shop Collection →
+            </Link>
+          </div>
 
-    <div className="feature-card">
-      <span>💳</span>
-      <h4>Secure Payments</h4>
-      <p>Safe and protected checkout process.</p>
-    </div>
+          {/* RIGHT SIDE FEATURES */}
+          <div className="hero-right">
 
-    <div className="feature-card">
-      <span>🔄</span>
-      <h4>Easy Returns</h4>
-      <p>Hassle-free refund & exchange policy.</p>
-    </div>
-  </div>
+            <div className="hero-feature-card">
+              <div className="hero-feature-icon">✓</div>
+              <h3>Premium Materials</h3>
+              <p>
+                High-quality fabrics built for
+                durability and comfort.
+              </p>
+            </div>
 
-</section>
+            <div className="hero-feature-card">
+              <div className="hero-feature-icon">🔥</div>
+              <h3>Modern Designs</h3>
+              <p>
+                Trend-driven styles for every
+                occasion and season.
+              </p>
+            </div>
 
-      </div>
+            <div className="hero-feature-card">
+              <div className="hero-feature-icon">💳</div>
+              <h3>Secure Payments</h3>
+              <p>
+                Encrypted and protected checkout
+                experience.
+              </p>
+            </div>
+
+            <div className="hero-feature-card">
+              <div className="hero-feature-icon">🔁</div>
+              <h3>Easy Returns</h3>
+              <p>
+                Hassle-free exchange and refund
+                process.
+              </p>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
     </div>
   );
 };
