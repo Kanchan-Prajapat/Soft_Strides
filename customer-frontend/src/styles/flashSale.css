@@ -137,3 +137,60 @@
   color: #ff4d4d;
   font-weight: bold;
 }
+
+.No-active {
+  font-size: 32px;
+  font-weight: 600;
+  width:100%;
+  justify-content: center;
+  margin-bottom: 40px;
+  margin-top: 5px;
+  text-align: center;
+}
+
+.No-active:hover{
+  transform: translateY(-2px);
+  color: #ff4d4d;
+  text-shadow: 0 20px 40px rgba(255, 0, 0, 0.2);
+}
+
+/* ================= FLASH SALE RESPONSIVE ================= */
+
+@media (max-width: 992px) {
+  .flash-products-grid {
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+
+  .flash-header {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+
+  .flash-products-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 15px;
+  }
+
+  .flash-card-wrapper {
+    width: 100%;
+  }
+
+  .flash-card-wrapper .product-card img {
+    height: 150px;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .flash-products-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .flash-header h2 {
+    font-size: 20px;
+  }
+}

@@ -1,53 +1,95 @@
-/* =========================
-   H&M STYLE FOOTER
-========================= */
-
 .footer {
-  background: #fff;
-  border-top: 1px solid #e5e5e5;
-  padding: 60px 0 30px;
-  margin-top: 80px;
-  font-family: 'Helvetica Neue', sans-serif;
+  background: #000;
+  color: #fff;
+  padding: 40px 0 20px;
+  border-top: 1px solid #111;
 }
 
 .footer-container {
-  width: 85%;
+  width: 90%;
   margin: auto;
   text-align: center;
 }
 
-/* Links Row */
 .footer-links {
   display: flex;
   justify-content: center;
   gap: 40px;
-  flex-wrap: wrap;
   margin-bottom: 25px;
+  flex-wrap: wrap;
 }
 
 .footer-links a {
+  color: #aaa;
   text-decoration: none;
   font-size: 14px;
-  color: #111;
-  font-weight: 500;
   transition: 0.3s;
 }
 
 .footer-links a:hover {
-  color: #777;
+  color: #ff4d4d;
+}
+
+/* SOCIAL */
+
+.footer-social {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  font-size: 22px;
+  margin-bottom: 20px;
+}
+
+.footer-social a {
+  color: #aaa;
+  transition: 0.3s ease;
+}
+
+.footer-social a:hover {
+  color: #ff4d4d;
+  transform: translateY(-4px);
 }
 
 /* Divider */
+
 .footer-divider {
   width: 60%;
   height: 1px;
-  background: #e5e5e5;
+  background: #222;
   margin: 20px auto;
 }
 
-/* Copyright */
 .footer-copy {
   font-size: 13px;
-  color: #777;
-  letter-spacing: 0.5px;
+  color: #666;
+}
+
+
+/* ================= FOOTER RESPONSIVE ================= */
+
+@media (max-width: 768px) {
+
+  .footer-links {
+    gap: 20px;
+  }
+
+  .footer-social {
+    gap: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .footer-links {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .footer-divider {
+    width: 90%;
+  }
+
+  .footer-copy {
+    font-size: 12px;
+  }
 }

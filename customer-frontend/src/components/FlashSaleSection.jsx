@@ -45,7 +45,7 @@ const FlashSaleSection = () => {
     return () => clearInterval(interval);
   }, [sale]);
 
-  if (!sale) return <p>No active flash sale</p>;
+  if (!sale) return  <div className="No-active"><p >No active flash sale</p></div>
 
   return (
     <section className="flash-sale-section">

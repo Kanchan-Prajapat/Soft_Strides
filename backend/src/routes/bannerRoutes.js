@@ -4,6 +4,7 @@ import {
   getActiveBanners,
   toggleBanner,
   deleteBanner,
+  updateBanner,
 } from "../controllers/bannerController.js";
 
 
@@ -14,8 +15,25 @@ import upload from "../middleware/uploadMiddleware.js";
 const router = express.Router();
 
 router.get("/", getActiveBanners);
-router.post("/", protect, adminOnly, upload.single("image"), createBanner);
+
+router.post(
+  "/",
+  protect,
+  adminOnly,
+  upload.single("image"),
+  createBanner
+);
+
+router.put(
+  "/:id",
+  protect,
+  adminOnly,
+  upload.single("image"),
+  updateBanner
+);
+
 router.put("/:id/toggle", protect, adminOnly, toggleBanner);
+
 router.delete("/:id", protect, adminOnly, deleteBanner);
 
 

@@ -16,65 +16,80 @@ const Cart = () => {
   if (cartItems.length === 0) {
     return (
       <div className="container">
-        <h2>Your Cart is Empty</h2>
-        <Link to="/products" className="btn-primary">
+        <h2>Your Premium Selection is Empty</h2>
+        <Link to="/products" className="Continue-shop">
           Continue Shopping
         </Link>
       </div>
     );
   }
 
-  return (
-    <div className="container cart-page">
-      <h2>Your Cart</h2>
+   return (
+  <div className="container cart-page">
+    <h2 className="cart-title">Your Premium Selection</h2>
 
-      {cartItems.map((item) => (
-        <div key={item._id} className="cart-item">
+    <div className="cart-layout">
 
-          {/* ✅ IMAGE CLICK NAVIGATION */}
-          <img
-            src={item.images?.[0] || "https://via.placeholder.com/120"}
-            alt={item.name}
-            className="cart-image"
-            onClick={() => navigate(`/product/${item._id}`)}
-            style={{ cursor: "pointer" }}
-          />
+      {/* LEFT SIDE - PRODUCTS */}
+      <div className="cart-items">
 
-          <div className="cart-details">
-            <h3
-              style={{ cursor: "pointer" }}
-              onClick={() => navigate(`/product/${item._id}`)}
-            >
-              {item.name}
-            </h3>
+        {cartItems.map((item) => (
+          <div key={item._id} className="cart-item">
 
-            <p>Size: {item.size}</p>
-            <p>₹{item.price}</p>
-
-            <div className="qty-controls">
-              <button onClick={() => decreaseQty(item._id)}>-</button>
-              <span>{item.qty}</span>
-              <button onClick={() => increaseQty(item._id)}>+</button>
+            <div className="cart-left">
+              <img
+                src={item.images?.[0]}
+                alt={item.name}
+                className="cart-image"
+                onClick={() => navigate(`/product/${item._id}`)}
+              />
             </div>
 
-            <button
-              className="remove-btn"
-              onClick={() => removeItem(item._id)}
-            >
-              Remove
-            </button>
-          </div>
-        </div>
-      ))}
+            <div className="cart-right">
 
+              <h3 onClick={() => navigate(`/product/${item._id}`)}>
+                {item.name}
+              </h3>
+
+              {/* ✅ Description from backend */}
+              <p className="cart-desc">
+                {item.description}
+              </p>
+
+              <p className="cart-price">₹{item.price}</p>
+
+              <div className="qty-controls">
+                <button onClick={() => decreaseQty(item._id)}>-</button>
+                <span>{item.qty}</span>
+                <button onClick={() => increaseQty(item._id)}>+</button>
+              </div>
+
+              <button
+                className="remove-btn"
+                onClick={() => removeItem(item._id)}
+              >
+                Remove
+              </button>
+
+            </div>
+          </div>
+        ))}
+
+      </div>
+
+      {/* RIGHT SIDE - SUMMARY */}
       <div className="cart-summary">
         <h3>Total: ₹{totalPrice}</h3>
-        <Link to="/checkout" className="btn-primary">
+
+        <Link to="/checkout" className="checkout-btn">
           Proceed to Checkout
         </Link>
       </div>
+
     </div>
-  );
+  </div>
+);
+
 };
 
 export default Cart;

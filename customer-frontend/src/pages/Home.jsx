@@ -78,6 +78,7 @@ const Home = () => {
                 {banner.subtitle && (
                   <p>{banner.subtitle}</p>
                 )}
+                <h2 style={{marginBottom:"20px", marginTop:"-30px", marginLeft:"10PX"}}>{banner.description}</h2>
 
                 <Link
                   to="/products"
