@@ -126,66 +126,73 @@ const ProductDetails = () => {
       </div>
 
       {/* REVIEWS SECTION */}
-      <div className="reviews-section">
-        <h2>Customer Reviews</h2>
+   {/* REVIEWS SECTION */}
+<div className="reviews-section">
+  <h2>Customer Reviews</h2>
 
-        {product.reviews
-          ?.filter((r) => r.status === "Approved")
-          .map((review) => (
-            <div key={review._id} className="review-box">
+  {/* Reviews Grid */}
+  <div className="reviews-grid">
+    {product.reviews
+      ?.filter((r) => r.status === "Approved")
+      .map((review) => (
+        <div key={review._id} className="review-box">
 
-              <div className="review-header">
-                <strong>{review.name}</strong>
-                <span>{"⭐".repeat(review.rating)}</span>
-              </div>
+          <div className="review-header">
+            <strong>{review.name}</strong>
+            <span>{"⭐".repeat(review.rating)}</span>
+          </div>
 
-              <p>{review.comment}</p>
+          <p>{review.comment}</p>
 
-              {review.photo && (
-                <img
-                  src={review.photo}
-                  alt="review"
-                  className="review-photo"
-                />
-              )}
+          {review.photo && (
+            <img
+              src={review.photo}
+              alt="review"
+              className="review-photo"
+            />
+          )}
 
-              <button
-                disabled={review.helpfulUsers?.includes(user?._id)}
-                onClick={async () => {
-                  try {
-                    const token =
-                      localStorage.getItem("userToken");
+          <button
+            disabled={review.helpfulUsers?.includes(user?._id)}
+            onClick={async () => {
+              try {
+                const token =
+                  localStorage.getItem("userToken");
 
-                    await axios.put(
-                      `${API_URL}/api/reviews/helpful/${product._id}/${review._id}`,
-                      {},
-                      {
-                        headers: {
-                          Authorization: `Bearer ${token}`,
-                        },
-                      }
-                    );
-
-                    refresh();
-                  } catch (err) {
-                    alert(
-                      err.response?.data?.message
-                    );
+                await axios.put(
+                  `${API_URL}/api/reviews/helpful/${product._id}/${review._id}`,
+                  {},
+                  {
+                    headers: {
+                      Authorization: `Bearer ${token}`,
+                    },
                   }
-                }}
-              >
-                👍 Helpful ({review.helpfulCount})
-              </button>
-            </div>
-          ))}
+                );
 
-        <ReviewForm
-          productId={product._id}
-          refresh={refresh}
-        />
-      </div>
-    </div>
+                refresh();
+              } catch (err) {
+                alert(err.response?.data?.message);
+              }
+            }}
+          >
+            👍 Helpful ({review.helpfulCount})
+          </button>
+        </div>
+      ))}
+  </div>
+
+  {/* Write Review - OUTSIDE GRID */}
+  <div className="write-review-wrapper">
+    <ReviewForm
+      productId={product._id}
+      refresh={refresh}
+    />
+  </div>
+
+</div>
+</div>
   );
+
 };
 
 export default ProductDetails;

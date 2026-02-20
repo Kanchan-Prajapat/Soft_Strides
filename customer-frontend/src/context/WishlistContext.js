@@ -5,12 +5,12 @@ const WishlistContext = createContext();
 
 export const WishlistProvider = ({ children }) => {
   const [wishlist, setWishlist] = useState([]);
-  const token = localStorage.getItem("userToken");
   const API_URL = process.env.REACT_APP_API_URL;
 
   // Load wishlist from DB
   useEffect(() => {
     const loadWishlist = async () => {
+      const token = localStorage.getItem("userToken");
       if (!token) return;
 
       try {
@@ -28,10 +28,11 @@ export const WishlistProvider = ({ children }) => {
     };
 
     loadWishlist();
-  }, [token, API_URL]);
+  }, [ API_URL]);
 
   // TOGGLE WISHLIST
   const toggleWishlist = async (product) => {
+      const token = localStorage.getItem("userToken");
   if (!token) {
     alert("Please login");
     return;

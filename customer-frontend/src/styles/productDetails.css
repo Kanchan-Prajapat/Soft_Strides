@@ -101,16 +101,34 @@
 }
 
 /* =========================
+   REVIEWS GRID LAYOUT
+========================= */
+
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+  margin-top: 30px;
+}
+
+.write-review-wrapper {
+  margin-top: 60px;
+}
+
+/* =========================
    REVIEW CARD
 ========================= */
 
 .review-box {
   background: #111;
   border: 1px solid #222;
-  padding: 20px;
+  padding: 18px;
   border-radius: 12px;
-  margin-bottom: 20px;
   transition: 0.3s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .review-box:hover {
