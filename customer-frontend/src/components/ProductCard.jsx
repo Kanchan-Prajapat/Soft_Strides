@@ -2,42 +2,21 @@ import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { useWishlist } from "../context/WishlistContext";
 import "../styles/products.css";
-import axios from "axios";
-
 
 const ProductCard = ({ product, discountedPrice }) => {
-  const { addToCart } = useCart();
   const navigate = useNavigate();
-  const { isInWishlist, toggleWishlist } = useWishlist();
-  const API_URL = process.env.REACT_APP_API_URL;
-  const isWishlisted = isInWishlist(product._id);
+  const { addToCart } = useCart();
+ const { toggleWishlist, isInWishlist } = useWishlist();
+
+ const isWishlisted = isInWishlist(product._id);
 
   /* ========================
      WISHLIST
   ======================== */
-  const handleWishlist = async (e) => {
-    e.stopPropagation(); // stop card click
-
-    const token = localStorage.getItem("userToken");
-    if (!token) {
-      alert("Please login first");
-      return;
-    }
-
-    try {
-      await axios.post(
-        `${API_URL}/api/users/wishlist/${product._id}`,
-        {},
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-
-      toggleWishlist(product._id); // update UI instantly
-    } catch (err) {
-      console.log(err);
-    }
-  };
+const handleWishlist = (e) => {
+  e.stopPropagation();
+  toggleWishlist(product);
+};
 
   /* ========================
      BUY NOW
@@ -54,6 +33,7 @@ const ProductCard = ({ product, discountedPrice }) => {
   const handleAddToCart = (e) => {
     e.stopPropagation();
     addToCart({ ...product, qty: 1 });
+    alert("Added to Cart 🛒");
   };
 
   return (
@@ -61,15 +41,16 @@ const ProductCard = ({ product, discountedPrice }) => {
       className="product-card"
       onClick={() => navigate(`/product/${product._id}`)}
     >
-      {/* ❤️ Wishlist */}
-      <button
-        className={`wishlist-btn ${isWishlisted ? "active" : ""}`}
-        onClick={handleWishlist}
-      >
-        ❤
-      </button>
+      {/* ❤️ Wishlist Button */}
+   
+<button
+  className={`wishlist-btn ${isWishlisted ? "active" : ""}`}
+  onClick={handleWishlist}
+>
+  {isWishlisted ? "❤️" : "🤍"}
+</button>
 
-      {/* Image */}
+      {/* Product Image */}
       <div className="product-image-wrapper">
         <img
           src={product.images?.[0]}
@@ -78,21 +59,20 @@ const ProductCard = ({ product, discountedPrice }) => {
         />
       </div>
 
-      {/* Info */}
+      {/* Product Info */}
       <div className="product-info">
         <h4>{product.name}</h4>
 
         <div className="rating">⭐⭐⭐⭐☆</div>
 
-      {discountedPrice ? (
-  <div className="flash-price">
-    <span className="old-price">₹{product.price}</span>
-    <span className="new-price">₹{discountedPrice}</span>
-  </div>
-) : (
-  <p className="price">₹{product.price}</p>
-)}
-
+        {discountedPrice ? (
+          <div className="flash-price">
+            <span className="old-price">₹{product.price}</span>
+            <span className="new-price">₹{discountedPrice}</span>
+          </div>
+        ) : (
+          <p className="price">₹{product.price}</p>
+        )}
 
         <div className="size-badges">
           {product.sizes?.map((size, i) => (

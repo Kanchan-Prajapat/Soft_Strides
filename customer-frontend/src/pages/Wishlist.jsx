@@ -11,6 +11,7 @@ const Wishlist = () => {
   const API_URL = process.env.REACT_APP_API_URL;
 
   const token = localStorage.getItem("userToken");
+  
 
   /* ======================
      LOAD WISHLIST
@@ -20,7 +21,7 @@ const Wishlist = () => {
   const fetchWishlist = useCallback(async () => {
   try {
     const res = await axios.get(
-      `${API_URL}/api/users/wishlist`,
+      `${API_URL}/api/wishlist`,
       {
         headers: { Authorization: `Bearer ${token}` },
       }
@@ -44,7 +45,7 @@ const Wishlist = () => {
   const removeFromWishlist = async (id) => {
     try {
       await axios.post(
-        `${API_URL}/api/users/wishlist/${id}`,
+        `${API_URL}/api/wishlist/${id}`,
         {},
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -70,56 +71,57 @@ const Wishlist = () => {
 
   return (
     <div className="container wishlist-page">
-      <h2>My Wishlist</h2>
+      <h2>Your Curated Collection</h2>
 
       {!token ? (
-        <p>Please login to view wishlist</p>
+        <p>Please login to view Collection</p>
       ) : wishlist.length === 0 ? (
-        <p>No items in wishlist</p>
+        <p>No items in Collection</p>
       ) : (
-        <div className="wishlist-grid">
-          {wishlist.map((product) => (
-            <div key={product._id} className="wishlist-item">
+       <div className="wishlist-list">
+  {wishlist.map((product) => (
+    <div key={product._id} className="wishlist-row">
 
-              <img
-                src={product.images?.[0]}
-                alt={product.name}
-                className="wishlist-image"
-                onClick={() =>
-                  navigate(`/product/${product._id}`)
-                }
-              />
+      {/* LEFT: IMAGE */}
+      <div
+        className="wishlist-image-wrapper"
+        onClick={() => navigate(`/product/${product._id}`)}
+      >
+        <img
+          src={product.images?.[0]}
+          alt={product.name}
+        />
+      </div>
 
-              <h4
-                onClick={() =>
-                  navigate(`/product/${product._id}`)
-                }
-              >
-                {product.name}
-              </h4>
+      {/* RIGHT: DETAILS */}
+      <div className="wishlist-details">
+        <h3
+          onClick={() => navigate(`/product/${product._id}`)}
+        >
+          {product.name}
+        </h3>
 
-              <p className="wishlist-price">
-                ₹{product.price}
-              </p>
+        <p className="wishlist-price">
+          ₹{product.price}
+        </p>
 
-              <div className="wishlist-buttons">
-                <button onClick={() => moveToCart(product)}>
-                  Move to Cart
-                </button>
+        <div className="wishlist-actions">
+          <button onClick={() => moveToCart(product)}>
+            Move to Cart
+          </button>
 
-                <button
-                  className="remove-btn"
-                  onClick={() =>
-                    removeFromWishlist(product._id)
-                  }
-                >
-                  Remove
-                </button>
-              </div>
-
-            </div>
-          ))}
+          <button
+            className="remove-btn"
+            onClick={() => removeFromWishlist(product._id)}
+          >
+            Remove
+          </button>
         </div>
+      </div>
+
+    </div>
+  ))}
+</div>
       )}
     </div>
   );

@@ -88,9 +88,18 @@ const productSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    wishlist: [
+  {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Product",
+  },
+],
+
   },
   { timestamps: true }
 );
+
+
 
 const Product = mongoose.model("Product", productSchema);
 export default Product;
