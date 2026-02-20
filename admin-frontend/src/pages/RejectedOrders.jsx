@@ -56,7 +56,7 @@ const RejectedOrders = () => {
             <div style={{ marginTop: 20 }}>
               <h5>Process Timeline</h5>
             <div className="timeline-horizontal">
-  {order.history?.map((item, index) => (
+  {orders.history?.map((item, index) => (
     <div key={index} className="timeline-step">
       <div className="timeline-dot" />
       <p className="timeline-status">{item.status}</p>

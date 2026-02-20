@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import PageLayout from "../components/PageLayout";
+import "../styles/theme.css"
 
 const Reviews = () => {
   const [products, setProducts] = useState([]);
@@ -43,9 +45,8 @@ const Reviews = () => {
   }, []);
 
   return (
-    <div>
-      <h2>All Reviews</h2>
-
+    <PageLayout title={"Reviews"}>
+     <div>
       {products.map((product) =>
         product.reviews.map((review) => (
           <div key={review._id} className="review-card">
@@ -56,7 +57,7 @@ const Reviews = () => {
             </div>
 
             <div>
-              <button
+              <button className="approve-btn"
                 onClick={() =>
                   updateStatus(product._id, review._id, "Approved")
                 }
@@ -64,7 +65,7 @@ const Reviews = () => {
                 Approve
               </button>
 
-              <button
+              <button className="reject-btn"
                 onClick={() =>
                   updateStatus(product._id, review._id, "Rejected")
                 }
@@ -72,7 +73,7 @@ const Reviews = () => {
                 Reject
               </button>
 
-              <button
+              <button className="delete-btn"
                 onClick={() =>
                   deleteReview(product._id, review._id)
                 }
@@ -84,6 +85,7 @@ const Reviews = () => {
         ))
       )}
     </div>
+    </PageLayout>
   );
 };
 

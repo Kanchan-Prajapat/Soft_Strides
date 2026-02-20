@@ -348,6 +348,73 @@ select.input:focus {
   border-radius: 8px;
 }
 
+.review-actions {
+  display: flex;
+  gap: 10px;
+}
+
+
+/* APPROVE */
+.approve-btn {
+  background: #454645;
+  color: white;
+   margin-left: 5px;
+   font-size: 15px;
+    padding: 6px 14px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.3s ease;
+}
+
+.approve-btn:hover {
+  background: #249e4f;
+  transform: translateY(-2px);
+}
+
+/* REJECT */
+.reject-btn {
+  background: #454645;
+  color: white;
+   margin-left: 5px;
+     font-size: 15px;
+      padding: 6px 14px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.3s ease;
+}
+
+.reject-btn:hover {
+  background: #d98300;
+  transform: translateY(-2px);
+}
+
+/* DELETE */
+.delete-btn {
+  background: #454645;
+  color: white;
+   margin-left: 5px;
+     font-size: 15px;
+      padding: 6px 14px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.3s ease;
+}
+
+.delete-btn:hover {
+  background: #c62828;
+  transform: translateY(-2px);
+}
+
+.review-actions button {
+  border-radius: 20px;
+}
+
 .flash-form {
   display: flex;
   flex-direction: column;
