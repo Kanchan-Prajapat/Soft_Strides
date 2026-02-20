@@ -18,6 +18,10 @@
   --transition-med: 300ms ease;
 }
 
+.Logo svg {
+  fill: white !important;
+}
+
 /* Reset-ish */
 * { box-sizing: border-box; }
 html, body, #root {
