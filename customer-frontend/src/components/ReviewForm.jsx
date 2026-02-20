@@ -1,14 +1,17 @@
 import { useState } from "react";
 import axios from "axios";
+import "../styles/productDetails.css";
 
 const ReviewForm = ({ productId, refresh }) => {
   const [rating, setRating] = useState(5);
+  const [hover, setHover] = useState(null);
   const [comment, setComment] = useState("");
   const [photo, setPhoto] = useState(null);
 
   const submitReview = async () => {
     const token = localStorage.getItem("userToken");
     const API_URL = process.env.REACT_APP_API_URL;
+
     const formData = new FormData();
     formData.append("rating", rating);
     formData.append("comment", comment);
@@ -37,13 +40,22 @@ const ReviewForm = ({ productId, refresh }) => {
     <div className="review-form">
       <h4>Write Review</h4>
 
-      <select value={rating} onChange={(e) => setRating(e.target.value)}>
-        {[5,4,3,2,1].map(num => (
-          <option key={num} value={num}>
-            {num} ⭐
-          </option>
+      {/* ⭐ STAR RATING */}
+      <div className="star-rating">
+        {[1, 2, 3, 4, 5].map((star) => (
+          <span
+            key={star}
+            className={`star ${
+              star <= (hover || rating) ? "active" : ""
+            }`}
+            onClick={() => setRating(star)}
+            onMouseEnter={() => setHover(star)}
+            onMouseLeave={() => setHover(null)}
+          >
+            ★
+          </span>
         ))}
-      </select>
+      </div>
 
       <textarea
         placeholder="Write review..."
@@ -51,9 +63,14 @@ const ReviewForm = ({ productId, refresh }) => {
         onChange={(e) => setComment(e.target.value)}
       />
 
-      <input type="file" onChange={(e) => setPhoto(e.target.files[0])} />
+      <input
+        type="file"
+        onChange={(e) => setPhoto(e.target.files[0])}
+      />
 
-      <button onClick={submitReview}>Submit Review</button>
+      <button onClick={submitReview}>
+        Submit Review
+      </button>
     </div>
   );
 };

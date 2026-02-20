@@ -14,8 +14,8 @@ const ProductDetails = () => {
 
   // ✅ ALL STATES AT TOP
   const [product, setProduct] = useState(null);
-  const [mainImage, setMainImage] = useState("");
-  const [selectedSize, setSelectedSize] = useState("");
+  const [mainImage, setMainImage] = useState(null);
+  const [selectedSize, setSelectedSize] = useState(null);
   const [fetchProduct, setFetchProduct] = useState(false);
 
   const refresh = () => setFetchProduct((prev) => !prev);

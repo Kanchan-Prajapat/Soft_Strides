@@ -76,6 +76,7 @@
   cursor: pointer;
   border-radius: 8px;
   transition: 0.3s;
+  margin-top: 15px;
 }
 
 .add-cart:hover {
@@ -159,6 +160,68 @@
 }
 
 /* =========================
+   REVIEW FORM
+========================= */
+
+.review-form {
+  margin-top: 40px;
+  background: #111;
+  border: 1px solid #222;
+  padding: 25px;
+  border-radius: 12px;
+}
+
+.review-form h4 {
+  margin-bottom: 20px;
+  font-size: 18px;
+}
+
+/* Select */
+.review-form select {
+  width: 100px;
+  padding: 8px;
+  background: #000;
+  color: #fff;
+  border: 1px solid #333;
+  border-radius: 6px;
+  margin-bottom: 15px;
+}
+
+/* Textarea */
+.review-form textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 12px;
+  background: #000;
+  color: #fff;
+  border: 1px solid #333;
+  border-radius: 8px;
+  resize: none;
+  margin-bottom: 15px;
+}
+
+/* File input */
+.review-form input[type="file"] {
+  margin-bottom: 15px;
+  color: #ccc;
+}
+
+/* Submit Button */
+.review-form button {
+  padding: 10px 20px;
+  background: #ff4d4d;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.review-form button:hover {
+  background: #e63c3c;
+}
+
+/* =========================
    HELPFUL BUTTON
 ========================= */
 
@@ -189,5 +252,82 @@
 
   .main-image {
     height: 350px;
+  }
+}
+
+/* =========================
+   STAR RATING
+========================= */
+
+.star-rating {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.star {
+  font-size: 28px;
+  cursor: pointer;
+  color: #444;
+  transition: 0.2s ease;
+}
+
+.star.active {
+  color: #f5c518;
+}
+
+.star:hover {
+  transform: scale(1.2);
+}
+
+/* =========================
+   REVIEW FORM MOBILE
+========================= */
+
+.review-form textarea {
+  width: 100%;
+  min-height: 120px;
+  padding: 12px;
+  background: #000;
+  color: #fff;
+  border: 1px solid #333;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.review-form input[type="file"] {
+  margin-bottom: 15px;
+  color: #ccc;
+}
+
+.review-form button {
+  padding: 12px 25px;
+  background: #ff4d4d;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.review-form button:hover {
+  background: #e63c3c;
+}
+
+/* MOBILE RESPONSIVE */
+
+@media (max-width: 600px) {
+
+  .star {
+    font-size: 24px;
+  }
+
+  .review-form {
+    padding: 20px;
+  }
+
+  .review-form button {
+    width: 100%;
   }
 }
