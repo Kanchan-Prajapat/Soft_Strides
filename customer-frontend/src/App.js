@@ -14,7 +14,7 @@ import Contact from "./pages/Contact";
 import TermsConditions from "./pages/TermsConditions";
 import RefundPolicy from "./pages/RefundPolicy";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
-  
+import Profile from "./pages/Profile";
 
 
 function App() {
@@ -27,14 +27,15 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/products" element={<Products />} />
         <Route path="/product/:id" element={<ProductDetails />} />
-<Route path="/checkout" element={<Checkout />} />
-<Route path="/cart" element={<Cart />} />
-<Route path="/my-orders" element={<MyOrders />} />
-<Route path="/wishlist" element={<Wishlist />} />
-  <Route path="/contact" element={<Contact />} />
+        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/my-orders" element={<MyOrders />} />
+        <Route path="/wishlist" element={<Wishlist />} />
+        <Route path="/contact" element={<Contact />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms" element={<TermsConditions />} />
         <Route path="/refund-policy" element={<RefundPolicy />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
       <Footer />
     </BrowserRouter>

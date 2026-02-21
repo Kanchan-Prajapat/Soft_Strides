@@ -8,6 +8,7 @@
   import productRoutes from "./routes/productRoutes.js";
   import orderRoutes from "./routes/orderRoutes.js";
   import userRoutes from "./routes/userRoutes.js";
+  import adminRoutes from "./routes/adminRoutes.js";
   import categoryRoutes from "./routes/categoryRoutes.js";
   import dashboardRoutes from "./routes/dashboardRoutes.js";
   import paymentRoutes from "./routes/paymentRoutes.js";
@@ -29,6 +30,7 @@ import flashSaleRoutes from "./routes/flashSaleRoutes.js";
   app.use("/api/products", productRoutes);
   app.use("/api/orders", orderRoutes);
   app.use("/api/users", userRoutes);
+  app.use("/api/admin", adminRoutes);
   app.use("/api/auth", authRoutes);
   app.use("/api/categories", categoryRoutes);
   app.use("/api/dashboard", dashboardRoutes);

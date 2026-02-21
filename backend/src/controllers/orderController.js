@@ -10,6 +10,9 @@ import Product from "../models/Product.js";
 ============================= */
 export const createOrder = async (req, res) => {
   try {
+    if (!req.user) {
+  return res.status(401).json({ message: "Login required" });
+}
     if (!req.file) {
       return res.status(400).json({
         message: "Payment screenshot is required",
@@ -29,23 +32,21 @@ export const createOrder = async (req, res) => {
 const detailedProducts = [];
 
 for (const item of parsedProducts) {
-  const product = await Product.findById(item.product);
+  const productId = item.product || item._id;
+
+  const product = await Product.findById(productId);
 
   if (!product) continue;
 
   detailedProducts.push({
     product: product._id,
     name: product.name,
-   image:
-  productData.images && productData.images.length > 0
-    ? productData.images[0]
-    : null,
+    image: product.images?.[0] || null,
+    price: product.price,
     qty: item.qty,
     size: item.size,
-    price: product.price,
   });
 }
-
     let finalAmount = Number(totalAmount);
     let discountAmount = 0;
 

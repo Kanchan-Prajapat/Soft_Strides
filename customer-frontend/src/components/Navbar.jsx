@@ -40,6 +40,7 @@ const Navbar = () => {
   <div className="nav-right">
     <Link to="/cart">Cart ({cartItems.length})</Link>
     <Link to="/wishlist">Wishlist</Link>
+    <Link to="/profile">Profile</Link>
 
     {isLoggedIn ? (
       <button className="logout" onClick={handleLogout}>Logout</button>

@@ -25,7 +25,7 @@ const Footer = () => {
         {/* SOCIAL MEDIA */}
 <div className="footer-social">
 
-  <a href="https://instagram.com" target="_blank" rel="noreferrer">
+  <a href="https://www.instagram.com/soft_strides7/" target="_blank" rel="noreferrer">
     <FontAwesomeIcon icon={faSquareInstagram} />
   </a>
 
