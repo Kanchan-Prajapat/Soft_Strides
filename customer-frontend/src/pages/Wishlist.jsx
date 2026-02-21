@@ -9,6 +9,8 @@ const Wishlist = () => {
   const { addToCart } = useCart();
   const navigate = useNavigate();
   const API_URL = process.env.REACT_APP_API_URL;
+  const [selectedProduct, setSelectedProduct] = useState(null);
+const [selectedSize, setSelectedSize] = useState("");
 
   const token = localStorage.getItem("userToken");
   
@@ -106,9 +108,9 @@ const Wishlist = () => {
         </p>
 
         <div className="wishlist-actions">
-          <button onClick={() => moveToCart(product)}>
-            Move to Cart
-          </button>
+           <button onClick={() => setSelectedProduct(product)}>
+           Move to Cart
+           </button> 
 
           <button
             className="remove-btn"
@@ -118,6 +120,55 @@ const Wishlist = () => {
           </button>
         </div>
       </div>
+      {selectedProduct && (
+  <div className="size-popup">
+    <div className="size-box">
+      <h3>Select Size</h3>
+
+      <div className="size-options">
+        {selectedProduct.sizes?.map((size) => (
+          <button
+            key={size}
+            className={selectedSize === size ? "active-size" : ""}
+            onClick={() => setSelectedSize(size)}
+          >
+            {size}
+          </button>
+        ))}
+      </div>
+
+      <button
+        className="confirm-btn"
+        onClick={() => {
+          if (!selectedSize) {
+            alert("Please select size");
+            return;
+          }
+
+          moveToCart({
+            ...selectedProduct,
+            size: selectedSize,
+          });
+
+          setSelectedProduct(null);
+          setSelectedSize("");
+        }}
+      >
+        Confirm
+      </button>
+
+      <button
+        className="cancel-btn"
+        onClick={() => {
+          setSelectedProduct(null);
+          setSelectedSize("");
+        }}
+      >
+        Cancel
+      </button>
+    </div>
+  </div>
+)}
 
     </div>
   ))}

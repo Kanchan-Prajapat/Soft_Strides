@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useCart } from "../context/CartContext";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+import "../styles/checkout.css"
 
 const Checkout = () => {
   const { cartItems, totalPrice } = useCart();
@@ -180,13 +180,14 @@ const handlePayment = async () => {
           
           <label>Coupon Code</label>
 
-          <input
-            placeholder="Enter coupon"
-            value={couponCode}
-            onChange={(e) => setCouponCode(e.target.value)}
-          />
-
-          <button onClick={applyCoupon}>Apply</button>
+         <div className="coupon-row">
+  <input
+    placeholder="Enter coupon"
+    value={couponCode}
+    onChange={(e) => setCouponCode(e.target.value)}
+  />
+  <button onClick={applyCoupon}>Apply</button>
+</div>
 
           <h3>Total: ₹{totalPrice - discount}</h3>
 
@@ -211,13 +212,21 @@ const handlePayment = async () => {
         <div className="checkout-summary">
           <h3>Order Summary</h3>
 
-          {cartItems.map((item) => (
-            <div key={item._id} className="summary-item">
-              <p>{item.name}</p>
-              <p>Size: {item.size}</p>
-              <p>₹{item.price} × {item.qty}</p>
-            </div>
-          ))}
+         {cartItems.map((item) => (
+  <div key={item._id} className="summary-item">
+    <img
+      src={item.images?.[0]}
+      alt={item.name}
+      className="summary-image"
+    />
+
+    <div className="summary-details">
+      <p className="product-name">{item.name}</p>
+      <p>Size: {item.size}</p>
+      <p>₹{item.price} × {item.qty}</p>
+    </div>
+  </div>
+))}
 
           <hr />
           <h3>Total: ₹{totalPrice}</h3>

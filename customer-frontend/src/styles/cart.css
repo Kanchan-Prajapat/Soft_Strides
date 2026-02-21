@@ -303,3 +303,8 @@
     padding: 13px;
   }
 }
+
+.cart-desc strong {
+  color: #ff4d4d;
+  font-weight: 600;
+}

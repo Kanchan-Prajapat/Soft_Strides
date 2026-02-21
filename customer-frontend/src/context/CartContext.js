@@ -9,16 +9,33 @@ export const CartProvider = ({ children }) => {
   });
 
   useEffect(() => {
-    localStorage.setItem("softstrides-cart", JSON.stringify(cartItems));
+    localStorage.setItem(
+      "softstrides-cart",
+      JSON.stringify(cartItems)
+    );
   }, [cartItems]);
 
+  /* ==============================
+     ADD TO CART (SIZE SUPPORTED)
+  ============================== */
   const addToCart = (product) => {
+    if (!product.size) {
+      alert("Size is required");
+      return;
+    }
+
     setCartItems((prev) => {
-      const exists = prev.find((item) => item._id === product._id);
+      // 🔥 check BOTH id + size
+      const exists = prev.find(
+        (item) =>
+          item._id === product._id &&
+          item.size === product.size
+      );
 
       if (exists) {
         return prev.map((item) =>
-          item._id === product._id
+          item._id === product._id &&
+          item.size === product.size
             ? { ...item, qty: item.qty + 1 }
             : item
         );
@@ -28,28 +45,49 @@ export const CartProvider = ({ children }) => {
     });
   };
 
-  const increaseQty = (id) => {
+  /* ==============================
+     INCREASE QTY (ID + SIZE)
+  ============================== */
+  const increaseQty = (id, size) => {
     setCartItems((prev) =>
       prev.map((item) =>
-        item._id === id ? { ...item, qty: item.qty + 1 } : item
+        item._id === id && item.size === size
+          ? { ...item, qty: item.qty + 1 }
+          : item
       )
     );
   };
 
-  const decreaseQty = (id) => {
+  /* ==============================
+     DECREASE QTY (ID + SIZE)
+  ============================== */
+  const decreaseQty = (id, size) => {
     setCartItems((prev) =>
       prev
         .map((item) =>
-          item._id === id ? { ...item, qty: item.qty - 1 } : item
+          item._id === id && item.size === size
+            ? { ...item, qty: item.qty - 1 }
+            : item
         )
         .filter((item) => item.qty > 0)
     );
   };
 
-  const removeItem = (id) => {
-    setCartItems((prev) => prev.filter((item) => item._id !== id));
+  /* ==============================
+     REMOVE ITEM (ID + SIZE)
+  ============================== */
+  const removeItem = (id, size) => {
+    setCartItems((prev) =>
+      prev.filter(
+        (item) =>
+          !(item._id === id && item.size === size)
+      )
+    );
   };
 
+  /* ==============================
+     TOTAL PRICE
+  ============================== */
   const totalPrice = cartItems.reduce(
     (acc, item) => acc + item.price * item.qty,
     0

@@ -110,3 +110,62 @@
     height: 250px;
   }
 }
+
+.size-popup {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.size-box {
+  background: #111;
+  padding: 30px;
+  border-radius: 12px;
+  width: 300px;
+  text-align: center;
+  border: 1px solid #222;
+}
+
+.size-options {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.size-options button {
+  background: #000;
+  color: #fff;
+  border: 1px solid #333;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.active-size {
+  background: #ff4d4d;
+  border-color: #ff4d4d;
+}
+
+.confirm-btn {
+  background: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.cancel-btn {
+  background: #222;
+  color: white;
+  border: 1px solid #333;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+}
