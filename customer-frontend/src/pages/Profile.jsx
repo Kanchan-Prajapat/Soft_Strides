@@ -3,6 +3,7 @@ import { useAuth } from "../context/AuthContext";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../styles/profile.css";
+import avatar from "./default-avtar.png";
 
 
 const Profile = () => {
@@ -88,6 +89,33 @@ const Profile = () => {
         }
     };
 
+    const handleImageUpload = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const formData = new FormData();
+        formData.append("profileImage", file);
+
+        try {
+            const res = await axios.put(
+                `${API_URL}/api/users/profile-image`,
+                formData,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "multipart/form-data",
+                    },
+                }
+            );
+
+            setUser(res.data);
+            localStorage.setItem("userInfo", JSON.stringify(res.data));
+
+            alert("Profile image updated");
+        } catch (err) {
+            alert(err.response?.data?.message);
+        }
+    };
     /* =========================
        UPDATE PASSWORD
     ========================== */
@@ -173,6 +201,23 @@ const Profile = () => {
 
                     <div className="profile-card">
                         <h3 className="profile-card-title">Account Information</h3>
+
+                        <div className="profile-avatar-section">
+                            <img
+                                src={user?.profileImage || avatar}
+                                alt="Profile"
+                                className="profile-avatar"
+                            />
+                            <label className="upload-btn">
+                                Change Photo
+                                <input
+                                    type="file"
+                                    hidden
+                                    accept="image/*"
+                                    onChange={handleImageUpload}
+                                />
+                            </label>
+                        </div>
 
                         <div className="profile-info-row">
                             <span className="label">Name</span>

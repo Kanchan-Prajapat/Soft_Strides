@@ -1,61 +1,119 @@
-.auth-container {
+/* =========================
+   DARK AUTH THEME
+========================= */
+
+.auth-wrapper {
   min-height: 100vh;
-  background: #000;
+  background: #000; /* Full black background */
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.auth-card {
-  background: #111;
-  padding: 40px;
-  width: 350px;
-  border-radius: 8px;
+.auth-box {
+  width: 100%;
+  max-width: 420px;
+  padding: 50px 40px;
+  background: #111; /* Slight contrast */
   border: 1px solid #222;
-  text-align: center;
 }
 
-.auth-card h2 {
-  margin-bottom: 25px;
-  color: white;
+.auth-title {
+  font-size: 28px;
+  font-weight: 500;
+  margin-bottom: 40px;
+  letter-spacing: 3px;
+  color: #fff; /* White text */
 }
 
-.auth-card input {
+.input-group {
+  margin-bottom: 30px;
+  position: relative;
+}
+
+.input-group input {
   width: 100%;
-  padding: 12px;
-  margin-bottom: 15px;
-  background: #000;
-  border: 1px solid #333;
-  color: white;
-  border-radius: 4px;
-}
-
-.auth-card input:focus {
-  outline: none;
-  border-color: #555;
-}
-
-.auth-card button {
-  width: 100%;
-  padding: 12px;
-  background: white;
-  color: black;
   border: none;
-  font-weight: bold;
+  border-bottom: 1px solid #333;
+  padding: 12px 0;
+  font-size: 14px;
+  background: transparent;
+  outline: none;
+  color: #fff; /* White input text */
+  letter-spacing: 1px;
+}
+
+.input-group input::placeholder {
+  color: #888;
+  letter-spacing: 1px;
+}
+
+.input-group input:focus {
+  border-bottom: 1px solid #ff4d4d; /* Soft Strides red */
+}
+
+.password-group {
+  display: flex;
+  align-items: center;
+}
+
+.eye-icon {
+  position: absolute;
+  right: 0;
   cursor: pointer;
+  color: #aaa;
   transition: 0.3s;
 }
 
-.auth-card button:hover {
-  background: #ddd;
+.eye-icon:hover {
+  color: #ff4d4d;
 }
 
-.auth-card p {
-  margin-top: 15px;
+/* Primary Button */
+.auth-btn {
+  width: 100%;
+  padding: 14px;
+  background: #fff;
+  color: #000;
+  border: none;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  cursor: pointer;
+  font-weight: 600;
+  letter-spacing: 2px;
+  transition: 0.3s ease;
+}
+
+.auth-btn:hover {
+  background: #ff4d4d;
+  color: #fff;
+}
+
+/* Outline Button */
+.auth-outline-btn {
+  width: 100%;
+  padding: 14px;
+  background: transparent;
+  border: 1px solid #fff;
+  color: #fff;
+  cursor: pointer;
+  letter-spacing: 2px;
+  transition: 0.3s ease;
+}
+
+.auth-outline-btn:hover {
+  background: #fff;
+  color: #000;
+}
+
+.auth-link {
+  margin-top: 20px;
+  font-size: 14px;
   color: #aaa;
+  text-align: center;
+  cursor: pointer;
 }
 
-.auth-card a {
-  color: white;
-  text-decoration: none;
+.auth-link:hover {
+  color: #fff;
 }

@@ -128,3 +128,87 @@ tbody tr:hover {
   border-radius: 8px;
   border: 1px solid #e5e7eb;
 }
+
+
+@media (max-width: 1024px){
+  .content{
+    padding:25px;
+  }
+
+  .grid{
+    grid-template-columns: 1fr;
+  }
+
+  .card{
+    padding:20px;
+  }
+}
+
+@media (max-width:480px) {
+  .content{
+    padding:14px;
+  }
+  
+  .card{
+    padding:15px;
+  }
+
+  th, td{
+    font-size: 12x;
+  }
+
+  .stats.revenue{
+    font-size: 18px;
+  }
+
+  .modal{
+    padding:15px;
+  }
+}
+
+@media (max-width: 768px) {
+
+  .dashboard {
+    flex-direction: column;
+  }
+
+  .content {
+    padding: 18px;
+  }
+
+  .content h1 {
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+
+  /* Table scroll horizontally */
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  th, td {
+    padding: 10px 8px;
+    font-size: 13px;
+  }
+
+  .badge {
+    font-size: 11px;
+    padding: 4px 8px;
+  }
+
+  .stats .revenue {
+    font-size: 20px;
+  }
+
+  .stats .sub {
+    font-size: 13px;
+  }
+
+  /* Progress bars tighter */
+  .progress {
+    margin-bottom: 10px;
+  }
+
+}

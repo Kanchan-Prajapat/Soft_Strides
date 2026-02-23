@@ -30,3 +30,90 @@
     padding: 20px 16px;
   }
 }
+
+.admin-wrapper {
+  display: flex;
+  min-height: 100vh;
+  background: #000;
+}
+
+.admin-main {
+  flex: 1;
+  padding: 30px;
+}
+
+/* Topbar */
+.admin-topbar {
+  display: none;
+  align-items: center;
+  gap: 15px;
+  padding: 15px 20px;
+  background: #0c0c0c;
+  border-bottom: 1px solid #222;
+}
+
+.hamburger {
+  font-size: 20px;
+  cursor: pointer;
+  color: white;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .admin-wrapper {
+    flex-direction: column;
+  }
+
+  .admin-topbar {
+    display: flex;
+  }
+
+  .admin-main {
+    padding: 20px;
+  }
+}
+
+/* Topbar hidden on desktop */
+.admin-topbar {
+  display: none;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+
+  .admin-topbar {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    background: #0c0c0c;
+    border-bottom: 1px solid #222;
+    position: sticky;
+    top: 0;
+    z-index: 200;
+  }
+
+  .hamburger {
+    font-size: 22px;
+    color: white;
+    cursor: pointer;
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    transform: translateX(-100%);
+    transition: 0.3s ease;
+    z-index: 300;
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .app-shell {
+    flex-direction: column;
+  }
+}

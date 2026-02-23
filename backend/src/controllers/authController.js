@@ -31,6 +31,20 @@ export const registerUser = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
+
+  res.status(201).json({
+  token,
+  user: {
+    _id: newUser._id,
+    name: newUser.name,
+    email: newUser.email,
+    role: newUser.role,
+    phone: newUser.phone,
+    location: newUser.location,
+    profileImage: newUser.profileImage
+  }
+});
+
 };
 
 export const loginUser = async (req, res) => {
@@ -48,16 +62,18 @@ export const loginUser = async (req, res) => {
     { expiresIn: "1d" }
   );
 
-  res.json({
-    token,
-    user: {
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      role: user.role,
-      profileCompleted: user.profileCompleted,
-    },
-  });
+ res.json({
+  token,
+  user: {
+    _id: user._id,
+    name: user.name,
+    email: user.email,
+    role: user.role,
+    phone: user.phone,
+    location: user.location,
+    profileImage: user.profileImage
+  }
+});
 };
 
 

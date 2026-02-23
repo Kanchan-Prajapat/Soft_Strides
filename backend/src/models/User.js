@@ -51,6 +51,12 @@ const userSchema = new mongoose.Schema(
   type: Boolean,
   default: false,
 },
+
+profileImage: {
+  type: String,
+  default: "",
+},
+
 wishlist: [
   {
   type: mongoose.Schema.Types.ObjectId,

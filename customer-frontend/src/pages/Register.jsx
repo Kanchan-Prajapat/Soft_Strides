@@ -1,12 +1,15 @@
 import { useState } from "react";
 import axios from "axios";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import "../styles/auth.css";
 
 const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
   const navigate = useNavigate();
   const API_URL = process.env.REACT_APP_API_URL;
 
@@ -20,7 +23,7 @@ const Register = () => {
         password,
       });
 
-      alert("Registration successful! Please login.");
+      alert("Registration successful!");
       navigate("/login");
     } catch (err) {
       alert(err.response?.data?.message || "Registration failed");
@@ -28,40 +31,50 @@ const Register = () => {
   };
 
   return (
-    <div className="auth-container">
-      <form className="auth-card" onSubmit={handleRegister}>
-        <h2>Register</h2>
+    <div className="auth-wrapper">
+      <div className="auth-box">
+        <h2 className="auth-title">REGISTER</h2>
 
-        <input
-          type="text"
-          placeholder="Full Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
+        <form onSubmit={handleRegister}>
+          <div className="input-group">
+            <input
+              type="text"
+              placeholder="FULL NAME"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+          </div>
 
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
+          <div className="input-group">
+            <input
+              type="email"
+              placeholder="EMAIL"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
 
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
+          <div className="input-group password-group">
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="PASSWORD"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <span
+              className="eye-icon"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </span>
+          </div>
 
-        <button type="submit">Register</button>
-
-        <p>
-          Already have an account? <Link to="/login">Login</Link>
-        </p>
-      </form>
+          <button className="auth-btn">REGISTER</button>
+        </form>
+      </div>
     </div>
   );
 };

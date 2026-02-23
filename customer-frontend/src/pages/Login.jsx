@@ -1,11 +1,14 @@
 import { useState } from "react";
 import axios from "axios";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import "../styles/auth.css";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
   const navigate = useNavigate();
   const API_URL = process.env.REACT_APP_API_URL;
 
@@ -28,32 +31,52 @@ const Login = () => {
   };
 
   return (
-    <div className="auth-container">
-      <form className="auth-card" onSubmit={handleLogin}>
-        <h2>Login</h2>
+    <div className="auth-wrapper">
+      <div className="auth-box">
+        <h2 className="auth-title">LOG IN</h2>
 
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
+        <form onSubmit={handleLogin}>
+          <div className="input-group">
+            <input
+              type="email"
+              placeholder="EMAIL"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
 
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
+          <div className="input-group password-group">
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="PASSWORD"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <span
+              className="eye-icon"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </span>
+          </div>
 
-        <button type="submit">Login</button>
+          <button className="auth-btn">LOG IN</button>
 
-        <p>
-          Don't have an account? <Link to="/register">Register</Link>
-        </p>
-      </form>
+          <button
+            type="button"
+            className="auth-outline-btn"
+            onClick={() => navigate("/register")}
+          >
+            REGISTER
+          </button>
+
+          <p className="auth-link">
+            Continue as a guest
+          </p>
+        </form>
+      </div>
     </div>
   );
 };

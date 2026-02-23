@@ -4,8 +4,11 @@ import { protect } from "../middleware/authMiddleware.js";
 
 import {
     updateUserProfile,changeUserPassword,
-    updateUserLocation
+    updateUserLocation,
+    uploadProfileImage
 } from "../controllers/userController.js";
+import upload from "../middleware/uploadMiddleware.js";
+
 
 
 import { getWishlist, toggleWishlist } from "../controllers/wishlistController.js";
@@ -18,5 +21,6 @@ router.post("/wishlist/:productId", protect, toggleWishlist);
 router.put("/profile", protect, updateUserProfile);
 router.put("/change-password", protect, changeUserPassword);
 router.put("/location", protect, updateUserLocation);
+router.put("/profile-image", protect, upload.single("profileImage"), uploadProfileImage);
 
 export default router;

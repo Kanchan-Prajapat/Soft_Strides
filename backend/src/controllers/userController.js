@@ -223,3 +223,43 @@ export const updateUserLocation = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+
+export const uploadProfileImage = async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: "No image uploaded" });
+    }
+
+    const uploadStream = () =>
+      new Promise((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream(
+          { folder: "softstrides/profile" },
+          (error, result) => {
+            if (result) resolve(result);
+            else reject(error);
+          }
+        );
+        streamifier.createReadStream(req.file.buffer).pipe(stream);
+      });
+
+    const uploadedImage = await uploadStream();
+
+    const user = await User.findById(req.user._id);
+    user.profileImage = uploadedImage.secure_url;
+    await user.save();
+
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      phone: user.phone,
+      location: user.location,
+      profileImage: user.profileImage,
+      role: user.role,
+    });
+
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

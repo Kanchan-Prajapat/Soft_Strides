@@ -98,3 +98,17 @@
     gap: 8px;
   }
 }
+
+.nav-avatar {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ff4d4d;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.nav-avatar:hover {
+  transform: scale(1.1);
+}
