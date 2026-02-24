@@ -46,44 +46,69 @@ const Reviews = () => {
 
   return (
     <PageLayout title={"Reviews"}>
+    <h2 style={{color:"#b3b3b3"}}>Reviews</h2>
+   
      <div>
-      {products.map((product) =>
-        product.reviews.map((review) => (
-          <div key={review._id} className="review-card">
-            <div>
-              <strong>{product.name}</strong>
-              <p>{review.comment}</p>
-              <small>Status: {review.status}</small>
-            </div>
 
-            <div>
-              <button className="approve-btn"
-                onClick={() =>
-                  updateStatus(product._id, review._id, "Approved")
-                }
-              >
-                Approve
-              </button>
+    {products.map((product) =>
+  product.reviews.map((review) => (
+    <div key={review._id} className="review-card">
 
-              <button className="reject-btn"
-                onClick={() =>
-                  updateStatus(product._id, review._id, "Rejected")
-                }
-              >
-                Reject
-              </button>
+      {/* LEFT SIDE */}
+    <div className="review-left">
+  <img
+    src={product.images?.[0]}
+    className="review-product-img"
+  />
 
-              <button className="delete-btn"
-                onClick={() =>
-                  deleteReview(product._id, review._id)
-                }
-              >
-                Delete
-              </button>
-            </div>
-          </div>
-        ))
-      )}
+  <div className="review-content">
+    <strong>{product.name}</strong>
+    <p>{review.comment}</p>
+    <p>⭐ {review.rating}</p>
+    <small>By: {review.user?.name}</small>
+    <small>Status: {review.status}</small>
+  </div>
+    {review.photo && (
+      <img
+        src={review.photo}
+        className="review-user-img"
+      />
+    )}
+    
+</div>
+
+      {/* RIGHT SIDE BUTTONS */}
+      <div className="review-actions">
+        <button
+          className="approve-btn"
+          onClick={() =>
+            updateStatus(product._id, review._id, "Approved")
+          }
+        >
+          Approve
+        </button>
+
+        <button
+          className="reject-btn"
+          onClick={() =>
+            updateStatus(product._id, review._id, "Rejected")
+          }
+        >
+          Reject
+        </button>
+
+        <button
+          className="delete-btn"
+          onClick={() =>
+            deleteReview(product._id, review._id)
+          }
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  ))
+)}
     </div>
     </PageLayout>
   );

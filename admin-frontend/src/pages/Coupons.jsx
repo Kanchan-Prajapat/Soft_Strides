@@ -65,7 +65,7 @@ const handleCreate = async () => {
       <div className="card" style={{ marginBottom: 20 }}>
         <h3>Create Coupon</h3>
 
-        <div style={{ display: "flex", gap: 10 }}>
+        <div className="coupon-form">
          <input
   placeholder="Code"
   value={code}

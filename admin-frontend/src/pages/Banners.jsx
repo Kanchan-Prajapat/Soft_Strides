@@ -93,7 +93,7 @@ const Banners = () => {
       <div className="card" style={{ marginBottom: 20 }}>
         <h3>Add Banner</h3>
 
-        <div style={{ display: "flex", gap: 10 }}>
+        <div className="banner-form">
           <input
             className="input"
             placeholder="Banner Title"

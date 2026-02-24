@@ -19,14 +19,9 @@ const Customers = () => {
   const navigate = useNavigate();
   const { showToast } = useToast();
 
-  const load = async () => {
-    const data = await fetchCustomers();
-    setCustomers(data);
-  };
-
-  useEffect(() => {
-    load();
-  }, []);
+ useEffect(() => {
+  fetchCustomers(search).then(setCustomers);
+}, [search]);
 
   const handleBlock = async (id) => {
     await blockCustomer(id);

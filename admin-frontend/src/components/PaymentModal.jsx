@@ -30,7 +30,8 @@ const PaymentModal = ({ payment, onClose, onUpdate }) => {
           src={payment.paymentScreenshot}
           alt="Payment"
           style={{
-            width: "100%",
+            width: "50%",
+            marginLeft:"80px",
             borderRadius: 10,
             marginTop: 10,
             border: "1px solid #222",

@@ -653,3 +653,317 @@ select.input:focus {
 
 }
 
+
+/* ============================= */
+/* BANNER FORM RESPONSIVE */
+/* ============================= */
+
+.banner-form {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.banner-form .input {
+  min-width: 180px;
+  flex: 1;
+}
+
+.banner-form input[type="file"] {
+  color: var(--text-secondary);
+}
+
+.banner-form .btn {
+  white-space: nowrap;
+}
+
+/* ============================= */
+/* TABLE RESPONSIVE */
+/* ============================= */
+
+.card table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.card {
+  overflow-x: auto;
+}
+
+/* Banner Image Resize */
+.card table img {
+  width: 120px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+/* ============================= */
+/* BUTTONS */
+/* ============================= */
+
+.btn-small {
+  padding: 6px 10px;
+  font-size: 13px;
+  margin-right: 6px;
+}
+
+.danger-btn {
+  padding: 6px 10px;
+  font-size: 13px;
+  background: #c62828;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+}
+
+.danger-btn:hover {
+  background: #b71c1c;
+}
+
+/* ============================= */
+/* MODAL RESPONSIVE */
+/* ============================= */
+
+.modal {
+  width: 500px;
+  max-width: 95%;
+  padding: 25px;
+}
+
+/* ============================= */
+/* MOBILE STYLING */
+/* ============================= */
+
+@media (max-width: 768px) {
+
+  .banner-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .banner-form .input {
+    width: 100%;
+  }
+
+  .banner-form .btn {
+    width: 100%;
+  }
+
+  .card table th,
+  .card table td {
+    font-size: 13px;
+    padding: 8px 6px;
+  }
+
+  .card table img {
+    width: 80px;
+    height: 45px;
+  }
+
+  .btn-small,
+  .danger-btn {
+    width: 100%;
+    margin-bottom: 6px;
+  }
+
+  .modal {
+    width: 95%;
+    padding: 18px;
+  }
+
+}
+
+
+/* ============================= */
+/* COUPON FORM */
+/* ============================= */
+
+.coupon-form {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.coupon-form input {
+  flex: 1;
+  min-width: 150px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+}
+
+.coupon-form .btn {
+  white-space: nowrap;
+}
+
+/* ============================= */
+/* TABLE RESPONSIVE */
+/* ============================= */
+
+.card {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* ============================= */
+/* BUTTON STYLING */
+/* ============================= */
+
+.btn-small {
+  padding: 6px 10px;
+  font-size: 13px;
+  margin-right: 6px;
+}
+
+.danger-btn {
+  padding: 6px 10px;
+  font-size: 13px;
+  background: #c62828;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+}
+
+.danger-btn:hover {
+  background: #b71c1c;
+}
+
+/* ============================= */
+/* MOBILE STYLING */
+/* ============================= */
+
+@media (max-width: 768px) {
+
+  .coupon-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .coupon-form input {
+    width: 100%;
+  }
+
+  .coupon-form .btn {
+    width: 100%;
+  }
+
+  .table th,
+  .table td {
+    font-size: 13px;
+    padding: 8px 6px;
+  }
+
+  .btn-small,
+  .danger-btn {
+    width: 100%;
+    margin-bottom: 6px;
+  }
+
+}
+
+
+/* REVIEW CARD */
+
+/* ================= REVIEW CARD ================= */
+/* ================= REVIEW CARD ================= */
+
+.review-card {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 20px;
+  background: #111;
+  border: 1px solid #222;
+  padding: 20px;
+  border-radius: 14px;
+  margin-bottom: 20px;
+  align-items: start;
+}
+
+/* LEFT SECTION */
+.review-left {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.review-product-img {
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 14px;
+}
+
+.review-content {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* REVIEW IMAGE */
+.review-user-img {
+  width: 180px;
+  height: auto;
+  margin-top: 12px;
+  border-radius: 12px;
+  border: 1px solid #333;
+}
+
+/* BUTTONS */
+.review-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.review-actions button {
+  width: 95px;
+}
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 768px) {
+
+  .review-card {
+    grid-template-columns: 1fr;
+    padding: 18px;
+  }
+
+  .review-left {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .review-product-img {
+    width: 100px;
+    height: 100px;
+  }
+
+  .review-user-img {
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .review-actions {
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 15px;
+  }
+
+  .review-actions button {
+    flex: 1;
+    font-size: 13px;
+  }
+
+}
