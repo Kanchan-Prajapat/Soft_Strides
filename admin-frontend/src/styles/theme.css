@@ -598,3 +598,58 @@ select.input:focus {
   padding:30px;
   background: var(--bg-main);
 }
+
+/* ========================= */
+/* PRODUCTS HEADER */
+/* ========================= */
+
+.products-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+/* Add button */
+.add-btn {
+  white-space: nowrap;
+}
+
+/* Search wrapper */
+.table-toolbar {
+  flex: 1;
+}
+
+/* Search input */
+.search-input {
+  width: 260px;
+  height: 38px;
+  font-size: 14px;
+}
+
+/* ========================= */
+/* MOBILE RESPONSIVE */
+/* ========================= */
+
+@media (max-width: 768px) {
+
+  .products-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .add-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .search-input {
+    width: 100%;
+    height: 34px;
+    font-size: 13px;
+  }
+
+}
+

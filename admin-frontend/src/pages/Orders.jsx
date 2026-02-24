@@ -39,6 +39,8 @@ const Orders = () => {
     }
   };
 
+
+
   // 🔄 Update Delivery Status
   const updateDeliveryStatus = async (id, status) => {
     try {
@@ -93,6 +95,7 @@ const Orders = () => {
           <thead>
             <tr>
               <th>Order</th>
+              <th>Product</th>
               <th>Customer</th>
               <th>Total</th>
               <th>Payment</th>
@@ -119,6 +122,21 @@ const Orders = () => {
               filteredOrders.map((o) => (
                 <tr key={o._id}>
                   <td>#{o._id.slice(-6)}</td>
+
+                  <td>
+                    {o.products?.length > 0 && (
+                      <img
+                        src={o.products[0].image}
+                        alt={o.products[0].name}
+                        style={{
+                          width: "60px",
+                          height: "60px",
+                          objectFit: "cover",
+                          borderRadius: "8px"
+                        }}
+                      />
+                    )}
+                  </td>
 
                   <td>
                     {o.user?.name}

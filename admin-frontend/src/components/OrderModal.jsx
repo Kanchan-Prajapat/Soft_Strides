@@ -17,27 +17,44 @@ const OrderModal = ({ order, onClose, onStatusUpdate }) => {
   return (
     <div className="modal-overlay">
       <div className="modal-box">
-        <h2>Order Details</h2>
 
-        <div className="order-section">
-          <p><b>Customer:</b> {order.user?.name}</p>
-          <p><b>Email:</b> {order.user?.email}</p>
-          <p><b>Phone:</b> {order.phone}</p>
-          <p><b>Address:</b> {order.address}</p>
-          <p><b>Total:</b> ₹{order.totalAmount}</p>
-          <p><b>Status:</b> {order.paymentStatus}</p>
-        </div>
+      <div className="order-modal-container">
 
-        <div className="order-section">
-          <h4>Products</h4>
-          {order.products.map((p, i) => (
-            <div key={i} className="order-product">
-              <p><b>{p.product?.name}</b></p>
-              <p>Size: {p.size}</p>
-              <p>Quantity: {p.quantity}</p>
-            </div>
-          ))}
-        </div>
+  {/* LEFT SIDE - DETAILS */}
+  <div className="order-modal-left">
+    <h2>Order Details</h2>
+
+    <p><strong>Customer:</strong> {order.user?.name}</p>
+    <p><strong>Email:</strong> {order.user?.email}</p>
+    <p><strong>Phone:</strong> {order.shippingAddress?.phone}</p>
+    <p><strong>Address:</strong> {order.shippingAddress?.address}</p>
+    <p><strong>Total:</strong> ₹{order.totalAmount}</p>
+    <p><strong>Status:</strong> {order.paymentStatus}</p>
+
+    <h3 style={{ marginTop: 20 }}>Products</h3>
+
+    {order.products?.map((item, index) => (
+      <div key={index} className="modal-product-info">
+        <strong>{item.name}</strong>
+        <div>Size: {item.size}</div>
+        <div>Qty: {item.quantity}</div>
+      </div>
+    ))}
+  </div>
+
+
+  {/* RIGHT SIDE - IMAGE */}
+  <div className="order-modal-right">
+    {order.products?.[0]?.image && (
+      <img
+        src={order.products[0].image}
+        alt={order.products[0].name}
+        className="modal-product-image"
+      />
+    )}
+  </div>
+
+</div>
 
         <div className="order-section">
           <h4>Payment Screenshot</h4>

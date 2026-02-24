@@ -19,7 +19,7 @@ const Products = () => {
   const [searchParams] = useSearchParams();
   const [selectedProduct, setSelectedProduct] = useState(null);
 
-const categoryFilter = searchParams.get("category");
+  const categoryFilter = searchParams.get("category");
 
 
   const { showToast } = useToast();
@@ -47,15 +47,15 @@ const categoryFilter = searchParams.get("category");
   };
 
   const filteredProducts = products.filter((p) => {
-  const matchesSearch =
-    p.name.toLowerCase().includes(search.toLowerCase());
+    const matchesSearch =
+      p.name.toLowerCase().includes(search.toLowerCase());
 
-  const matchesCategory = categoryFilter
-    ? p.category?._id === categoryFilter
-    : true;
+    const matchesCategory = categoryFilter
+      ? p.category?._id === categoryFilter
+      : true;
 
-  return matchesSearch && matchesCategory;
-});
+    return matchesSearch && matchesCategory;
+  });
 
 
   return (
@@ -63,25 +63,33 @@ const categoryFilter = searchParams.get("category");
       <TableCard
         title="Product Catalog"
         right={
-          <button
-            className="btn"
-            onClick={() => {
-              setEditProduct(null);
-              setModalOpen(true);
-            }}
-          >
-            Add Product
-          </button>
+          <div className="products-header">
+
+            <button
+              className="btn add-btn"
+              onClick={() => {
+                setEditProduct(null);
+                setModalOpen(true);
+              }}
+            >
+              Add Product
+            </button>
+
+            <div className="table-toolbar">
+              <input
+                className="input search-input"
+                placeholder="Search products..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+            </div>
+
+          </div>
+
+
         }
       >
-        <div className="table-toolbar">
-          <input
-            className="input search-input"
-            placeholder="Search products..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-        </div>
+
 
         <table className="table">
           <thead>
@@ -120,12 +128,12 @@ const categoryFilter = searchParams.get("category");
                   <td>{p.stock}</td>
                   <td>
                     <div className="action-buttons">
-                     <button
-  className="view-btn"
-  onClick={() => setSelectedProduct(p)}
->
-  View
-</button>
+                      <button
+                        className="view-btn"
+                        onClick={() => setSelectedProduct(p)}
+                      >
+                        View
+                      </button>
 
 
                       <button
@@ -161,15 +169,15 @@ const categoryFilter = searchParams.get("category");
           onSuccess={load}
         />
       )}
-    {selectedProduct && (
-  <ProductViewModal
-    product={selectedProduct}
-    onClose={() => setSelectedProduct(null)}
-  />
-)}
+      {selectedProduct && (
+        <ProductViewModal
+          product={selectedProduct}
+          onClose={() => setSelectedProduct(null)}
+        />
+      )}
 
 
-    
+
     </PageLayout>
   );
 };
