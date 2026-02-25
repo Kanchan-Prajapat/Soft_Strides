@@ -8,10 +8,6 @@
   border-bottom: 1px solid #222;
 }
 
-.logo-image {
-  height: 45px;
-  border-radius: 50%;
-}
 
 .nav-center {
   flex: 1;
@@ -26,7 +22,7 @@
 }
 
 .nav-right a {
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 500;
   color: #ffffff;
   transition: 0.2s;
@@ -78,7 +74,11 @@
   }
 
   .nav-links a {
-    font-size: 13px;
+    font-size: 20px;
+  }
+
+   .nav-right a {
+    font-size: 15px;
   }
 }
 
@@ -97,6 +97,10 @@
     flex-direction: column;
     gap: 8px;
   }
+
+  .nav-right a {
+    font-size: 15px;
+  }
 }
 
 .nav-avatar {
@@ -111,4 +115,66 @@
 
 .nav-avatar:hover {
   transform: scale(1.1);
+}
+
+
+.nav-icon {
+  position: relative;
+  font-size: 25px;
+  color: #000;
+  margin: 0 12px;
+  text-decoration: none;
+  transition: 0.3s ease;
+}
+
+.nav-icon:hover {
+  color: #ff4d4d;
+   transform: scale(1.1);
+}
+
+.cart-badge {
+  position: absolute;
+  top: -8px;
+  right: -10px;
+  background: red;
+  color: white;
+  font-size: 10px;
+  padding: 0px 5px;
+  border-radius: 50%;
+  font-weight: bold;
+  width: 15px;
+  height: 15px;
+}
+
+/* ======================
+   LOGO ANIMATION
+====================== */
+/* ======================
+   PREMIUM 3D LOGO EFFECT
+====================== */
+
+.nav-left {
+  perspective: 1000px;
+}
+
+.logo-image {
+  height: 45px;
+  border-radius: 50%;
+  animation: rotateLogo 8s linear infinite;
+  transform-style: preserve-3d;
+}
+
+/* Continuous 360 rotation */
+@keyframes rotateLogo {
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(360deg);
+  }
+}
+
+.logo-image:hover {
+  transform: rotateX(360deg) scale(1.08);
+ filter: drop-shadow(0 0 10px rgba(185, 184, 184, 0.6));
 }

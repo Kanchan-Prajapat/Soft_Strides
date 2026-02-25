@@ -1,34 +1,4 @@
-// import Category from "../models/Category.js";
-// import Product from "../models/Product.js";
-
-// export const getCategories = async (req, res) => {
-//   try {
-//     const categories = await Category.aggregate([
-//       {
-//         $lookup: {
-//           from: "products",          // collection name (lowercase plural)
-//           localField: "_id",
-//           foreignField: "category",
-//           as: "products",
-//         },
-//       },
-//       {
-//         $addFields: {
-//           productCount: { $size: "$products" },
-//         },
-//       },
-//       {
-//         $project: {
-//           products: 0, // hide products array
-//         },
-//       },
-//     ]);
-
-//     res.json(categories);
-//   } catch (err) {
-//     res.status(500).json({ message: err.message });
-//   }
-// };
+//categoryController.js
 import Category from "../models/Category.js";
 import Product from "../models/Product.js";
 import cloudinary from "../config/cloudinary.js";

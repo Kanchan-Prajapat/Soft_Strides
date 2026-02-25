@@ -23,6 +23,39 @@ const CategorySlider = () => {
     fetchCategories();
   }, [API_URL]);
 
+
+useEffect(() => {
+  const slider = scrollRef.current;
+  if (!slider) return;
+
+  const handleScroll = () => {
+    const cards = slider.querySelectorAll(".category-card");
+    const sliderRect = slider.getBoundingClientRect();
+    const sliderCenter = sliderRect.left + sliderRect.width / 2;
+
+    cards.forEach((card) => {
+      const rect = card.getBoundingClientRect();
+      const cardCenter = rect.left + rect.width / 2;
+      const distance = Math.abs(sliderCenter - cardCenter);
+
+      if (distance < 100) {
+        card.style.transform = "scale(1.15)";
+        card.style.opacity = "1";
+      } else {
+        card.style.transform = "scale(0.95)";
+        card.style.opacity = "0.7";
+      }
+    });
+  };
+
+  slider.addEventListener("scroll", handleScroll);
+  handleScroll();
+
+  return () => slider.removeEventListener("scroll", handleScroll);
+}, []);
+
+
+
   /* ================= AUTO SCROLL ================= */
   useEffect(() => {
     const slider = scrollRef.current;

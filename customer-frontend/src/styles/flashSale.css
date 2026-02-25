@@ -48,9 +48,9 @@
 /* Grid */
 .flash-products-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(170px, 190px));
   justify-content: center;
-  gap: 18px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 25px;
 }
 
 /* Card Wrapper */
@@ -158,9 +158,22 @@
 
 /* ================= FLASH SALE RESPONSIVE ================= */
 
-@media (max-width: 992px) {
+@media (max-width: 1200px) {
   .flash-products-grid {
-    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .flash-products-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .flash-products-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
   }
 }
 
@@ -172,10 +185,6 @@
     text-align: center;
   }
 
-  .flash-products-grid {
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 15px;
-  }
 
   .flash-card-wrapper {
     width: 100%;
@@ -188,11 +197,40 @@
 
 @media (max-width: 480px) {
 
-  .flash-products-grid {
-    grid-template-columns: 1fr 1fr;
-  }
 
   .flash-header h2 {
     font-size: 20px;
   }
+}
+
+
+@media (max-width: 768px) {
+
+  .flash-products-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+
+  .flash-card-wrapper {
+    position: relative;
+  }
+
+  .discount-badge {
+    font-size: 11px;
+    padding: 4px 8px;
+  }
+
+  .timer-box {
+    font-size: 12px;
+  }
+}
+
+.flash-sale-section .product-info h4 {
+  font-size: 14px;
+}
+
+.flash-sale-section .btn-group button {
+  padding: 8px;
+  font-size: 12px;
 }

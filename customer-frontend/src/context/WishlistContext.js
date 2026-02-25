@@ -1,65 +1,60 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import axios from "axios";
+import api from "../api/axiosInstance";
 
 const WishlistContext = createContext();
 
 export const WishlistProvider = ({ children }) => {
   const [wishlist, setWishlist] = useState([]);
-  const API_URL = process.env.REACT_APP_API_URL;
 
-  // Load wishlist from DB
+  /* ======================
+     LOAD WISHLIST
+  ====================== */
   useEffect(() => {
     const loadWishlist = async () => {
-      const token = localStorage.getItem("userToken");
-      if (!token) return;
-
       try {
-        const res = await axios.get(
-          `${API_URL}/api/wishlist`,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
-
-        setWishlist(res.data);
+        const res = await api.get("/api/wishlist");
+        setWishlist(res.data || []);
       } catch (error) {
-        console.log(error);
+        console.log("Wishlist load error:", error);
       }
     };
 
-    loadWishlist();
-  }, [ API_URL]);
+    const token = localStorage.getItem("userToken");
+    if (token) {
+      loadWishlist();
+    }
+  }, []);
 
-  // TOGGLE WISHLIST
+  /* ======================
+     TOGGLE WISHLIST
+  ====================== */
   const toggleWishlist = async (product) => {
-      const token = localStorage.getItem("userToken");
-  if (!token) {
-    alert("Please login");
-    return;
-  }
+    const token = localStorage.getItem("userToken");
 
-  try {
-    const res = await axios.post(
-      `${API_URL}/api/wishlist/${product._id}`,
-      {},
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
+    if (!token) {
+      alert("Please login");
+      return;
+    }
+
+    try {
+      const res = await api.post(
+        `/api/wishlist/${product._id}`
+      );
+
+      setWishlist(res.data || []);
+    } catch (error) {
+      console.log("Toggle error:", error);
+    }
+  };
+
+  /* ======================
+     CHECK IF IN WISHLIST
+  ====================== */
+  const isInWishlist = (id) => {
+    return wishlist.some(
+      (item) => item._id?.toString() === id.toString()
     );
-
-    // Backend returns updated wishlist array
-    setWishlist(res.data);
-
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-const isInWishlist = (id) => {
-  return wishlist.some(
-    (item) => item._id?.toString() === id.toString()
-  );
-};
+  };
 
   return (
     <WishlistContext.Provider

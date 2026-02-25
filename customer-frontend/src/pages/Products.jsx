@@ -15,6 +15,7 @@ const Products = () => {
   const [selectedSize, setSelectedSize] = useState("All");
   const [selectedColor, setSelectedColor] = useState("All");
   const [priceRange, setPriceRange] = useState([0, 10000]);
+  const [showFilters, setShowFilters] = useState(false);
 
   const location = useLocation();
 const queryParams = new URLSearchParams(location.search);
@@ -70,10 +71,27 @@ const categoryId = queryParams.get("category");
   });
 
   return (
-    <div className="products-page">
-      <div className="container products-layout">
+  <div className="products-page">
+    <div className="container products-layout">
 
-        {/* Sidebar */}
+     
+      <button
+        className="mobile-filter-btn"
+        onClick={() => setShowFilters(true)}
+      >
+        Filters
+      </button>
+
+      {/* Overlay */}
+      {showFilters && (
+        <div
+          className="filter-overlay"
+          onClick={() => setShowFilters(false)}
+        />
+      )}
+
+      {/* Sidebar */}
+      <div className={`sidebar-wrapper ${showFilters ? "active" : ""}`}>
         <SidebarFilters
           selectedCategory={selectedCategory}
           setSelectedCategory={setSelectedCategory}
@@ -85,23 +103,33 @@ const categoryId = queryParams.get("category");
           setPriceRange={setPriceRange}
         />
 
-        {/* Product Grid */}
-        <div className="products-grid">
-          {loading ? (
-            <p>Loading products...</p>
-          ) : filteredProducts.length === 0 ? (
-            <p>No products found</p>
-          ) : (
-            filteredProducts.map((product) => (
-              <ProductCard
-                key={product._id}
-                product={product}
-              />
-            ))
-          )}
-        </div>
+        {/* Close Button (Mobile) */}
+        <button
+          className="close-filter-btn"
+          onClick={() => setShowFilters(false)}
+        >
+          ✕
+        </button>
+      </div>
+
+      {/* Product Grid */}
+      <div className="products-grid">
+        {loading ? (
+          <p>Loading products...</p>
+        ) : filteredProducts.length === 0 ? (
+          <p>No products found</p>
+        ) : (
+          filteredProducts.map((product) => (
+            <ProductCard
+              key={product._id}
+              product={product}
+            />
+          ))
+        )}
       </div>
     </div>
+  </div>
+
   );
 };
 

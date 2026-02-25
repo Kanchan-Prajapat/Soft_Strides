@@ -7,26 +7,16 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import avatar from "../pages/default-avtar.png";
 
-const Navbar = () => {
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faShoppingCart, faHeart, faHouse } from "@fortawesome/free-solid-svg-icons";
+
+
+const Navbar = () => {
   const { cartItems } = useCart();
   const { user } = useAuth();
 
-  // useEffect(() => {
-  //   const token = localStorage.getItem("userToken");
-  //   setIsLoggedIn(!!token);
-  // }, []);
-
-  // const handleLogout = () => {
-  //   localStorage.removeItem("userToken");
-  //   localStorage.removeItem("userInfo");
-  //   setIsLoggedIn(false);
-  //   navigate("/");
-  // };
-
-
   return (
-
     <nav className="navbar">
       <div className="nav-left">
         <Link to="/">
@@ -39,9 +29,25 @@ const Navbar = () => {
       </div>
 
       <div className="nav-right">
-         <Link to="/">Home</Link>
-        <Link to="/cart">Cart ({cartItems.length})</Link>
-        <Link to="/wishlist">Wishlist</Link>
+   <Link to="/" className="nav-icon">
+  <FontAwesomeIcon icon={faHouse} />
+</Link>
+
+        {/* 🛒 Cart Icon */}
+        <Link to="/cart" className="nav-icon">
+          <FontAwesomeIcon icon={faShoppingCart} />
+          {cartItems.length > 0 && (
+            <span className="cart-badge">
+              {cartItems.length}
+            </span>
+          )}
+        </Link>
+
+        {/* ❤️ Wishlist Icon */}
+        <Link to="/wishlist" className="nav-icon">
+          <FontAwesomeIcon icon={faHeart} />
+        </Link>
+
         <Link to="/profile" className="nav-profile">
           <img
             src={user?.profileImage || avatar}
@@ -49,10 +55,8 @@ const Navbar = () => {
             className="nav-avatar"
           />
         </Link>
-
       </div>
     </nav>
-
   );
 };
 

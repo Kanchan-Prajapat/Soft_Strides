@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import "../styles/auth.css";
+import logo from "../assets/Logo.jpg";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -33,6 +34,7 @@ const Register = () => {
   return (
     <div className="auth-wrapper">
       <div className="auth-box">
+      <img src={logo} alt="Soft Strides" className="auth-logo" />
         <h2 className="auth-title">REGISTER</h2>
 
         <form onSubmit={handleRegister}>

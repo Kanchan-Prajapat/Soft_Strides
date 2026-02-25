@@ -1,3 +1,4 @@
+//controllers/bannerController.js
 import Banner from "../models/Banner.js";
 import cloudinary from "../config/cloudinary.js";
 import streamifier from "streamifier";

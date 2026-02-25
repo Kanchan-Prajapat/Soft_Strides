@@ -1,3 +1,4 @@
+//coupenController.js
 import Coupon from "../models/Coupon.js";
 
 export const applyCoupon = async (req, res) => {

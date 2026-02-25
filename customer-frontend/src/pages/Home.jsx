@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import CategorySlider from "../components/CategorySlider";
 import FlashSaleSection from "../components/FlashSaleSection";
+import { useRef } from "react";
 
 const Home = () => {
   const [banners, setBanners] = useState([]);
@@ -13,6 +14,27 @@ const Home = () => {
   /* =============================
         FETCH BANNERS
   ============================= */
+const premiumRef = useRef();
+
+useEffect(() => {
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("show");
+        }
+      });
+    },
+    { threshold: 0.3 }
+  );
+
+  if (premiumRef.current) {
+    observer.observe(premiumRef.current);
+  }
+
+  return () => observer.disconnect();
+}, []);
+
 
   useEffect(() => {
     const fetchBanners = async () => {
@@ -110,7 +132,7 @@ const Home = () => {
 
       {/* ================= PREMIUM BRAND SECTION ================= */}
 
-      <section className="premium-hero">
+    <section className="premium-hero" ref={premiumRef}>
         <div className="container hero-container">
 
           {/* LEFT SIDE */}
