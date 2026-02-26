@@ -3,10 +3,10 @@
 /* ============================= */
 
 .flash-sale-section {
-  padding: 20px 0;
-  background: linear-gradient(135deg, #0f0f0f, #1a0000);
-  border-top: 1px solid #222;
-  border-bottom: 1px solid #222;
+  padding: 60px 6%;
+  background: #000;
+  border-top: 1px solid #111;
+  border-bottom: 1px solid #111;
 }
 
 /* Header */
@@ -14,55 +14,55 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 15px;
+  margin-bottom: 30px;
 }
 
 .flash-header h2 {
-  font-size: 26px;
-  font-weight: 700;
+  font-size: 24px;
+  font-weight: 600;
   color: #ff4d4d;
-  text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
 }
 
 /* Timer */
 .timer-box {
   background: #111;
-  padding: 8px 14px;
-  border-radius: 10px;
-  border: 1px solid #ff4d4d;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  padding: 8px 16px;
+  border-radius: 30px;
+  border: 1px solid #222;
+  font-size: 13px;
+  font-weight: 500;
 }
 
-.timer-box span {
-  font-size: 12px;
-  color: #aaa;
-}
-
-.timer-box strong {
-  font-size: 16px;
+.timer-active {
   color: #ff4d4d;
 }
 
-/* Grid */
+.timer-expired {
+  color: #888;
+}
+/* ============================= */
+/* GRID */
+/* ============================= */
+
 .flash-products-grid {
   display: grid;
-  justify-content: center;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 25px;
 }
 
-/* Card Wrapper */
+/* ============================= */
+/* CARD */
+/* ============================= */
+
 .flash-card-wrapper {
   position: relative;
-  width: 180px;
-  transition: all 0.25s ease;
+  width: 100%;
+  transition: 0.25s ease;
 }
 
 .flash-card-wrapper:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 8px 20px rgba(255, 0, 0, 0.25);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
 }
 
 /* SALE Badge */
@@ -71,62 +71,41 @@
   top: 8px;
   left: 8px;
   background: #ff0000;
-  color: white;
-  padding: 4px 10px;
+  color: #fff;
+  padding: 4px 8px;
   font-size: 11px;
-  font-weight: bold;
+  font-weight: 600;
   border-radius: 20px;
   z-index: 5;
-  box-shadow: 0 0 8px rgba(255, 0, 0, 0.6);
 }
 
-
+/* Product Card */
 .flash-card-wrapper .product-card {
   width: 100%;
-  height: auto;
   padding: 10px;
 }
 
-/* 🔥 Important Fix */
 .flash-card-wrapper .product-image-wrapper {
-  height: 170px;  
-   position: relative;
-  z-index: 1;
+  height: 170px;
+  position: relative;
 }
 
-/* Image */
 .flash-card-wrapper .product-image {
+  width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: 8px;
 }
 
-/* Product Name */
+/* Text */
 .flash-card-wrapper h3 {
   font-size: 14px;
-  margin: 6px 0;
+  margin: 8px 0 4px;
 }
 
-/* Price */
 .flash-card-wrapper .price {
   font-size: 14px;
-  margin: 4px 0;
-}
-
-/* Rating */
-.flash-card-wrapper .rating {
-  font-size: 13px;
-}
-
-/* Sizes */
-.flash-card-wrapper .sizes {
-  font-size: 12px;
-  margin-top: 4px;
-}
-
-/* Buttons */
-.flash-card-wrapper button {
-  font-size: 12px;
-  padding: 6px 8px;
+  margin-bottom: 4px;
 }
 
 .old-price {
@@ -137,26 +116,37 @@
 
 .sale-price {
   color: #ff4d4d;
-  font-weight: bold;
-}
-
-.No-active {
-  font-size: 32px;
   font-weight: 600;
-  width:100%;
-  justify-content: center;
-  margin-bottom: 40px;
+}
+
+/* Rating */
+.flash-card-wrapper .rating {
+  font-size: 13px;
+}
+
+/* Sizes */
+.flash-card-wrapper .sizes {
+  font-size: 12px;
   margin-top: 5px;
+}
+
+/* Buttons */
+.flash-card-wrapper button {
+  font-size: 12px;
+  padding: 6px 8px;
+}
+
+/* No Active */
+.No-active {
+  font-size: 22px;
+  font-weight: 500;
   text-align: center;
+  margin: 30px 0;
 }
 
-.No-active:hover{
-  transform: translateY(-2px);
-  color: #ff4d4d;
-  text-shadow: 0 20px 40px rgba(255, 0, 0, 0.2);
-}
-
-/* ================= FLASH SALE RESPONSIVE ================= */
+/* ============================= */
+/* RESPONSIVE */
+/* ============================= */
 
 @media (max-width: 1200px) {
   .flash-products-grid {
@@ -168,57 +158,31 @@
   .flash-products-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-}
-
-@media (max-width: 600px) {
-  .flash-products-grid {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-}
-
-@media (max-width: 768px) {
 
   .flash-header {
     flex-direction: column;
     gap: 15px;
     text-align: center;
   }
-
-
-  .flash-card-wrapper {
-    width: 100%;
-  }
-
-  .flash-card-wrapper .product-card img {
-    height: 150px;
-  }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 600px) {
 
+  .flash-sale-section {
+    padding: 40px 5%;
+  }
+
+  .flash-products-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
 
   .flash-header h2 {
     font-size: 20px;
   }
-}
 
-
-@media (max-width: 768px) {
-
-  .flash-products-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-  }
-
-  .flash-card-wrapper {
-    position: relative;
-  }
-
-  .discount-badge {
-    font-size: 11px;
-    padding: 4px 8px;
+  .flash-card-wrapper .product-image-wrapper {
+    height: 200px;
   }
 
   .timer-box {
@@ -226,11 +190,60 @@
   }
 }
 
-.flash-sale-section .product-info h4 {
-  font-size: 14px;
+.flash-card-wrapper .product-image-wrapper {
+  height: 200px;
+  overflow: hidden;
 }
 
-.flash-sale-section .btn-group button {
-  padding: 8px;
-  font-size: 12px;
+.flash-card-wrapper .product-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* IMPORTANT */
 }
+
+/* Timer styling */
+.timer-box {
+  background: #111;
+  padding: 8px 16px;
+  border-radius: 30px;
+  border: 1px solid #222;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.timer-active {
+  color: #ff4d4d;
+}
+
+.timer-expired {
+  color: #888;
+}
+
+/* When only one product */
+.single-product {
+  display: flex;
+  justify-content: center;
+}
+
+.single-product .flash-card-wrapper {
+  max-width: 300px;
+  width: 100%;
+}
+
+.flash-card-wrapper {
+  width: 100%;
+  max-width: 280px;
+  margin: 0 auto;
+}
+
+/* Center single product */
+.single-product {
+  justify-content: center;
+}
+
+/* Expired effect */
+.flash-expired {
+  opacity: 0.6;
+  pointer-events: none;
+}
+

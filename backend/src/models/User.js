@@ -64,6 +64,9 @@ wishlist: [
   } 
 ],
 
+resetPasswordToken: String,
+resetPasswordExpire: Date,
+
   },
   { timestamps: true }
 );

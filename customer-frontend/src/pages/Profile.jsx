@@ -23,8 +23,8 @@ const Profile = () => {
     const [name, setName] = useState(user?.name || "");
     const [email, setEmail] = useState(user?.email || "");
     const [phone, setPhone] = useState(user?.phone || "");
-    const [oldPassword, setOldPassword] = useState("");
-    const [newPassword, setNewPassword] = useState("");
+    // const [oldPassword, setOldPassword] = useState("");
+    // const [newPassword, setNewPassword] = useState("");
     const [location, setLocation] = useState(user?.location || "");
     const [orders, setOrders] = useState([]);
 
@@ -119,25 +119,25 @@ const Profile = () => {
     /* =========================
        UPDATE PASSWORD
     ========================== */
-    const updatePassword = async () => {
-        try {
-            await axios.put(
-                `${API_URL}/api/users/change-password`,
-                {
-                    oldPassword,
-                    newPassword,
-                },
-                {
-                    headers: { Authorization: `Bearer ${token}` },
-                }
-            );
-            alert("Password updated");
-            setOldPassword("");
-            setNewPassword("");
-        } catch (err) {
-            alert(err.response?.data?.message);
-        }
-    };
+    // const updatePassword = async () => {
+    //     try {
+    //         await axios.put(
+    //             `${API_URL}/api/users/change-password`,
+    //             {
+    //                 oldPassword,
+    //                 newPassword,
+    //             },
+    //             {
+    //                 headers: { Authorization: `Bearer ${token}` },
+    //             }
+    //         );
+    //         alert("Password updated");
+    //         setOldPassword("");
+    //         setNewPassword("");
+    //     } catch (err) {
+    //         alert(err.response?.data?.message);
+    //     }
+    // };
 
     /* =========================
        CANCEL ORDER
@@ -351,28 +351,7 @@ const Profile = () => {
                         </button>
                     </div>
 
-                    {/* CHANGE PASSWORD */}
-                    <div className="profile-section">
-                        <h3>Change Password</h3>
-
-                        <input
-                            type="password"
-                            placeholder="Old Password"
-                            value={oldPassword}
-                            onChange={(e) => setOldPassword(e.target.value)}
-                        />
-
-                        <input
-                            type="password"
-                            placeholder="New Password"
-                            value={newPassword}
-                            onChange={(e) => setNewPassword(e.target.value)}
-                        />
-
-                        <button className="primary-btn" onClick={updatePassword}>
-                            Update Password
-                        </button>
-                    </div>
+                   
 
                 </div>
             </div>

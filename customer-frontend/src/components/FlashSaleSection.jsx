@@ -6,6 +6,7 @@ import "../styles/flashSale.css";
 const FlashSaleSection = () => {
   const [sale, setSale] = useState(null);
   const [timeLeft, setTimeLeft] = useState("");
+  const [expired, setExpired] = useState(false);
   const API_URL = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
@@ -31,7 +32,7 @@ const FlashSaleSection = () => {
       const diff = end - now;
 
       if (diff <= 0) {
-        setTimeLeft("Expired");
+        setExpired(true);
         clearInterval(interval);
       } else {
         const hours = Math.floor(diff / (1000 * 60 * 60));
@@ -45,53 +46,67 @@ const FlashSaleSection = () => {
     return () => clearInterval(interval);
   }, [sale]);
 
-  if (!sale) return  <div className="No-active"><p >No active flash sale</p></div>
+  if (!sale || sale.products.length === 0)
+    return (
+      <div className="No-active">
+        <p>No active flash sale</p>
+      </div>
+    );
 
   return (
     <section className="flash-sale-section">
       <div className="container">
-        <div className="flash-header">
-          <h2>
-            🔥 Flash Sale
-          </h2>
 
-          <div className="timer-box">
-            <span>Ends In</span>
-            <strong>{timeLeft}</strong>
-          </div>
+        {/* Header */}
+        <div className="flash-header">
+          <h2>🔥 Flash Sale</h2>
+
+          {expired ? (
+            <div className="timer-box timer-expired">
+              Flash Sale Ended
+            </div>
+          ) : (
+            <div className="timer-box timer-active">
+              Ends in {timeLeft}
+            </div>
+          )}
         </div>
 
-     <div className="flash-products-grid">
-  {sale.products.map((product) => {
+        {/* Products */}
+        <div
+          className={`flash-products-grid ${
+            sale.products.length === 1 ? "single-product" : ""
+          }`}
+        >
+          {sale.products.map((product) => {
+            const originalPrice = product.price;
+            const discount = sale.discountPercentage || 0;
 
-    const originalPrice = product.price;
-    const discount = sale.discountPercentage || 0;
+            const discountedPrice =
+              originalPrice - (originalPrice * discount) / 100;
 
-    const discountedPrice =
-      originalPrice - (originalPrice * discount) / 100;
+            return (
+              <div
+                className={`flash-card-wrapper ${
+                  expired ? "flash-expired" : ""
+                }`}
+                key={product._id}
+              >
+                <span className="discount-badge">
+                  -{discount}%
+                </span>
 
-    return (
-      <div className="flash-card-wrapper" key={product._id}>
-
-        <span className="discount-badge">
-          -{discount}%
-        </span>
-
-<ProductCard 
-  product={product}
-  discountedPrice={discountedPrice.toFixed(0)}
-/>
-
-
-      </div>
-    );
-  })}
-</div>
-
+                <ProductCard
+                  product={product}
+                  discountedPrice={discountedPrice.toFixed(0)}
+                />
+              </div>
+            );
+          })}
+        </div>
       </div>
     </section>
   );
-
 };
 
 export default FlashSaleSection;

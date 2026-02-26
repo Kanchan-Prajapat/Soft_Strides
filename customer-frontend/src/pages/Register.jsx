@@ -14,22 +14,37 @@ const Register = () => {
   const navigate = useNavigate();
   const API_URL = process.env.REACT_APP_API_URL;
 
-  const handleRegister = async (e) => {
-    e.preventDefault();
+const handleRegister = async (e) => {
+  e.preventDefault();
 
-    try {
-      await axios.post(`${API_URL}/api/auth/register`, {
-        name,
-        email,
-        password,
-      });
+  try {
+    const res = await axios.post(
+      `${API_URL}/api/auth/register`,
+      { name, email, password }
+    );
 
-      alert("Registration successful!");
-      navigate("/login");
-    } catch (err) {
-      alert(err.response?.data?.message || "Registration failed");
-    }
-  };
+    // ✅ Save token
+    localStorage.setItem("userToken", res.data.token);
+
+    // ✅ Save user info
+    localStorage.setItem(
+      "userInfo",
+      JSON.stringify({
+        _id: res.data._id,
+        name: res.data.name,
+        email: res.data.email,
+        role: res.data.role,
+      })
+    );
+
+    navigate("/");
+    console.log("REGISTER RESPONSE:", res.data);
+
+  } catch (err) {
+    alert(err.response?.data?.message || "Registration failed");
+  }
+};
+
 
   return (
     <div className="auth-wrapper">

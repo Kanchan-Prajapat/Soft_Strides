@@ -220,3 +220,16 @@
     margin-bottom: 20px;
   }
 }
+
+.forgot-link {
+  font-size: 13px;
+  color: #888;
+  text-align: right;
+  cursor: pointer;
+  margin-bottom: 15px;
+  margin-top: 10px;
+}
+
+.forgot-link:hover {
+  color: #ff4d4d;
+}

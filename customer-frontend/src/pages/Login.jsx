@@ -73,10 +73,13 @@ const Login = () => {
           >
             REGISTER
           </button>
+          <p
+  className="forgot-link"
+  onClick={() => navigate("/forgot-password")}
+>
+  Forgot Password?
+</p>
 
-          <p className="auth-link">
-            Continue as a guest
-          </p>
         </form>
       </div>
     </div>

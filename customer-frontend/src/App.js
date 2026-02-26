@@ -15,6 +15,8 @@ import TermsConditions from "./pages/TermsConditions";
 import RefundPolicy from "./pages/RefundPolicy";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Profile from "./pages/Profile";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 
 
 function App() {
@@ -36,6 +38,8 @@ function App() {
         <Route path="/terms" element={<TermsConditions />} />
         <Route path="/refund-policy" element={<RefundPolicy />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+         <Route  path="/reset-password/:token" element={<ResetPassword />} />
       </Routes>
       <Footer />
     </BrowserRouter>
