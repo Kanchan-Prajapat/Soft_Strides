@@ -66,13 +66,13 @@ const Login = () => {
 
           <button className="auth-btn">LOG IN</button>
 
-          <button
-            type="button"
-            className="auth-outline-btn"
-            onClick={() => navigate("/register")}
-          >
-            REGISTER
-          </button>
+
+<p
+  className="auth-link"
+  onClick={() => navigate("/register")}
+>
+  Don’t have an account? Register
+</p>
           <p
   className="forgot-link"
   onClick={() => navigate("/forgot-password")}

@@ -159,7 +159,12 @@ height: 45px;
 border-radius: 50%;
 animation: rotateLogo 10s linear infinite;
 transform-style: preserve-3d;
+ filter: 
+    brightness(1.2)
+    contrast(1.2)
+    hue-rotate(260deg); /* purple tone */
 }
+
 
 /* ROTATION */
 @keyframes rotateLogo {
