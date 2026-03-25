@@ -9,7 +9,11 @@
   --text-muted: #8a8a8a;
 
   --border-subtle: #1f1f1f;
-  --accent-silver: #d9d9d9;
+
+  /* 🔥 NEW PURPLE ACCENT */
+  --accent-primary: #7b2cff;
+  --accent-secondary: #a100ff;
+  --accent-glow: rgba(123, 44, 255, 0.35);
 
   --radius-sm: 6px;
   --radius-md: 10px;
@@ -17,7 +21,6 @@
   --transition-fast: 200ms ease;
   --transition-med: 300ms ease;
 }
-
 .Logo svg {
   fill: white !important;
 }

@@ -1,249 +1,250 @@
-/* ============================= */
-/* FLASH SALE SECTION */
-/* ============================= */
-
+/* =============================
+FLASH SALE SECTION
+============================= */
 .flash-sale-section {
-  padding: 60px 6%;
-  background: #000;
-  border-top: 1px solid #111;
-  border-bottom: 1px solid #111;
+padding: 60px 6%;
+background: var(--bg-main);
+border-top: 1px solid var(--border);
+border-bottom: 1px solid var(--border);
 }
 
-/* Header */
+.flash-sale-section {
+  position: relative;
+}
+
+.flash-sale-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at center,
+    rgba(123,47,247,0.15),
+    transparent 70%
+  );
+  z-index: 0;
+}
+
+.flash-products-grid {
+  position: relative;
+  z-index: 1;
+}
+
+.flash-products-grid.single .flash-card-wrapper {
+  transform: scale(1.1);
+}
+
+
+/* ================= HEADER ================= */
 .flash-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 30px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-bottom: 30px;
 }
 
 .flash-header h2 {
-  font-size: 24px;
-  font-weight: 600;
-  color: #ff4d4d;
+font-size: 24px;
+font-weight: 600;
+
+/* ✨ Gradient title */
+background: linear-gradient(90deg, #7b2ff7, #f107a3);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
 }
 
-/* Timer */
+/* ================= TIMER ================= */
 .timer-box {
-  background: #111;
-  padding: 8px 16px;
-  border-radius: 30px;
-  border: 1px solid #222;
-  font-size: 13px;
-  font-weight: 500;
+background: var(--bg-card);
+padding: 8px 16px;
+border-radius: 30px;
+border: 1px solid var(--border);
+font-size: 13px;
+backdrop-filter: blur(8px);
 }
 
 .timer-active {
-  color: #ff4d4d;
+color: var(--primary);
 }
 
 .timer-expired {
-  color: #888;
+color: var(--text-muted);
 }
-/* ============================= */
-/* GRID */
-/* ============================= */
 
+/* ================= GRID ================= */
 .flash-products-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 25px;
+  justify-items: center; /* 🔥 KEY FIX */
 }
 
-/* ============================= */
-/* CARD */
-/* ============================= */
-
+/* ================= CARD ================= */
 .flash-card-wrapper {
   position: relative;
-  width: 100%;
-  transition: 0.25s ease;
-}
-
-.flash-card-wrapper:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
-}
-
-/* SALE Badge */
-.discount-badge {
-  position: absolute;
-  top: 8px;
-  left: 8px;
-  background: #ff0000;
-  color: #fff;
-  padding: 4px 8px;
-  font-size: 11px;
-  font-weight: 600;
-  border-radius: 20px;
-  z-index: 5;
-}
-
-/* Product Card */
-.flash-card-wrapper .product-card {
-  width: 100%;
-  padding: 10px;
-}
-
-.flash-card-wrapper .product-image-wrapper {
-  height: 170px;
-  position: relative;
-}
-
-.flash-card-wrapper .product-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 8px;
-}
-
-/* Text */
-.flash-card-wrapper h3 {
-  font-size: 14px;
-  margin: 8px 0 4px;
-}
-
-.flash-card-wrapper .price {
-  font-size: 14px;
-  margin-bottom: 4px;
-}
-
-.old-price {
-  text-decoration: line-through;
-  color: #888;
-  font-size: 13px;
-}
-
-.sale-price {
-  color: #ff4d4d;
-  font-weight: 600;
-}
-
-/* Rating */
-.flash-card-wrapper .rating {
-  font-size: 13px;
-}
-
-/* Sizes */
-.flash-card-wrapper .sizes {
-  font-size: 12px;
-  margin-top: 5px;
-}
-
-/* Buttons */
-.flash-card-wrapper button {
-  font-size: 12px;
-  padding: 6px 8px;
-}
-
-/* No Active */
-.No-active {
-  font-size: 22px;
-  font-weight: 500;
-  text-align: center;
-  margin: 30px 0;
-}
-
-/* ============================= */
-/* RESPONSIVE */
-/* ============================= */
-
-@media (max-width: 1200px) {
-  .flash-products-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media (max-width: 900px) {
-  .flash-products-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .flash-header {
-    flex-direction: column;
-    gap: 15px;
-    text-align: center;
-  }
-}
-
-@media (max-width: 600px) {
-
-  .flash-sale-section {
-    padding: 40px 5%;
-  }
-
-  .flash-products-grid {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-
-  .flash-header h2 {
-    font-size: 20px;
-  }
-
-  .flash-card-wrapper .product-image-wrapper {
-    height: 200px;
-  }
-
-  .timer-box {
-    font-size: 12px;
-  }
-}
-
-.flash-card-wrapper .product-image-wrapper {
-  height: 200px;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
   overflow: hidden;
 }
 
-.flash-card-wrapper .product-image {
-  width: 100%;
-  height: 100%;
-  object-fit: contain; /* IMPORTANT */
+.flash-card-wrapper::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at center,
+    rgba(123,47,247,0.25),
+    transparent 70%
+  );
+  opacity: 0;
+  transition: 0.3s;
 }
 
-/* Timer styling */
-.timer-box {
-  background: #111;
-  padding: 8px 16px;
-  border-radius: 30px;
-  border: 1px solid #222;
-  font-size: 13px;
-  font-weight: 500;
+.flash-card-wrapper:hover::before {
+  opacity: 1;
 }
 
-.timer-active {
-  color: #ff4d4d;
+.flash-card-wrapper:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(123,47,247,0.25);
 }
 
-.timer-expired {
-  color: #888;
-}
-
-/* When only one product */
-.single-product {
+.flash-products-grid.single {
   display: flex;
   justify-content: center;
 }
-
-.single-product .flash-card-wrapper {
-  max-width: 300px;
-  width: 100%;
+/* ================= SALE BADGE ================= */
+.discount-badge {
+position: absolute;
+top: 8px;
+left: 8px;
+background: var(--gradient);
+color: #fff;
+padding: 4px 10px;
+font-size: 11px;
+font-weight: 600;
+border-radius: 20px;
+z-index: 5;
 }
 
-.flash-card-wrapper {
-  width: 100%;
-  max-width: 280px;
-  margin: 0 auto;
+/* ================= PRODUCT CARD ================= */
+.flash-card-wrapper .product-card {
+width: 100%;
+padding: 10px;
+background: var(--bg-card);
+border: 1px solid var(--border);
+border-radius: 14px;
+backdrop-filter: blur(10px);
 }
 
-/* Center single product */
+/* IMAGE */
+.flash-card-wrapper .product-image-wrapper {
+height: 200px;
+overflow: hidden;
+}
+
+.flash-card-wrapper .product-image {
+width: 100%;
+height: 100%;
+object-fit: contain;
+border-radius: 8px;
+}
+
+/* ================= TEXT ================= */
+.flash-card-wrapper h3 {
+font-size: 14px;
+margin: 8px 0 4px;
+}
+
+.flash-card-wrapper .price {
+font-size: 14px;
+margin-bottom: 4px;
+}
+
+.old-price {
+text-decoration: line-through;
+color: var(--text-muted);
+font-size: 13px;
+}
+
+.sale-price {
+color: var(--primary);
+font-weight: 600;
+}
+
+/* ================= RATING ================= */
+.flash-card-wrapper .rating {
+font-size: 13px;
+}
+
+/* ================= SIZES ================= */
+.flash-card-wrapper .sizes {
+font-size: 12px;
+margin-top: 5px;
+}
+
+/* ================= BUTTONS ================= */
+.flash-card-wrapper button {
+font-size: 12px;
+padding: 6px 10px;
+border-radius: 6px;
+}
+
+/* ================= EMPTY STATE ================= */
+.No-active {
+font-size: 22px;
+font-weight: 500;
+text-align: center;
+margin: 30px 0;
+color: var(--text-muted);
+}
+
+/* ================= SINGLE PRODUCT ================= */
 .single-product {
-  justify-content: center;
+display: flex;
+justify-content: center;
 }
 
-/* Expired effect */
+/* ================= EXPIRED ================= */
 .flash-expired {
-  opacity: 0.6;
-  pointer-events: none;
+opacity: 0.6;
+pointer-events: none;
 }
 
+/* ================= RESPONSIVE ================= */
+@media (max-width: 1200px) {
+.flash-products-grid {
+grid-template-columns: repeat(3, 1fr);
+}
+}
+
+@media (max-width: 900px) {
+.flash-products-grid {
+grid-template-columns: repeat(2, 1fr);
+}
+
+.flash-header {
+flex-direction: column;
+gap: 15px;
+text-align: center;
+}
+}
+
+@media (max-width: 600px) {
+.flash-sale-section {
+padding: 40px 5%;
+}
+
+.flash-products-grid {
+grid-template-columns: 1fr;
+gap: 20px;
+}
+
+.flash-header h2 {
+font-size: 20px;
+}
+
+.timer-box {
+font-size: 12px;
+}
+}

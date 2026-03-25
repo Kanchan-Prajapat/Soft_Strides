@@ -1,95 +1,111 @@
+/* =========================
+FOOTER
+========================= */
 .footer {
-  background: #000;
-  color: #fff;
-  padding: 40px 0 20px;
-  border-top: 1px solid #111;
+background: var(--bg-main);
+color: #fff;
+padding: 50px 0 20px;
+border-top: 1px solid var(--border);
 }
 
+/* CONTAINER */
 .footer-container {
-  width: 90%;
-  margin: auto;
-  text-align: center;
+width: 90%;
+margin: auto;
+text-align: center;
 }
 
+/* ================= LINKS ================= */
 .footer-links {
-  display: flex;
-  justify-content: center;
-  gap: 40px;
-  margin-bottom: 25px;
-  flex-wrap: wrap;
+display: flex;
+justify-content: center;
+gap: 40px;
+margin-bottom: 25px;
+flex-wrap: wrap;
 }
 
 .footer-links a {
-  color: #aaa;
-  text-decoration: none;
-  font-size: 14px;
-  transition: 0.3s;
+color: var(--text-muted);
+font-size: 14px;
+transition: 0.3s ease;
+position: relative;
+}
+
+/* ✨ hover underline effect */
+.footer-links a::after {
+content: "";
+position: absolute;
+left: 0;
+bottom: -4px;
+width: 0%;
+height: 2px;
+background: var(--gradient);
+transition: 0.3s;
 }
 
 .footer-links a:hover {
-  color: #ff4d4d;
+color: var(--primary);
 }
 
-/* SOCIAL */
+.footer-links a:hover::after {
+width: 100%;
+}
 
+/* ================= SOCIAL ================= */
 .footer-social {
-  display: flex;
-  justify-content: center;
-  gap: 25px;
-  font-size: 22px;
-  margin-bottom: 20px;
+display: flex;
+justify-content: center;
+gap: 25px;
+font-size: 22px;
+margin-bottom: 20px;
 }
 
 .footer-social a {
-  color: #aaa;
-  transition: 0.3s ease;
+color: var(--text-muted);
+transition: 0.3s ease;
 }
 
 .footer-social a:hover {
-  color: #ff4d4d;
-  transform: translateY(-4px);
+color: var(--primary);
+transform: translateY(-4px) scale(1.1);
 }
 
-/* Divider */
-
+/* ================= DIVIDER ================= */
 .footer-divider {
-  width: 60%;
-  height: 1px;
-  background: #222;
-  margin: 20px auto;
+width: 60%;
+height: 1px;
+background: var(--border);
+margin: 20px auto;
 }
 
+/* ================= COPYRIGHT ================= */
 .footer-copy {
-  font-size: 13px;
-  color: #666;
+font-size: 13px;
+color: var(--text-muted);
 }
 
-
-/* ================= FOOTER RESPONSIVE ================= */
-
+/* ================= RESPONSIVE ================= */
 @media (max-width: 768px) {
+.footer-links {
+gap: 20px;
+}
 
-  .footer-links {
-    gap: 20px;
-  }
-
-  .footer-social {
-    gap: 18px;
-  }
+.footer-social {
+gap: 18px;
+}
 }
 
 @media (max-width: 480px) {
+.footer-links {
+flex-direction: column;
+gap: 12px;
+}
 
-  .footer-links {
-    flex-direction: column;
-    gap: 12px;
-  }
+.footer-divider {
+width: 90%;
+}
 
-  .footer-divider {
-    width: 90%;
-  }
-
-  .footer-copy {
-    font-size: 12px;
-  }
+.footer-copy {
+font-size: 12px;
+}
 }

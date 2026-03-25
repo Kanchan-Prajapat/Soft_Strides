@@ -1,150 +1,181 @@
+/* =========================
+ORDERS CONTAINER
+========================= */
 .orders-container {
-  padding: 80px 10%;
-  color: white;
-  min-height: 80vh;
+padding: 80px 10%;
+color: white;
+min-height: 80vh;
+background: var(--bg-main);
 }
 
+/* TITLE */
 .orders-title {
-  font-size: 30px;
-  margin-bottom: 50px;
-  font-weight: 600;
+font-size: 30px;
+margin-bottom: 50px;
+font-weight: 600;
+
+/* ✨ Gradient text */
+background: linear-gradient(90deg, #7b2ff7, #f107a3);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
 }
 
-/* ORDER CARD */
+/* =========================
+ORDER CARD
+========================= */
 .order-card {
-  background: linear-gradient(145deg, #111, #1a1a1a);
-  border: 1px solid #222;
-  border-radius: 16px;
-  padding: 25px;
-  margin-bottom: 35px;
-  transition: 0.3s ease;
+background: var(--bg-card);
+border: 1px solid var(--border);
+border-radius: 18px;
+padding: 25px;
+margin-bottom: 35px;
+backdrop-filter: blur(12px);
+transition: 0.3s ease;
 }
 
 .order-card:hover {
-  transform: translateY(-3px);
-  border-color: #ff4d4d;
+transform: translateY(-5px);
+border-color: var(--primary);
+box-shadow: 0 15px 40px rgba(123, 47, 247, 0.25);
 }
 
-/* TOP */
+/* =========================
+TOP
+========================= */
 .order-top {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
+display: flex;
+justify-content: space-between;
+margin-bottom: 20px;
 }
 
 .order-id {
-  font-weight: 600;
+font-weight: 600;
 }
 
 .order-date {
-  font-size: 13px;
-  color: #888;
+font-size: 13px;
+color: var(--text-muted);
 }
 
 .order-summary p {
-  font-size: 18px;
-  font-weight: 600;
+font-size: 18px;
+font-weight: 600;
 }
 
-/* STATUS BADGE */
+/* =========================
+STATUS BADGE
+========================= */
 .status {
-  padding: 5px 12px;
-  border-radius: 20px;
-  font-size: 12px;
-  display: inline-block;
-  margin-top: 5px;
+padding: 5px 12px;
+border-radius: 20px;
+font-size: 12px;
+display: inline-block;
+margin-top: 5px;
 }
 
+/* Keep semantic colors but modernized */
 .status.pending {
-  background: orange;
-  color: black;
+background: rgba(255, 165, 0, 0.15);
+color: orange;
+border: 1px solid rgba(255,165,0,0.3);
 }
 
 .status.processing {
-  background: #007bff;
-  color: white;
+background: rgba(0, 123, 255, 0.15);
+color: #4dabff;
+border: 1px solid rgba(0,123,255,0.3);
 }
 
 .status.cancelled {
-  background: #ff4d4d;
-  color: white;
+background: rgba(255, 77, 77, 0.15);
+color: #ff6b6b;
+border: 1px solid rgba(255,77,77,0.3);
 }
 
 .status.delivered {
-  background: #28a745;
-  color: white;
+background: rgba(40, 167, 69, 0.15);
+color: #4caf50;
+border: 1px solid rgba(40,167,69,0.3);
 }
 
-/* PRODUCTS */
+/* =========================
+PRODUCTS
+========================= */
 .order-product-row {
-  display: flex;
-  gap: 18px;
-  align-items: center;
-  background: #1a1a1a;
-  padding: 14px;
-  border-radius: 12px;
-  margin-bottom: 15px;
-  transition: 0.3s ease;
+display: flex;
+gap: 18px;
+align-items: center;
+background: rgba(255,255,255,0.03);
+padding: 14px;
+border-radius: 12px;
+margin-bottom: 15px;
+transition: 0.3s ease;
 }
 
 .order-product-row:hover {
-  background: #222;
+background: rgba(255,255,255,0.06);
 }
 
+/* IMAGE */
 .order-product-img {
-  width: 95px;
-  height: 95px;
-  object-fit: cover;
-  border-radius: 12px;
-  border: 1px solid #333;
-  transition: 0.3s ease;
+width: 95px;
+height: 95px;
+object-fit: cover;
+border-radius: 12px;
+border: 1px solid var(--border);
+transition: 0.3s ease;
 }
 
 .order-product-img:hover {
-  transform: scale(1.05);
-  border-color: #ff4d4d;
+transform: scale(1.05);
+border-color: var(--primary);
 }
 
+/* INFO */
 .order-product-info {
-  font-size: 14px;
+font-size: 14px;
 }
 
 .product-name {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 6px;
+font-size: 16px;
+font-weight: 600;
+margin-bottom: 6px;
 }
 
-/* TIMELINE */
+/* =========================
+TIMELINE
+========================= */
 .timeline-horizontal {
-  display: flex;
-  overflow-x: auto;
-  gap: 30px;
-  margin-top: 20px;
-  padding-top: 15px;
-  border-top: 1px solid #222;
+display: flex;
+overflow-x: auto;
+gap: 30px;
+margin-top: 20px;
+padding-top: 15px;
+border-top: 1px solid var(--border);
 }
 
 .timeline-step {
-  min-width: 120px;
-  text-align: center;
-  position: relative;
+min-width: 120px;
+text-align: center;
 }
 
+/* DOT */
 .timeline-dot {
-  width: 10px;
-  height: 10px;
-  background: #ff4d4d;
-  border-radius: 50%;
-  margin: 0 auto 8px;
+width: 10px;
+height: 10px;
+background: var(--primary);
+border-radius: 50%;
+margin: 0 auto 8px;
+box-shadow: 0 0 10px rgba(123, 47, 247, 0.6);
 }
 
+/* TEXT */
 .timeline-status {
-  font-size: 13px;
-  font-weight: 600;
+font-size: 13px;
+font-weight: 600;
 }
 
 .timeline-date {
-  font-size: 11px;
-  color: #888;
+font-size: 11px;
+color: var(--text-muted);
 }

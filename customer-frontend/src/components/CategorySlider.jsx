@@ -4,115 +4,132 @@ import { useNavigate } from "react-router-dom";
 import "../styles/home.css";
 
 const CategorySlider = () => {
-  const [categories, setCategories] = useState([]);
-  const scrollRef = useRef();
-  const navigate = useNavigate();
-  const API_URL = process.env.REACT_APP_API_URL;
+const [categories, setCategories] = useState([]);
+const scrollRef = useRef(null);
+const navigate = useNavigate();
+const API_URL = process.env.REACT_APP_API_URL;
 
-  /* ================= FETCH CATEGORIES ================= */
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const res = await axios.get(`${API_URL}/api/categories`);
-        setCategories(res.data || []);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
-    fetchCategories();
-  }, [API_URL]);
-
-
+/* ================= FETCH ================= */
 useEffect(() => {
-  const slider = scrollRef.current;
-  if (!slider) return;
+const fetchCategories = async () => {
+try {
+const res = await axios.get(`${API_URL}/api/categories`);
+setCategories(res.data || []);
+} catch (err) {
+console.error(err);
+}
+};
 
-  const handleScroll = () => {
-    const cards = slider.querySelectorAll(".category-card");
-    const sliderRect = slider.getBoundingClientRect();
-    const sliderCenter = sliderRect.left + sliderRect.width / 2;
+fetchCategories();
 
-    cards.forEach((card) => {
-      const rect = card.getBoundingClientRect();
-      const cardCenter = rect.left + rect.width / 2;
-      const distance = Math.abs(sliderCenter - cardCenter);
 
-      if (distance < 100) {
-        card.style.transform = "scale(1.15)";
-        card.style.opacity = "1";
-      } else {
-        card.style.transform = "scale(0.95)";
-        card.style.opacity = "0.7";
-      }
-    });
-  };
+}, [API_URL]);
 
-  slider.addEventListener("scroll", handleScroll);
-  handleScroll();
+/* ================= SMOOTH CENTER SCALE ================= */
+useEffect(() => {
+const slider = scrollRef.current;
+if (!slider) return;
 
-  return () => slider.removeEventListener("scroll", handleScroll);
+
+const handleScroll = () => {
+  const cards = slider.querySelectorAll(".category-card");
+
+  const center = slider.scrollLeft + slider.offsetWidth / 2;
+
+  cards.forEach((card) => {
+    const cardCenter =
+      card.offsetLeft + card.offsetWidth / 2;
+
+    const distance = Math.abs(center - cardCenter);
+
+    // 🔥 smooth scaling (NO JUMP)
+    const scale = Math.max(0.85, 1 - distance / 500);
+    const opacity = Math.max(0.5, 1 - distance / 600);
+
+    card.style.transform = `scale(${scale})`;
+    card.style.opacity = opacity;
+  });
+};
+
+slider.addEventListener("scroll", handleScroll);
+handleScroll();
+
+return () => slider.removeEventListener("scroll", handleScroll);
+
+
 }, []);
 
+/* ================= AUTO SCROLL (SMOOTH) ================= */
+useEffect(() => {
+const slider = scrollRef.current;
+if (!slider) return;
 
 
-  /* ================= AUTO SCROLL ================= */
-  useEffect(() => {
-    const slider = scrollRef.current;
-    if (!slider) return;
+let scrollAmount = 0;
 
-    const interval = setInterval(() => {
-      slider.scrollLeft += 250;
+const interval = setInterval(() => {
+  scrollAmount += 220;
 
-      if (
-        slider.scrollLeft + slider.clientWidth >=
-        slider.scrollWidth
-      ) {
-        slider.scrollLeft = 0;
-      }
-    }, 3000);
+  if (scrollAmount >= slider.scrollWidth) {
+    scrollAmount = 0;
+  }
 
-    return () => clearInterval(interval);
-  }, [categories]);
+  slider.scrollTo({
+    left: scrollAmount,
+    behavior: "smooth",
+  });
+}, 3000);
 
-  const scrollLeft = () => {
-    scrollRef.current.scrollLeft -= 300;
-  };
+return () => clearInterval(interval);
 
-  const scrollRight = () => {
-    scrollRef.current.scrollLeft += 300;
-  };
 
-  return (
-    <section className="category-section">
-      <h2 className="category-title">Shop By Category</h2>
+}, [categories]);
 
-      <div className="category-wrapper">
-        <button className="cat-arrow left" onClick={scrollLeft}>
-          ❮
-        </button>
+/* ================= MANUAL SCROLL ================= */
+const scrollLeft = () => {
+scrollRef.current.scrollBy({
+left: -250,
+behavior: "smooth",
+});
+};
 
-        <div className="category-slider" ref={scrollRef}>
-          {categories.map((cat) => (
-            <div
-              key={cat._id}
-              className="category-card"
-              onClick={() =>
-                navigate(`/products?category=${cat._id}`)
-              }
-            >
-              <img src={cat.image} alt={cat.name} />
-              <h4>{cat.name}</h4>
-            </div>
-          ))}
+const scrollRight = () => {
+scrollRef.current.scrollBy({
+left: 250,
+behavior: "smooth",
+});
+};
+
+return ( <section className="category-section"> <h2 className="category-title">Shop By Category</h2>
+
+  <div className="category-wrapper">
+    <button className="cat-arrow left" onClick={scrollLeft}>
+      ❮
+    </button>
+
+    <div className="category-slider" ref={scrollRef}>
+      {categories.map((cat) => (
+        <div
+          key={cat._id}
+          className="category-card"
+          onClick={() =>
+            navigate(`/products?category=${cat._id}`)
+          }
+        >
+          <img src={cat.image} alt={cat.name} />
+          <h4>{cat.name}</h4>
         </div>
+      ))}
+    </div>
 
-        <button className="cat-arrow right" onClick={scrollRight}>
-          ❯
-        </button>
-      </div>
-    </section>
-  );
+    <button className="cat-arrow right" onClick={scrollRight}>
+      ❯
+    </button>
+  </div>
+</section>
+
+
+);
 };
 
 export default CategorySlider;
