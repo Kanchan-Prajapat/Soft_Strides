@@ -5,7 +5,6 @@ import ProductCard from "../components/ProductCard";
 import "../styles/products.css";
 import { useLocation } from "react-router-dom";
 
-
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -18,118 +17,98 @@ const Products = () => {
   const [showFilters, setShowFilters] = useState(false);
 
   const location = useLocation();
-const queryParams = new URLSearchParams(location.search);
-const categoryId = queryParams.get("category");
+  const queryParams = new URLSearchParams(location.search);
+  const categoryId = queryParams.get("category");
 
- useEffect(() => {
-  const fetchProducts = async () => {
-    try {
-      setLoading(true);
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
 
-      const res = await axios.get(
-        `${API_URL}/api/products`,
-        {
+        const res = await axios.get(`${API_URL}/api/products`, {
           params: { category: categoryId }
-        }
-      );
+        });
 
-      setProducts(res.data);
-    } catch (error) {
-      console.error("Error fetching products:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+        setProducts(res.data);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  fetchProducts();
-}, [API_URL, categoryId]);
+    fetchProducts();
+  }, [API_URL, categoryId]);
 
-  // ✅ Filtering Logic
   const filteredProducts = products.filter((product) => {
-    const matchCategory =
-      selectedCategory === "All" ||
-      product.category?.name === selectedCategory;
-
-    const matchSize =
-      selectedSize === "All" ||
-      product.sizes?.includes(selectedSize);
-
-    const matchColor =
-      selectedColor === "All" ||
-      product.color === selectedColor;
-
-    const matchPrice =
-      product.price >= priceRange[0] &&
-      product.price <= priceRange[1];
-
     return (
-      matchCategory &&
-      matchSize &&
-      matchColor &&
-      matchPrice
+      (selectedCategory === "All" ||
+        product.category?.name === selectedCategory) &&
+      (selectedSize === "All" ||
+        product.sizes?.includes(selectedSize)) &&
+      (selectedColor === "All" ||
+        product.color === selectedColor) &&
+      product.price >= priceRange[0] &&
+      product.price <= priceRange[1]
     );
   });
 
   return (
-  <div className="products-page">
-    <div className="container products-layout">
+    <div className="products-page">
+      <div className="container products-layout">
 
-     
-      <button
-        className="mobile-filter-btn"
-        onClick={() => setShowFilters(true)}
-      >
-        Filters
-      </button>
-
-      {/* Overlay */}
-      {showFilters && (
-        <div
-          className="filter-overlay"
-          onClick={() => setShowFilters(false)}
-        />
-      )}
-
-      {/* Sidebar */}
-      <div className={`sidebar-wrapper ${showFilters ? "active" : ""}`}>
-        <SidebarFilters
-          selectedCategory={selectedCategory}
-          setSelectedCategory={setSelectedCategory}
-          selectedSize={selectedSize}
-          setSelectedSize={setSelectedSize}
-          selectedColor={selectedColor}
-          setSelectedColor={setSelectedColor}
-          priceRange={priceRange}
-          setPriceRange={setPriceRange}
-        />
-
-        {/* Close Button (Mobile) */}
+        {/* 🔥 MOBILE FILTER BUTTON */}
         <button
-          className="close-filter-btn"
-          onClick={() => setShowFilters(false)}
+          className="mobile-filter-btn"
+          onClick={() => setShowFilters(true)}
         >
-          ✕
+          ☰ Filters
         </button>
-      </div>
 
-      {/* Product Grid */}
-      <div className="products-grid">
-        {loading ? (
-          <p>Loading products...</p>
-        ) : filteredProducts.length === 0 ? (
-          <p>No products found</p>
-        ) : (
-          filteredProducts.map((product) => (
-            <ProductCard
-              key={product._id}
-              product={product}
-            />
-          ))
+        {/* OVERLAY */}
+        {showFilters && (
+          <div
+            className="filter-overlay"
+            onClick={() => setShowFilters(false)}
+          />
         )}
+
+        {/* 🔥 FILTER DRAWER (LEFT) */}
+        <div className={`sidebar-wrapper ${showFilters ? "active" : ""}`}>
+          <SidebarFilters
+            selectedCategory={selectedCategory}
+            setSelectedCategory={setSelectedCategory}
+            selectedSize={selectedSize}
+            setSelectedSize={setSelectedSize}
+            selectedColor={selectedColor}
+            setSelectedColor={setSelectedColor}
+            priceRange={priceRange}
+            setPriceRange={setPriceRange}
+          />
+
+          <button
+            className="close-filter-btn"
+            onClick={() => setShowFilters(false)}
+          >
+            ✕
+          </button>
+        </div>
+
+        {/* PRODUCTS */}
+        <div className="products-grid">
+          {loading ? (
+            <p>Loading products...</p>
+          ) : filteredProducts.length === 0 ? (
+            <p>No products found</p>
+          ) : (
+            filteredProducts.map((product) => (
+              <ProductCard key={product._id} product={product} />
+            ))
+          )}
+        </div>
+
       </div>
     </div>
-  </div>
-
   );
 };
 

@@ -1,344 +1,173 @@
+/* =========================
+PROFILE PAGE
+========================= */
 .profile-page {
-padding: 30px 0;
-background: var(--bg-main);
-color: #fff;
+  padding: 40px 0;
+  background: var(--bg-main);
+  color: var(--text-main);
 }
 
+/* TITLE */
 .profile-title {
-font-size: 28px;
-margin-bottom: 40px;
-background: linear-gradient(90deg, #7b2ff7, #f107a3);
--webkit-background-clip: text;
--webkit-text-fill-color: transparent;
+  font-size: 24px;
+  margin-bottom: 30px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
 }
 
-/* GRID */
+/* ================= GRID ================= */
 .profile-grid {
-display: flex;
-gap: 50px;
+  display: flex;
+  gap: 40px;
 }
 
 .profile-sidebar {
-flex: 1;
-display: flex;
-flex-direction: column;
-gap: 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .profile-content {
-flex: 2;
-position: relative;
-padding-left: 30px;
+  flex: 2;
+  padding-left: 25px;
+  border-left: 1px solid var(--border);
 }
 
-.profile-content::before {
-content: "";
-position: absolute;
-left: 0;
-top: 0;
-width: 1px;
-height: 100%;
-background: var(--border);
-}
-
-/* CARD */
+/* ================= CARD ================= */
 .profile-card {
-background: var(--bg-card);
-border-radius: 16px;
-padding: 22px;
-border: 1px solid var(--border);
-transition: 0.3s;
+  background: var(--bg-card);
+  border-radius: 6px;
+  padding: 20px;
+  border: 1px solid var(--border);
+  transition: 0.25s;
 }
 
 .profile-card:hover {
-transform: translateY(-4px);
-border-color: var(--primary);
+  border-color: var(--primary);
+  transform: translateY(-3px);
 }
 
-/* AVATAR */
+/* ================= AVATAR ================= */
 .profile-avatar {
-width: 100px;
-height: 100px;
-border-radius: 50%;
-border: 3px solid var(--primary);
-box-shadow: 0 0 20px rgba(123,47,247,0.5);
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 2px solid var(--primary);
 }
 
-/* INFO */
+/* ================= INFO ================= */
 .profile-info-row {
-display: flex;
-justify-content: space-between;
-padding: 10px 0;
-border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
 }
 
-/* ACTIONS */
+/* ================= ACTIONS ================= */
 .profile-actions {
-margin-top: 20px;
-display: flex;
-flex-direction: column;
-gap: 10px;
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .logout-btn {
-background: var(--bg-light);
-border: 1px solid var(--border);
-padding: 12px;
-border-radius: 10px;
+  background: var(--bg-light);
+  border: 1px solid var(--border);
+  padding: 10px;
+  border-radius: 4px;
+  color: var(--text-main);
 }
 
 .delete-btn {
-border: 1px solid rgba(255,0,0,0.4);
-color: #ff6b6b;
-padding: 12px;
-border-radius: 10px;
+  border: 1px solid rgba(255, 0, 0, 0.3);
+  color: #ff6b6b;
+  padding: 10px;
+  border-radius: 4px;
 }
 
-/* SECTION */
+/* ================= SECTION ================= */
 .profile-section {
-background: var(--bg-card);
-padding: 25px;
-border-radius: 16px;
-border: 1px solid var(--border);
-margin-bottom: 40px;
+  background: var(--bg-card);
+  padding: 20px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  margin-bottom: 30px;
 }
 
 .profile-section input {
-width: 100%;
-padding: 12px;
-margin-bottom: 15px;
-border-radius: 10px;
-border: 1px solid var(--border);
-background: transparent;
-color: #fff;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 12px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-main);
 }
 
-/* BUTTON */
+/* ================= BUTTON ================= */
 .primary-btn {
-max-width: 280px;
-width: 100%;
-margin: auto;
-display: block;
-background: linear-gradient(90deg, #7b2ff7, #f107a3);
-padding: 12px;
-border-radius: 10px;
-color: #fff;
+  max-width: 250px;
+  width: 100%;
+  margin: auto;
+  display: block;
+  background: var(--primary);
+  padding: 10px;
+  border-radius: 4px;
+  color: #fff;
+  transition: 0.2s;
 }
 
-/* ORDERS */
+.primary-btn:hover {
+  background: var(--primary-dark);
+}
+
+/* ================= ORDERS ================= */
 .sidebar-orders {
-background: var(--bg-card);
-padding: 15px;
-border-radius: 12px;
-border: 1px solid var(--border);
-text-align: center;
+  background: var(--bg-card);
+  padding: 15px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
 }
 
 .view-orders-btn {
-width: 100%;
-margin-top: 10px;
-background: var(--gradient);
-padding: 10px;
-border-radius: 8px;
+  width: 100%;
+  margin-top: 10px;
+  background: var(--primary);
+  padding: 10px;
+  border-radius: 4px;
+  color: white;
 }
 
-/* RESPONSIVE */
-@media (max-width: 992px) {
-.profile-grid {
-flex-direction: column;
-}
-
-.profile-content::before {
-display: none;
-}
-}
-
-
-.profile-page {
-padding: 30px 0;
-background: var(--bg-main);
-color: #fff;
-}
-
-.profile-title {
-font-size: 28px;
-margin-bottom: 40px;
-background: linear-gradient(90deg, #7b2ff7, #f107a3);
--webkit-background-clip: text;
--webkit-text-fill-color: transparent;
-}
-
-/* GRID */
-.profile-grid {
-display: flex;
-gap: 50px;
-}
-
-.profile-sidebar {
-flex: 1;
-display: flex;
-flex-direction: column;
-gap: 20px;
-}
-
-.profile-content {
-flex: 2;
-position: relative;
-padding-left: 30px;
-}
-
-.profile-content::before {
-content: "";
-position: absolute;
-left: 0;
-top: 0;
-width: 1px;
-height: 100%;
-background: var(--border);
-}
-
-/* CARD */
-.profile-card {
-background: var(--bg-card);
-border-radius: 16px;
-padding: 22px;
-border: 1px solid var(--border);
-transition: 0.3s;
-}
-
-.profile-card:hover {
-transform: translateY(-4px);
-border-color: var(--primary);
-}
-
-/* AVATAR */
-.profile-avatar {
-width: 100px;
-height: 100px;
-border-radius: 50%;
-border: 3px solid var(--primary);
-box-shadow: 0 0 20px rgba(123,47,247,0.5);
-}
-
-/* INFO */
-.profile-info-row {
-display: flex;
-justify-content: space-between;
-padding: 10px 0;
-border-bottom: 1px solid var(--border);
-}
-
-/* ACTIONS */
-.profile-actions {
-margin-top: 20px;
-display: flex;
-flex-direction: column;
-gap: 10px;
-}
-
-.logout-btn {
-background: var(--bg-light);
-border: 1px solid var(--border);
-padding: 12px;
-border-radius: 10px;
-}
-
-.delete-btn {
-border: 1px solid rgba(255,0,0,0.4);
-color: #ff6b6b;
-padding: 12px;
-border-radius: 10px;
-}
-
-/* SECTION */
-.profile-section {
-background: var(--bg-card);
-padding: 25px;
-border-radius: 16px;
-border: 1px solid var(--border);
-margin-bottom: 40px;
-}
-
-.profile-section input {
-width: 100%;
-padding: 12px;
-margin-bottom: 15px;
-border-radius: 10px;
-border: 1px solid var(--border);
-background: transparent;
-color: #fff;
-}
-
-/* BUTTON */
-.primary-btn {
-max-width: 280px;
-width: 100%;
-margin: auto;
-display: block;
-background: linear-gradient(90deg, #7b2ff7, #f107a3);
-padding: 12px;
-border-radius: 10px;
-color: #fff;
-}
-
-/* ORDERS */
-.sidebar-orders {
-background: var(--bg-card);
-padding: 15px;
-border-radius: 12px;
-border: 1px solid var(--border);
-text-align: center;
-}
-
-.view-orders-btn {
-width: 100%;
-margin-top: 10px;
-background: var(--gradient);
-padding: 10px;
-border-radius: 8px;
-}
-
-/* RESPONSIVE */
-@media (max-width: 992px) {
-.profile-grid {
-flex-direction: column;
-}
-
-.profile-content::before {
-display: none;
-}
-}
-
-
-/* ORDER PREVIEW */
+/* ================= ORDER PREVIEW ================= */
 .sidebar-order-product {
   display: flex;
-  gap: 12px;
+  gap: 10px;
   align-items: center;
   margin-bottom: 10px;
-  text-align: left;
 }
 
 .sidebar-order-product img {
-  width: 55px;
-  height: 60px;
+  width: 50px;
+  height: 55px;
   object-fit: cover;
-  border-radius: 8px;
+  border-radius: 4px;
   border: 1px solid var(--border);
 }
 
 .order-info {
-  font-size: 13px;
+  font-size: 12px;
 }
 
 .product-name {
   font-weight: 600;
-  margin-bottom: 3px;
 }
 
 .order-meta {
   color: var(--text-muted);
-  font-size: 12px;
+  font-size: 11px;
 }
 
 .order-price {
@@ -348,13 +177,25 @@ display: none;
 
 /* STATUS */
 .sidebar-status {
-  font-size: 12px;
-  margin-top: 5px;
-  color: #aaa;
+  font-size: 11px;
+  margin-top: 4px;
+  color: var(--text-muted);
 }
 
-/* EMPTY STATE */
+/* EMPTY */
 .no-orders {
   opacity: 0.7;
-  font-size: 14px;
+  font-size: 13px;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 992px) {
+  .profile-grid {
+    flex-direction: column;
+  }
+
+  .profile-content {
+    border-left: none;
+    padding-left: 0;
+  }
 }

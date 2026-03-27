@@ -2,110 +2,113 @@
 FOOTER
 ========================= */
 .footer {
-background: var(--bg-main);
-color: #fff;
-padding: 50px 0 20px;
-border-top: 1px solid var(--border);
+  background: var(--bg-main);
+  color: var(--text-main);
+  padding: 40px 0 20px;
+  border-top: 1px solid var(--border);
 }
 
 /* CONTAINER */
 .footer-container {
-width: 90%;
-margin: auto;
-text-align: center;
+  width: 90%;
+  margin: auto;
+  text-align: center;
 }
 
 /* ================= LINKS ================= */
 .footer-links {
-display: flex;
-justify-content: center;
-gap: 40px;
-margin-bottom: 25px;
-flex-wrap: wrap;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
 }
 
 .footer-links a {
-color: var(--text-muted);
-font-size: 14px;
-transition: 0.3s ease;
-position: relative;
+  color: var(--text-muted);
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  transition: 0.2s ease;
+  position: relative;
 }
 
-/* ✨ hover underline effect */
+/* subtle underline (not gradient) */
 .footer-links a::after {
-content: "";
-position: absolute;
-left: 0;
-bottom: -4px;
-width: 0%;
-height: 2px;
-background: var(--gradient);
-transition: 0.3s;
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  width: 0%;
+  height: 1px;
+  background: var(--primary);
+  transition: 0.25s ease;
 }
 
 .footer-links a:hover {
-color: var(--primary);
+  color: var(--text-main);
 }
 
 .footer-links a:hover::after {
-width: 100%;
+  width: 100%;
 }
 
 /* ================= SOCIAL ================= */
 .footer-social {
-display: flex;
-justify-content: center;
-gap: 25px;
-font-size: 22px;
-margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  font-size: 18px;
+  margin-bottom: 18px;
 }
 
 .footer-social a {
-color: var(--text-muted);
-transition: 0.3s ease;
+  color: var(--text-muted);
+  transition: 0.2s ease;
 }
 
+/* subtle hover */
 .footer-social a:hover {
-color: var(--primary);
-transform: translateY(-4px) scale(1.1);
+  color: var(--primary);
+  transform: translateY(-2px);
 }
 
 /* ================= DIVIDER ================= */
 .footer-divider {
-width: 60%;
-height: 1px;
-background: var(--border);
-margin: 20px auto;
+  width: 50%;
+  height: 1px;
+  background: var(--border);
+  margin: 18px auto;
 }
 
 /* ================= COPYRIGHT ================= */
 .footer-copy {
-font-size: 13px;
-color: var(--text-muted);
+  font-size: 12px;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
 }
 
 /* ================= RESPONSIVE ================= */
 @media (max-width: 768px) {
-.footer-links {
-gap: 20px;
-}
+  .footer-links {
+    gap: 16px;
+  }
 
-.footer-social {
-gap: 18px;
-}
+  .footer-social {
+    gap: 14px;
+  }
 }
 
 @media (max-width: 480px) {
-.footer-links {
-flex-direction: column;
-gap: 12px;
-}
+  .footer-links {
+    flex-direction: column;
+    gap: 10px;
+  }
 
-.footer-divider {
-width: 90%;
-}
+  .footer-divider {
+    width: 80%;
+  }
 
-.footer-copy {
-font-size: 12px;
-}
+  .footer-copy {
+    font-size: 11px;
+  }
 }

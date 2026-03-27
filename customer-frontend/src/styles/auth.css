@@ -3,23 +3,11 @@ AUTH WRAPPER
 ========================= */
 .auth-wrapper {
   min-height: 100vh;
-  background: linear-gradient(180deg, #050816, #0a0f25);
+  background: var(--bg-main);
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 40px 20px;
-  position: relative;
-}
-
-.auth-wrapper::before {
-  content: "";
-  position: absolute;
-  width: 500px;
-  height: 500px;
-  background: radial-gradient(circle, rgba(123,47,247,0.25), transparent 70%);
-  top: -100px;
-  left: -100px;
-  z-index: 0;
 }
 
 /* =========================
@@ -27,118 +15,11 @@ AUTH BOX
 ========================= */
 .auth-box {
   width: 100%;
-  max-width: 420px;
-  padding: 50px 40px;
-  background: rgba(20, 25, 50, 0.75);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 18px;
-  backdrop-filter: blur(20px);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-  position: relative;
-  z-index: 1;
-}
-
-/* =========================
-TITLE
-========================= */
-.auth-title {
-  font-size: 26px;
-  font-weight: 600;
-  margin-bottom: 35px;
-  text-align: center;
-  background: linear-gradient(90deg, #6a00ff, #c300ff);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-/* =========================
-INPUT
-========================= */
-.input-group {
-  margin-bottom: 25px;
-  position: relative;
-}
-
-.input-group input {
-  width: 100%;
-  border: none;
-  border-bottom: 1px solid rgba(255,255,255,0.2);
-  padding: 12px 0;
-  font-size: 14px;
-  background: transparent;
-  color: #fff;
-  outline: none;
-}
-
-.input-group input::placeholder {
-  color: #aaa;
-}
-
-.input-group input:focus {
-  border-bottom: 1px solid #6a00ff;
-  box-shadow: 0 4px 15px rgba(123,47,247,0.25);
-}
-
-/* =========================
-PASSWORD ICON
-========================= */
-.eye-icon {
-  position: absolute;
-  right: 0;
-  cursor: pointer;
-  color: #aaa;
-}
-
-.eye-icon:hover {
-  color: #c300ff;
-}
-
-/* =========================
-BUTTON
-========================= */
-.auth-btn {
-  width: 100%;
-  padding: 14px;
-  background: linear-gradient(90deg, #6a00ff, #c300ff);
-  color: #fff;
-  border: none;
-  border-radius: 10px;
-  font-weight: 600;
-  cursor: pointer;
-  margin-top: 10px;
-  transition: 0.3s;
-}
-
-.auth-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 25px rgba(123,47,247,0.4);
-}
-
-/* =========================
-LINKS
-========================= */
-.auth-link {
-  margin-top: 15px;
-  font-size: 14px;
-  color: #aaa;
-  text-align: center;
-  cursor: pointer;
-}
-
-.auth-link:hover {
-  color: #c300ff;
-}
-
-.forgot-link {
-  font-size: 13px;
-  color: #888;
-  text-align: right;
-  margin-top: 10px;
-  cursor: pointer;
-}
-
-.forgot-link:hover {
-  color: #c300ff;
+  max-width: 400px;
+  padding: 40px 30px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
 }
 
 /* =========================
@@ -146,19 +27,139 @@ LOGO
 ========================= */
 .auth-logo {
   display: block;
-  margin: 0 auto 25px;
-  height: 70px;
-  width: 70px;
+  margin: 0 auto 20px;
+  height: 60px;
+  width: 60px;
   border-radius: 50%;
-  transition: 0.3s ease;
+  object-fit: cover;
 }
 
-/* ✨ glow effect */
-.auth-logo:hover {
-  transform: scale(1.08);
-  filter:
-    drop-shadow(0 0 8px rgba(123,47,247,0.6))
-    drop-shadow(0 0 15px rgba(195,0,255,0.5));
+/* =========================
+TITLE
+========================= */
+.auth-title {
+  font-size: 22px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 25px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* =========================
+INPUT
+========================= */
+.input-group {
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.input-group input {
+  width: 100%;
+  border: 1px solid var(--border);
+  padding: 10px 12px;
+  font-size: 13px;
+  background: transparent;
+  color: var(--text-main);
+  outline: none;
+  border-radius: 4px;
+}
+
+.input-group input::placeholder {
+  color: var(--text-muted);
+}
+
+.input-group input:focus {
+  border-color: var(--primary);
+}
+
+/* =========================
+PASSWORD ICON
+========================= */
+.eye-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: var(--text-muted);
+}
+
+.eye-icon:hover {
+  color: var(--primary);
+}
+
+/* =========================
+BUTTONS
+========================= */
+
+/* PRIMARY (LOGIN) */
+.auth-btn {
+  width: 100%;
+  padding: 12px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 4px;
+  font-size: 13px;
+  margin-top: 10px;
+  transition: 0.25s;
+}
+
+.auth-btn:hover {
+  background: var(--primary-dark);
+}
+
+/* SECONDARY (REGISTER) */
+.auth-outline-btn {
+  width: 100%;
+  padding: 12px;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-main);
+  border-radius: 4px;
+  font-size: 13px;
+  margin-top: 10px;
+  transition: 0.25s;
+}
+
+.auth-outline-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+/* =========================
+BOTTOM LINKS
+========================= */
+
+/* REGISTER / LOGIN SWITCH */
+.auth-switch {
+  margin-top: 15px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.auth-switch span {
+  color: var(--primary);
+  cursor: pointer;
+  margin-left: 5px;
+}
+
+.auth-switch span:hover {
+  text-decoration: underline;
+}
+
+/* FORGOT PASSWORD */
+.forgot-link {
+  font-size: 12px;
+  color: var(--text-muted);
+  text-align: right;
+  margin-top: 8px;
+  cursor: pointer;
+}
+
+.forgot-link:hover {
+  color: var(--primary);
 }
 
 /* =========================
@@ -166,18 +167,10 @@ RESPONSIVE
 ========================= */
 @media (max-width: 480px) {
   .auth-box {
-    padding: 35px 25px;
+    padding: 30px 20px;
   }
 
   .auth-title {
-    font-size: 22px;
-  }
-}
-
-@media (max-width: 480px) {
-  .auth-bottom {
-    flex-direction: column;
-    gap: 10px;
-    text-align: center;
+    font-size: 20px;
   }
 }
