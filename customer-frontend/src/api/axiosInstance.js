@@ -12,6 +12,7 @@ api.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+    console.log("API URL:", process.env.REACT_APP_API_URL);
 
     return config;
   },

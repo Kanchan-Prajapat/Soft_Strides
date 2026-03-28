@@ -94,6 +94,27 @@ h3 { font-size: 16px; letter-spacing: 0.4px; text-transform: uppercase; color: v
   background: var(--bg-hover);
 }
 
+.modal,
+.modal-box {
+  background: #111 !important;
+  color: #fff !important;
+}
+
+.modal .input {
+  background: #1a1a1a !important;
+  color: #fff !important;
+  border: 1px solid #333;
+}
+
+.modal button {
+  background: #222;
+  color: #fff;
+  border: 1px solid #333;
+}
+
+.modal button:hover {
+  background: #8e7ab5;
+}
 
 /* ===== Micro-interactions ===== */
 .card,

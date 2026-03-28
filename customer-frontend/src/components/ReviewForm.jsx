@@ -68,7 +68,7 @@ const ReviewForm = ({ productId, refresh }) => {
         onChange={(e) => setPhoto(e.target.files[0])}
       />
 
-      <button onClick={submitReview}>
+      <button className="submitBtn" onClick={submitReview}>
         Submit Review
       </button>
     </div>

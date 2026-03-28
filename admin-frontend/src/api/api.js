@@ -1,4 +1,3 @@
-// src/api/api.js
 import axios from "axios";
 
 const API = axios.create({
@@ -14,7 +13,7 @@ API.interceptors.request.use((config) => {
   return config;
 });
 
-/* 🚨 RESPONSE INTERCEPTOR (ADD HERE) */
+/* 🚨 RESPONSE INTERCEPTOR */
 API.interceptors.response.use(
   (res) => res,
   (err) => {
@@ -25,5 +24,10 @@ API.interceptors.response.use(
     return Promise.reject(err);
   }
 );
+
+/* 📩 CONTACT API */
+export const sendContactMessage = (data) => {
+  return API.post("/contact", data);
+};
 
 export default API;

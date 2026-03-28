@@ -239,3 +239,58 @@ tbody tr:hover {
   transform: scale(1.1);
 }
 
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modal-box {
+  background: #1a1a1d;
+  padding: 25px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  border: 1px solid #333;
+  color: #d1d1d1;
+}
+
+.modal-box h2 {
+  margin-bottom: 15px;
+  color: #fff;
+}
+
+.message-content {
+  margin-top: 10px;
+  padding: 10px;
+  background: #111;
+  border-radius: 8px;
+  border: 1px solid #333;
+}
+
+.close-btn {
+  margin-top: 15px;
+  padding: 8px 15px;
+  background: #8e7ab5;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+}
+
+.view-btn {
+  margin-right: 8px;
+  padding: 6px 10px;
+  background: #444;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+}

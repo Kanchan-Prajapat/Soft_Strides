@@ -27,6 +27,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
             ["Returned", "/returned"],
             ["Rejected", "/rejected"],
             ["FlashSales", "/flash-sales"],
+            ["Messages", "/messages"],
             ["Logout", "/"],
           ].map(([label, path]) => (
             <NavLink

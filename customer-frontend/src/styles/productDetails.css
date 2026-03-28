@@ -82,8 +82,42 @@ PRODUCT PAGE
 /* BUTTON GROUP (IMPORTANT) */
 .product-actions {
   display: flex;
-  gap: 12px;
-  margin-top: 15px;
+  gap: 15px;
+  margin-top: 20px;
+  align-items: center;
+}
+
+/* SIZE SECTION */
+.size-section {
+  margin: 20px 0;
+}
+
+.size-options {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.size-btn {
+  padding: 8px 14px;
+  border: 1px solid var(--border);
+  background: #2a2a2f;
+  color: var(--text-main);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* HOVER */
+.size-btn:hover {
+  border-color: var(--primary);
+}
+
+/* ACTIVE SIZE 🔥 */
+.size-btn.active {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
 }
 
 /* ADD TO CART */
@@ -100,6 +134,27 @@ PRODUCT PAGE
 
 .add-cart:hover {
   border-color: var(--primary);
+}
+
+.popup {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #111;
+  color: #fff;
+  padding: 15px 20px;
+  border-radius: 8px;
+  border: 1px solid #333;
+  z-index: 999;
+}
+
+.popup button {
+  margin-left: 10px;
+  background: var(--primary);
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  color: #fff;
 }
 
 /* BUY NOW (PRIMARY CTA) */
@@ -190,6 +245,7 @@ REVIEWS SECTION
   padding: 6px 10px;
   border-radius: 4px;
   font-size: 12px;
+
 }
 
 .review-box button:hover {
@@ -272,6 +328,10 @@ REVIEWS SECTION
   color: #f5c518;
 }
 
+.submitBtn {
+  margin-left: 10px;
+}
+
 /* ================= RESPONSIVE ================= */
 @media (max-width: 900px) {
   .product-wrapper {
@@ -280,6 +340,36 @@ REVIEWS SECTION
 
   .main-image {
     height: 320px;
+  }
+  .submitBtn{
+    margin-left: 0px;
+  }
+}
+
+@media (max-width: 768px) {
+  .size-options {
+    justify-content: center;
+  }
+
+  .product-actions {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .product-wrapper {
+    grid-template-columns: 1fr;
+    justify-items: center;   /* 🔥 center everything */
+  }
+
+  .details-left {
+    align-items: center;
+  }
+
+  .details-right {
+    align-items: center;
+    text-align: center;   /* 🔥 text bhi center */
+    width: 100%;
   }
 }
 
@@ -295,4 +385,51 @@ REVIEWS SECTION
   .star {
     font-size: 20px;
   }
+
+   .submitBtn{
+    margin-left: 0px;
+  }
+}
+
+.related-section {
+  margin-top: 60px;
+}
+
+.related-section h2 {
+  margin-bottom: 20px;
+  color: #fff;
+}
+
+.related-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 15px;
+}
+
+.related-card {
+  background: #111;
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  border: 1px solid #222;
+  transition: 0.3s;
+}
+
+.related-card:hover {
+  transform: translateY(-4px);
+  border-color: #8e7ab5;
+}
+
+.related-card img {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.related-card h4 {
+  font-size: 14px;
+  margin-top: 8px;
+}
+
+.related-card p {
+  color: #8e7ab5;
 }

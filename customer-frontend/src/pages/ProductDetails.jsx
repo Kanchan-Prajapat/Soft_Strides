@@ -5,6 +5,7 @@ import ReviewForm from "../components/ReviewForm";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import "../styles/productDetails.css"
+import { useNavigate } from "react-router-dom";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -15,10 +16,14 @@ const ProductDetails = () => {
   // ✅ ALL STATES AT TOP
   const [product, setProduct] = useState(null);
   const [mainImage, setMainImage] = useState(null);
-  const [selectedSize, setSelectedSize] = useState(null);
+  const [selectedSize, setSelectedSize] = useState("");
   const [fetchProduct, setFetchProduct] = useState(false);
+  const [relatedProducts, setRelatedProducts] = useState([]);
+  const [showPopup, setShowPopup] = useState(false);
+  
 
   const refresh = () => setFetchProduct((prev) => !prev);
+  const navigate = useNavigate();
 
   // FETCH PRODUCT
   useEffect(() => {
@@ -36,6 +41,30 @@ const ProductDetails = () => {
     fetchProductData();
   }, [id, fetchProduct,API_URL]);
 
+useEffect(() => {
+  if (showPopup) {
+    setTimeout(() => setShowPopup(false), 2000);
+  }
+}, [showPopup]);
+
+
+useEffect(() => {
+  const fetchRelated = async () => {
+    try {
+      if (!product?.category) return;
+
+      const res = await axios.get(
+        `${API_URL}/api/products/related/${product.category._id}`
+      );
+
+      setRelatedProducts(res.data);
+    } catch (err) {
+      console.log("Related error:", err);
+    }
+  };
+
+  fetchRelated();
+}, [product, API_URL]);
 
   useEffect(() => {
     if (product?.images?.length > 0) {
@@ -48,20 +77,21 @@ const ProductDetails = () => {
     return <div className="container">Loading product...</div>;
   }
 
-  const handleAddToCart = () => {
-    if (!selectedSize) {
-      alert("Please select size");
-      return;
-    }
 
-    addToCart({
-      ...product,
-      qty: 1,
-      size: selectedSize,
-    });
+ const handleAddToCart = () => {
+  if (!selectedSize) {
+    alert("Please select size first ⚠️");
+    return;
+  }
 
-    alert("Added to cart 🛒");
-  };
+  addToCart({
+    ...product,
+    size: selectedSize,
+    qty: 1,
+  });
+
+  setShowPopup(true);
+};
 
   return (
     <div className="product-page">
@@ -116,12 +146,12 @@ const ProductDetails = () => {
             </div>
           </div>
 
-          <button
-            className="add-cart"
-            onClick={handleAddToCart}
-          >
-            Add to Cart
-          </button>
+         <div className="product-actions">
+  <button className="add-cart" onClick={handleAddToCart}>
+    Add to Cart
+  </button>
+</div>
+          
         </div>
       </div>
 
@@ -190,8 +220,39 @@ const ProductDetails = () => {
   </div>
 
 </div>
+
+{/* RELATED PRODUCTS */}
+<div className="related-section">
+  <h2>You May Also Like</h2>
+
+  <div className="related-grid">
+    {relatedProducts.map((item) => (
+      <div
+        key={item._id}
+        className="related-card"
+        onClick={() => navigate(`/product/${item._id}`)}
+      >
+        <img src={item.images?.[0]} alt={item.name} />
+        <h4>{item.name}</h4>
+        <p>₹{item.price}</p>
+      </div>
+    ))}
+  </div>
 </div>
+ {showPopup && (
+  <div className="popup">
+    ✅ Added to cart successfully
+
+    <button onClick={() => setShowPopup(false)}>
+      OK
+    </button>
+  </div>
+)}
+</div>
+
+
   );
+ 
 
 };
 

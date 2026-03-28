@@ -84,15 +84,29 @@ RIGHT ICONS (DESKTOP)
 
 .cart-badge {
   position: absolute;
-  top: -6px;
-  right: -8px;
-  background: var(--primary);
-  font-size: 10px;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-}
 
+  top: -5px;        /* 👈 thoda bahar */
+  right: -6px;
+
+  min-width: 14px;  /* 👈 chota circle */
+  height: 14px;
+  padding: 2px 3px;
+
+  background: var(--primary);
+  color: #fff;
+   box-shadow: 0 0 6px rgba(142, 122, 181, 0.6);
+
+  font-size: 9px;   /* 👈 text small */
+  font-weight: 700;
+
+  border-radius: 999px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid #121212; /* 👈 navbar color = clean separation */
+}
 /* =========================
 AVATAR
 ========================= */

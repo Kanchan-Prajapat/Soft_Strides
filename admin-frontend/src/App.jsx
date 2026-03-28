@@ -18,6 +18,9 @@ import CancelledOrders from "./pages/CancelledOrders";
 import ReturnedOrders from "./pages/ReturnedOrders";
 import RejectedOrders from "./pages/RejectedOrders";
 import FlashSales from "./pages/FlashSales";
+import Messages from "./pages/Messages";
+
+
 
 function App() {
   return (
@@ -85,7 +88,9 @@ function App() {
 
         <Route path="/flash-sales" element={
           <ProtectedRoute> <FlashSales /> </ProtectedRoute>} />
-
+ 
+        <Route path="/messages" element={
+          <ProtectedRoute><Messages /></ProtectedRoute>} />
 
       </Routes>
     </BrowserRouter>

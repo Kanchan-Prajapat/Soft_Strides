@@ -1,0 +1,129 @@
+.privacy-container {
+  padding: 40px 20px;
+  color: #d1d1d1;
+  max-width: 900px;
+  margin: auto;
+}
+
+.privacy-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.privacy-header h1 {
+  color: #ffffff;
+  font-size: 32px;
+}
+
+.last-updated {
+  font-size: 14px;
+  color: #888;
+}
+
+.privacy-card {
+  background: #1a1a1d;
+  padding: 30px;
+  border-radius: 12px;
+  border: 1px solid #333;
+}
+
+.privacy-card h3 {
+  color: #8e7ab5;
+  margin-top: 25px;
+}
+
+.privacy-card p {
+  line-height: 1.6;
+  margin-top: 10px;
+}
+
+.privacy-card ul {
+  margin-top: 10px;
+  padding-left: 20px;
+}
+
+.privacy-card li {
+  margin-bottom: 8px;
+}
+
+.intro {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.privacy-contact {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #333;
+  text-align: center;
+}
+
+.privacy-contact span {
+  color: #8e7ab5;
+  font-weight: bold;
+}
+
+.tldr-box {
+  background: rgba(142, 122, 181, 0.1);
+  border: 1px solid #8e7ab5;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+.refund-steps {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 25px;
+}
+
+/* CARD */
+.refund-steps div {
+  flex: 1;
+  background: #111;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #333;
+  font-size: 14px;
+  text-align: center;
+}
+
+/* TEXT */
+.refund-steps span {
+  display: block;
+  margin-top: 5px;
+  color: #8e7ab5;
+  font-size: 12px;
+}
+
+/* 🔥 MOBILE FIX */
+@media (max-width: 768px) {
+  .refund-steps {
+    flex-direction: column;   /* 🔥 vertical stack */
+  }
+
+  .refund-steps div {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .privacy-container {
+    padding: 20px 15px;
+  }
+
+  .privacy-card {
+    padding: 20px;
+  }
+}
+
+
+.refund-steps div {
+  transition: 0.3s;
+}
+
+.refund-steps div:hover {
+  border-color: #8e7ab5;
+  transform: translateY(-2px);
+}
