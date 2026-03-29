@@ -1,14 +1,17 @@
 import { Link } from "react-router-dom";
 import "../styles/home.css";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import CategorySlider from "../components/CategorySlider";
 import FlashSaleSection from "../components/FlashSaleSection";
-import { useRef } from "react";
+import { useWishlist } from "../context/WishlistContext";
+import { FaHeart } from "react-icons/fa";
 
 const Home = () => {
   const [banners, setBanners] = useState([]);
   const [current, setCurrent] = useState(0);
+   const [products, setProducts] = useState([]);
+   const { toggleWishlist, isInWishlist } = useWishlist();
   const API_URL = process.env.REACT_APP_API_URL;
 
   /* =============================
@@ -47,6 +50,19 @@ useEffect(() => {
     };
 
     fetchBanners();
+  }, [API_URL]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await axios.get(`${API_URL}/api/products`);
+        setProducts(res.data || []);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchProducts();
   }, [API_URL]);
 
   /* =============================
@@ -125,7 +141,37 @@ useEffect(() => {
       )}
 
       {/* ================= CATEGORY SECTION ================= */}
-      <CategorySlider />
+      {/* <CategorySlider /> */}
+
+        <section className="featured-section">
+        <h2>FEATURED PRODUCTS</h2>
+
+       <div className="product-grid">
+  {products.slice(0, 8).map((item) => (
+    <div key={item._id} className="product-card">
+
+      {/* ❤️ WISHLIST ICON */}
+      <div
+        className={`wishlist-icon ${
+          isInWishlist(item._id) ? "active" : ""
+        }`}
+        onClick={(e) => {
+          e.stopPropagation(); // 🔥 prevent redirect
+          toggleWishlist(item);
+        }}
+      >
+        <FaHeart />
+      </div>
+
+      <Link to={`/product/${item._id}`}>
+        <img src={item.images?.[0]} alt={item.name} />
+        <h4>{item.name}</h4>
+        <p>₹{item.price}</p>
+      </Link>
+    </div>
+  ))}
+</div>
+      </section>
 
       {/* ================= FLASH SALE ================= */}
       <FlashSaleSection />

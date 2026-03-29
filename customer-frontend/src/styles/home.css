@@ -382,3 +382,124 @@ MOBILE RESPONSIVE
 .footer {
   background: #121212;
 }
+
+
+/* ================= FEATURED SECTION ================= */
+.featured-section {
+  padding: 40px 20px;
+}
+
+.featured-section h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 22px;
+  letter-spacing: 1px;
+}
+
+/* ================= GRID ================= */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px; /* 🔥 tight */
+}
+
+/* ================= CARD ================= */
+.product-card {
+  position: relative;
+
+  background: transparent !important; /* 🔥 remove box */
+  border: none !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+
+  text-align: left;
+  text-decoration: none;
+  color: inherit;
+}
+
+/* ================= IMAGE ================= */
+.product-card img {
+  width: 100%;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+
+  border-radius: 4px;
+  background: #1a1a1d;
+}
+
+/* ================= TEXT ================= */
+.product-card h4 {
+  margin-top: 6px;
+  font-size: 12px;
+  color: #ddd;
+}
+
+.product-card p {
+  margin-top: 2px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #8e7ab5;
+}
+
+/* ================= REMOVE OLD HOVER ================= */
+.product-card:hover {
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 768px) {
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+
+  .product-card img {
+    height: 180px;
+  }
+
+  .product-card h4 {
+    font-size: 13px;
+  }
+}
+
+.product-card:hover img {
+  transform: scale(1.05);
+  transition: 0.3s;
+}
+
+/* ================= WISHLIST ICON ================= */
+
+.product-card {
+  position: relative;
+}
+
+/* heart icon */
+.wishlist-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+
+  background: rgba(0,0,0,0.5);
+  border-radius: 50%;
+  padding: 6px;
+
+  font-size: 14px;
+  color: #aaa;
+
+  cursor: pointer;
+  transition: 0.3s;
+  z-index: 2;
+}
+
+/* hover */
+.wishlist-icon:hover {
+  color: #fff;
+}
+
+/* active */
+.wishlist-icon.active {
+  color: #ff4d6d; /* ❤️ red */
+}

@@ -6,6 +6,8 @@ import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import "../styles/productDetails.css"
 import { useNavigate } from "react-router-dom";
+import { useWishlist } from "../context/WishlistContext";
+import { FaHeart } from "react-icons/fa";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -20,6 +22,7 @@ const ProductDetails = () => {
   const [fetchProduct, setFetchProduct] = useState(false);
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
+  const { toggleWishlist, isInWishlist } = useWishlist();
   
 
   const refresh = () => setFetchProduct((prev) => !prev);
@@ -232,6 +235,20 @@ useEffect(() => {
         className="related-card"
         onClick={() => navigate(`/product/${item._id}`)}
       >
+
+        {/* ❤️ WISHLIST ICON */}
+        <div
+          className={`wishlist-icon ${
+            isInWishlist(item._id) ? "active" : ""
+          }`}
+          onClick={(e) => {
+            e.stopPropagation(); // 🔥 prevent redirect
+            toggleWishlist(item);
+          }}
+        >
+          <FaHeart />
+        </div>
+
         <img src={item.images?.[0]} alt={item.name} />
         <h4>{item.name}</h4>
         <p>₹{item.price}</p>
@@ -239,6 +256,8 @@ useEffect(() => {
     ))}
   </div>
 </div>
+
+
  {showPopup && (
   <div className="popup">
     ✅ Added to cart successfully

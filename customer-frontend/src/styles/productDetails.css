@@ -391,45 +391,133 @@ REVIEWS SECTION
   }
 }
 
+/* ================= RELATED SECTION ================= */
+
 .related-section {
   margin-top: 60px;
+  padding: 0 20px;
 }
 
 .related-section h2 {
+  font-size: 22px;
   margin-bottom: 20px;
-  color: #fff;
+  letter-spacing: 1px;
 }
+
+/* ================= GRID ================= */
 
 .related-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 15px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px; /* 🔥 tight like H&M */
 }
+
+/* ================= CARD ================= */
 
 .related-card {
-  background: #111;
-  padding: 10px;
-  border-radius: 10px;
   cursor: pointer;
-  border: 1px solid #222;
   transition: 0.3s;
+
+  /* ❌ remove box look */
+  background: transparent;
+  border: none;
+  padding: 0;
 }
 
-.related-card:hover {
-  transform: translateY(-4px);
-  border-color: #8e7ab5;
-}
+/* ================= IMAGE ================= */
 
 .related-card img {
   width: 100%;
-  border-radius: 8px;
+  aspect-ratio: 3/4;   /* 🔥 H&M style */
+  object-fit: cover;
+
+  background: #1a1a1d;
+  border-radius: 4px;
 }
 
+/* ================= TEXT ================= */
+
 .related-card h4 {
-  font-size: 14px;
-  margin-top: 8px;
+  margin-top: 6px;   /* 🔥 very tight */
+  font-size: 12px;
+  font-weight: 500;
+  color: #ddd;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .related-card p {
+  margin-top: 2px;
+  font-size: 13px;
+  font-weight: 600;
   color: #8e7ab5;
+}
+
+/* ================= HOVER ================= */
+
+.related-card:hover img {
+  transform: scale(1.05);
+  transition: 0.4s;
+}
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 768px) {
+  .related-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px; /* even tighter */
+  }
+
+  .related-card h4 {
+    font-size: 11px;
+  }
+
+  .related-card p {
+    font-size: 12px;
+  }
+}
+
+.related-card::after {
+  content: "NEW";
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  font-size: 10px;
+  background: #8e7ab5;
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+.related-card {
+  position: relative;
+}
+
+/* ❤️ icon */
+.wishlist-icon {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+
+  background: rgba(0,0,0,0.5);
+  border-radius: 50%;
+  padding: 6px;
+
+  font-size: 14px;
+  color: #aaa;
+
+  cursor: pointer;
+  transition: 0.3s;
+  z-index: 2;
+}
+
+/* hover */
+.wishlist-icon:hover {
+  color: #fff;
+}
+
+/* active */
+.wishlist-icon.active {
+  color: #ff4d6d;
 }

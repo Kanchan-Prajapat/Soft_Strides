@@ -17,11 +17,25 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Profile from "./pages/Profile";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
 
 function App() {
   return (
     <BrowserRouter>
+    
+      <ScrollToTop />
+
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />

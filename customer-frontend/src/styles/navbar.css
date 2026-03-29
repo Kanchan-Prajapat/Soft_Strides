@@ -377,3 +377,60 @@ ICON HOVER (PREMIUM)
   }
 
 }
+
+/* 🔥 Announcement */
+.announcement {
+  text-align: center;
+  font-size: 11px;
+  padding: 6px 0;
+  background: #000;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* 🔥 Center Logo (Mobile) */
+.nav-logo {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* 🔥 Mobile layout fix */
+@media (max-width: 768px) {
+
+  .nav-top {
+    position: relative;
+  }
+
+  .mobile-left,
+  .mobile-right {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .mobile-left {
+    position: absolute;
+    left: 10px;
+  }
+
+  .mobile-right {
+    position: absolute;
+    right: 10px;
+  }
+
+  /* 🔥 Hide desktop */
+  .desktop-only {
+    display: none !important;
+  }
+
+  /* 🔥 Remove search bar */
+  .nav-center {
+    display: none;
+  }
+
+  /* 🔥 Navbar compact */
+  .navbar {
+    padding: 10px 14px;
+  }
+}
