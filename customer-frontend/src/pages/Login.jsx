@@ -35,7 +35,8 @@ const Login = () => {
     <div className="auth-wrapper">
       <div className="auth-box">
       <img src={logo} alt="Soft Strides" className="auth-logo" />
-        <h2 className="auth-title">LOG IN</h2>
+        <h2 className="auth-title">Back to Soft Strides </h2>
+        <p className="auth-subtitle">Step into comfort & style</p>
 
         <form onSubmit={handleLogin}>
           <div className="input-group">

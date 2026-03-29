@@ -36,7 +36,9 @@ const Register = () => {
       <div className="auth-box">
         <img src={logo} alt="Soft Strides" className="auth-logo" />
 
-        <h2 className="auth-title">REGISTER</h2>
+        <h2 className="auth-title">Join Soft Strides
+        </h2>
+        <p className="auth-subtitle">Create your perfect fit</p>
 
         <form onSubmit={handleRegister}>
           <div className="input-group">

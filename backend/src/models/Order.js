@@ -42,6 +42,11 @@ products: [
 
     paymentScreenshot: String,
 
+    paymentMethod: {
+  type: String,
+  default: "COD"
+},
+
     paymentStatus: {
       type: String,
       enum: ["Pending", "Verified", "Rejected"],
