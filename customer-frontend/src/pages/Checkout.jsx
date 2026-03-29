@@ -228,21 +228,26 @@ const Checkout = () => {
         </div>
       )}
 
-      {/* STEP 2 */}
-      {step === 2 && (
-        <div className="payment-screen">
-          <h2>Payment</h2>
-          <p>Total ₹{finalAmount}</p>
+   {/* STEP 2 */}
+{step === 2 && (
+  <div className="payment-screen">
+    <h2>Payment Method</h2>
+    <p>Amount to be paid:</p>
+    <span className="total-amount">₹{finalAmount}</span>
 
-          <button
-            onClick={handlePayment}
-            className="primary-btn"
-            disabled={loading}
-          >
-            {loading ? "Processing..." : "Pay Now"}
-          </button>
-        </div>
-      )}
+    <button
+      onClick={handlePayment}
+      className="primary-btn"
+      disabled={loading}
+    >
+      {loading ? "Initializing Razorpay..." : "Pay Securely"}
+    </button>
+    
+    <p style={{ fontSize: '12px', marginTop: '20px', color: '#52525b' }}>
+      100% Secure Payment via Razorpay
+    </p>
+  </div>
+)}
 
       {/* STEP 3 */}
       {step === 3 && (

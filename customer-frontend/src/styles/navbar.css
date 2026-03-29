@@ -1,15 +1,20 @@
 /* =========================
-NAVBAR (FINAL CLEAN)
+GLOBAL FIX
 ========================= */
+* {
+  box-sizing: border-box;
+}
 
+/* =========================
+NAVBAR
+========================= */
 .navbar {
-  padding: 16px 50px;
-  display: flex;
-  flex-direction: column;
+  width: 100%;
+  padding: 14px 20px;
   background: rgba(18, 18, 18, 0.95);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--border);
-  position: sticky;
+  position: relative;
   top: 0;
   z-index: 1000;
 }
@@ -21,6 +26,7 @@ TOP ROW
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
 }
 
 /* =========================
@@ -28,27 +34,30 @@ LOGO
 ========================= */
 .logo-image {
   height: 44px;
+  width: 44px;
   border-radius: 50%;
-  transition: transform 0.6s ease;
+  object-fit: cover;
+  transition: transform 0.5s ease, filter 0.3s ease;
 }
 
 .logo-image:hover {
-  transform: rotateY(180deg) scale(1.08);
+  transform: rotateY(180deg) scale(1.05);
+  filter: brightness(1.1) drop-shadow(0 0 8px rgba(123,47,247,0.5));
 }
 
 /* =========================
-SEARCH
+SEARCH (ALWAYS SAFE)
 ========================= */
 .nav-center {
-  margin-top: 10px;
-  display: flex;
-  justify-content: center;
+  margin-top: 12px;
+  width: 100%;
+  padding: 0 4px;
 }
 
 .search-bar {
-  display: flex;
   width: 100%;
-  max-width: 480px;
+  max-width: 100%;
+  display: flex;
   background: #1e1e22;
   border: 1px solid var(--border);
   border-radius: 6px;
@@ -58,62 +67,95 @@ SEARCH
 .search-bar-input {
   flex: 1;
   border: none;
-  padding: 12px 16px;
+  padding: 12px 14px;
   background: transparent;
   color: white;
 }
 
+.search-bar-input:focus {
+  outline: none;
+}
+
 .search-btn {
   background: var(--primary);
-  padding: 0 18px;
+  padding: 0 16px;
 }
 
 /* =========================
-RIGHT ICONS (DESKTOP)
+RIGHT ICONS
 ========================= */
 .nav-right {
   display: flex;
-  gap: 24px;
   align-items: center;
+  gap: 22px;
 }
 
+/* ICON */
 .nav-icon {
-  font-size: 22px;
-  color: white;
+  position: relative;
+  font-size: 20px;
+  color: var(--text-main);
+  cursor: pointer;
+  transition: all 0.25s ease;
 }
 
+/* HOVER */
+.nav-icon:hover {
+  color: var(--primary);
+  transform: translateY(-2px) scale(1.08);
+}
+
+/* GLOW */
+.nav-icon:hover::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(123, 47, 247, 0.25),
+    transparent 70%
+  );
+  z-index: -1;
+}
+
+/* =========================
+CART BADGE
+========================= */
 .cart-badge {
   position: absolute;
-
-  top: -5px;        /* 👈 thoda bahar */
+  top: -5px;
   right: -6px;
-
-  min-width: 14px;  /* 👈 chota circle */
+  min-width: 14px;
   height: 14px;
   padding: 2px 3px;
-
   background: var(--primary);
   color: #fff;
-   box-shadow: 0 0 6px rgba(142, 122, 181, 0.6);
-
-  font-size: 9px;   /* 👈 text small */
+  font-size: 9px;
   font-weight: 700;
-
   border-radius: 999px;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
-  border: 1px solid #121212; /* 👈 navbar color = clean separation */
+  border: 1px solid #121212;
+  box-shadow: 0 0 6px rgba(142, 122, 181, 0.6);
 }
+
 /* =========================
 AVATAR
 ========================= */
 .nav-avatar {
-  width: 36px;
-  height: 36px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
+  border: 1px solid var(--border);
+  transition: all 0.3s ease;
+}
+
+.nav-avatar:hover {
+  transform: scale(1.1);
+  border-color: var(--primary);
+  box-shadow: 0 0 10px rgba(123,47,247,0.5);
 }
 
 /* =========================
@@ -138,57 +180,36 @@ DRAWER
   padding: 20px;
   transition: 0.3s ease;
   z-index: 2000;
-
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* 🔥 FIX */
 }
+
 .mobile-menu.open {
   right: 0;
 }
 
 .menu-header {
-  width: 100%;
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   margin-bottom: 25px;
 }
 
 .menu-logo {
-  height: 40px; /* 🔥 FIX SIZE */
+  height: 40px;
   width: 40px;
-  object-fit: cover;
   border-radius: 50%;
 }
 
-.menu-header span {
-  font-size: 20px;
-  cursor: pointer;
-}
-
 .mobile-menu a {
-  width: 100%;
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
   padding: 14px 0;
   font-size: 15px;
   color: var(--text-main);
   border-bottom: 1px solid rgba(255,255,255,0.05);
-}
-
-/* 🔥 ICON FIX */
-.mobile-menu a svg {
-  font-size: 18px;
-  min-width: 22px; /* alignment fix */
-}
-
-/* OVERLAY */
-.menu-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.5);
+  transition: 0.2s;
 }
 
 .mobile-menu a:hover {
@@ -196,13 +217,19 @@ DRAWER
   transform: translateX(6px);
 }
 
+.menu-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+}
+
 /* =========================
-MOBILE FIX (ONLY ONE BLOCK)
+MOBILE RESPONSIVE
 ========================= */
 @media (max-width: 768px) {
 
   .navbar {
-    padding: 12px 16px;
+    padding: 10px 14px;
   }
 
   /* hide desktop icons */
@@ -210,227 +237,56 @@ MOBILE FIX (ONLY ONE BLOCK)
     display: none;
   }
 
-  /* show hamburger */
+  /* show menu */
   .mobile-menu-icon {
     display: block;
   }
 
-  /* search full width */
+  /* search below */
   .nav-center {
     margin-top: 10px;
-    width: 100%;
   }
 
-  .search-bar {
-    max-width: 100%;
+  /* logo smaller */
+  .logo-image {
+    height: 34px;
+    width: 34px;
   }
-}
 
-.logo-image {
-  height: 44px;
-  border-radius: 50%;
-  object-fit: cover;
-  transition: transform 0.5s ease, filter 0.3s ease;
-}
-
-/* 🔥 CLEAN HOVER (NO BREAK) */
-.logo-image:hover {
-  transform: rotateY(180deg) scale(1.05);
-  filter: brightness(1.1) drop-shadow(0 0 8px rgba(123,47,247,0.5));
-}
-
-@media (max-width: 768px) {
+  /* disable heavy hover */
+  .nav-icon:hover,
   .logo-image:hover {
-    transform: none; /* 🔥 mobile pe disable */
+    transform: none;
   }
 }
 
 /* =========================
-ICON HOVER (PREMIUM)
+DESKTOP CENTER SEARCH
 ========================= */
-
-.nav-icon {
-  position: relative;
-  font-size: 22px;
-  color: var(--text-main);
-  cursor: pointer;
-  transition: all 0.25s ease;
-}
-
-/* 🔥 HOVER EFFECT */
-.nav-icon:hover {
-  color: var(--primary);
-  transform: translateY(-2px) scale(1.1);
-}
-
-/* 🔥 GLOW EFFECT */
-.nav-icon:hover::after {
-  content: "";
-  position: absolute;
-  inset: -6px;
-  border-radius: 50%;
-  background: radial-gradient(
-    circle,
-    rgba(123, 47, 247, 0.25),
-    transparent 70%
-  );
-  z-index: -1;
-}
-
-.nav-avatar {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  border: 1px solid var(--border);
-  transition: all 0.3s ease;
-}
-
-/* 🔥 HOVER */
-.nav-avatar:hover {
-  transform: scale(1.1);
-  border-color: var(--primary);
-  box-shadow: 0 0 12px rgba(123, 47, 247, 0.5);
-}
-@media (max-width: 768px) {
-  .nav-icon:hover {
-    transform: none; /* mobile pe stable */
-  }
-}
-
 @media (min-width: 769px) {
 
   .navbar {
+    flex-direction: column;
+    align-items: center;
+     display: block; 
+  }
+
+  .nav-top {
+    width: 100%;
+    max-width: 1200px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin: 0 auto;
   }
 
-  /* LEFT */
-  .nav-left {
-    flex: 1;
-    display: flex;
-    justify-content: flex-start;
-  }
-
-  /* CENTER (🔥 REAL CENTER TRICK) */
   .nav-center {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
     max-width: 500px;
-  }
-
-  /* RIGHT */
-  .nav-right {
-    flex: 1;
-    display: flex;
-    justify-content: flex-end;
-    gap: 24px;
-  }
-
-  /* IMPORTANT */
-  .nav-top {
-    display: contents;
-  }
-}
-
-/* 🔥 DESKTOP ONLY FIX */
-@media (min-width: 769px) {
-
-  .navbar {
-    position: relative; /* IMPORTANT */
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  /* LEFT */
-  .nav-left {
-    flex: 0 0 auto;
-  }
-
-  /* RIGHT */
-  .nav-right {
-    flex: 0 0 auto;
-    display: flex;
-    gap: 24px;
-    align-items: center;
-  }
-
-  /* 🔥 CENTER SEARCH (FIXED WITHOUT BREAKING FLOW) */
-  .nav-center {
     position: absolute;
     left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
-    max-width: 480px;
-    pointer-events: auto;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 420px;
   }
-
-  /* 🔥 PREVENT ICON COLLAPSE */
-  .nav-top {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-}
-
-/* 🔥 Announcement */
-.announcement {
-  text-align: center;
-  font-size: 11px;
-  padding: 6px 0;
-  background: #000;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-
-/* 🔥 Center Logo (Mobile) */
-.nav-logo {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-/* 🔥 Mobile layout fix */
-@media (max-width: 768px) {
-
-  .nav-top {
-    position: relative;
-  }
-
-  .mobile-left,
-  .mobile-right {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-  }
-
-  .mobile-left {
-    position: absolute;
-    left: 10px;
-  }
-
-  .mobile-right {
-    position: absolute;
-    right: 10px;
-  }
-
-  /* 🔥 Hide desktop */
-  .desktop-only {
-    display: none !important;
-  }
-
-  /* 🔥 Remove search bar */
-  .nav-center {
-    display: none;
-  }
-
-  /* 🔥 Navbar compact */
-  .navbar {
-    padding: 10px 14px;
-  }
+  
 }

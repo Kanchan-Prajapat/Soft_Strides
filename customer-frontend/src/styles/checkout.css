@@ -2,19 +2,17 @@
 WRAPPER
 ============================= */
 .checkout-wrapper {
-  padding: 50px 8%;
+   padding: 50px 5%;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  overflow-x: hidden;
   background: var(--bg-main);
   color: var(--text-main);
   min-height: 100vh;
 }
 
 body {
-  overflow-x: hidden;
-}
-
-.navbar {
-  width: 100%;
-  max-width: 100%;
   overflow-x: hidden;
 }
 
@@ -48,16 +46,23 @@ MAIN GRID
 ============================= */
 .checkout-container {
   display: grid;
-  grid-template-columns: 1.6fr 1fr;
+  grid-template-columns: 1.4fr 1fr;
   gap: 30px;
   align-items: start;
+   width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.checkout-container > * {
+  min-width: 0;
 }
 
 /* =============================
 LEFT SIDE
 ============================= */
 .checkout-left {
-  max-width: 600px;
+  width:100%;
 }
 
 /* TITLE */
@@ -75,7 +80,7 @@ FORM GRID
 ============================= */
 .form-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1.4fr 1fr;
   gap: 10px;
 }
 
@@ -219,12 +224,14 @@ RESPONSIVE
 @media (max-width: 768px) {
 
   .checkout-wrapper {
-    padding: 16px 12px;
+    padding: 16px;
+    width:100%;
   }
 
   .checkout-container {
     grid-template-columns: 1fr;
     gap: 20px;
+    display: grid;
   }
 
   /* TITLE */
@@ -309,47 +316,127 @@ RESPONSIVE
     font-size: 13px;
   }
 
-   .nav-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 8px 12px;
-    width: 100%;
-  }
 
-  .nav-left {
-    flex: 1;
-  }
 
   .logo-image {
     height: 30px;
     width: auto;
   }
 
-  .nav-right {
-    display: flex;
-    gap: 12px;
-    flex: 1;
-    justify-content: flex-end;
-  }
-
-  .nav-icon {
-    font-size: 16px;
-  }
-
-  .nav-avatar {
-    width: 28px;
-    height: 28px;
-  }
-
-  /* ❌ REMOVE search full width */
-  .nav-center {
-    display: none;
-  }
-
+ 
   /* menu icon */
   .mobile-menu-icon {
     font-size: 20px;
     margin-left: 8px;
+  }
+}
+
+/* =========================
+   PAYMENT SCREEN (STEP 2)
+   ========================= */
+.payment-screen {
+  max-width: 500px;
+  margin: 60px auto;
+  padding: 40px;
+  border-radius: 12px;
+  text-align: center;
+  background: linear-gradient(145deg, #1e1e21, #131315);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.payment-screen h2 {
+  font-family: 'Oswald', sans-serif; /* Ya jo aapki heading font hai */
+  font-size: 18px;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.payment-screen p {
+  font-size: 14px;
+  color: #a1a1aa;
+  margin-bottom: 10px;
+}
+
+/* TOTAL AMOUNT HIGHLIGHT */
+.payment-screen .total-amount {
+  font-size: 22px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 40px;
+  display: block;
+}
+
+/* PAY NOW BUTTON - SOFT STRIDES THEME */
+.payment-screen .primary-btn {
+  background: #8E7AB5; /* Your Theme Purple */
+  color: #fff;
+  width: 100%;
+  padding: 18px;
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(142, 122, 181, 0.3);
+}
+
+.payment-screen .primary-btn:hover {
+  background: #7a66a3;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(142, 122, 181, 0.4);
+}
+
+.payment-screen .primary-btn:disabled {
+  background: #3f3f46;
+  cursor: not-call;
+  transform: none;
+}
+
+/* MOBILE FIX FOR PAYMENT */
+@media (max-width: 480px) {
+  .payment-screen {
+    margin: 30px 16px;
+    padding: 30px 20px;
+  }
+  
+  .payment-screen h2 {
+    font-size: 22px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .payment-screen {
+    max-width: 580px; /* Thoda narrow kiya for elegance */
+    padding: 50px 60px;
+    margin: 80px auto;
+  }
+
+  .payment-screen h2 {
+    font-size: 20px; 
+    letter-spacing: 3px; 
+    margin-bottom: 30px;
+  }
+
+  .payment-screen p {
+    font-size: 13px; /* Subtle sub-text */
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+  }
+
+  .payment-screen .total-amount {
+    font-size: 38px; /* Pehle 64px tha, ab sophisticated lag raha hai */
+    margin: 15px 0 40px 0;
+    font-weight: 800;
+  }
+  
+  .payment-screen .primary-btn {
+    padding: 15px 25px;
+    font-size: 15px; /* Clean and centered button text */
+    max-width: 320px; 
+    margin: 0 auto;
   }
 }

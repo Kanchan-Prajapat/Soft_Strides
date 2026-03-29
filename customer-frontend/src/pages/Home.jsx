@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import "../styles/home.css";
 import { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import CategorySlider from "../components/CategorySlider";
 import FlashSaleSection from "../components/FlashSaleSection";
 import { useWishlist } from "../context/WishlistContext";
 import { FaHeart } from "react-icons/fa";
