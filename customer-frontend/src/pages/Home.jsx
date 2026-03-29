@@ -96,7 +96,10 @@ useEffect(() => {
     <div className="home-page">
 
       {/* ================= HERO SLIDER ================= */}
-
+{/* 1. TOP ANNOUNCEMENT BAR */}
+<div className="announcement-bar">
+  <span>Free shipping on orders above ₹500 🚚</span>
+</div>
       {banners.length > 0 && (
         <section className="hero-slider">
 
@@ -138,6 +141,21 @@ useEffect(() => {
 
         </section>
       )}
+
+      <div className="feature-bar">
+  <div className="feature-item">
+    <i className="ri-shield-check-line"></i>
+    <span>Quality & Affordability : Our Promise</span>
+  </div>
+  <div className="feature-item">
+    <i className="ri-truck-line"></i>
+    <span>Fast Pan-India Delivery</span>
+  </div>
+  <div className="feature-item">
+    <i className="ri-refresh-line"></i>
+    <span>Easy Returns & Exchanges</span>
+  </div>
+</div>
 
       {/* ================= CATEGORY SECTION ================= */}
       {/* <CategorySlider /> */}
