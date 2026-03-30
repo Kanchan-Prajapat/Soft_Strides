@@ -1,3 +1,9 @@
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
 Disallow:
+
+
+User-agent: *
+Allow: /
+
+Sitemap: https://soft-strides-user.vercel.app/sitemap.xml

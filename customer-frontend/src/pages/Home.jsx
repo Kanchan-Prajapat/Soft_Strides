@@ -142,6 +142,8 @@ useEffect(() => {
         </section>
       )}
 
+
+
       <div className="feature-bar">
   <div className="feature-item">
     <i className="ri-shield-check-line"></i>
@@ -156,6 +158,10 @@ useEffect(() => {
     <span>Easy Returns & Exchanges</span>
   </div>
 </div>
+
+
+  <FlashSaleSection />
+
 
       {/* ================= CATEGORY SECTION ================= */}
       {/* <CategorySlider /> */}
@@ -191,7 +197,7 @@ useEffect(() => {
       </section>
 
       {/* ================= FLASH SALE ================= */}
-      <FlashSaleSection />
+    
 
       {/* ================= PREMIUM BRAND SECTION ================= */}
 
