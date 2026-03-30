@@ -12,7 +12,7 @@ export const WishlistProvider = ({ children }) => {
   useEffect(() => {
     const loadWishlist = async () => {
       try {
-        const res = await api.get("/api/wishlist");
+        const res = await api.get("/wishlist");
         setWishlist(res.data || []);
       } catch (error) {
         console.log("Wishlist load error:", error);
@@ -38,7 +38,7 @@ export const WishlistProvider = ({ children }) => {
 
     try {
       const res = await api.post(
-        `/api/wishlist/${product._id}`
+        `/wishlist/${product._id}`
       );
 
       setWishlist(res.data || []);

@@ -3,12 +3,19 @@ import { useCart } from "../context/CartContext";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../styles/checkout.css";
+import { useLocation } from "react-router-dom";
+
+
 
 const Checkout = () => {
   const { cartItems, totalPrice } = useCart();
+  const location = useLocation();
+
+  const isBuyNow = new URLSearchParams(location.search).get("type") === "buyNow";
   const navigate = useNavigate();
   const API_URL = process.env.REACT_APP_API_URL;
-
+const [checkoutItems, setCheckoutItems] = useState([]);
+const [checkoutTotal, setCheckoutTotal] = useState(0);
   const [step, setStep] = useState(1);
   const [coupon, setCoupon] = useState("");
   const [discount, setDiscount] = useState(0);
@@ -24,20 +31,57 @@ const Checkout = () => {
     phone: ""
   });
 
-  const finalAmount = totalPrice - discount;
+const finalAmount = checkoutTotal - discount;
+
+  useEffect(() => {
+  const fetchCart = async () => {
+    try {
+      const token = localStorage.getItem("userToken");
+
+      const res = await axios.get(
+        `${API_URL}/api/cart`,
+        {
+          headers: { Authorization: `Bearer ${token}` }
+        }
+      );
+
+      const items = res.data;
+
+      setCheckoutItems(items);
+
+      const total = items.reduce(
+        (acc, item) => acc + item.product.price * item.quantity,
+        0
+      );
+
+      setCheckoutTotal(total);
+
+    } catch (err) {
+      console.log("Cart fetch error:", err);
+    }
+  };
+
+  if (isBuyNow) {
+    fetchCart(); // 🔥 only 1 item will come
+  } else {
+    setCheckoutItems(cartItems);
+    setCheckoutTotal(totalPrice);
+  }
+
+}, [isBuyNow, cartItems, totalPrice, API_URL]);
 
   // Autofill
-  useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("userInfo"));
-    if (user) {
-      setForm((prev) => ({
-        ...prev,
-        firstName: user.name?.split(" ")[0] || "",
-        phone: user.phone || "",
-        address: user.location || ""
-      }));
-    }
-  }, []);
+useEffect(() => {
+  const user = JSON.parse(localStorage.getItem("userInfo"));
+  if (user) {
+    setForm((prev) => ({
+      ...prev,
+      firstName: user.name?.split(" ")[0] || "",
+      phone: user.phone || "",
+      address: user.location || ""
+    }));
+  }
+}, []); 
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -52,7 +96,7 @@ const Checkout = () => {
         `${API_URL}/api/coupons/apply`,
         {
           code: coupon,
-          totalAmount: totalPrice
+          totalAmount: checkoutTotal
         },
         {
           headers: { Authorization: `Bearer ${token}` }
@@ -106,7 +150,7 @@ const Checkout = () => {
               razorpay_payment_id: response.razorpay_payment_id,
               razorpay_signature: response.razorpay_signature,
               orderData: {
-                products: cartItems,
+                products: checkoutItems,
                 totalAmount: finalAmount,
                 address: form.address,
                 phone: form.phone,
@@ -155,35 +199,62 @@ const Checkout = () => {
          <div className="checkout-left">
   <div className="form-grid">
 
-    <div className="floating-group">
-      <input name="firstName" value={form.firstName} onChange={handleChange} required />
-      <label>First Name</label>
-    </div>
+   <div className="input-group">
+  <label>First Name</label>
+  <input
+    name="firstName"
+    value={form.firstName}
+    onChange={handleChange}
+    placeholder="Enter First Name"
+  />
+</div>
 
-    <div className="floating-group">
-      <input name="lastName" value={form.lastName} onChange={handleChange} required />
-      <label>Last Name</label>
-    </div>
+<div className="input-group">
+  <label>Last Name</label>
+  <input
+    name="lastName"
+    value={form.lastName}
+    onChange={handleChange}
+    placeholder="Enter Last Name"
+  />
+</div>
 
-    <div className="floating-group full">
-      <textarea name="address" value={form.address} onChange={handleChange} required />
-      <label>Address</label>
-    </div>
+<div className="input-group full">
+  <label>Address</label>
+  <textarea
+    name="address"
+    value={form.address}
+    onChange={handleChange}
+    placeholder="Enter full address"
+  />
+</div>
 
-    <div className="floating-group">
-      <input name="city" value={form.city} onChange={handleChange} required />
-      <label>City</label>
-    </div>
+<div className="input-group">
+  <label>City</label>
+  <input
+    name="city"
+    value={form.city}
+    onChange={handleChange}
+  />
+</div>
 
-    <div className="floating-group">
-      <input name="pincode" value={form.pincode} onChange={handleChange} required />
-      <label>Pincode</label>
-    </div>
+<div className="input-group">
+  <label>Pincode</label>
+  <input
+    name="pincode"
+    value={form.pincode}
+    onChange={handleChange}
+  />
+</div>
 
-    <div className="floating-group full">
-      <input name="phone" value={form.phone} onChange={handleChange} required />
-      <label>Phone</label>
-    </div>
+<div className="input-group full">
+  <label>Phone</label>
+  <input
+    name="phone"
+    value={form.phone}
+    onChange={handleChange}
+  />
+</div>
 
   </div>
 
@@ -205,20 +276,29 @@ const Checkout = () => {
           <div className="checkout-right">
             <h3>Order Summary</h3>
 
-            {cartItems.map((item) => (
-              <div key={item._id} className="summary-item">
-                <img src={item.images?.[0]} alt={item.name} />
-                <div>
-                  <p>{item.name}</p>
-                  <span>₹{item.price} × {item.qty}</span>
-                </div>
-              </div>
-            ))}
+           {checkoutItems.map((item) => {
+  const product = item.product || item; // 🔥 important fix
+
+  return (
+    <div key={item._id} className="summary-item">
+      <img
+        src={product.images?.[0] || product.image}
+        alt={product.name}
+      />
+      <div>
+        <p>{product.name}</p>
+        <span>
+          ₹{product.price} × {item.quantity || 1}
+        </span>
+      </div>
+    </div>
+  );
+})}
 
             <div className="coupon-box">
               <p>Have Coupen?</p>
               <p>Apply Here!</p>
-              <input value={coupon} onChange={(e) => setCoupon(e.target.value)} />
+              <input style={{  padding: '5px', color: '#fff', width: '100px' }} value={coupon} onChange={(e) => setCoupon(e.target.value)} />
               <button onClick={applyCoupon}>Apply</button>
             </div>
 

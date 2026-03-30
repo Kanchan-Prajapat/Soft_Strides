@@ -181,6 +181,8 @@ SUMMARY ITEMS
   color: var(--text-muted);
 }
 
+
+
 /* =============================
 COUPON
 ============================= */
@@ -199,9 +201,17 @@ COUPON
 }
 
 .coupon-box button {
-  padding: 8px 12px;
+  padding: 6px 10px;
   background: var(--primary);
   color: white;
+  border-radius: 5px;
+}
+
+.coupon-box p {
+  font-size: 14px;
+  color: var(--text-muted);
+  gap : 4px;
+  padding-left: 8px;
 }
 
 /* =============================
@@ -308,8 +318,13 @@ RESPONSIVE
   }
 
   /* COUPON */
+ 
   .coupon-box input {
-    font-size: 13px;
+    font-size: 11px;
+  }
+
+  .coupon-box p{
+    font-size: 10px;
   }
 
   .coupon-box button {
@@ -439,4 +454,95 @@ RESPONSIVE
     max-width: 320px; 
     margin: 0 auto;
   }
+}
+
+.input-group-static input,
+.input-group-static textarea {
+  color: #fff !important;
+  opacity: 1 !important;
+}
+
+/* =========================
+FORM GRID
+========================= */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+/* INPUT GROUP */
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.input-group.full {
+  grid-column: span 2;
+}
+
+/* LABEL */
+.input-group label {
+  font-size: 11px;
+  color: #8E7AB5;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* INPUT */
+.input-group input,
+.input-group textarea {
+  background: #121212;
+  border: 1px solid #2a2a2f;
+  padding: 12px;
+  color: #fff;
+  border-radius: 4px;
+  font-size: 14px;
+  outline: none;
+}
+
+/* FOCUS */
+.input-group input:focus,
+.input-group textarea:focus {
+  border-color: #8E7AB5;
+}
+
+/* TEXTAREA */
+.input-group textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* =========================
+MOBILE FIX
+========================= */
+@media (max-width: 768px) {
+
+  .checkout-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .input-group.full {
+    grid-column: span 1;
+  }
+
+  .checkout-right {
+    margin-top: 20px;
+  }
+
+}
+
+
+.input-group-static textarea {
+  min-height: 80px; /* Thoda kam kiya */
+}
+
+.input-group-static input::placeholder {
+  color: #444; 
 }

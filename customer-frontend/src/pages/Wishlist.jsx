@@ -1,173 +1,174 @@
-import "../styles/contact.css";
-import { useState } from "react";
-import { sendMessage } from "../api/contact";
+import "../styles/wishlist.css";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import API from "../api/axiosInstance";
 
-const Contact = () => {
-  const [successMsg, setSuccessMsg] = useState("");
-  const [loading, setLoading] = useState(false);
+const Wishlist = () => {
+  const [wishlist, setWishlist] = useState([]);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [selectedSize, setSelectedSize] = useState("");
+  const [showPopup, setShowPopup] = useState(false);
 
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    message: "",
-  });
+  const navigate = useNavigate();
 
   /* ======================
-     HANDLE CHANGE
+     FETCH WISHLIST
   ====================== */
-  const handleChange = (e) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
+  useEffect(() => {
+    const fetchWishlist = async () => {
+      try {
+        const res = await API.get("/wishlist");
+        setWishlist(res.data || []);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    fetchWishlist();
+  }, []);
+
+  /* ======================
+     REMOVE
+  ====================== */
+  const removeFromWishlist = async (id) => {
+    try {
+      const res = await API.post(`/wishlist/${id}`);
+      setWishlist(res.data || []);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   /* ======================
-     HANDLE SUBMIT
+     BUY NOW
   ====================== */
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleBuyNow = async (product) => {
+    try {
+      await API.post("/cart", {
+        productId: product._id,
+        size: "M",
+        quantity: 1,
+        buyNow: true,
+      });
 
-    // ✅ Basic validation
-    if (!formData.name || !formData.email || !formData.message) {
-      setSuccessMsg("Please fill all required fields ⚠️");
+      navigate("/checkout?type=buyNow");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  /* ======================
+     MOVE TO CART (WITH SIZE)
+  ====================== */
+  const handleMoveToCart = (product) => {
+    setSelectedProduct(product);
+    setShowPopup(true);
+  };
+
+  const confirmAddToCart = async () => {
+    if (!selectedSize) {
+      alert("Select size");
       return;
     }
 
-    try {
-      setLoading(true);
+    await API.post("/cart", {
+      productId: selectedProduct._id,
+      size: selectedSize,
+      quantity: 1,
+    });
 
-      await sendMessage(formData);
+    await removeFromWishlist(selectedProduct._id);
 
-      setSuccessMsg("Message sent successfully ✅");
-
-      // reset form
-      setFormData({
-        name: "",
-        email: "",
-        subject: "",
-        message: "",
-      });
-
-    } catch (err) {
-      console.log("❌ ERROR:", err.response?.data || err.message);
-      setSuccessMsg("Failed to send message ❌");
-    } finally {
-      setLoading(false);
-
-      setTimeout(() => {
-        setSuccessMsg("");
-      }, 3000);
-    }
+    setShowPopup(false);
+    setSelectedSize("");
   };
 
   return (
-    <div className="contact-page container">
-      
-      {/* HEADER */}
-      <div className="contact-header">
-        <h1>LET’S CONNECT</h1>
-        <p>
-          Have a question about your fit? Or just want to say hi?
-          We’re always here to help.
-        </p>
-      </div>
+    <div className="wishlist-page">
+      <h2>Your Wishlist</h2>
 
-      <div className="contact-grid">
+      {wishlist.length === 0 ? (
+        <p>No items</p>
+      ) : (
+        <div className="wishlist-grid">
 
-        {/* LEFT */}
-        <div className="contact-info card">
-          <h3>Contact Info</h3>
+          {wishlist.map((item) => (
+            <div className="wishlist-row" key={item._id}>
 
-          <p><strong>Email:</strong> softstrides7@gmail.com</p>
-          <p><strong>Phone:</strong> +91 8690709955</p>
+              {/* IMAGE */}
+              <div
+                className="wishlist-image"
+                onClick={() => navigate(`/product/${item._id}`)}
+              >
+                <img
+                  src={item.image || item.images?.[0]}
+                  alt={item.name}
+                />
+              </div>
 
-          <p className="support-time">
-            Mon-Sat | 10 AM to 6 PM IST
-          </p>
+              {/* CONTENT */}
+              <div className="wishlist-content">
 
-          <div className="trust-box">
-            <div>🚚 Fast Dispatch</div>
-            <div>🔒 Secure Payment</div>
-            <div>⭐ Premium Quality</div>
+                <div className="left">
+                  <h3>{item.name}</h3>
+                  <p>₹{item.price}</p>
+                </div>
+
+                <div className="right">
+
+                  <button onClick={() => handleMoveToCart(item)}>
+                    Move
+                  </button>
+
+                  <button
+                    className="buy-btn"
+                    onClick={() => handleBuyNow(item)}
+                  >
+                    Buy Now
+                  </button>
+
+                  <button
+                    className="remove-btn"
+                    onClick={() => removeFromWishlist(item._id)}
+                  >
+                    Remove
+                  </button>
+
+                </div>
+
+              </div>
+
+            </div>
+          ))}
+
+        </div>
+      )}
+
+      {/* SIZE POPUP */}
+      {showPopup && (
+        <div className="popup">
+          <div className="box">
+            <h3>Select Size</h3>
+
+            <div className="sizes">
+              {["S", "M", "L", "XL"].map((s) => (
+                <button
+                  key={s}
+                  className={selectedSize === s ? "active" : ""}
+                  onClick={() => setSelectedSize(s)}
+                >
+                  {s}
+                </button>
+              ))}
+            </div>
+
+            <button onClick={confirmAddToCart}>Add</button>
+            <button onClick={() => setShowPopup(false)}>Cancel</button>
           </div>
         </div>
-
-        {/* FORM */}
-        <form className="contact-form card" onSubmit={handleSubmit}>
-          
-          {successMsg && (
-            <p className="success-message">{successMsg}</p>
-          )}
-
-          <input
-            type="text"
-            name="name"
-            placeholder="Full Name"
-            value={formData.name}
-            onChange={handleChange}
-          />
-
-          <input
-            type="email"
-            name="email"
-            placeholder="Email Address"
-            value={formData.email}
-            onChange={handleChange}
-          />
-
-          <select
-            name="subject"
-            value={formData.subject}
-            onChange={handleChange}
-          >
-            <option value="">What's on your mind?</option>
-            <option>Order Status</option>
-            <option>Custom Design</option>
-            <option>Bulk Inquiry</option>
-            <option>Other</option>
-          </select>
-
-          <textarea
-            name="message"
-            placeholder="Write your message..."
-            value={formData.message}
-            onChange={handleChange}
-          ></textarea>
-
-          <button
-            type="submit"
-            className="btn-primary"
-            disabled={loading}
-          >
-            {loading ? "Sending..." : "Send Message"}
-          </button>
-
-        </form>
-      </div>
-
-      {/* FAQ */}
-      <div className="faq-section">
-        <h2>FAQ</h2>
-
-        <details>
-          <summary>How do I track my order?</summary>
-          <p>You will receive a tracking link via email after shipping.</p>
-        </details>
-
-        <details>
-          <summary>Do you offer custom T-shirts?</summary>
-          <p>Yes, we support custom designs and bulk orders.</p>
-        </details>
-
-        <details>
-          <summary>What is your return policy?</summary>
-          <p>We offer 7-day easy returns for eligible products.</p>
-        </details>
-      </div>
+      )}
     </div>
   );
 };
 
-export default Contact;
+export default Wishlist;

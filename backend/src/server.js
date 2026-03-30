@@ -18,6 +18,9 @@
   import wishlistRoutes from "./routes/wishlistRoutes.js";
 import flashSaleRoutes from "./routes/flashSaleRoutes.js";
 import contactRoutes from "./routes/contactUs.js";
+import cartRoutes from "./routes/cartRoutes.js";
+
+
 
   dotenv.config();
   connectDB();
@@ -43,6 +46,7 @@ import contactRoutes from "./routes/contactUs.js";
   app.use("/uploads", express.static("uploads"));
   app.use("/api/flash-sales", flashSaleRoutes);
   app.use("/api/contact", contactRoutes);
+  app.use("/api/cart", cartRoutes);
 
 
   app.get("/", (req, res) => {

@@ -7,8 +7,10 @@ const FlashSaleSection = () => {
   const [sale, setSale] = useState(null);
   const [timeLeft, setTimeLeft] = useState("");
   const [expired, setExpired] = useState(false);
+
   const API_URL = process.env.REACT_APP_API_URL;
 
+  // 🔥 Fetch Flash Sale
   useEffect(() => {
     const fetchFlashSale = async () => {
       try {
@@ -46,18 +48,20 @@ const FlashSaleSection = () => {
     return () => clearInterval(interval);
   }, [sale]);
 
-  if (!sale || sale.products.length === 0)
+  // ❌ No Sale
+  if (!sale || sale.products.length === 0) {
     return (
       <div className="No-active">
         <p>No active flash sale</p>
       </div>
     );
+  }
 
   return (
     <section className="flash-sale-section">
       <div className="container">
 
-        {/* Header */}
+        {/* 🔥 Header */}
         <div className="flash-header">
           <h2>🔥 Flash Sale</h2>
 
@@ -72,7 +76,7 @@ const FlashSaleSection = () => {
           )}
         </div>
 
-        {/* Products */}
+        {/* 🔥 Products */}
         <div
           className={`flash-products-grid ${
             sale.products.length === 1 ? "single-product" : ""
@@ -87,15 +91,17 @@ const FlashSaleSection = () => {
 
             return (
               <div
-                className={`flash-card-wrapper ${
+                className={`flash-card-wrapper minimal ${
                   expired ? "flash-expired" : ""
                 }`}
                 key={product._id}
               >
+                {/* 🏷 Discount */}
                 <span className="discount-badge">
                   -{discount}%
                 </span>
 
+                {/* 🔥 Product */}
                 <ProductCard
                   product={product}
                   discountedPrice={discountedPrice.toFixed(0)}
@@ -104,6 +110,7 @@ const FlashSaleSection = () => {
             );
           })}
         </div>
+
       </div>
     </section>
   );
