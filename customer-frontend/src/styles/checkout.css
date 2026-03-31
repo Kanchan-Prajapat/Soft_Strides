@@ -214,6 +214,25 @@ COUPON
   padding-left: 8px;
 }
 
+.use-address-btn {
+  width: 100%;
+  margin-top: 8px;
+  padding: 10px;
+  background: #1f1f23;
+  border: 1px solid #2e2e35;
+  color: #8E7AB5;
+  font-size: 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.use-address-btn:hover {
+  background: #8E7AB5;
+  color: #fff;
+  border-color: #8E7AB5;
+}
+
 /* =============================
 TOTAL
 ============================= */

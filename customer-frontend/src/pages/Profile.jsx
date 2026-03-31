@@ -11,6 +11,7 @@ const navigate = useNavigate();
 
 const API_URL = process.env.REACT_APP_API_URL;
 const token = localStorage.getItem("userToken");
+const [isEditing, setIsEditing] = useState(false);
 
 useEffect(() => {
 if (!user) navigate("/login");
@@ -212,13 +213,25 @@ return ( <div className="container profile-page"> <h2 className="profile-title">
       <div className="profile-section">
         <h3>Update Profile</h3>
 
-        <input value={name} onChange={(e) => setName(e.target.value)} />
-        <input value={email} onChange={(e) => setEmail(e.target.value)} />
-        <input value={phone} onChange={(e) => setPhone(e.target.value)} />
+        <input value={name} disabled={!isEditing} onChange={(e) => setName(e.target.value)} />
+        <input value={email} disabled={!isEditing} onChange={(e) => setEmail(e.target.value)} />
+        <input value={phone} disabled={!isEditing} onChange={(e) => setPhone(e.target.value)} />
 
-        <button className="primary-btn" onClick={updateProfile}>
-          Save Changes
-        </button>
+        {!isEditing ? (
+  <button className="profile-btn edit" onClick={() => setIsEditing(true)}>
+    Edit Profile
+  </button>
+) : (
+  <button
+  className="profile-btn save"
+    onClick={() => {
+      updateProfile(); // tera existing API call
+      setIsEditing(false);
+    }}
+  >
+    Save Changes
+  </button>
+)}
       </div>
 
       <div className="profile-section">
@@ -226,12 +239,25 @@ return ( <div className="container profile-page"> <h2 className="profile-title">
 
         <input
           value={location}
+          disabled={!isEditing}
           onChange={(e) => setLocation(e.target.value)}
         />
 
-        <button className="primary-btn" onClick={updateLocation}>
-          Save Location
-        </button>
+      {!isEditing ? (
+  <button className="profile-btn edit" onClick={() => setIsEditing(true)}>
+    Edit Location
+  </button>
+) : (
+  <button
+  className="profile-btn save"
+    onClick={() => {
+      updateLocation(); // tera existing API call
+      setIsEditing(false);
+    }}
+  >
+    Save Changes
+  </button>
+)}
       </div>
 
     </div>

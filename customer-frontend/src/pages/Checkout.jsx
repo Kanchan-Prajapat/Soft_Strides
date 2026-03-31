@@ -78,7 +78,7 @@ useEffect(() => {
       ...prev,
       firstName: user.name?.split(" ")[0] || "",
       phone: user.phone || "",
-      address: user.location || ""
+      address: user.location || user.address || ""
     }));
   }
 }, []); 
@@ -227,6 +227,20 @@ useEffect(() => {
     onChange={handleChange}
     placeholder="Enter full address"
   />
+
+ <button
+  className="use-address-btn"
+  onClick={() => {
+    const user = JSON.parse(localStorage.getItem("userInfo"));
+    setForm((prev) => ({
+      ...prev,
+      address: user.location,
+      phone: user.phone
+    }));
+  }}
+>
+  Use Saved Address
+</button>
 </div>
 
 <div className="input-group">

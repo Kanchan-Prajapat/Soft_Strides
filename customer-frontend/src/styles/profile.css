@@ -88,6 +88,11 @@ PROFILE PAGE
   border-radius: 4px;
 }
 
+input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 /* ================= SECTION ================= */
 .profile-section {
   background: var(--bg-card);
@@ -122,6 +127,37 @@ PROFILE PAGE
 
 .primary-btn:hover {
   background: var(--primary-dark);
+}
+
+.profile-btn {
+  margin-top: 12px;
+  padding: 10px 18px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: 0.3s ease;
+}
+
+/* Edit */
+.profile-btn.edit {
+  background: #2a2a2f;
+  color: #fff;
+}
+
+.profile-btn.edit:hover {
+  background: #3a3a3f;
+}
+
+/* Save */
+.profile-btn.save {
+  background: #8E7AB5;
+  color: #fff;
+}
+
+.profile-btn.save:hover {
+  background: #6f5aa8;
 }
 
 /* ================= ORDERS ================= */
