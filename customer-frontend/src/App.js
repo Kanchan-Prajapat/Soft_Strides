@@ -19,6 +19,8 @@ import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import OrderSuccess from "./pages/OrderSuccess";
+import OrderDetails from "./pages/OrderDetails";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -54,6 +56,8 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
          <Route  path="/reset-password/:token" element={<ResetPassword />} />
+         <Route path="/checkout/order-success" element={<OrderSuccess />} />
+         <Route path="/order/:id" element={<OrderDetails />} />
       </Routes>
       <Footer />
     </BrowserRouter>

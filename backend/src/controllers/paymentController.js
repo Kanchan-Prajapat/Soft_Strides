@@ -43,6 +43,19 @@ export const verifyRazorpayPayment = async (req, res) => {
       orderData
     } = req.body;
 
+    const detailedProducts = orderData.products.map(item => {
+  const product = item.product || item;
+
+  return {
+    product: product._id,
+    name: product.name,
+    image: product.images?.[0] || product.image,
+    price: product.price,
+    qty: item.quantity || item.qty || 1,
+    size: item.size || "Free Size"
+  };
+});
+
     const generatedSignature = crypto
       .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
       .update(razorpay_order_id + "|" + razorpay_payment_id)
@@ -53,15 +66,15 @@ export const verifyRazorpayPayment = async (req, res) => {
     }
 
     // ✅ SAVE ORDER (AUTO VERIFIED)
-    const order = await Order.create({
-      user: req.user._id,
-      products: orderData.products,
-      totalAmount: orderData.totalAmount,
-      address: orderData.address,
-      phone: orderData.phone,
-      paymentMethod: "Razorpay",
-      paymentStatus: "Verified", // 🔥 important
-    });
+     const order = await Order.create({
+    user: req.user._id,
+    products: detailedProducts,
+    totalAmount: orderData.totalAmount,
+    address: orderData.address,
+    phone: orderData.phone,
+    paymentStatus: "Paid",
+    paymentId: razorpay_payment_id
+  });
 
     res.json({ success: true, order });
 

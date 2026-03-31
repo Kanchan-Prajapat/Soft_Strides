@@ -23,7 +23,7 @@ const ProductDetails = () => {
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
   const { toggleWishlist, isInWishlist } = useWishlist();
-  const hasSizes = product.sizes && product.sizes.length > 0;
+ const hasSizes = product?.sizes?.length > 0;
   
 
   const refresh = () => setFetchProduct((prev) => !prev);
@@ -135,24 +135,20 @@ useEffect(() => {
           <div className="size-section">
           {hasSizes && <h4>Select Size</h4>}
 
-            {product.sizes?.length > 0 ? (
-  <div className="size-options">
-    {product.sizes.map((size) => (
-      <button
-        key={size}
-        className={`size-btn ${
-          selectedSize === size ? "active" : ""
-        }`}
-        onClick={() => setSelectedSize(size)}
-      >
-        {size}
-      </button>
-    ))}
-  </div>
+          {product?.sizes?.length > 0 ? (
+  product.sizes.map((size) => (
+    <button
+      key={size}
+      className={`size-btn ${
+        selectedSize === size ? "active" : ""
+      }`}
+      onClick={() => setSelectedSize(size)}
+    >
+      {size}
+    </button>
+  ))
 ) : (
-  <div className="size-options">
-    <span className="free-size">Free Size</span>
-  </div>
+  <button className="size-btn active">Free Size</button>
 )}
           </div>
 

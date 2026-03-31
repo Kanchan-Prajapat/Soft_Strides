@@ -49,7 +49,7 @@ products: [
 
     paymentStatus: {
       type: String,
-      enum: ["Pending", "Verified", "Rejected"],
+      enum: ["Pending", "Verified", "Rejected", "Paid"],
       default: "Pending",
     },
 

@@ -67,37 +67,42 @@ const navigate= useNavigate();
   {order.products?.map((item, index) => (
     <div key={index} className="order-product-row">
 
-      <img
-        src={item.image}
-        alt={item.name}
-        className="order-product-img"
-        onClick={() => navigate(`/product/${item.product._id}`)}
-        style={{ cursor: "pointer" }}
-      />
+    <img
+  src={item.product?.images?.[0]}
+  alt={item.product?.name}
+  className="order-product-img"
+  onClick={() => navigate(`/product/${item.product?._id}`)}
+  style={{ cursor: "pointer" }}
+/>
 
-      <div className="order-product-info">
-        <p className="product-name">{item.name}</p>
-        <p>Size: {item.size}</p>
-        <p>Qty: {item.qty}</p>
-      </div>
+<div className="order-product-info">
+  <p className="product-name">
+    {item.product?.name}
+  </p>
+
+  <p>Size: {item.size || "Free Size"}</p>
+  <p>Qty: {item.qty}</p>
+</div>
 
     </div>
   ))}
 </div>
 
           {/* TIMELINE */}
-          <div className="timeline-horizontal">
-            {order.history?.map((step, index) => (
-              <div key={index} className="timeline-step">
-                <div className="timeline-status">
-                  {step.status}
-                </div>
-                <div className="timeline-date">
-                  {new Date(step.date).toLocaleDateString()}
-                </div>
-              </div>
-            ))}
-          </div>
+         {order.history?.length > 0 ? (
+  <div className="timeline-horizontal">
+    {order.history.map((step, index) => (
+      <div key={index} className="timeline-step">
+        <div className="timeline-status">{step.status}</div>
+        <div className="timeline-date">
+          {new Date(step.date).toLocaleDateString()}
+        </div>
+      </div>
+    ))}
+  </div>
+) : (
+  <p className="no-timeline">Order placed</p>
+)}
 
         </div>
       ))

@@ -14,8 +14,8 @@ const Checkout = () => {
   const isBuyNow = new URLSearchParams(location.search).get("type") === "buyNow";
   const navigate = useNavigate();
   const API_URL = process.env.REACT_APP_API_URL;
-const [checkoutItems, setCheckoutItems] = useState([]);
-const [checkoutTotal, setCheckoutTotal] = useState(0);
+  const [checkoutItems, setCheckoutItems] = useState([]);
+  const [checkoutTotal, setCheckoutTotal] = useState(0);
   const [step, setStep] = useState(1);
   const [coupon, setCoupon] = useState("");
   const [discount, setDiscount] = useState(0);
@@ -31,57 +31,57 @@ const [checkoutTotal, setCheckoutTotal] = useState(0);
     phone: ""
   });
 
-const finalAmount = checkoutTotal - discount;
+  const finalAmount = checkoutTotal - discount;
 
   useEffect(() => {
-  const fetchCart = async () => {
-    try {
-      const token = localStorage.getItem("userToken");
+    const fetchCart = async () => {
+      try {
+        const token = localStorage.getItem("userToken");
 
-      const res = await axios.get(
-        `${API_URL}/api/cart`,
-        {
-          headers: { Authorization: `Bearer ${token}` }
-        }
-      );
+        const res = await axios.get(
+          `${API_URL}/api/cart`,
+          {
+            headers: { Authorization: `Bearer ${token}` }
+          }
+        );
 
-      const items = res.data;
+        const items = res.data;
 
-      setCheckoutItems(items);
+        setCheckoutItems(items);
 
-      const total = items.reduce(
-        (acc, item) => acc + item.product.price * item.quantity,
-        0
-      );
+        const total = items.reduce(
+          (acc, item) => acc + item.product.price * item.quantity,
+          0
+        );
 
-      setCheckoutTotal(total);
+        setCheckoutTotal(total);
 
-    } catch (err) {
-      console.log("Cart fetch error:", err);
+      } catch (err) {
+        console.log("Cart fetch error:", err);
+      }
+    };
+
+    if (isBuyNow) {
+      fetchCart(); // 🔥 only 1 item will come
+    } else {
+      setCheckoutItems(cartItems);
+      setCheckoutTotal(totalPrice);
     }
-  };
 
-  if (isBuyNow) {
-    fetchCart(); // 🔥 only 1 item will come
-  } else {
-    setCheckoutItems(cartItems);
-    setCheckoutTotal(totalPrice);
-  }
-
-}, [isBuyNow, cartItems, totalPrice, API_URL]);
+  }, [isBuyNow, cartItems, totalPrice, API_URL]);
 
   // Autofill
-useEffect(() => {
-  const user = JSON.parse(localStorage.getItem("userInfo"));
-  if (user) {
-    setForm((prev) => ({
-      ...prev,
-      firstName: user.name?.split(" ")[0] || "",
-      phone: user.phone || "",
-      address: user.location || user.address || ""
-    }));
-  }
-}, []); 
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("userInfo"));
+    if (user) {
+      setForm((prev) => ({
+        ...prev,
+        firstName: user.name?.split(" ")[0] || "",
+        phone: user.phone || "",
+        address: user.location || user.address || ""
+      }));
+    }
+  }, []);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -162,7 +162,7 @@ useEffect(() => {
 
           if (verifyRes.data.success) {
             alert("Payment Successful 🎉");
-            setStep(3);
+            navigate("/checkout/order-success");
           }
         },
 
@@ -192,127 +192,128 @@ useEffect(() => {
         <div className={step >= 3 ? "active" : ""}>Success</div>
       </div>
 
+
       {/* STEP 1 */}
       {step === 1 && (
         <div className="checkout-container">
 
-         <div className="checkout-left">
-  <div className="form-grid">
+          <div className="checkout-left">
+            <div className="form-grid">
 
-   <div className="input-group">
-  <label>First Name</label>
-  <input
-    name="firstName"
-    value={form.firstName}
-    onChange={handleChange}
-    placeholder="Enter First Name"
-  />
-</div>
+              <div className="input-group">
+                <label>First Name</label>
+                <input
+                  name="firstName"
+                  value={form.firstName}
+                  onChange={handleChange}
+                  placeholder="Enter First Name"
+                />
+              </div>
 
-<div className="input-group">
-  <label>Last Name</label>
-  <input
-    name="lastName"
-    value={form.lastName}
-    onChange={handleChange}
-    placeholder="Enter Last Name"
-  />
-</div>
+              <div className="input-group">
+                <label>Last Name</label>
+                <input
+                  name="lastName"
+                  value={form.lastName}
+                  onChange={handleChange}
+                  placeholder="Enter Last Name"
+                />
+              </div>
 
-<div className="input-group full">
-  <label>Address</label>
-  <textarea
-    name="address"
-    value={form.address}
-    onChange={handleChange}
-    placeholder="Enter full address"
-  />
+              <div className="input-group full">
+                <label>Address</label>
+                <textarea
+                  name="address"
+                  value={form.address}
+                  onChange={handleChange}
+                  placeholder="Enter full address"
+                />
 
- <button
-  className="use-address-btn"
-  onClick={() => {
-    const user = JSON.parse(localStorage.getItem("userInfo"));
-    setForm((prev) => ({
-      ...prev,
-      address: user.location,
-      phone: user.phone
-    }));
-  }}
->
-  Use Saved Address
-</button>
-</div>
+                <button
+                  className="use-address-btn"
+                  onClick={() => {
+                    const user = JSON.parse(localStorage.getItem("userInfo"));
+                    setForm((prev) => ({
+                      ...prev,
+                      address: user.location,
+                      phone: user.phone
+                    }));
+                  }}
+                >
+                  Use Saved Address
+                </button>
+              </div>
 
-<div className="input-group">
-  <label>City</label>
-  <input
-    name="city"
-    value={form.city}
-    onChange={handleChange}
-  />
-</div>
+              <div className="input-group">
+                <label>City</label>
+                <input
+                  name="city"
+                  value={form.city}
+                  onChange={handleChange}
+                />
+              </div>
 
-<div className="input-group">
-  <label>Pincode</label>
-  <input
-    name="pincode"
-    value={form.pincode}
-    onChange={handleChange}
-  />
-</div>
+              <div className="input-group">
+                <label>Pincode</label>
+                <input
+                  name="pincode"
+                  value={form.pincode}
+                  onChange={handleChange}
+                />
+              </div>
 
-<div className="input-group full">
-  <label>Phone</label>
-  <input
-    name="phone"
-    value={form.phone}
-    onChange={handleChange}
-  />
-</div>
+              <div className="input-group full">
+                <label>Phone</label>
+                <input
+                  name="phone"
+                  value={form.phone}
+                  onChange={handleChange}
+                />
+              </div>
 
-  </div>
+            </div>
 
- <button
-  className="primary-btn"
-  onClick={() => {
-    if (!form.firstName || !form.address || !form.phone) {
-      alert("Please fill all required fields");
-      return;
-    }
-    setStep(2);
-  }}
->
-    Continue to Payment
-  </button>
+            <button
+              className="primary-btn"
+              onClick={() => {
+                if (!form.firstName || !form.address || !form.phone) {
+                  alert("Please fill all required fields");
+                  return;
+                }
+                setStep(2);
+              }}
+            >
+              Continue to Payment
+            </button>
 
-</div>
+          </div>
 
           <div className="checkout-right">
             <h3>Order Summary</h3>
 
-           {checkoutItems.map((item) => {
-  const product = item.product || item; // 🔥 important fix
+            {checkoutItems.map((item) => {
+              const product = item.product || item; // 🔥 important fix
 
-  return (
-    <div key={item._id} className="summary-item">
-      <img
-        src={product.images?.[0] || product.image}
-        alt={product.name}
-      />
-      <div>
-        <p>{product.name}</p>
-        <span>
-          ₹{product.price} × {item.quantity || 1}
-        </span>
-      </div>
-    </div>
-  );
-})}
+              return (
+                <div key={item._id} className="summary-item">
+                  <img
+                    src={product.images?.[0] || product.image}
+                    alt={product.name}
+                  />
+                  <div>
+                    <p>{product.name}</p>
+                    <span>
+                      ₹{product.price} × {item.quantity || 1}
+                    </span>
+                  </div>
+                </div>
+              );
+            })}
 
             <div className="coupon-box">
               <p>Have Coupen?</p>
               <p>Apply Here!</p>
-              <input style={{  padding: '5px', color: '#fff', width: '100px' }} value={coupon} onChange={(e) => setCoupon(e.target.value)} />
+              <input style={{ padding: '5px', color: '#fff', width: '100px' }} value={coupon} onChange={(e) => setCoupon(e.target.value)} />
               <button onClick={applyCoupon}>Apply</button>
             </div>
 
@@ -322,26 +323,32 @@ useEffect(() => {
         </div>
       )}
 
-   {/* STEP 2 */}
-{step === 2 && (
-  <div className="payment-screen">
-    <h2>Payment Method</h2>
-    <p>Amount to be paid:</p>
-    <span className="total-amount">₹{finalAmount}</span>
+      {/* STEP 2 */}
+      {step === 2 && (
+        <div className="payment-screen">
+          <h2>Payment Method</h2>
+          <p>Amount to be paid:</p>
+          <span className="total-amount">₹{finalAmount}</span>
 
-    <button
-      onClick={handlePayment}
-      className="primary-btn"
-      disabled={loading}
-    >
-      {loading ? "Initializing Razorpay..." : "Pay Securely"}
-    </button>
-    
-    <p style={{ fontSize: '12px', marginTop: '20px', color: '#52525b' }}>
-      100% Secure Payment via Razorpay
-    </p>
-  </div>
-)}
+          {/* <button
+  onClick={() => navigate("/checkout/order-success")}
+>
+  Test Success Page
+</button> */}
+
+          <button
+            onClick={handlePayment}
+            className="primary-btn"
+            disabled={loading}
+          >
+            {loading ? "Initializing Razorpay..." : "Pay Securely"}
+          </button>
+
+          <p style={{ fontSize: '12px', marginTop: '20px', color: '#52525b' }}>
+            100% Secure Payment via Razorpay
+          </p>
+        </div>
+      )}
 
       {/* STEP 3 */}
       {step === 3 && (

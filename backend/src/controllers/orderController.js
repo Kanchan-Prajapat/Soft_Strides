@@ -255,7 +255,7 @@ export const cancelOrder = async (req, res) => {
   try {
     const { reason } = req.body;
 
-    if (!reason || reason.trim() === "") {
+    if (!reason || typeof reason !== "string" || reason.trim() === "") {
       return res.status(400).json({
         message: "Cancellation reason is required",
       });
@@ -263,14 +263,17 @@ export const cancelOrder = async (req, res) => {
 
     const order = await Order.findById(req.params.id);
 
+    console.log("REQ.USER:", req.user);
+    console.log("ORDER.USER:", order?.user);
+
     if (!order)
       return res.status(404).json({ message: "Order not found" });
 
-    if (order.user.toString() !== req.user._id.toString())
-      return res.status(403).json({ message: "Not authorized" });
+  if (!req.user || !order.user || order.user.toString() !== req.user._id.toString()) {
+  return res.status(403).json({ message: "Not authorized" });
+}
 
-    if (["Shipped", "Out for Delivery", "Delivered"]
-        .includes(order.deliveryStatus)) {
+    if (["Shipped", "Out for Delivery", "Delivered"].includes(order.deliveryStatus)) {
       return res.status(400).json({
         message: "Cannot cancel after shipment",
       });
@@ -280,6 +283,7 @@ export const cancelOrder = async (req, res) => {
     order.deliveryStatus = "Cancelled";
     order.cancelReason = reason;
 
+    order.history = order.history || [];
     order.history.push({
       status: "Cancelled",
       type: "cancel",
@@ -289,8 +293,10 @@ export const cancelOrder = async (req, res) => {
     await order.save();
 
     res.json(order);
+    console.log("ORDER FULL:", order);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error("CANCEL ERROR:", error);
+    res.status(500).json({ message: "Cancel failed", error: error.message });
   }
 };
 
@@ -318,13 +324,12 @@ export const returnOrder = async (req, res) => {
     order.deliveryStatus = "Return Requested";
     order.isReturned = true;
     order.returnReason = reason;
-
-    order.history.push({
-      status: "Return Requested",
-      type: "return",
-      date: new Date(),
-    });
-
+order.history = order.history || [];
+order.history.push({
+  status: "Return Requested",
+  type: "return",
+  date: new Date(),
+});
     await order.save();
 
     res.json(order);
@@ -343,11 +348,12 @@ export const approveReturn = async (req, res) => {
 
     order.deliveryStatus = "Return Approved";
 
-    order.history.push({
-      status: "Return Approved",
-      type: "return",
-      date: new Date(),
-    });
+   order.history = order.history || [];
+order.history.push({
+  status: "Return Approved",
+  type: "return",
+  date: new Date(),
+});
 
     await order.save();
 
@@ -369,11 +375,12 @@ export const rejectReturn = async (req, res) => {
     order.deliveryStatus = "Return Rejected";
     order.isReturned = false;
 
-    order.history.push({
-      status: "Return Rejected",
-      type: "return",
-      date: new Date(),
-    });
+  order.history = order.history || [];
+order.history.push({
+  status: "Return Rejected",
+  type: "return",
+  date: new Date(),
+});
 
     await order.save();
 
@@ -404,12 +411,12 @@ export const updateReturnStatus = async (req, res) => {
     }
 
     // Push into unified history
-    order.history.push({
-      status,
-      type: "return",
-      date: new Date(),
-    });
-
+   order.history = order.history || [];
+order.history.push({
+  status: "Refund Done",
+  type: "return",
+  date: new Date(),
+});
     await order.save();
 
     res.json(order);

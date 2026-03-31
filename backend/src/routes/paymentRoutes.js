@@ -23,7 +23,7 @@ router.get("/", protect, async (req, res) => {
 });
 
 router.post("/create-order", createRazorpayOrder);
-router.post("/verify", verifyRazorpayPayment);
+router.post("/verify", protect, verifyRazorpayPayment);
 
 
 export default router;
