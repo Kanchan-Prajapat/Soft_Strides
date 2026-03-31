@@ -12,7 +12,8 @@ const ProductCard = ({ product, discountedPrice }) => {
   const isWishlisted = isInWishlist(product._id);
 
   // 🔥 SIZE STATE (MISSING THA)
-  const [selectedSize, setSelectedSize] = useState(null);
+  const [selectedSize, setSelectedSize] = useState(product.sizes?.[0] || "Free Size");
+  const hasSizes = product.sizes && product.sizes.length > 0;
 
   /* ========================
      WISHLIST
@@ -76,7 +77,7 @@ const ProductCard = ({ product, discountedPrice }) => {
 
       {/* INFO */}
       <div className="product-info">
-        
+
         {/* 🔥 NAME + PRICE SAME ROW */}
         <div className="product-info-top">
           <h4>{product.name}</h4>
@@ -93,18 +94,22 @@ const ProductCard = ({ product, discountedPrice }) => {
 
         {/* 🔥 SIZES */}
         <div className="size-badges">
-          {product.sizes?.map((size, i) => (
-            <span
-              key={i}
-              className={selectedSize === size ? "active-size" : ""}
-              onClick={(e) => {
-                e.stopPropagation();
-                setSelectedSize(size);
-              }}
-            >
-              {size}
-            </span>
-          ))}
+          {hasSizes ? (
+            product.sizes.map((size, i) => (
+              <span
+                key={i}
+                className={selectedSize === size ? "active-size" : ""}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setSelectedSize(size);
+                }}
+              >
+                {size}
+              </span>
+            ))
+          ) : (
+            <span className="free-size active-size">Free Size</span>
+          )}
         </div>
 
         {/* 🔥 BUTTONS */}

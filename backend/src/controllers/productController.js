@@ -4,7 +4,7 @@ import streamifier from "streamifier";
 
 export const createProduct = async (req, res) => {
   try {
-    const { name, price, stock, category, description } = req.body;
+    const { name, price, stock, sizes, category, description } = req.body;
 
     if (!name || !price || !stock || !category) {
       return res.status(400).json({ message: "Missing required fields" });
@@ -40,6 +40,7 @@ export const createProduct = async (req, res) => {
       price,
       stock,
       category,
+      sizes: sizes ? sizes.split(",").map((s) => s.trim()) : [],
       description,
       images: imageUrls,
     });
@@ -120,14 +121,16 @@ export const getSingleProduct = async (req, res) => {
 // UPDATE PRODUCT (ADMIN)
 export const updateProduct = async (req, res) => {
   try {
-    const { name, price, stock, category, description } = req.body;
+    const { name, price, stock, category, description, sizes } = req.body;
 
     const updates = {
       name,
       price,
       stock,
+      sizes: sizes ? sizes.split(",").map((s) => s.trim()) : [],
       category,
       description,
+
     };
 
     // If new images uploaded → upload to Cloudinary

@@ -490,6 +490,15 @@ REVIEWS SECTION
   border-radius: 3px;
 }
 
+.free-size {
+  padding: 6px 12px;
+  background: #8E7AB5;
+  color: white;
+  border-radius: 6px;
+  font-size: 13px;
+  display: inline-block;
+}
+
 .related-card {
   position: relative;
 }

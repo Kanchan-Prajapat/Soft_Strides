@@ -9,6 +9,10 @@ const ProductModal = ({ product, categories, onClose, onSuccess }) => {
 const [category, setCategory] = useState(
   product?.category?._id ?? ""
 );
+
+const [sizes, setSizes] = useState(
+  product?.sizes ? product.sizes.join(",") : ""
+);
   const [description, setDescription] = useState(product?.description || "");
   const [images, setImages] = useState([]);
   const [preview, setPreview] = useState(product?.images || []);
@@ -22,6 +26,7 @@ const [category, setCategory] = useState(
     form.append("price", price);
     form.append("stock", stock);
     form.append("category", category);
+     form.append("sizes", sizes);
     form.append("description", description);
 
   if (images.length > 0) {
@@ -72,6 +77,13 @@ const [category, setCategory] = useState(
             </option>
           ))}
         </select>
+
+        <input
+  type="text"
+  placeholder="Available Sizes (comma separated e.g. S,M,L,XL)"
+  value={sizes}
+  onChange={(e) => setSizes(e.target.value)}
+/>
 
 
         <input

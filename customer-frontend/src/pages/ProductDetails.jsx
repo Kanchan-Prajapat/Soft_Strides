@@ -23,6 +23,7 @@ const ProductDetails = () => {
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
   const { toggleWishlist, isInWishlist } = useWishlist();
+  const hasSizes = product.sizes && product.sizes.length > 0;
   
 
   const refresh = () => setFetchProduct((prev) => !prev);
@@ -82,14 +83,14 @@ useEffect(() => {
 
 
  const handleAddToCart = () => {
-  if (!selectedSize) {
+  if (hasSizes && !selectedSize) {
     alert("Please select size first ⚠️");
     return;
   }
 
   addToCart({
     ...product,
-    size: selectedSize,
+    size: hasSizes ? selectedSize : "Free Size",
     qty: 1,
   });
 
@@ -132,21 +133,27 @@ useEffect(() => {
           <p className="description">{product.description}</p>
 
           <div className="size-section">
-            <h4>Select Size</h4>
+          {hasSizes && <h4>Select Size</h4>}
 
-            <div className="size-options">
-              {product.sizes?.map((size) => (
-                <button
-                  key={size}
-                  className={`size-btn ${
-                    selectedSize === size ? "active" : ""
-                  }`}
-                  onClick={() => setSelectedSize(size)}
-                >
-                  {size}
-                </button>
-              ))}
-            </div>
+            {product.sizes?.length > 0 ? (
+  <div className="size-options">
+    {product.sizes.map((size) => (
+      <button
+        key={size}
+        className={`size-btn ${
+          selectedSize === size ? "active" : ""
+        }`}
+        onClick={() => setSelectedSize(size)}
+      >
+        {size}
+      </button>
+    ))}
+  </div>
+) : (
+  <div className="size-options">
+    <span className="free-size">Free Size</span>
+  </div>
+)}
           </div>
 
          <div className="product-actions">
