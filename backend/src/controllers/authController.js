@@ -77,7 +77,6 @@ export const getMe = async (req, res) => {
 
 
 
-
 export const forgotPassword = async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email });
@@ -89,13 +88,15 @@ export const forgotPassword = async (req, res) => {
     const resetToken = crypto.randomBytes(32).toString("hex");
 
     user.resetPasswordToken = resetToken;
-    user.resetPasswordExpire = Date.now() + 10 * 60 * 1000; // 10 min
+    user.resetPasswordExpire = Date.now() + 10 * 60 * 1000;
 
     await user.save();
 
+  
     res.json({
       message: "Reset link generated",
-      resetToken,
+      resetToken: resetToken,
+      resetUrl: `${process.env.CLIENT_URL}/reset-password/${resetToken}`,
     });
 
   } catch (error) {

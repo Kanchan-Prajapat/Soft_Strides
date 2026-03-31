@@ -8,23 +8,31 @@ const ForgotPassword = () => {
   const [message, setMessage] = useState("");
   const API_URL = process.env.REACT_APP_API_URL;
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+ const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    try {
-      const res = await axios.post(
-        `${API_URL}/api/auth/forgot-password`,
-        { email }
-      );
+  try {
+    const res = await axios.post(
+      `${API_URL}/api/auth/forgot-password`,
+      { email }
+    );
 
- setMessage(
-  `Reset link: http://localhost:3000/reset-password/${res.data.resetToken}`
-);
-      console.log("Reset Token:", res.data.resetToken);
-    } catch (err) {
-      setMessage(err.response?.data?.message || "Something went wrong");
+    console.log("API RESPONSE:", res.data); // 🔥 DEBUG
+
+    const token = res.data.resetToken;
+
+    if (!token) {
+      setMessage("Error: Token not received");
+      return;
     }
-  };
+
+    const resetLink = `${window.location.origin}/reset-password/${token}`;
+    setMessage(resetLink);
+
+  } catch (err) {
+    setMessage(err.response?.data?.message || "Something went wrong");
+  }
+};
 
   return (
     <div className="auth-wrapper">
@@ -45,9 +53,9 @@ const ForgotPassword = () => {
 
           <button className="auth-btn">SEND RESET LINK</button>
 
-         {message && (
+       {message && (
   <a
-    href={message.split("Reset link: ")[1]}
+    href={message}
     style={{ color: "#ff4d4d", display: "block", marginTop: "15px" }}
   >
     Click here to reset password

@@ -7,6 +7,7 @@ import logo from "../assets/Logo.jpg";
 const ResetPassword = () => {
   const { token } = useParams();
   const navigate = useNavigate();
+  console.log("TOKEN:", token); 
   const API_URL = process.env.REACT_APP_API_URL;
 
   const [password, setPassword] = useState("");
