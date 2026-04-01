@@ -58,6 +58,7 @@ function App() {
          <Route  path="/reset-password/:token" element={<ResetPassword />} />
          <Route path="/checkout/order-success" element={<OrderSuccess />} />
          <Route path="/order/:id" element={<OrderDetails />} />
+         
       </Routes>
       <Footer />
     </BrowserRouter>

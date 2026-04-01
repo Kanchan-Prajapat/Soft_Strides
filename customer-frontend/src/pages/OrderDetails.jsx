@@ -1,17 +1,30 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "../styles/orderDetails.css";
+import api from "../api/api"; // ✅ use interceptor
 
 const OrderDetails = () => {
   const { id } = useParams();
   const [order, setOrder] = useState(null);
+const navigate = useNavigate();
+  /* =========================
+     ✅ CLEAN STATUS LOGIC
+  ========================= */
 
-  const API_URL = process.env.REACT_APP_API_URL;
-  const token = localStorage.getItem("userToken");
+  const isCancelable = ["Pending"].includes(order?.deliveryStatus);
 
-  const isCancelable =
-    !["Shipped", "Out for Delivery", "Delivered"].includes(order?.deliveryStatus);
+  const isReturnInProgress = [
+    "Return Requested",
+    "Return Approved",
+    "Pickup Scheduled",
+    "Picked Up",
+  ].includes(order?.deliveryStatus);
+
+  const isCompleted = [
+    "Cancelled",
+    "Refund Completed",
+  ].includes(order?.deliveryStatus);
 
   const isReturnable = (() => {
     if (order?.deliveryStatus !== "Delivered") return false;
@@ -30,28 +43,92 @@ const OrderDetails = () => {
     return diffDays <= 7;
   })();
 
+  /* =========================
+     📦 FETCH ORDER
+  ========================= */
+
+  const fetchOrder = async () => {
+    try {
+      const res = await api.get(`/orders/${id}`);
+      setOrder(res.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   useEffect(() => {
-    const fetchOrder = async () => {
-      try {
-        const res = await axios.get(
-          `${API_URL}/api/orders/${id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        setOrder(res.data);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
     fetchOrder();
-  }, [id, API_URL, token]);
+  }, [id]);
 
   if (!order) return <p className="loading">Loading...</p>;
+
+  /* =========================
+     ❌ CANCEL HANDLER
+  ========================= */
+
+  const handleCancel = async () => {
+    try {
+      const reason = prompt("Enter cancellation reason:");
+
+      if (!reason) {
+        alert("Reason required");
+        return;
+      }
+
+      await api.put(`/orders/cancel/${order._id}`, { reason });
+
+      alert("Order cancelled");
+
+      // 🔥 update without reload
+      setOrder((prev) => ({
+        ...prev,
+        deliveryStatus: "Cancelled",
+        history: [
+          ...(prev.history || []),
+          {
+            status: "Cancelled",
+            date: new Date(),
+          },
+        ],
+      }));
+    } catch (err) {
+      alert("Cancel failed");
+    }
+  };
+
+  /* =========================
+     🔁 RETURN HANDLER
+  ========================= */
+
+  const handleReturn = async () => {
+    try {
+      const reason = prompt("Enter return reason:");
+
+      if (!reason) {
+        alert("Reason required");
+        return;
+      }
+
+      await api.put(`/orders/return/${order._id}`, { reason });
+
+      alert("Return requested");
+
+      // 🔥 update without reload
+      setOrder((prev) => ({
+        ...prev,
+        deliveryStatus: "Return Requested",
+        history: [
+          ...(prev.history || []),
+          {
+            status: "Return Requested",
+            date: new Date(),
+          },
+        ],
+      }));
+    } catch (err) {
+      alert("Return failed");
+    }
+  };
 
   return (
     <div className="order-details-container">
@@ -83,11 +160,16 @@ const OrderDetails = () => {
 
         {order.products.map((item, i) => (
           <div key={i} className="order-product">
-
-            <img
-              src={item.product?.images?.[0] || item.image || "/no-image.png"}
-              alt={item.product?.name || item.name}
-            />
+        <img
+  src={item.product?.images?.[0] || item.image || "/no-image.png"}
+  alt={item.product?.name || item.name}
+  onClick={() => {
+    if (item.product?._id) {
+      navigate(`/product/${item.product._id}`);
+    }
+  }}
+  style={{ cursor: item.product?._id ? "pointer" : "default" }}
+/>
 
             <div>
               <p className="product-name">
@@ -97,7 +179,6 @@ const OrderDetails = () => {
               <p>Qty: {item.qty}</p>
               <p>₹{item.price}</p>
             </div>
-
           </div>
         ))}
       </div>
@@ -126,63 +207,20 @@ const OrderDetails = () => {
 
         {isCancelable && (
           <button
+            disabled={!isCancelable}
             className="cancel-btn"
-            onClick={async () => {
-              try {
-                const reason = prompt("Enter cancellation reason:");
-
-                if (!reason) {
-                  alert("Reason required");
-                  return;
-                }
-
-                await axios.put(
-                  `${API_URL}/api/orders/cancel/${order._id}`,
-                  { reason },
-                  {
-                    headers: {
-                      Authorization: `Bearer ${token}`,
-                    },
-                  }
-                );
-                alert("Order cancelled");
-                window.location.reload();
-              } catch (err) {
-                alert("Cancel failed");
-              }
-            }}
+            onClick={handleCancel}
           >
-            Cancel Order
+            {order.deliveryStatus === "Cancelled"
+              ? "Order Cancelled"
+              : "Cancel Order"}
           </button>
         )}
 
         {isReturnable && (
           <button
             className="return-btn"
-            onClick={async () => {
-              try {
-                const reason = prompt("Enter return reason:");
-
-                if (!reason) {
-                  alert("Reason required");
-                  return;
-                }
-
-                await axios.put(
-                  `${API_URL}/api/orders/return/${order._id}`,
-                  { reason },
-                  {
-                    headers: {
-                      Authorization: `Bearer ${token}`,
-                    },
-                  }
-                );
-                alert("Return requested");
-                window.location.reload();
-              } catch (err) {
-                alert("Return failed");
-              }
-            }}
+            onClick={handleReturn}
           >
             Return Order
           </button>

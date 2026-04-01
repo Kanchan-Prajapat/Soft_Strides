@@ -4,12 +4,13 @@ import { useNavigate} from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import "../styles/auth.css";
 import logo from "../assets/Logo.jpg";
+import { useAuth } from "../context/AuthContext";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-
+  const { login } = useAuth();
   const navigate = useNavigate();
   const API_URL = process.env.REACT_APP_API_URL;
 
@@ -22,9 +23,7 @@ const Login = () => {
         { email, password }
       );
 
-      localStorage.setItem("userToken", res.data.token);
-      localStorage.setItem("userInfo", JSON.stringify(res.data.user));
-
+     login(res.data.user, res.data.token);
       navigate("/");
     } catch (err) {
       alert(err.response?.data?.message || "Login failed");
