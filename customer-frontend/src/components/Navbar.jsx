@@ -1,5 +1,5 @@
 import "../styles/navbar.css";
-import logo from "../assets/Logo.jpg";
+import logo from "../assets/Logo.png";
 import { useCart } from "../context/CartContext";
 import SearchBar from "./SearchBar";
 import { Link } from "react-router-dom";

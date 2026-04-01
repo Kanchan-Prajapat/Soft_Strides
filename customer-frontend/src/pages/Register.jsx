@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import "../styles/auth.css";
-import logo from "../assets/Logo.jpg";
+import logo from "../assets/Logo.png";
 
 const Register = () => {
   const [name, setName] = useState("");
