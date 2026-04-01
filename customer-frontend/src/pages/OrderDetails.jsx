@@ -14,17 +14,17 @@ const navigate = useNavigate();
 
   const isCancelable = ["Pending"].includes(order?.deliveryStatus);
 
-  const isReturnInProgress = [
-    "Return Requested",
-    "Return Approved",
-    "Pickup Scheduled",
-    "Picked Up",
-  ].includes(order?.deliveryStatus);
+  // const isReturnInProgress = [
+  //   "Return Requested",
+  //   "Return Approved",
+  //   "Pickup Scheduled",
+  //   "Picked Up",
+  // ].includes(order?.deliveryStatus);
 
-  const isCompleted = [
-    "Cancelled",
-    "Refund Completed",
-  ].includes(order?.deliveryStatus);
+  // const isCompleted = [
+  //   "Cancelled",
+  //   "Refund Completed",
+  // ].includes(order?.deliveryStatus);
 
   const isReturnable = (() => {
     if (order?.deliveryStatus !== "Delivered") return false;
@@ -47,6 +47,9 @@ const navigate = useNavigate();
      📦 FETCH ORDER
   ========================= */
 
+
+  useEffect(() => {
+    
   const fetchOrder = async () => {
     try {
       const res = await api.get(`/orders/${id}`);
@@ -55,9 +58,7 @@ const navigate = useNavigate();
       console.error(err);
     }
   };
-
-  useEffect(() => {
-    fetchOrder();
+  fetchOrder();
   }, [id]);
 
   if (!order) return <p className="loading">Loading...</p>;
