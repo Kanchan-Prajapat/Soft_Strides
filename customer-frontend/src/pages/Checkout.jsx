@@ -141,30 +141,56 @@ const Checkout = () => {
         name: "Soft Strides",
         description: "Order Payment",
 
-        handler: async function (response) {
+      handler: async function (response) {
+  try {
+    const verifyRes = await axios.post(
+      `${API_URL}/api/payments/verify`,
+      {
+        razorpay_order_id: response.razorpay_order_id,
+        razorpay_payment_id: response.razorpay_payment_id,
+        razorpay_signature: response.razorpay_signature,
+        orderData: {
+          products: checkoutItems,
+          totalAmount: finalAmount,
+          address: form.address,
+          phone: form.phone,
+          appliedCouponCode: coupon
+        }
+      },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
 
-          const verifyRes = await axios.post(
-            `${API_URL}/api/payments/verify`,
-            {
-              razorpay_order_id: response.razorpay_order_id,
-              razorpay_payment_id: response.razorpay_payment_id,
-              razorpay_signature: response.razorpay_signature,
-              orderData: {
-                products: checkoutItems,
-                totalAmount: finalAmount,
-                address: form.address,
-                phone: form.phone,
-                appliedCouponCode: coupon
-              }
-            },
-            { headers: { Authorization: `Bearer ${token}` } }
-          );
+    console.log("VERIFY RESPONSE:", verifyRes.data);
 
-          if (verifyRes.data.success) {
-            alert("Payment Successful 🎉");
-            navigate("/checkout/order-success");
-          }
-        },
+    if (verifyRes.data.success) {
+      alert("Payment Successful 🎉");
+
+      // 🔥 IMPORTANT
+      setStep(3);
+
+      // 🔥 REDIRECT AFTER SMALL DELAY
+      setTimeout(() => {
+        navigate("/checkout/order-success");
+      }, 1000);
+    } else {
+      alert("Payment verification failed");
+    }
+
+  } catch (error) {
+    console.error("VERIFY ERROR:", error);
+    alert("Payment verification error ❌");
+
+    // 🔥 fallback redirect
+    navigate("/checkout/order-success");
+  }
+},
+
+modal: {
+  ondismiss: function () {
+    alert("Payment cancelled");
+    setLoading(false);
+  }
+},
 
         theme: {
           color: "#8E7AB5"
