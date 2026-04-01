@@ -23,9 +23,20 @@ const userSchema = new mongoose.Schema(
       type: String,
     },
 
-    address: {
-      type: String,
-    },
+   addresses: [
+  {
+    name: String,
+    phone: String,
+    address: String,
+    city: String,
+    pincode: String,
+    state: String,
+    isDefault: {
+      type: Boolean,
+      default: false
+    }
+  }
+],
 
     location: {
   type: String,

@@ -18,6 +18,7 @@ body {
 
 
 
+
 /* =============================
 STEP PROGRESS
 ============================= */
@@ -246,6 +247,34 @@ TOTAL
   font-weight: 600;
 }
 
+
+/* CUSTOM SELECT */
+.custom-select {
+
+  padding: 10px;
+   width: 100%;
+  max-width: 100%;
+  background: #111;
+  color: #ccc;
+  border: 1px solid #2a2a2a;
+  border-radius: 6px;
+  outline: none;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+.custom-select:focus {
+  border-color: #8a7cff; /* your theme purple */
+  color: #fff;
+}
+
+/* OPTION (limited support but works partially) */
+.custom-select option {
+  background: #111;
+  color: #ccc;
+  white-space: normal;
+}
+
 /* =============================
 RESPONSIVE
 ============================= */
@@ -253,7 +282,7 @@ RESPONSIVE
 @media (max-width: 768px) {
 
   .checkout-wrapper {
-    padding: 16px;
+    padding: 10px;
     width:100%;
   }
 

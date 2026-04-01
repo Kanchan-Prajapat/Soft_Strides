@@ -75,4 +75,57 @@ router.get("/customers/:id/orders", protect, async (req, res) => {
   }
 });
 
+router.put("/add-address", protect, async (req, res) => {
+  const user = await User.findById(req.user._id);
+
+  user.addresses.push(req.body);
+
+  await user.save();
+
+  res.json(user);
+});
+
+router.put("/update-address/:index", protect, async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+
+    const index = req.params.index;
+
+    if (!user.addresses[index]) {
+      return res.status(404).json({ message: "Address not found" });
+    }
+
+    user.addresses[index] = {
+      ...user.addresses[index]._doc,
+      ...req.body
+    };
+
+    await user.save();
+
+    res.json(user);
+  } catch (error) {
+    res.status(500).json({ message: "Update failed" });
+  }
+});
+
+router.delete("/delete-address/:index", protect, async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+
+    const index = req.params.index;
+
+    if (!user.addresses[index]) {
+      return res.status(404).json({ message: "Address not found" });
+    }
+
+    user.addresses.splice(index, 1);
+
+    await user.save();
+
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ message: "Delete failed" });
+  }
+});
+
 export default router;

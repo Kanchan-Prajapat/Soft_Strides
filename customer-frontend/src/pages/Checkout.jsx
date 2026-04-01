@@ -20,6 +20,7 @@ const Checkout = () => {
   const [coupon, setCoupon] = useState("");
   const [discount, setDiscount] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [savedAddresses, setSavedAddresses] = useState([]);
 
   const [form, setForm] = useState({
     firstName: "",
@@ -32,6 +33,30 @@ const Checkout = () => {
   });
 
   const finalAmount = checkoutTotal - discount;
+
+  useEffect(() => {
+  const user = JSON.parse(localStorage.getItem("userInfo"));
+
+  if (user?.addresses) {
+    setSavedAddresses(user.addresses);
+
+    const defaultAddress =
+      user.addresses.find(a => a.isDefault) || user.addresses[0];
+      <select defaultValue="0"></select>
+
+    if (defaultAddress) {
+      setForm({
+        firstName: defaultAddress.name?.split(" ")[0] || "",
+        lastName: "",
+        address: defaultAddress.address,
+        city: defaultAddress.city,
+        pincode: defaultAddress.pincode,
+        state: defaultAddress.state,
+        phone: defaultAddress.phone
+      });
+    }
+  }
+}, []);
 
   useEffect(() => {
     const fetchCart = async () => {
@@ -71,17 +96,7 @@ const Checkout = () => {
   }, [isBuyNow, cartItems, totalPrice, API_URL]);
 
   // Autofill
-  useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("userInfo"));
-    if (user) {
-      setForm((prev) => ({
-        ...prev,
-        firstName: user.name?.split(" ")[0] || "",
-        phone: user.phone || "",
-        address: user.location || user.address || ""
-      }));
-    }
-  }, []);
+
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -246,6 +261,37 @@ modal: {
                 />
               </div>
 
+                            <div className="input-group full">
+  <label>Select Saved Address</label>
+
+  <select className="custom-select"
+    onChange={(e) => {
+      const selected = savedAddresses[e.target.value];
+
+      if (!selected) return;
+
+      setForm({
+        firstName: selected.name?.split(" ")[0] || "",
+        lastName: "",
+        address: selected.address,
+        city: selected.city,
+        pincode: selected.pincode,
+        state: selected.state,
+        phone: selected.phone
+      });
+    }}
+  >
+    <option value="">Select Address</option>
+
+    {savedAddresses.map((addr, index) => (
+      <option key={index} value={index}>
+        {addr.name} - {addr.address} ({addr.city})
+      </option>
+    ))}
+  </select>
+</div>
+
+
               <div className="input-group full">
                 <label>Address</label>
                 <textarea
@@ -254,20 +300,27 @@ modal: {
                   onChange={handleChange}
                   placeholder="Enter full address"
                 />
-
-                <button
+    
+                {/* <button
                   className="use-address-btn"
                   onClick={() => {
-                    const user = JSON.parse(localStorage.getItem("userInfo"));
-                    setForm((prev) => ({
-                      ...prev,
-                      address: user.location,
-                      phone: user.phone
-                    }));
+                   if (savedAddresses.length > 0) {
+  const addr = savedAddresses[0];
+
+ setForm({
+  firstName: addr.name?.split(" ")[0] || "",
+  lastName: "",
+  address: addr.address,
+  city: addr.city,
+  pincode: addr.pincode,
+  state: addr.state,
+  phone: addr.phone
+});
+}
                   }}
                 >
                   Use Saved Address
-                </button>
+                </button> */}
               </div>
 
               <div className="input-group">
