@@ -43,7 +43,7 @@ setCanResend(false);
 const handleResendOtp = async () => {
   try {
     const res = await axios.post(
-      `${API_URL}/api/auth/forgot-password`, // register me अलग route use होगा
+      `${API_URL}/api/auth/register`, // register me अलग route use होगा
       { email }
     );
 
