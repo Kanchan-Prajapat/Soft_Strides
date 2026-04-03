@@ -90,6 +90,7 @@ PRODUCT PAGE
 /* SIZE SECTION */
 .size-section {
   margin: 20px 0;
+  gap:10px;
 }
 
 .size-options {
@@ -105,6 +106,7 @@ PRODUCT PAGE
   color: var(--text-main);
   border-radius: 6px;
   cursor: pointer;
+  margin-right: 10px;
   transition: 0.3s;
 }
 
@@ -316,16 +318,19 @@ REVIEWS SECTION
   display: flex;
   gap: 6px;
   margin-bottom: 15px;
+
 }
 
 .star {
   font-size: 22px;
   cursor: pointer;
   color: #444;
+
 }
 
 .star.active {
   color: #f5c518;
+     background-color: var(--bg-card);
 }
 
 .submitBtn {

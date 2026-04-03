@@ -4,6 +4,7 @@ import { registerUser, loginUser, getMe ,
   forgotPassword, 
   resetPassword  } from "../controllers/authController.js";
 import { protect } from "../middleware/authMiddleware.js";
+import { googleLogin } from "../controllers/authController.js";
 
 const router = express.Router();
 
@@ -12,5 +13,6 @@ router.post("/login", loginUser);
 router.get("/me", protect, getMe);
 router.post("/forgot-password", forgotPassword);
 router.post("/reset-password/:token", resetPassword);
+router.post("/google", googleLogin);
 
 export default router;

@@ -5,10 +5,12 @@ import logo from "../assets/Logo.jpg";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
+  const [otp, setOtp] = useState("");
+const [step, setStep] = useState(1);
   const [message, setMessage] = useState("");
+const [password, setPassword] = useState("");
   const API_URL = process.env.REACT_APP_API_URL;
-
- const handleSubmit = async (e) => {
+const handleSubmit = async (e) => {
   e.preventDefault();
 
   try {
@@ -17,22 +19,31 @@ const ForgotPassword = () => {
       { email }
     );
 
-    console.log("API RESPONSE:", res.data); // 🔥 DEBUG
-
-    const token = res.data.resetToken;
-
-    if (!token) {
-      setMessage("Error: Token not received");
-      return;
-    }
-
-    const resetLink = `${window.location.origin}/reset-password/${token}`;
-    setMessage(resetLink);
+    alert("OTP: " + res.data.otp); // dev only
+    setStep(2);
 
   } catch (err) {
     setMessage(err.response?.data?.message || "Something went wrong");
   }
 };
+
+
+const handleReset = async () => {
+  try {
+    await axios.post(`${API_URL}/api/auth/reset-password`, {
+      email,
+      otp,
+      password,
+    });
+
+    alert("Password reset successful ✅");
+    window.location.href = "/login";
+
+  } catch (err) {
+    alert(err.response?.data?.message || "Reset failed");
+  }
+};
+
 
   return (
     <div className="auth-wrapper">
@@ -51,17 +62,33 @@ const ForgotPassword = () => {
             />
           </div>
 
-          <button className="auth-btn">SEND RESET LINK</button>
+      {step === 2 && (
+  <>
+    <input
+      placeholder="Enter OTP"
+      value={otp}
+      onChange={(e) => setOtp(e.target.value)}
+    />
 
-       {message && (
-  <a
-    href={message}
-    style={{ color: "#ff4d4d", display: "block", marginTop: "15px" }}
-  >
-    Click here to reset password
-  </a>
+    <input
+      type="password"
+      placeholder="New Password"
+      value={password}
+      onChange={(e) => setPassword(e.target.value)}
+    />
+
+    <button
+      type="button"
+      className="auth-btn"
+      onClick={handleReset}
+    >
+      RESET PASSWORD
+    </button>
+  </>
 )}
-        </form>
+
+
+           </form>
       </div>
     </div>
   );

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import "../styles/auth.css";
 import logo from "../assets/Logo.png";
+import { GoogleLogin } from "@react-oauth/google";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -78,6 +79,30 @@ const Register = () => {
           </div>
 
           <button className="auth-btn">REGISTER</button>
+
+          <div style={{ marginTop: "15px" }}>
+  <GoogleLogin
+    onSuccess={async (credentialResponse) => {
+      try {
+        const res = await axios.post(
+          `${API_URL}/api/auth/google`,
+          {
+            token: credentialResponse.credential,
+          }
+        );
+
+        localStorage.setItem("userToken", res.data.token);
+        localStorage.setItem("userInfo", JSON.stringify(res.data.user));
+
+        window.location.href = "/";
+
+      } catch (err) {
+        alert("Google signup failed");
+      }
+    }}
+    onError={() => console.log("Error")}
+  />
+</div>
 
           <p
             className="auth-link"

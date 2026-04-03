@@ -165,6 +165,11 @@ export const changeUserPassword = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
+    if (user.authProvider === "google") {
+  return res.status(400).json({
+    message: "Google users cannot change password",
+  });
+}
 
     // Compare old password
     const isMatch = await bcrypt.compare(oldPassword, user.password);

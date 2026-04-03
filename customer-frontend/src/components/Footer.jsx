@@ -37,7 +37,7 @@ const Footer = () => {
     <FontAwesomeIcon icon={faSquareXTwitter} />
   </a>
 
-  <a href="https://wa.me/919999999999" target="_blank" rel="noreferrer">
+  <a href="https://chat.whatsapp.com/Eh4ToXBFlA8AIedZ4kJcgz?mode=gi_t" target="_blank" rel="noreferrer">
     <FontAwesomeIcon icon={faSquareWhatsapp} />
   </a>
 

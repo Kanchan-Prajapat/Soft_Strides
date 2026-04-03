@@ -315,21 +315,23 @@ export const returnOrder = async (req, res) => {
     if (!order)
       return res.status(404).json({ message: "Order not found" });
 
-    if (order.deliveryStatus !== "Delivered") {
+    // ✅ 🔥 ADD THIS LINE (MAIN FIX)
+    if (!isReturnAllowed(order)) {
       return res.status(400).json({
-        message: "Return allowed only after delivery",
+        message: "Return window expired (7 days)",
       });
     }
 
     order.deliveryStatus = "Return Requested";
     order.isReturned = true;
     order.returnReason = reason;
-order.history = order.history || [];
-order.history.push({
-  status: "Return Requested",
-  type: "return",
-  date: new Date(),
-});
+
+    order.history.push({
+      status: "Return Requested",
+      type: "return",
+      date: new Date(),
+    });
+
     await order.save();
 
     res.json(order);
@@ -426,3 +428,19 @@ order.history.push({
 };
 
 
+const isReturnAllowed = (order) => {
+  if (order.deliveryStatus !== "Delivered") return false;
+
+  const deliveredStep = order.history?.find(
+    (h) => h.status === "Delivered"
+  );
+
+  if (!deliveredStep) return false;
+
+  const deliveredDate = new Date(deliveredStep.date);
+  const now = new Date();
+
+  const diffDays = (now - deliveredDate) / (1000 * 60 * 60 * 24);
+
+  return diffDays <= 7;
+};

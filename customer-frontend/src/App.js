@@ -21,6 +21,8 @@ import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import OrderSuccess from "./pages/OrderSuccess";
 import OrderDetails from "./pages/OrderDetails";
+import ProtectedRoute from "./components/ProtectedRoute";
+
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -46,18 +48,18 @@ function App() {
         <Route path="/products" element={<Products />} />
         <Route path="/product/:id" element={<ProductDetails />} />
         <Route path="/checkout" element={<Checkout />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/my-orders" element={<MyOrders />} />
-        <Route path="/wishlist" element={<Wishlist />} />
-        <Route path="/contact" element={<Contact />} />
+        <Route path="/cart" element={<ProtectedRoute><Cart /></ProtectedRoute>} />
+        <Route path="/my-orders" element={<ProtectedRoute><MyOrders /></ProtectedRoute>} />
+        <Route path="/wishlist" element={<ProtectedRoute><Wishlist /></ProtectedRoute>} />
+        <Route path="/contact" element={<ProtectedRoute><Contact /></ProtectedRoute>} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms" element={<TermsConditions />} />
         <Route path="/refund-policy" element={<RefundPolicy />} />
-        <Route path="/profile" element={<Profile />} />
+        <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
          <Route  path="/reset-password/:token" element={<ResetPassword />} />
-         <Route path="/checkout/order-success" element={<OrderSuccess />} />
-         <Route path="/order/:id" element={<OrderDetails />} />
+         <Route path="/checkout/order-success" element={<ProtectedRoute><OrderSuccess /></ProtectedRoute>} />
+         <Route path="/order/:id" element={<ProtectedRoute><OrderDetails /></ProtectedRoute>} />
          
       </Routes>
       <Footer />

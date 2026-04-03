@@ -3,12 +3,44 @@ import User from "../models/User.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
+import { OAuth2Client } from "google-auth-library";
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+
+export const googleLogin = async (req, res) => {
+  const { token } = req.body;
+
+  const ticket = await client.verifyIdToken({
+    idToken: token,
+    audience: process.env.GOOGLE_CLIENT_ID,
+  });
+
+  const { email, name, picture } = ticket.getPayload();
+
+  let user = await User.findOne({ email });
+
+ if (!user) {
+  user = await User.create({
+    name,
+    email,
+    password: "google_login",
+    profileImage: picture,
+    isVerified: true,       
+    authProvider: "google", 
+  });
+}
+
+  const jwtToken = generateToken(user._id);
+
+  res.json({ token: jwtToken, user });
+};
 
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: "30d",
   });
 };
+
+
 
 export const registerUser = async (req, res) => {
   try {
@@ -24,6 +56,13 @@ export const registerUser = async (req, res) => {
       email,
       password,
     });
+
+    const verificationToken = crypto.randomBytes(32).toString("hex");
+
+user.verificationToken = verificationToken;
+user.isVerified = false;
+
+await user.save();
 
     if (user) {
       res.status(201).json({
@@ -43,7 +82,22 @@ export const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
   const user = await User.findOne({ email });
-  if (!user) return res.status(400).json({ message: "Invalid credentials" });
+
+if (!user)
+  return res.status(400).json({ message: "Invalid credentials" });
+
+// 🔥 ADD THIS BLOCK HERE
+if (!user.isVerified) {
+  return res.status(403).json({
+    message: "Please verify your email first",
+  });
+}
+
+if (user.authProvider === "google") {
+  return res.status(400).json({
+    message: "Use Google login",
+  });
+}
 
   const match = await bcrypt.compare(password, user.password);
   if (!match) return res.status(400).json({ message: "Invalid credentials" });
@@ -76,78 +130,44 @@ export const getMe = async (req, res) => {
 
 
 
-
 export const forgotPassword = async (req, res) => {
-  try {
-    const user = await User.findOne({ email: req.body.email });
+  const user = await User.findOne({ email: req.body.email });
 
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    const resetToken = crypto.randomBytes(32).toString("hex");
-
-    user.resetPasswordToken = resetToken;
-    user.resetPasswordExpire = Date.now() + 10 * 60 * 1000;
-
-    await user.save();
-
-  
-    res.json({
-      message: "Reset link generated",
-      resetToken: resetToken,
-      resetUrl: `${process.env.CLIENT_URL}/reset-password/${resetToken}`,
-    });
-
-  } catch (error) {
-    res.status(500).json({ message: "Something went wrong" });
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
   }
+
+  const otp = Math.floor(100000 + Math.random() * 900000).toString();
+
+  user.resetOtp = otp;
+  user.resetOtpExpire = Date.now() + 10 * 60 * 1000;
+
+  await user.save();
+
+  res.json({
+    message: "OTP generated",
+    otp, 
+  });
 };
 
-
 export const resetPassword = async (req, res) => {
-  try {
-    const { password } = req.body;
-    const { token } = req.params;
+  const { email, otp, password } = req.body;
 
-    const user = await User.findOne({
-      resetPasswordToken: token,
-      resetPasswordExpire: { $gt: Date.now() },
-    });
+  const user = await User.findOne({
+    email,
+    resetOtp: otp,
+    resetOtpExpire: { $gt: Date.now() },
+  });
 
-    if (!user) {
-      return res.status(400).json({ message: "Invalid or expired token" });
-    }
-
-    // ✅ Hash new password
-    const hashedPassword = await bcrypt.hash(password, 10);
-    user.password = hashedPassword;
-
-    // ✅ Clear reset fields
-    user.resetPasswordToken = undefined;
-    user.resetPasswordExpire = undefined;
-
-    await user.save();
-
-    // ✅ Generate new login token (auto login)
-    const newToken = jwt.sign(
-      { id: user._id, role: user.role },
-      process.env.JWT_SECRET,
-      { expiresIn: "1d" }
-    );
-
-    res.json({
-      message: "Password reset successful",
-      token: newToken,
-      user: {
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-      }
-    });
-
-  } catch (error) {
-    res.status(500).json({ message: "Reset failed" });
+  if (!user) {
+    return res.status(400).json({ message: "Invalid OTP" });
   }
+
+  user.password = await bcrypt.hash(password, 10);
+  user.resetOtp = undefined;
+  user.resetOtpExpire = undefined;
+
+  await user.save();
+
+  res.json({ message: "Password reset successful" });
 };

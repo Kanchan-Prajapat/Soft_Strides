@@ -86,6 +86,17 @@ cart: [
   },
 ],
 
+isVerified: {
+  type: Boolean,
+  default: false,
+},
+
+authProvider: {
+  type: String,
+  enum: ["local", "google"],
+  default: "local",
+},
+
 resetPasswordToken: String,
 resetPasswordExpire: Date,
 

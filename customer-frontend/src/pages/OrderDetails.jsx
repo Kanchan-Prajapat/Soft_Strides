@@ -26,22 +26,7 @@ const navigate = useNavigate();
   //   "Refund Completed",
   // ].includes(order?.deliveryStatus);
 
-  const isReturnable = (() => {
-    if (order?.deliveryStatus !== "Delivered") return false;
-
-    const deliveredStep = order.history?.find(
-      (h) => h.status === "Delivered"
-    );
-
-    if (!deliveredStep) return false;
-
-    const deliveredDate = new Date(deliveredStep.date);
-    const now = new Date();
-
-    const diffDays = (now - deliveredDate) / (1000 * 60 * 60 * 24);
-
-    return diffDays <= 7;
-  })();
+ const isReturnable = order?.canReturn;
 
   /* =========================
      📦 FETCH ORDER

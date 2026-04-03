@@ -5,6 +5,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import "../styles/auth.css";
 import logo from "../assets/Logo.png";
 import { useAuth } from "../context/AuthContext";
+import { GoogleLogin } from "@react-oauth/google";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -65,6 +66,27 @@ const Login = () => {
           </div>
 
           <button className="auth-btn">LOG IN</button>
+
+          <div style={{ marginTop: "15px" }}>
+  <GoogleLogin
+    onSuccess={async (credentialResponse) => {
+      try {
+        const res = await axios.post(
+          `${API_URL}/api/auth/google`,
+          {
+            token: credentialResponse.credential,
+          }
+        );
+
+        login(res.data.user, res.data.token);
+        navigate("/");
+      } catch (err) {
+        alert("Google login failed");
+      }
+    }}
+    onError={() => console.log("Login Failed")}
+  />
+</div>
 
 
 <p
