@@ -1,203 +1,54 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
 import "../styles/auth.css";
 import logo from "../assets/Logo.png";
 import { GoogleLogin } from "@react-oauth/google";
+import axios from "axios";
 
 const Register = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
- const [step, setStep] = useState(1);
-const [otp, setOtp] = useState("");
-const [timer, setTimer] = useState(60);
-const [canResend, setCanResend] = useState(false);
-
   const navigate = useNavigate();
   const API_URL = process.env.REACT_APP_API_URL;
-
-const handleRegister = async (e) => {
-  e.preventDefault();
-
-  try {
-    const res = await axios.post(`${API_URL}/api/auth/register`, {
-      name,
-      email,
-      password,
-    });
-
-    alert("OTP: " + res.data.otp); // dev only
-    setStep(2);
-    setTimer(60);
-setCanResend(false);
-
-  } catch (err) {
-    alert(err.response?.data?.message || "Registration failed");
-  }
-};
-
-
-const handleResendOtp = async () => {
-  try {
-    const res = await axios.post(
-      `${API_URL}/api/auth/register`, // register me अलग route use होगा
-      { email }
-    );
-
-    alert("New OTP: " + res.data.otp); // dev only
-
-    setTimer(60);
-    setCanResend(false);
-
-  } catch (err) {
-    alert("Failed to resend OTP");
-  }
-};
-
-useEffect(() => {
-  if (timer > 0) {
-    const interval = setInterval(() => {
-      setTimer((prev) => prev - 1);
-    }, 1000);
-
-    return () => clearInterval(interval);
-  } else {
-    setCanResend(true);
-  }
-}, [timer]);
-
-const handleVerify = async () => {
-  try {
-    const res = await axios.post(
-      `${API_URL}/api/auth/verify-register-otp`,
-      { email, otp }
-    );
-
-    localStorage.setItem("userToken", res.data.token);
-    localStorage.setItem("userInfo", JSON.stringify(res.data.user));
-
-    navigate("/");
-
-  } catch (err) {
-    alert(err.response?.data?.message || "OTP failed");
-  }
-};
 
   return (
     <div className="auth-wrapper">
       <div className="auth-box">
         <img src={logo} alt="Soft Strides" className="auth-logo" />
 
-        <h2 className="auth-title">Join Soft Strides
-        </h2>
+        <h2 className="auth-title">Join Soft Strides</h2>
         <p className="auth-subtitle">Create your perfect fit</p>
 
-        <form onSubmit={handleRegister}>
-          <div className="input-group">
-            <input
-              type="text"
-              placeholder="FULL NAME"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
-          </div>
+        {/* 🔥 GOOGLE ONLY */}
+        <div style={{ marginTop: "20px", display: "flex", justifyContent: "center" }}>
+          <GoogleLogin
+            onSuccess={async (credentialResponse) => {
+              try {
+                const res = await axios.post(
+                  `${API_URL}/api/auth/google`,
+                  {
+                    token: credentialResponse.credential,
+                  }
+                );
 
-          <div className="input-group">
-            <input
-              type="email"
-              placeholder="EMAIL"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
+                localStorage.setItem("userToken", res.data.token);
+                localStorage.setItem(
+                  "userInfo",
+                  JSON.stringify(res.data.user)
+                );
 
-          <div className="input-group password-group">
-            <input
-              type={showPassword ? "text" : "password"}
-              placeholder="PASSWORD"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-            <span
-              className="eye-icon"
-              onClick={() => setShowPassword(!showPassword)}
-            >
-              {showPassword ? <FaEyeSlash /> : <FaEye />}
-            </span>
-          </div>
+                window.location.href = "/";
+              } catch (err) {
+                alert("Google signup failed");
+              }
+            }}
+            onError={() => alert("Google Login Error")}
+          />
+        </div>
 
-          {step === 2 && (
-  <>
-    <input
-      placeholder="Enter OTP"
-      value={otp}
-      onChange={(e) => setOtp(e.target.value)}
-    />
-
-    <button onClick={handleVerify} className="auth-btn">
-      VERIFY OTP
-    </button>
-  </>
-) }
-
-<div style={{ marginTop: "10px", textAlign: "center" }}>
-  {canResend ? (
-    <span
-      onClick={handleResendOtp}
-      style={{
-        color: "#9b7bff",
-        cursor: "pointer",
-        fontWeight: "500",
-      }}
-    >
-      Resend OTP
-    </span>
-  ) : (
-    <span style={{ color: "#aaa" }}>
-      Resend in {timer}s
-    </span>
-  )}
-</div>
-
-          <button className="auth-btn">REGISTER</button>
-
-          <div style={{ marginTop: "15px" }}>
-  <GoogleLogin
-    onSuccess={async (credentialResponse) => {
-      try {
-        const res = await axios.post(
-          `${API_URL}/api/auth/google`,
-          {
-            token: credentialResponse.credential,
-          }
-        );
-
-        localStorage.setItem("userToken", res.data.token);
-        localStorage.setItem("userInfo", JSON.stringify(res.data.user));
-
-        window.location.href = "/";
-
-      } catch (err) {
-        alert("Google signup failed");
-      }
-    }}
-    onError={() => console.log("Error")}
-  />
-</div>
-
-          <p
-            className="auth-link"
-            onClick={() => navigate("/login")}
-          >
-            Already have an account? Login
-          </p>
-        </form>
+        <p
+          className="auth-link"
+          onClick={() => navigate("/login")}
+        >
+          Already have an account? Login
+        </p>
       </div>
     </div>
   );

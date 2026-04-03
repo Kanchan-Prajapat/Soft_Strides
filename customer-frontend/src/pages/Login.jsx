@@ -1,108 +1,54 @@
-import { useState } from "react";
-import axios from "axios";
-import { useNavigate} from "react-router-dom";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 import "../styles/auth.css";
 import logo from "../assets/Logo.png";
-import { useAuth } from "../context/AuthContext";
 import { GoogleLogin } from "@react-oauth/google";
+import axios from "axios";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const { login } = useAuth();
   const navigate = useNavigate();
   const API_URL = process.env.REACT_APP_API_URL;
-
-  const handleLogin = async (e) => {
-    e.preventDefault();
-
-    try {
-      const res = await axios.post(
-        `${API_URL}/api/auth/login`,
-        { email, password }
-      );
-
-     login(res.data.user, res.data.token);
-      navigate("/");
-    } catch (err) {
-      alert(err.response?.data?.message || "Login failed");
-    }
-  };
 
   return (
     <div className="auth-wrapper">
       <div className="auth-box">
-      <img src={logo} alt="Soft Strides" className="auth-logo" />
-        <h2 className="auth-title">Back to Soft Strides </h2>
-        <p className="auth-subtitle">Step into comfort & style</p>
+        <img src={logo} alt="Soft Strides" className="auth-logo" />
 
-        <form onSubmit={handleLogin}>
-          <div className="input-group">
-            <input
-              type="email"
-              placeholder="EMAIL"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
+        <h2 className="auth-title">Welcome Back</h2>
+        <p className="auth-subtitle">Login with Google</p>
 
-          <div className="input-group password-group">
-            <input
-              type={showPassword ? "text" : "password"}
-              placeholder="PASSWORD"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-            <span
-              className="eye-icon"
-              onClick={() => setShowPassword(!showPassword)}
-            >
-              {showPassword ? <FaEyeSlash /> : <FaEye />}
-            </span>
-          </div>
+        {/* 🔥 GOOGLE LOGIN */}
+        <div style={{ marginTop: "20px", display: "flex", justifyContent: "center" }}>
+          <GoogleLogin
+            onSuccess={async (credentialResponse) => {
+              try {
+                const res = await axios.post(
+                  `${API_URL}/api/auth/google`,
+                  {
+                    token: credentialResponse.credential,
+                  }
+                );
 
-          <button className="auth-btn">LOG IN</button>
+                localStorage.setItem("userToken", res.data.token);
+                localStorage.setItem(
+                  "userInfo",
+                  JSON.stringify(res.data.user)
+                );
 
-          <div style={{ marginTop: "15px" }}>
-  <GoogleLogin
-    onSuccess={async (credentialResponse) => {
-      try {
-        const res = await axios.post(
-          `${API_URL}/api/auth/google`,
-          {
-            token: credentialResponse.credential,
-          }
-        );
+                window.location.href = "/";
+              } catch (err) {
+                alert("Google login failed");
+              }
+            }}
+            onError={() => alert("Google Login Error")}
+          />
+        </div>
 
-        login(res.data.user, res.data.token);
-        navigate("/");
-      } catch (err) {
-        alert("Google login failed");
-      }
-    }}
-    onError={() => console.log("Login Failed")}
-  />
-</div>
-
-
-<p
-  className="auth-link"
-  onClick={() => navigate("/register")}
->
-  Don’t have an account? Register
-</p>
-          <p
-  className="forgot-link"
-  onClick={() => navigate("/forgot-password")}
->
-  Forgot Password?
-</p>
-
-        </form>
+        <p
+          className="auth-link"
+          onClick={() => navigate("/register")}
+        >
+          Don’t have an account? Register
+        </p>
       </div>
     </div>
   );
