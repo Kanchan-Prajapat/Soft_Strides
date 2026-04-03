@@ -97,11 +97,17 @@ authProvider: {
   default: "local",
 },
 
+  otpAttempts: {
+  type: Number,
+  default: 0,
+},
+
 resetPasswordToken: String,
 resetPasswordExpire: Date,
 
   },
-  { timestamps: true }
+  { timestamps: true },
+
 );
 
 

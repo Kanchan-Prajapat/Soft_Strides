@@ -45,17 +45,27 @@ const generateToken = (id) => {
 export const registerUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
+const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
     const userExists = await User.findOne({ email });
     if (userExists) {
       return res.status(400).json({ message: "User already exists" });
     }
 
-    const user = await User.create({
-      name,
-      email,
-      password,
-    });
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+const user = await User.create({
+  name,
+  email,
+  password: hashedPassword,
+  isVerified: true,
+  verificationOtp: otp,
+  verificationOtpExpire: Date.now() + 10 * 60 * 1000
+});
+
+res.json({
+  message: "OTP sent",
+  otp,});
 
     const verificationToken = crypto.randomBytes(32).toString("hex");
 
@@ -158,10 +168,29 @@ export const resetPassword = async (req, res) => {
     resetOtp: otp,
     resetOtpExpire: { $gt: Date.now() },
   });
+if (user.authProvider === "google") {
+  return res.status(400).json({
+    message: "Google users cannot reset password",
+  });
+}
 
-  if (!user) {
-    return res.status(400).json({ message: "Invalid OTP" });
-  }
+if (!user.isVerified) {
+  return res.status(400).json({
+    message: "Email not verified",
+  });
+}
+ if (user.otpAttempts > 5) {
+  return res.status(429).json({
+    message: "Too many attempts. Try later",
+  });
+}
+
+if (user.resetOtp !== otp) {
+  user.otpAttempts += 1;
+  await user.save();
+
+  return res.status(400).json({ message: "Invalid OTP" });
+}
 
   user.password = await bcrypt.hash(password, 10);
   user.resetOtp = undefined;
@@ -169,5 +198,36 @@ export const resetPassword = async (req, res) => {
 
   await user.save();
 
-  res.json({ message: "Password reset successful" });
+  const token = generateToken(user._id);
+
+res.json({
+  message: "Password reset successful",
+  token,
+  user,
+});
+
+};
+
+export const verifyOtp = async (req, res) => {
+  const { email, otp } = req.body;
+
+  const user = await User.findOne({
+    email,
+    verificationOtp: otp,
+    verificationOtpExpire: { $gt: Date.now() },
+  });
+
+  if (!user) {
+    return res.status(400).json({ message: "Invalid OTP" });
+  }
+
+  user.isVerified = true;
+  user.verificationOtp = undefined;
+  user.verificationOtpExpire = undefined;
+
+  await user.save();
+
+  const token = generateToken(user._id);
+
+  res.json({ token, user });
 };

@@ -30,14 +30,20 @@ const handleSubmit = async (e) => {
 
 const handleReset = async () => {
   try {
-    await axios.post(`${API_URL}/api/auth/reset-password`, {
-      email,
-      otp,
-      password,
-    });
+  const res = await axios.post(`${API_URL}/api/auth/reset-password`, {
+  email,
+  otp,
+  password,
+});
+
+// 🔥 AUTO LOGIN
+localStorage.setItem("userToken", res.data.token);
+localStorage.setItem("userInfo", JSON.stringify(res.data.user));
+
+window.location.href = "/";
 
     alert("Password reset successful ✅");
-    window.location.href = "/login";
+  
 
   } catch (err) {
     alert(err.response?.data?.message || "Reset failed");
@@ -84,11 +90,17 @@ const handleReset = async () => {
     >
       RESET PASSWORD
     </button>
+    
   </>
 )}
 
 
            </form>
+           {message && (
+  <p style={{ color: "#ff4d4d", marginTop: "10px" }}>
+    {message}
+  </p>
+)}
       </div>
     </div>
   );

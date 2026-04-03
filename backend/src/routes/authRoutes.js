@@ -2,7 +2,8 @@
 import express from "express";
 import { registerUser, loginUser, getMe , 
   forgotPassword, 
-  resetPassword  } from "../controllers/authController.js";
+  resetPassword,  
+  verifyOtp} from "../controllers/authController.js";
 import { protect } from "../middleware/authMiddleware.js";
 import { googleLogin } from "../controllers/authController.js";
 
@@ -12,7 +13,8 @@ router.post("/register", registerUser);
 router.post("/login", loginUser);
 router.get("/me", protect, getMe);
 router.post("/forgot-password", forgotPassword);
-router.post("/reset-password/:token", resetPassword);
+router.post("/reset-password", resetPassword);
 router.post("/google", googleLogin);
+router.post("/verify-otp", verifyOtp);
 
 export default router;

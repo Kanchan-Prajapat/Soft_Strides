@@ -16,7 +16,6 @@ import RefundPolicy from "./pages/RefundPolicy";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Profile from "./pages/Profile";
 import ForgotPassword from "./pages/ForgotPassword";
-import ResetPassword from "./pages/ResetPassword";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import OrderSuccess from "./pages/OrderSuccess";
@@ -57,7 +56,6 @@ function App() {
         <Route path="/refund-policy" element={<RefundPolicy />} />
         <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-         <Route  path="/reset-password/:token" element={<ResetPassword />} />
          <Route path="/checkout/order-success" element={<ProtectedRoute><OrderSuccess /></ProtectedRoute>} />
          <Route path="/order/:id" element={<ProtectedRoute><OrderDetails /></ProtectedRoute>} />
          

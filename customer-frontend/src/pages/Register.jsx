@@ -11,6 +11,7 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+ 
 
   const navigate = useNavigate();
   const API_URL = process.env.REACT_APP_API_URL;
@@ -30,6 +31,18 @@ const Register = () => {
     } catch (err) {
       alert(err.response?.data?.message || "Registration failed");
     }
+
+    const res = await axios.post(`${API_URL}/api/auth/register`, {
+  name,
+  email,
+  password,
+});
+
+// 🔥 AUTO LOGIN
+localStorage.setItem("userToken", res.data.token);
+localStorage.setItem("userInfo", JSON.stringify(res.data.user));
+
+navigate("/");
   };
 
   return (
