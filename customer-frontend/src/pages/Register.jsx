@@ -31,6 +31,8 @@ const handleRegister = async (e) => {
 
     alert("OTP: " + res.data.otp); // dev only
     setStep(2);
+    setTimer(60);
+setCanResend(false);
 
   } catch (err) {
     alert(err.response?.data?.message || "Registration failed");
@@ -142,8 +144,7 @@ const handleVerify = async () => {
       VERIFY OTP
     </button>
   </>
-)}setTimer(60);
-setCanResend(false);
+) }
 
 <div style={{ marginTop: "10px", textAlign: "center" }}>
   {canResend ? (
