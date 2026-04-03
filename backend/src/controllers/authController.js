@@ -41,20 +41,39 @@ const generateToken = (id) => {
 };
 
 
-
 export const registerUser = async (req, res) => {
   const { name, email, password } = req.body;
 
   const userExists = await User.findOne({ email });
-  if (userExists) {
-    return res.status(400).json({ message: "User already exists" });
+
+  // ✅ अगर already verified user है
+  if (userExists && userExists.isVerified) {
+    return res.status(400).json({
+      message: "User already exists",
+    });
   }
+
+  // ✅ अगर user है but verify नहीं हुआ → नया OTP भेजो
+  let user;
 
   const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
+  if (userExists) {
+    userExists.verificationOtp = otp;
+    userExists.verificationOtpExpire = Date.now() + 10 * 60 * 1000;
+
+    await userExists.save();
+
+    return res.json({
+      message: "OTP resent",
+      otp,
+    });
+  }
+
+  // ✅ NEW USER CREATE
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  const user = await User.create({
+  user = await User.create({
     name,
     email,
     password: hashedPassword,
@@ -65,7 +84,7 @@ export const registerUser = async (req, res) => {
 
   res.json({
     message: "OTP sent",
-    otp, // ⚠️ dev only
+    otp,
   });
 };
 
@@ -140,35 +159,52 @@ export const forgotPassword = async (req, res) => {
     otp, 
   });
 };
+
+
 export const resetPassword = async (req, res) => {
   const { email, otp, password } = req.body;
 
-  const user = await User.findOne({
-    email,
-    resetOtp: otp,
-    resetOtpExpire: { $gt: Date.now() },
-  });
+  const user = await User.findOne({ email });
 
+  // ✅ EMAIL CHECK
   if (!user) {
-    return res.status(400).json({ message: "Invalid OTP" });
-  }
-
-  if (user.authProvider === "google") {
-    return res.status(400).json({
-      message: "Google users cannot reset password",
+    return res.status(404).json({
+      message: "Email not registered",
     });
   }
 
+  // ✅ GOOGLE USER BLOCK
+  if (user.authProvider === "google") {
+    return res.status(400).json({
+      message: "Use Google login",
+    });
+  }
+
+  // ✅ EMAIL VERIFIED CHECK
   if (!user.isVerified) {
     return res.status(400).json({
       message: "Email not verified",
     });
   }
 
+  // ✅ OTP EXPIRE CHECK
+  if (user.resetOtpExpire < Date.now()) {
+    return res.status(400).json({
+      message: "OTP expired",
+    });
+  }
+
+  // ✅ OTP MATCH CHECK
+  if (user.resetOtp !== otp) {
+    return res.status(400).json({
+      message: "Invalid OTP",
+    });
+  }
+
+  // ✅ RESET PASSWORD
   user.password = await bcrypt.hash(password, 10);
- user.resetOtp = newOtp;
-user.resetOtpExpire = Date.now() + 10 * 60 * 1000;
-  user.otpAttempts = 0;
+  user.resetOtp = undefined;
+  user.resetOtpExpire = undefined;
 
   await user.save();
 
@@ -180,6 +216,7 @@ user.resetOtpExpire = Date.now() + 10 * 60 * 1000;
     user,
   });
 };
+
 
 export const verifyOtp = async (req, res) => {
   const { email, otp } = req.body;
@@ -204,6 +241,8 @@ export const verifyOtp = async (req, res) => {
 
   res.json({ token, user });
 };
+
+
 
 export const verifyRegisterOtp = async (req, res) => {
   const { email, otp } = req.body;
