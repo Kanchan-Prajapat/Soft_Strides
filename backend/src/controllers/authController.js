@@ -43,49 +43,30 @@ const generateToken = (id) => {
 
 
 export const registerUser = async (req, res) => {
-  try {
-    const { name, email, password } = req.body;
-const otp = Math.floor(100000 + Math.random() * 900000).toString();
+  const { name, email, password } = req.body;
 
-    const userExists = await User.findOne({ email });
-    if (userExists) {
-      return res.status(400).json({ message: "User already exists" });
-    }
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-const user = await User.create({
-  name,
-  email,
-  password: hashedPassword,
-  isVerified: true,
-  verificationOtp: otp,
-  verificationOtpExpire: Date.now() + 10 * 60 * 1000
-});
-
-res.json({
-  message: "OTP sent",
-  otp,});
-
-    const verificationToken = crypto.randomBytes(32).toString("hex");
-
-user.verificationToken = verificationToken;
-user.isVerified = false;
-
-await user.save();
-
-    if (user) {
-      res.status(201).json({
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-        token: generateToken(user._id), // ✅ TOKEN RETURN
-      });
-    }
-  } catch (error) {
-    res.status(500).json({ message: "Registration failed" });
+  const userExists = await User.findOne({ email });
+  if (userExists) {
+    return res.status(400).json({ message: "User already exists" });
   }
+
+  const otp = Math.floor(100000 + Math.random() * 900000).toString();
+
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  const user = await User.create({
+    name,
+    email,
+    password: hashedPassword,
+    isVerified: false,
+    verificationOtp: otp,
+    verificationOtpExpire: Date.now() + 10 * 60 * 1000,
+  });
+
+  res.json({
+    message: "OTP sent",
+    otp, // ⚠️ dev only
+  });
 };
 
 export const loginUser = async (req, res) => {
@@ -159,7 +140,6 @@ export const forgotPassword = async (req, res) => {
     otp, 
   });
 };
-
 export const resetPassword = async (req, res) => {
   const { email, otp, password } = req.body;
 
@@ -168,44 +148,37 @@ export const resetPassword = async (req, res) => {
     resetOtp: otp,
     resetOtpExpire: { $gt: Date.now() },
   });
-if (user.authProvider === "google") {
-  return res.status(400).json({
-    message: "Google users cannot reset password",
-  });
-}
 
-if (!user.isVerified) {
-  return res.status(400).json({
-    message: "Email not verified",
-  });
-}
- if (user.otpAttempts > 5) {
-  return res.status(429).json({
-    message: "Too many attempts. Try later",
-  });
-}
+  if (!user) {
+    return res.status(400).json({ message: "Invalid OTP" });
+  }
 
-if (user.resetOtp !== otp) {
-  user.otpAttempts += 1;
-  await user.save();
+  if (user.authProvider === "google") {
+    return res.status(400).json({
+      message: "Google users cannot reset password",
+    });
+  }
 
-  return res.status(400).json({ message: "Invalid OTP" });
-}
+  if (!user.isVerified) {
+    return res.status(400).json({
+      message: "Email not verified",
+    });
+  }
 
   user.password = await bcrypt.hash(password, 10);
-  user.resetOtp = undefined;
-  user.resetOtpExpire = undefined;
+ user.resetOtp = newOtp;
+user.resetOtpExpire = Date.now() + 10 * 60 * 1000;
+  user.otpAttempts = 0;
 
   await user.save();
 
   const token = generateToken(user._id);
 
-res.json({
-  message: "Password reset successful",
-  token,
-  user,
-});
-
+  res.json({
+    message: "Password reset successful",
+    token,
+    user,
+  });
 };
 
 export const verifyOtp = async (req, res) => {
@@ -228,6 +201,34 @@ export const verifyOtp = async (req, res) => {
   await user.save();
 
   const token = generateToken(user._id);
+
+  res.json({ token, user });
+};
+
+export const verifyRegisterOtp = async (req, res) => {
+  const { email, otp } = req.body;
+
+  const user = await User.findOne({
+    email,
+    verificationOtp: otp,
+    verificationOtpExpire: { $gt: Date.now() },
+  });
+
+  if (!user) {
+    return res.status(400).json({ message: "Invalid OTP" });
+  }
+
+  user.isVerified = true;
+  user.verificationOtp = undefined;
+  user.verificationOtpExpire = undefined;
+
+  await user.save();
+
+  const token = jwt.sign(
+    { id: user._id },
+    process.env.JWT_SECRET,
+    { expiresIn: "1d" }
+  );
 
   res.json({ token, user });
 };

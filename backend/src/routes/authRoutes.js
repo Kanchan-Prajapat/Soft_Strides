@@ -3,7 +3,7 @@ import express from "express";
 import { registerUser, loginUser, getMe , 
   forgotPassword, 
   resetPassword,  
-  verifyOtp} from "../controllers/authController.js";
+  verifyOtp, verifyRegisterOtp} from "../controllers/authController.js";
 import { protect } from "../middleware/authMiddleware.js";
 import { googleLogin } from "../controllers/authController.js";
 
@@ -16,5 +16,6 @@ router.post("/forgot-password", forgotPassword);
 router.post("/reset-password", resetPassword);
 router.post("/google", googleLogin);
 router.post("/verify-otp", verifyOtp);
+router.post("/verify-register-otp", verifyRegisterOtp);
 
 export default router;

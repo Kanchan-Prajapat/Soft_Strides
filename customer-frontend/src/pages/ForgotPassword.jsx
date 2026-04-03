@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import "../styles/auth.css";
 import logo from "../assets/Logo.jpg";
@@ -9,6 +9,9 @@ const ForgotPassword = () => {
 const [step, setStep] = useState(1);
   const [message, setMessage] = useState("");
 const [password, setPassword] = useState("");
+const [timer, setTimer] = useState(60);
+const [canResend, setCanResend] = useState(false);
+
   const API_URL = process.env.REACT_APP_API_URL;
 const handleSubmit = async (e) => {
   e.preventDefault();
@@ -27,6 +30,34 @@ const handleSubmit = async (e) => {
   }
 };
 
+useEffect(() => {
+  if (timer > 0) {
+    const interval = setInterval(() => {
+      setTimer((prev) => prev - 1);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  } else {
+    setCanResend(true);
+  }
+}, [timer]);
+
+const handleResendOtp = async () => {
+  try {
+    const res = await axios.post(
+      `${API_URL}/api/auth/forgot-password`, // register me अलग route use होगा
+      { email }
+    );
+
+    alert("New OTP: " + res.data.otp); // dev only
+
+    setTimer(60);
+    setCanResend(false);
+
+  } catch (err) {
+    alert("Failed to resend OTP");
+  }
+};
 
 const handleReset = async () => {
   try {
@@ -75,6 +106,24 @@ window.location.href = "/";
       value={otp}
       onChange={(e) => setOtp(e.target.value)}
     />
+    <div style={{ marginTop: "10px", textAlign: "center" }}>
+  {canResend ? (
+    <span
+      onClick={handleResendOtp}
+      style={{
+        color: "#9b7bff",
+        cursor: "pointer",
+        fontWeight: "500",
+      }}
+    >
+      Resend OTP
+    </span>
+  ) : (
+    <span style={{ color: "#aaa" }}>
+      Resend in {timer}s
+    </span>
+  )}
+</div>
 
     <input
       type="password"
@@ -92,7 +141,8 @@ window.location.href = "/";
     </button>
     
   </>
-)}
+)}setTimer(60);
+setCanResend(false);
 
 
            </form>

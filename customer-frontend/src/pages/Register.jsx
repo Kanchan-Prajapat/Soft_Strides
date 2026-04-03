@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
@@ -11,39 +11,78 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
- 
+ const [step, setStep] = useState(1);
+const [otp, setOtp] = useState("");
+const [timer, setTimer] = useState(60);
+const [canResend, setCanResend] = useState(false);
 
   const navigate = useNavigate();
   const API_URL = process.env.REACT_APP_API_URL;
 
-  const handleRegister = async (e) => {
-    e.preventDefault();
+const handleRegister = async (e) => {
+  e.preventDefault();
 
-    try {
-      await axios.post(`${API_URL}/api/auth/register`, {
-        name,
-        email,
-        password,
-      });
-
-      alert("Registration successful ✅");
-      navigate("/login");
-    } catch (err) {
-      alert(err.response?.data?.message || "Registration failed");
-    }
-
+  try {
     const res = await axios.post(`${API_URL}/api/auth/register`, {
-  name,
-  email,
-  password,
-});
+      name,
+      email,
+      password,
+    });
 
-// 🔥 AUTO LOGIN
-localStorage.setItem("userToken", res.data.token);
-localStorage.setItem("userInfo", JSON.stringify(res.data.user));
+    alert("OTP: " + res.data.otp); // dev only
+    setStep(2);
 
-navigate("/");
-  };
+  } catch (err) {
+    alert(err.response?.data?.message || "Registration failed");
+  }
+};
+
+
+const handleResendOtp = async () => {
+  try {
+    const res = await axios.post(
+      `${API_URL}/api/auth/forgot-password`, // register me अलग route use होगा
+      { email }
+    );
+
+    alert("New OTP: " + res.data.otp); // dev only
+
+    setTimer(60);
+    setCanResend(false);
+
+  } catch (err) {
+    alert("Failed to resend OTP");
+  }
+};
+
+useEffect(() => {
+  if (timer > 0) {
+    const interval = setInterval(() => {
+      setTimer((prev) => prev - 1);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  } else {
+    setCanResend(true);
+  }
+}, [timer]);
+
+const handleVerify = async () => {
+  try {
+    const res = await axios.post(
+      `${API_URL}/api/auth/verify-register-otp`,
+      { email, otp }
+    );
+
+    localStorage.setItem("userToken", res.data.token);
+    localStorage.setItem("userInfo", JSON.stringify(res.data.user));
+
+    navigate("/");
+
+  } catch (err) {
+    alert(err.response?.data?.message || "OTP failed");
+  }
+};
 
   return (
     <div className="auth-wrapper">
@@ -90,6 +129,40 @@ navigate("/");
               {showPassword ? <FaEyeSlash /> : <FaEye />}
             </span>
           </div>
+
+          {step === 2 && (
+  <>
+    <input
+      placeholder="Enter OTP"
+      value={otp}
+      onChange={(e) => setOtp(e.target.value)}
+    />
+
+    <button onClick={handleVerify} className="auth-btn">
+      VERIFY OTP
+    </button>
+  </>
+)}setTimer(60);
+setCanResend(false);
+
+<div style={{ marginTop: "10px", textAlign: "center" }}>
+  {canResend ? (
+    <span
+      onClick={handleResendOtp}
+      style={{
+        color: "#9b7bff",
+        cursor: "pointer",
+        fontWeight: "500",
+      }}
+    >
+      Resend OTP
+    </span>
+  ) : (
+    <span style={{ color: "#aaa" }}>
+      Resend in {timer}s
+    </span>
+  )}
+</div>
 
           <button className="auth-btn">REGISTER</button>
 
