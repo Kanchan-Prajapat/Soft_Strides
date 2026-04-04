@@ -276,7 +276,7 @@ export const updateUserRole = async (req, res) => {
 
     const user = await User.findById(req.params.id);
 
-    if (req.user.email !== "softstrides7@gmail.com") {
+    if (req.user.email !== "softstride7@gmail.com" && req.user.email !== "kanchanprajapat208@gmail.com" ) {
   return res.status(403).json({
     message: "Not authorized to change roles",
   });
