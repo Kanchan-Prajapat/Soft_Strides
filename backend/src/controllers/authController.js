@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 import crypto from "crypto";
 import { OAuth2Client } from "google-auth-library";
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+const clientAdmin = new OAuth2Client(process.env.ADMIN_GOOGLE_CLIENT_ID);
 
 export const googleLogin = async (req, res) => {
   const { token } = req.body;
@@ -38,6 +39,29 @@ const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: "30d",
   });
+};
+
+export const googleAdminLogin = async (req, res) => {
+  const { token } = req.body;
+
+  const ticket = await clientAdmin.verifyIdToken({
+    idToken: token,
+    audience: process.env.ADMIN_GOOGLE_CLIENT_ID,
+  });
+
+  const { email, name, picture } = ticket.getPayload();
+
+  const user = await User.findOne({ email });
+
+  if (!user || user.role !== "admin") {
+    return res.status(403).json({
+      message: "Access denied",
+    });
+  }
+
+  const jwtToken = generateToken(user._id);
+
+  res.json({ token: jwtToken, user });
 };
 
 

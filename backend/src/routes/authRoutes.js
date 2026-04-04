@@ -5,7 +5,7 @@ import { registerUser, loginUser, getMe ,
   resetPassword,  
   verifyOtp, verifyRegisterOtp} from "../controllers/authController.js";
 import { protect } from "../middleware/authMiddleware.js";
-import { googleLogin } from "../controllers/authController.js";
+import { googleLogin, googleAdminLogin } from "../controllers/authController.js";
 
 const router = express.Router();
 
@@ -15,6 +15,7 @@ router.get("/me", protect, getMe);
 router.post("/forgot-password", forgotPassword);
 router.post("/reset-password", resetPassword);
 router.post("/google", googleLogin);
+router.post("/admin/google", googleAdminLogin);
 router.post("/verify-otp", verifyOtp);
 router.post("/verify-register-otp", verifyRegisterOtp);
 

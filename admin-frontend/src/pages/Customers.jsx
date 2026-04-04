@@ -11,17 +11,19 @@ import CustomerModal from "../components/CustomerModal";
 import { useToast } from "../components/Toast";
 import "../styles/theme.css";
 
+
 const Customers = () => {
   const [customers, setCustomers] = useState([]);
   const [search, setSearch] = useState("");
   const [selectedCustomer, setSelectedCustomer] = useState(null);
+  const user = JSON.parse(localStorage.getItem("userInfo"));
 
   const navigate = useNavigate();
   const { showToast } = useToast();
 
- useEffect(() => {
-  fetchCustomers(search).then(setCustomers);
-}, [search]);
+  useEffect(() => {
+    fetchCustomers(search).then(setCustomers);
+  }, [search]);
 
   const handleBlock = async (id) => {
     await blockCustomer(id);
@@ -111,9 +113,8 @@ const Customers = () => {
 
                   <td>
                     <span
-                      className={`badge ${
-                        c.isBlocked ? "badge-danger" : "badge-success"
-                      }`}
+                      className={`badge ${c.isBlocked ? "badge-danger" : "badge-success"
+                        }`}
                     >
                       {c.isBlocked ? "Blocked" : "Active"}
                     </span>
@@ -141,6 +142,24 @@ const Customers = () => {
                       >
                         Delete
                       </button>
+
+                      {user?.email === "softstrides7@gmail.com" && (
+                        <select
+                          className="input"
+                          value={c.role}
+                          onChange={async (e) => {
+                            await api.put(`/users/role/${c._id}`, {
+                              role: e.target.value,
+                            });
+
+                            showToast("Role updated", "success");
+                            window.location.reload();
+                          }}
+                        >
+                          <option value="user">User</option>
+                          <option value="admin">Admin</option>
+                        </select>
+                      )}
                     </div>
                   </td>
                 </tr>

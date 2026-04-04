@@ -5,12 +5,13 @@ import { protect } from "../middleware/authMiddleware.js";
 import {
     updateUserProfile,changeUserPassword,
     updateUserLocation,
-    uploadProfileImage
+    uploadProfileImage,
+    updateUserRole
 } from "../controllers/userController.js";
 import upload from "../middleware/uploadMiddleware.js";
 import User from "../models/User.js";
 import Order from "../models/Order.js";
-
+import { adminOnly } from "../middleware/adminMiddleware.js";
 
 import { getWishlist, toggleWishlist } from "../controllers/wishlistController.js";
 
@@ -23,6 +24,7 @@ router.put("/profile", protect, updateUserProfile);
 router.put("/change-password", protect, changeUserPassword);
 router.put("/location", protect, updateUserLocation);
 router.put("/profile-image", protect, upload.single("profileImage"), uploadProfileImage);
+router.put("/role/:id", protect, adminOnly, updateUserRole);
 // ADMIN - GET ALL CUSTOMERS
 router.get("/customers", protect, async (req, res) => {
   try {

@@ -95,6 +95,7 @@ export const changeAdminPassword = async (req, res) => {
   }
 };
 
+
 export const getCustomerOrders = async (req, res) => {
   try {
     const { id } = req.params;
@@ -266,5 +267,29 @@ export const uploadProfileImage = async (req, res) => {
 
   } catch (error) {
     res.status(500).json({ message: error.message });
+  }
+};
+
+export const updateUserRole = async (req, res) => {
+  try {
+    const { role } = req.body;
+
+    const user = await User.findById(req.params.id);
+
+    if (req.user.email !== "softstrides7@gmail.com") {
+  return res.status(403).json({
+    message: "Not authorized to change roles",
+  });
+}
+
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    user.role = role;
+    await user.save();
+
+    res.json({ message: "Role updated", user });
+
+  } catch (error) {
+    res.status(500).json({ message: "Error updating role" });
   }
 };
