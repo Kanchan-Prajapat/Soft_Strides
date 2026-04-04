@@ -7,7 +7,7 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
    <ToastProvider>
-   <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
+   <GoogleOAuthProvider clientId={import.meta.env.VITE_ADMIN_GOOGLE_CLIENT_ID}>
     <App />
     </GoogleOAuthProvider>
   </ToastProvider>
