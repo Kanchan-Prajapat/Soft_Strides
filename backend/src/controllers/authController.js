@@ -17,12 +17,14 @@ export const googleLogin = async (req, res) => {
 
   const { email, name, picture } = ticket.getPayload();
 
-  let user = await User.findOne({ email });
+  const normalizedEmail = email.toLowerCase().trim();
+
+  let user = await User.findOne({ email: normalizedEmail });
 
  if (!user) {
   user = await User.create({
     name,
-    email,
+    email: normalizedEmail,
     password: "google_login",
     profileImage: picture,
     isVerified: true,       
@@ -30,15 +32,23 @@ export const googleLogin = async (req, res) => {
   });
 }
 
-  const jwtToken = generateToken(user._id);
+  const jwtToken = generateToken(user);
 
   res.json({ token: jwtToken, user });
 };
 
-const generateToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: "30d",
-  });
+const generateToken = (user) => {
+  return jwt.sign(
+    {
+      id: user._id,
+      email: user.email,
+      role: user.role,
+    },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: "30d",
+    }
+  );
 };
 
 export const googleAdminLogin = async (req, res) => {
@@ -73,8 +83,7 @@ export const googleAdminLogin = async (req, res) => {
     });
   }
 
-  const jwtToken = generateToken(user._id);
-
+ const jwtToken = generateToken(user);
   res.json({ token: jwtToken, user });
 };
 
@@ -134,7 +143,7 @@ export const loginUser = async (req, res) => {
 if (!user)
   return res.status(400).json({ message: "Invalid credentials" });
 
-// 🔥 ADD THIS BLOCK HERE
+
 if (!user.isVerified) {
   return res.status(403).json({
     message: "Please verify your email first",
@@ -246,7 +255,7 @@ export const resetPassword = async (req, res) => {
 
   await user.save();
 
-  const token = generateToken(user._id);
+  const token = generateToken(user);
 
   res.json({
     message: "Password reset successful",
@@ -275,7 +284,7 @@ export const verifyOtp = async (req, res) => {
 
   await user.save();
 
-  const token = generateToken(user._id);
+  const token = generateToken(user);
 
   res.json({ token, user });
 };

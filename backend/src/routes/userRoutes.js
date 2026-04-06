@@ -31,12 +31,14 @@ router.get("/customers", protect, async (req, res) => {
     const search = req.query.search || "";
 
     const users = await User.find({
-      role: "user",
-      $or: [
-        { name: { $regex: search, $options: "i" } },
-        { email: { $regex: search, $options: "i" } }
-      ]
-    });
+  
+  role: { $in: ["user", "admin"] },
+  $or: [
+    { name: { $regex: search, $options: "i" } },
+    { email: { $regex: search, $options: "i" } },
+  ],
+});
+    
 
     res.json(users);
   } catch (error) {

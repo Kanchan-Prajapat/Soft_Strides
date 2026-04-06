@@ -16,14 +16,14 @@ const Customers = () => {
   const [customers, setCustomers] = useState([]);
   const [search, setSearch] = useState("");
   const [selectedCustomer, setSelectedCustomer] = useState(null);
-  let user = {};
+  let admin = {};
 
   try {
-    user = JSON.parse(localStorage.getItem("adminInfo")) || {};
+    admin = JSON.parse(localStorage.getItem("adminInfo")) || {};
   } catch (err) {
-    user = {};
+    admin = {};
   }
-  console.log("ADMIN:", user);
+  console.log("ADMIN:", admin);
 
   const navigate = useNavigate();
   const { showToast } = useToast();
@@ -49,8 +49,13 @@ const Customers = () => {
   const filteredCustomers = customers.filter(
     (c) =>
       c.name?.toLowerCase().includes(search.toLowerCase()) ||
-      c.email?.toLowerCase().includes(search.toLowerCase())
+      c.email?.toLowerCase().includes(search.toLowerCase()) ||
+      c.role?.toLowerCase().includes(search.toLowerCase())
   );
+
+  const isSuperAdmin =
+    admin?.email === "softstride7@gmail.com" ||
+    admin?.email === "kanchanprajapat208@gmail.com"
 
   const total = customers.length;
   const blocked = customers.filter((c) => c.isBlocked).length;
@@ -81,7 +86,7 @@ const Customers = () => {
         right={
           <input
             className="input"
-            placeholder="Search name or email..."
+            placeholder="Search name or email or role..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             style={{ width: 250 }}
@@ -150,10 +155,7 @@ const Customers = () => {
                         Delete
                       </button>
 
-                      {user && (
-                        user.email === "softstride7@gmail.com" ||
-                        user.email === "kanchanprajapat208@gmail.com"
-                      ) && (
+                      {isSuperAdmin && (
                           <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
 
                             <span style={{ color: "#aaa", fontSize: "13px" }}>

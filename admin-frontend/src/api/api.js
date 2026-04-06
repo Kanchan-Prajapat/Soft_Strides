@@ -4,7 +4,7 @@ const API = axios.create({
   baseURL: import.meta.env.VITE_API_URL + "/api",
 });
 
-/* 🔐 REQUEST INTERCEPTOR */
+
 API.interceptors.request.use((config) => {
   const token = localStorage.getItem("adminToken");
   if (token) {
@@ -13,7 +13,7 @@ API.interceptors.request.use((config) => {
   return config;
 });
 
-/* 🚨 RESPONSE INTERCEPTOR */
+
 API.interceptors.response.use(
   (res) => res,
   (err) => {
@@ -25,7 +25,7 @@ API.interceptors.response.use(
   }
 );
 
-/* 📩 CONTACT API */
+
 export const sendContactMessage = (data) => {
   return API.post("/contact", data);
 };
