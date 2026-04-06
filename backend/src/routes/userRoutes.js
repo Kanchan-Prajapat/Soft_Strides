@@ -62,7 +62,19 @@ router.patch("/customers/:id/block", protect, async (req, res) => {
 
 router.delete("/customers/:id", protect, async (req, res) => {
   try {
+    const superAdmins = [
+      "softstride7@gmail.com",
+      "kanchanprajapat208@gmail.com",
+    ];
+
+    if (!superAdmins.includes(req.user.email)) {
+      return res.status(403).json({
+        message: "Only super admin can delete users",
+      });
+    }
+
     await User.findByIdAndDelete(req.params.id);
+
     res.json({ message: "Customer deleted" });
   } catch (error) {
     res.status(500).json({ message: "Delete failed" });

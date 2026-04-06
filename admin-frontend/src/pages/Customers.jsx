@@ -12,6 +12,8 @@ import { useToast } from "../components/Toast";
 import "../styles/theme.css";
 import API from "../api/api";
 
+
+
 const Customers = () => {
   const [customers, setCustomers] = useState([]);
   const [search, setSearch] = useState("");
@@ -25,11 +27,15 @@ const Customers = () => {
   }
   console.log("ADMIN:", admin);
 
+  useEffect(() => {
+  console.log("DATA:", customers);
+}, [customers]);
+
   const navigate = useNavigate();
   const { showToast } = useToast();
 
   useEffect(() => {
-    fetchCustomers(search).then(setCustomers);
+    fetchCustomers().then(setCustomers);
   }, [search]);
 
   const handleBlock = async (id) => {
@@ -46,12 +52,20 @@ const Customers = () => {
     load();
   };
 
-  const filteredCustomers = customers.filter(
-    (c) =>
-      c.name?.toLowerCase().includes(search.toLowerCase()) ||
-      c.email?.toLowerCase().includes(search.toLowerCase()) ||
-      c.role?.toLowerCase().includes(search.toLowerCase())
+const searchText = search.toLowerCase();
+
+const filteredCustomers = customers.filter((c) => {
+  const name = c.name?.toLowerCase() || "";
+  const email = c.email?.toLowerCase() || "";
+  const role = c.role?.toLowerCase() || "";
+
+  return (
+    name.includes(searchText) ||
+    email.includes(searchText) ||
+    role.includes(searchText)
   );
+});
+
 
   const isSuperAdmin =
     admin?.email === "softstride7@gmail.com" ||
@@ -104,6 +118,7 @@ const Customers = () => {
           </thead>
 
           <tbody>
+
             {filteredCustomers.length === 0 ? (
               <tr>
                 <td colSpan="4" className="empty-row">
@@ -148,39 +163,41 @@ const Customers = () => {
                         {c.isBlocked ? "Unblock" : "Block"}
                       </button>
 
-                      <button
-                        className="view-btn danger"
-                        onClick={() => handleDelete(c._id)}
-                      >
-                        Delete
-                      </button>
+                      {isSuperAdmin && (
+                        <button
+                          className="view-btn danger"
+                          onClick={() => handleDelete(c._id)}
+                        >
+                          Delete
+                        </button>
+                      )}
 
                       {isSuperAdmin && (
-                          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
 
-                            <span style={{ color: "#aaa", fontSize: "13px" }}>
-                              Access:
-                            </span>
+                          <span style={{ color: "#aaa", fontSize: "13px" }}>
+                            Access:
+                          </span>
 
-                            <select
-                              className="input"
-                              value={c.role}
-                              style={{ width: "100px", padding: "5px" }}
-                              onChange={async (e) => {
-                                await API.put(`/users/role/${c._id}`, {
-                                  role: e.target.value,
-                                });
+                          <select
+                            className="input"
+                            value={c.role}
+                            style={{ width: "100px", padding: "5px" }}
+                            onChange={async (e) => {
+                              await API.put(`/users/role/${c._id}`, {
+                                role: e.target.value,
+                              });
 
-                                showToast("Role updated", "success");
-                                window.location.reload();
-                              }}
-                            >
-                              <option value="user">User</option>
-                              <option value="admin">Admin</option>
-                            </select>
+                              showToast("Role updated", "success");
+                              window.location.reload();
+                            }}
+                          >
+                            <option value="user">User</option>
+                            <option value="admin">Admin</option>
+                          </select>
 
-                          </div>
-                        )}
+                        </div>
+                      )}
                     </div>
                   </td>
                 </tr>
