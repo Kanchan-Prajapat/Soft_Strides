@@ -7,8 +7,9 @@ import "../styles/products.css";
 const ProductCard = ({ product, discountedPrice }) => {
   const navigate = useNavigate();
   const { addToCart } = useCart();
+  const { cartItems } = useCart();
   const { toggleWishlist, isInWishlist } = useWishlist();
-
+  const isInCart = cartItems.some(item => item._id === product._id);
   const isWishlisted = isInWishlist(product._id);
 
   // 🔥 SIZE STATE (MISSING THA)
@@ -52,6 +53,8 @@ const ProductCard = ({ product, discountedPrice }) => {
     addToCart({ ...product, size: selectedSize, qty: 1 });
     alert("Added to Cart 🛒");
   };
+
+
 
   return (
     <div
@@ -114,14 +117,25 @@ const ProductCard = ({ product, discountedPrice }) => {
 
         {/* 🔥 BUTTONS */}
         <div className="btn-group">
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              handleAddToCart(e);
-            }}
-          >
-            Add to Cart
-          </button>
+          {isInCart ? (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                navigate("/cart");
+              }}
+            >
+              View Cart
+            </button>
+          ) : (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                handleAddToCart(e);
+              }}
+            >
+              Add to Cart
+            </button>
+          )}
 
           <button
             className="buy-btn"

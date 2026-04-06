@@ -11,7 +11,7 @@ import { FaHeart } from "react-icons/fa";
 
 const ProductDetails = () => {
   const { id } = useParams();
-  const { addToCart } = useCart();
+  const { addToCart, cartItems } = useCart();
   const { user } = useAuth();
   const API_URL = process.env.REACT_APP_API_URL;
 
@@ -23,8 +23,8 @@ const ProductDetails = () => {
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
   const { toggleWishlist, isInWishlist } = useWishlist();
- const hasSizes = product?.sizes?.length > 0;
-  
+  const hasSizes = product?.sizes?.length > 0;
+
 
   const refresh = () => setFetchProduct((prev) => !prev);
   const navigate = useNavigate();
@@ -43,32 +43,32 @@ const ProductDetails = () => {
     };
 
     fetchProductData();
-  }, [id, fetchProduct,API_URL]);
+  }, [id, fetchProduct, API_URL]);
 
-useEffect(() => {
-  if (showPopup) {
-    setTimeout(() => setShowPopup(false), 2000);
-  }
-}, [showPopup]);
-
-
-useEffect(() => {
-  const fetchRelated = async () => {
-    try {
-      if (!product?.category) return;
-
-      const res = await axios.get(
-        `${API_URL}/api/products/related/${product.category._id}`
-      );
-
-      setRelatedProducts(res.data);
-    } catch (err) {
-      console.log("Related error:", err);
+  useEffect(() => {
+    if (showPopup) {
+      setTimeout(() => setShowPopup(false), 2000);
     }
-  };
+  }, [showPopup]);
 
-  fetchRelated();
-}, [product, API_URL]);
+
+  useEffect(() => {
+    const fetchRelated = async () => {
+      try {
+        if (!product?.category) return;
+
+        const res = await axios.get(
+          `${API_URL}/api/products/related/${product.category._id}`
+        );
+
+        setRelatedProducts(res.data);
+      } catch (err) {
+        console.log("Related error:", err);
+      }
+    };
+
+    fetchRelated();
+  }, [product, API_URL]);
 
   useEffect(() => {
     if (product?.images?.length > 0) {
@@ -82,20 +82,31 @@ useEffect(() => {
   }
 
 
- const handleAddToCart = () => {
-  if (hasSizes && !selectedSize) {
-    alert("Please select size first ⚠️");
-    return;
-  }
+ const isInCart = cartItems?.some(
+  (item) =>
+    item._id === product._id &&
+    item.size === (hasSizes ? selectedSize : "Free Size")
+);
 
-  addToCart({
-    ...product,
-    size: hasSizes ? selectedSize : "Free Size",
-    qty: 1,
-  });
 
-  setShowPopup(true);
-};
+  const handleAddToCart = () => {
+    if (hasSizes && !selectedSize) {
+      alert("Please select size first ⚠️");
+      return;
+    }
+    if (isInCart) {
+  navigate("/cart");
+  return;
+}
+
+    addToCart({
+      ...product,
+      size: hasSizes ? selectedSize : "Free Size",
+      qty: 1,
+    });
+
+    setShowPopup(true);
+  };
 
   return (
     <div className="product-page">
@@ -133,148 +144,158 @@ useEffect(() => {
           <p className="description">{product.description}</p>
 
           <div className="size-section">
-          {hasSizes && <h4>Select Size</h4>}
+            {hasSizes && <h4>Select Size</h4>}
 
-          {product?.sizes?.length > 0 ? (
-  product.sizes.map((size) => (
-    <button
-      key={size}
-      className={`size-btn ${
-        selectedSize === size ? "active" : ""
-      }`}
-      onClick={() => setSelectedSize(size)}
-    >
-      {size}
-    </button>
-  ))
-) : (
-  <button className="size-btn active">Free Size</button>
-)}
+            {product?.sizes?.length > 0 ? (
+              product.sizes.map((size) => (
+                <button
+                  key={size}
+                  className={`size-btn ${selectedSize === size ? "active" : ""
+                    }`}
+                  onClick={() => setSelectedSize(size)}
+                >
+                  {size}
+                </button>
+              ))
+            ) : (
+              <button className="size-btn active">Free Size</button>
+            )}
           </div>
 
-         <div className="product-actions">
-  <button className="add-cart" onClick={handleAddToCart}>
-    Add to Cart
-  </button>
-</div>
-          
+          <div className="product-actions">
+            {isInCart ? (
+              <button
+                className="add-cart"
+                onClick={() => navigate("/cart")}
+              >
+                View Cart
+              </button>
+            ) : (
+              <button
+                className="add-cart"
+                onClick={handleAddToCart}
+              >
+                Add to Cart
+              </button>
+            )}
+          </div>
+
         </div>
       </div>
 
       {/* REVIEWS SECTION */}
-   {/* REVIEWS SECTION */}
-<div className="reviews-section">
-  <h2>Customer Reviews</h2>
+      {/* REVIEWS SECTION */}
+      <div className="reviews-section">
+        <h2>Customer Reviews</h2>
 
-  {/* Reviews Grid */}
-  <div className="reviews-grid">
-    {product.reviews
-      ?.filter((r) => r.status === "Approved")
-      .map((review) => (
-        <div key={review._id} className="review-box">
+        {/* Reviews Grid */}
+        <div className="reviews-grid">
+          {product.reviews
+            ?.filter((r) => r.status === "Approved")
+            .map((review) => (
+              <div key={review._id} className="review-box">
 
-          <div className="review-header">
-            <strong>{review.name}</strong>
-            <span>{"⭐".repeat(review.rating)}</span>
-          </div>
+                <div className="review-header">
+                  <strong>{review.name}</strong>
+                  <span>{"⭐".repeat(review.rating)}</span>
+                </div>
 
-          <p>{review.comment}</p>
+                <p>{review.comment}</p>
 
-          {review.photo && (
-            <img
-              src={review.photo}
-              alt="review"
-              className="review-photo"
-            />
-          )}
+                {review.photo && (
+                  <img
+                    src={review.photo}
+                    alt="review"
+                    className="review-photo"
+                  />
+                )}
 
-          <button
-            disabled={review.helpfulUsers?.includes(user?._id)}
-            onClick={async () => {
-              try {
-                const token =
-                  localStorage.getItem("userToken");
+                <button
+                  disabled={review.helpfulUsers?.includes(user?._id)}
+                  onClick={async () => {
+                    try {
+                      const token =
+                        localStorage.getItem("userToken");
 
-                await axios.put(
-                  `${API_URL}/api/reviews/helpful/${product._id}/${review._id}`,
-                  {},
-                  {
-                    headers: {
-                      Authorization: `Bearer ${token}`,
-                    },
-                  }
-                );
+                      await axios.put(
+                        `${API_URL}/api/reviews/helpful/${product._id}/${review._id}`,
+                        {},
+                        {
+                          headers: {
+                            Authorization: `Bearer ${token}`,
+                          },
+                        }
+                      );
 
-                refresh();
-              } catch (err) {
-                alert(err.response?.data?.message);
-              }
-            }}
-          >
-            👍 Helpful ({review.helpfulCount})
+                      refresh();
+                    } catch (err) {
+                      alert(err.response?.data?.message);
+                    }
+                  }}
+                >
+                  👍 Helpful ({review.helpfulCount})
+                </button>
+              </div>
+            ))}
+        </div>
+
+        {/* Write Review - OUTSIDE GRID */}
+        <div className="write-review-wrapper">
+          <ReviewForm
+            productId={product._id}
+            refresh={refresh}
+          />
+        </div>
+
+      </div>
+
+      {/* RELATED PRODUCTS */}
+      <div className="related-section">
+        <h2>You May Also Like</h2>
+
+        <div className="related-grid">
+          {relatedProducts.map((item) => (
+            <div
+              key={item._id}
+              className="related-card"
+              onClick={() => navigate(`/product/${item._id}`)}
+            >
+
+              {/* ❤️ WISHLIST ICON */}
+              <div
+                className={`wishlist-icon ${isInWishlist(item._id) ? "active" : ""
+                  }`}
+                onClick={(e) => {
+                  e.stopPropagation(); // 🔥 prevent redirect
+                  toggleWishlist(item);
+                }}
+              >
+                <FaHeart />
+              </div>
+
+              <img src={item.images?.[0]} alt={item.name} />
+              <h4>{item.name}</h4>
+              <p>₹{item.price}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+
+      {showPopup && (
+        <div className="popup">
+          ✅ Added to cart successfully
+
+          <button onClick={() => setShowPopup(false)}>
+            OK
           </button>
         </div>
-      ))}
-  </div>
-
-  {/* Write Review - OUTSIDE GRID */}
-  <div className="write-review-wrapper">
-    <ReviewForm
-      productId={product._id}
-      refresh={refresh}
-    />
-  </div>
-
-</div>
-
-{/* RELATED PRODUCTS */}
-<div className="related-section">
-  <h2>You May Also Like</h2>
-
-  <div className="related-grid">
-    {relatedProducts.map((item) => (
-      <div
-        key={item._id}
-        className="related-card"
-        onClick={() => navigate(`/product/${item._id}`)}
-      >
-
-        {/* ❤️ WISHLIST ICON */}
-        <div
-          className={`wishlist-icon ${
-            isInWishlist(item._id) ? "active" : ""
-          }`}
-          onClick={(e) => {
-            e.stopPropagation(); // 🔥 prevent redirect
-            toggleWishlist(item);
-          }}
-        >
-          <FaHeart />
-        </div>
-
-        <img src={item.images?.[0]} alt={item.name} />
-        <h4>{item.name}</h4>
-        <p>₹{item.price}</p>
-      </div>
-    ))}
-  </div>
-</div>
-
-
- {showPopup && (
-  <div className="popup">
-    ✅ Added to cart successfully
-
-    <button onClick={() => setShowPopup(false)}>
-      OK
-    </button>
-  </div>
-)}
-</div>
+      )}
+    </div>
 
 
   );
- 
+
 
 };
 

@@ -141,7 +141,7 @@ PRODUCT PAGE
 .popup {
   position: fixed;
   bottom: 20px;
-  right: 20px;
+  left: 20%;
   background: #111;
   color: #fff;
   padding: 15px 20px;
