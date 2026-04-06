@@ -49,13 +49,27 @@ export const googleAdminLogin = async (req, res) => {
     audience: process.env.ADMIN_GOOGLE_CLIENT_ID,
   });
 
-  const { email, name, picture } = ticket.getPayload();
+  const { email } = ticket.getPayload();
 
-  const user = await User.findOne({ email });
+  const normalizedEmail = email.toLowerCase().trim();
 
-  if (!user || user.role !== "admin") {
+  console.log("GOOGLE EMAIL:", normalizedEmail);
+
+  const user = await User.findOne({
+    email: normalizedEmail,
+  });
+
+  console.log("DB USER:", user);
+
+  if (!user) {
+    return res.status(404).json({
+      message: "User not found",
+    });
+  }
+
+  if (user.role !== "admin") {
     return res.status(403).json({
-      message: "Access denied",
+      message: "Not admin",
     });
   }
 

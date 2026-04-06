@@ -10,13 +10,20 @@ import {
 import CustomerModal from "../components/CustomerModal";
 import { useToast } from "../components/Toast";
 import "../styles/theme.css";
-
+import API from "../api/api";
 
 const Customers = () => {
   const [customers, setCustomers] = useState([]);
   const [search, setSearch] = useState("");
   const [selectedCustomer, setSelectedCustomer] = useState(null);
-  const user = JSON.parse(localStorage.getItem("userInfo"));
+  let user = {};
+
+  try {
+    user = JSON.parse(localStorage.getItem("adminInfo")) || {};
+  } catch (err) {
+    user = {};
+  }
+  console.log("ADMIN:", user);
 
   const navigate = useNavigate();
   const { showToast } = useToast();
@@ -143,23 +150,35 @@ const Customers = () => {
                         Delete
                       </button>
 
-                      {user?.email === "softstrides7@gmail.com" && (
-                        <select
-                          className="input"
-                          value={c.role}
-                          onChange={async (e) => {
-                            await api.put(`/users/role/${c._id}`, {
-                              role: e.target.value,
-                            });
+                      {user && (
+                        user.email === "softstride7@gmail.com" ||
+                        user.email === "kanchanprajapat208@gmail.com"
+                      ) && (
+                          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
 
-                            showToast("Role updated", "success");
-                            window.location.reload();
-                          }}
-                        >
-                          <option value="user">User</option>
-                          <option value="admin">Admin</option>
-                        </select>
-                      )}
+                            <span style={{ color: "#aaa", fontSize: "13px" }}>
+                              Access:
+                            </span>
+
+                            <select
+                              className="input"
+                              value={c.role}
+                              style={{ width: "100px", padding: "5px" }}
+                              onChange={async (e) => {
+                                await API.put(`/users/role/${c._id}`, {
+                                  role: e.target.value,
+                                });
+
+                                showToast("Role updated", "success");
+                                window.location.reload();
+                              }}
+                            >
+                              <option value="user">User</option>
+                              <option value="admin">Admin</option>
+                            </select>
+
+                          </div>
+                        )}
                     </div>
                   </td>
                 </tr>

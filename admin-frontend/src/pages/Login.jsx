@@ -90,6 +90,14 @@ const Login = () => {
       });
 
       localStorage.setItem("adminToken", res.data.token);
+localStorage.setItem("adminInfo", JSON.stringify(res.data.user));
+if (!res.data.user) {
+  console.log("USER NOT FOUND");
+  return;
+}
+
+console.log("EMAIL FROM GOOGLE:", email);
+console.log("USER FROM DB:", user);
 
       showToast("Admin login successful", "success");
       navigate("/dashboard");

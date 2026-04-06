@@ -33,8 +33,7 @@ export const getCustomers = async (req, res) => {
   try {
     const search = req.query.search || "";
 
-    const customers = await User.find({
-      role: "user",
+   const customers = await User.find({
       $or: [
         { name: { $regex: search, $options: "i" } },
         { email: { $regex: search, $options: "i" } },

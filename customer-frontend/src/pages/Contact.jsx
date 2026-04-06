@@ -72,7 +72,7 @@ const Contact = () => {
 
           <p><strong>Email:</strong> softstrides7@gmail.com</p>
           <p><strong>Phone:</strong> +91 8690709955</p>
-
+          <p><strong>Phone:</strong> +91 8302496546</p>
           <p className="support-time">
             Mon-Sat | 10 AM to 6 PM IST
           </p>
