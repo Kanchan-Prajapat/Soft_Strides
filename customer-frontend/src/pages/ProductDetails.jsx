@@ -8,6 +8,7 @@ import "../styles/productDetails.css"
 import { useNavigate } from "react-router-dom";
 import { useWishlist } from "../context/WishlistContext";
 import { FaHeart } from "react-icons/fa";
+import CartDrawer from "../components/CartDrawer";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -22,6 +23,7 @@ const ProductDetails = () => {
   const [fetchProduct, setFetchProduct] = useState(false);
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
+    const [cartOpen, setCartOpen] = useState(false);
   const { toggleWishlist, isInWishlist } = useWishlist();
   const hasSizes = product?.sizes?.length > 0;
 
@@ -166,7 +168,7 @@ const ProductDetails = () => {
             {isInCart ? (
               <button
                 className="add-cart"
-                onClick={() => navigate("/cart")}
+               onClick={() => setCartOpen(true)}
               >
                 View Cart
               </button>
@@ -291,6 +293,12 @@ const ProductDetails = () => {
           </button>
         </div>
       )}
+      <CartDrawer 
+  open={cartOpen} 
+  onClose={() => setCartOpen(false)} 
+/>
+
+      
     </div>
 
 

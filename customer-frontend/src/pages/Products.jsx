@@ -4,6 +4,7 @@ import SidebarFilters from "../components/SidebarFilters";
 import ProductCard from "../components/ProductCard";
 import "../styles/products.css";
 import { useLocation } from "react-router-dom";
+import CartDrawer from "../components/CartDrawer";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -13,8 +14,10 @@ const Products = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedSize, setSelectedSize] = useState("All");
   const [selectedColor, setSelectedColor] = useState("All");
+  const [cartOpen, setCartOpen] = useState(false);
   const [priceRange, setPriceRange] = useState([0, 10000]);
   const [showFilters, setShowFilters] = useState(false);
+
 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -65,16 +68,27 @@ const Products = () => {
           ☰ Filters
         </button>
 
+
+
+
         {/* OVERLAY */}
+
+
         {showFilters && (
           <div
-            className="filter-overlay"
+            className={`filter-overlay ${showFilters ? "show" : ""}`}
             onClick={() => setShowFilters(false)}
           />
         )}
 
         {/* 🔥 FILTER DRAWER (LEFT) */}
         <div className={`sidebar-wrapper ${showFilters ? "active" : ""}`}>
+          <button
+            className="close-filter-btn"
+            onClick={() => setShowFilters(false)}
+          >
+            ✕
+          </button>
           <SidebarFilters
             selectedCategory={selectedCategory}
             setSelectedCategory={setSelectedCategory}
@@ -86,12 +100,7 @@ const Products = () => {
             setPriceRange={setPriceRange}
           />
 
-          <button
-            className="close-filter-btn"
-            onClick={() => setShowFilters(false)}
-          >
-            ✕
-          </button>
+
         </div>
 
         {/* PRODUCTS */}
@@ -102,13 +111,18 @@ const Products = () => {
             <p>No products found</p>
           ) : (
             filteredProducts.map((product) => (
-              <ProductCard key={product._id} product={product} />
+              <ProductCard key={product._id} product={product} openCart={() => setCartOpen(true)} />
             ))
           )}
         </div>
 
       </div>
+      <CartDrawer
+        open={cartOpen}
+        onClose={() => setCartOpen(false)}
+      />
     </div>
+
   );
 };
 

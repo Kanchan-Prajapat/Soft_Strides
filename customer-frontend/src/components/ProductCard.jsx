@@ -4,17 +4,22 @@ import { useWishlist } from "../context/WishlistContext";
 import { useState } from "react";
 import "../styles/products.css";
 
-const ProductCard = ({ product, discountedPrice }) => {
+const ProductCard = ({ product, discountedPrice, openCart }) => {
   const navigate = useNavigate();
   const { addToCart } = useCart();
   const { cartItems } = useCart();
   const { toggleWishlist, isInWishlist } = useWishlist();
-  const isInCart = cartItems.some(item => item._id === product._id);
+
   const isWishlisted = isInWishlist(product._id);
 
   // 🔥 SIZE STATE (MISSING THA)
   const [selectedSize, setSelectedSize] = useState(product.sizes?.[0] || "Free Size");
   const hasSizes = product.sizes && product.sizes.length > 0;
+  const isInCart = cartItems.some(
+  (item) =>
+    item._id === product._id &&
+    item.size === selectedSize
+);
 
   /* ========================
      WISHLIST
@@ -51,7 +56,6 @@ const ProductCard = ({ product, discountedPrice }) => {
     }
 
     addToCart({ ...product, size: selectedSize, qty: 1 });
-    alert("Added to Cart 🛒");
   };
 
 
@@ -119,10 +123,10 @@ const ProductCard = ({ product, discountedPrice }) => {
         <div className="btn-group">
           {isInCart ? (
             <button
-              onClick={(e) => {
-                e.stopPropagation();
-                navigate("/cart");
-              }}
+           onClick={(e) => {
+        e.stopPropagation();
+        openCart();   // ✅ open drawer
+      }}
             >
               View Cart
             </button>
@@ -131,6 +135,7 @@ const ProductCard = ({ product, discountedPrice }) => {
               onClick={(e) => {
                 e.stopPropagation();
                 handleAddToCart(e);
+                openCart();
               }}
             >
               Add to Cart
@@ -148,6 +153,7 @@ const ProductCard = ({ product, discountedPrice }) => {
           </button>
         </div>
       </div>
+
     </div>
   );
 };

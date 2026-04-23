@@ -358,11 +358,18 @@ SIDEBAR DRAWER (MOBILE)
     z-index: 1500;
   }
 
-  .close-filter-btn {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    font-size: 18px;
-    color: white;
-  }
+  
 }
+
+  .close-filter-btn {
+    display: block;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    color: var(--text-main);
+    cursor: pointer;
+    z-index: 1000;
+  }
