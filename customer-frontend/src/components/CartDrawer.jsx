@@ -21,7 +21,10 @@ const CartDrawer = ({ open, onClose }) => {
   <div className="drawer-items">
     {cartItems.map((item) => (
       <div key={`${item._id}-${item.size}`} className="drawer-item">
-        <img src={item.images?.[0]} />
+      <img 
+  src={item.images?.[0]} 
+  alt={item.name || "product"} 
+/>
         <div>
           <h4>{item.name}</h4>
           <p>Size: {item.size}</p>
