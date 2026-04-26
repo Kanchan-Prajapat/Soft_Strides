@@ -73,12 +73,59 @@ export const verifyRazorpayPayment = async (req, res) => {
     address: orderData.address,
     phone: orderData.phone,
     paymentStatus: "Paid",
-    paymentId: razorpay_payment_id
+    paymentId: razorpay_payment_id,
+    history: [
+  {
+    status: "Order Placed",
+    type: "delivery",
+    date: new Date(),
+  },
+  {
+    status: "Confirmed",
+    type: "delivery",
+    date: new Date(),
+  },
+],
+deliveryStatus: "Confirmed",
+   
   });
 
     res.json({ success: true, order });
 
   } catch (error) {
     res.status(500).json({ message: "Verification failed" });
+  }
+};
+
+export const updateDeliveryStatus = async (req, res) => {
+  try {
+    const { status } = req.body;
+
+    const order = await Order.findById(req.params.id);
+
+    if (!order) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
+    // ✅ update status
+    order.deliveryStatus = status;
+    
+
+    // ✅ push into history (ONLY if not duplicate)
+    const lastStatus = order.history[order.history.length - 1]?.status;
+
+    if (lastStatus !== status) {
+      order.history.push({
+        status,
+        type: "delivery",
+        date: new Date(),
+      });
+    }
+
+    await order.save();
+
+    res.json(order);
+  } catch (error) {
+    res.status(500).json({ message: "Update failed" });
   }
 };

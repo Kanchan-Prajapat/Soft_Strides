@@ -24,6 +24,6 @@ router.get("/", protect, async (req, res) => {
 
 router.post("/create-order", createRazorpayOrder);
 router.post("/verify", protect, verifyRazorpayPayment);
-
+router.put("/status/:id", updateDeliveryStatus);
 
 export default router;

@@ -42,15 +42,17 @@ const Orders = () => {
 
 
   // 🔄 Update Delivery Status
-  const updateDeliveryStatus = async (id, status) => {
-    try {
-      await API.put(`/orders/delivery/${id}`, { status });
-      loadOrders();
-    } catch (error) {
-      console.error("Delivery update failed", error);
-    }
-  };
+const updateDeliveryStatus = async (id, status) => {
+  try {
+    await API.put(`/orders/status/${id}`, {
+      status,
+    });
 
+    loadOrders(); // refresh data
+  } catch (error) {
+    console.error("Delivery update failed", error);
+  }
+};
   // 🔍 Filter Logic
   const filteredOrders = orders.filter((o) => {
     const matchesSearch =

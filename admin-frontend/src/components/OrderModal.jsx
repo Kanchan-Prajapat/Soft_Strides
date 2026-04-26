@@ -1,5 +1,6 @@
 import "./OrderModal.css";
 import { verifyPayment, rejectPayment } from "../api/orders";
+import TrackingTimeline from "./TrackingTimeline";
 
 const OrderModal = ({ order, onClose, onStatusUpdate }) => {
   const handleVerify = async () => {
@@ -43,6 +44,8 @@ const OrderModal = ({ order, onClose, onStatusUpdate }) => {
   </div>
 
 
+
+
   {/* RIGHT SIDE - IMAGE */}
   <div className="order-modal-right">
     {order.products?.[0]?.image && (
@@ -79,10 +82,17 @@ const OrderModal = ({ order, onClose, onStatusUpdate }) => {
             </>
           )}
 
-          <button className="close" onClick={onClose}>
+          
+  <h4 style={{ marginTop: 20 }}>Order Timeline</h4>
+
+<TrackingTimeline history={order.history} />
+
+
+         
+        </div>
+         <button className="close" onClick={onClose}>
             Close
           </button>
-        </div>
       </div>
     </div>
   );

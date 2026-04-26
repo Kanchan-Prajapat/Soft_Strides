@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import "../styles/orderDetails.css";
 import api from "../api/api"; // ✅ use interceptor
+import TrackingTimeline from "./TrackingTimeline";
 
 const OrderDetails = () => {
   const { id } = useParams();
@@ -12,7 +13,12 @@ const navigate = useNavigate();
      ✅ CLEAN STATUS LOGIC
   ========================= */
 
-  const isCancelable = ["Pending"].includes(order?.deliveryStatus);
+const isCancelable = ![
+  "Shipped",
+  "Out for Delivery",
+  "Delivered",
+  "Cancelled"
+].includes(order?.deliveryStatus);
 
   // const isReturnInProgress = [
   //   "Return Requested",
@@ -26,8 +32,23 @@ const navigate = useNavigate();
   //   "Refund Completed",
   // ].includes(order?.deliveryStatus);
 
- const isReturnable = order?.canReturn;
+const isReturnable = (() => {
+  if (order?.deliveryStatus !== "Delivered") return false;
 
+  const deliveredStep = order?.history?.find(
+    (h) => h.status === "Delivered"
+  );
+
+  if (!deliveredStep) return false;
+
+  const deliveredDate = new Date(deliveredStep.date);
+  const now = new Date();
+
+  const diffDays =
+    (now - deliveredDate) / (1000 * 60 * 60 * 24);
+
+  return diffDays <= 7;
+})();
   /* =========================
      📦 FETCH ORDER
   ========================= */
@@ -173,46 +194,31 @@ const navigate = useNavigate();
       <div className="order-section">
         <h3>Order Timeline</h3>
 
-        <div className="timeline">
-          {order.history?.map((step, index) => (
-            <div key={index} className="timeline-item">
-              <div className="dot"></div>
-              <div>
-                <p>{step.status}</p>
-                <span>
-                  {new Date(step.date).toLocaleString()}
-                </span>
-              </div>
-            </div>
-          ))}
-        </div>
+       <TrackingTimeline history={order.history} />
       </div>
 
       {/* ACTION BUTTONS */}
-      <div className="order-actions">
+     <div className="order-actions">
 
-        {isCancelable && (
-          <button
-            disabled={!isCancelable}
-            className="cancel-btn"
-            onClick={handleCancel}
-          >
-            {order.deliveryStatus === "Cancelled"
-              ? "Order Cancelled"
-              : "Cancel Order"}
-          </button>
-        )}
+  {isCancelable && (
+    <button
+      className="cancel-btn"
+      onClick={handleCancel}
+    >
+      Cancel Order
+    </button>
+  )}
 
-        {isReturnable && (
-          <button
-            className="return-btn"
-            onClick={handleReturn}
-          >
-            Return Order
-          </button>
-        )}
+  {isReturnable && (
+    <button
+      className="return-btn"
+      onClick={handleReturn}
+    >
+      Return Order
+    </button>
+  )}
 
-      </div>
+</div>
 
     </div>
   );

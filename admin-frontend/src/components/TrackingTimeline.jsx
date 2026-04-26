@@ -4,7 +4,7 @@ import {
   FaTruck,
   FaHome,
 } from "react-icons/fa";
-import "../styles/tracking.css";
+import "./tracking.css";
 
 const getIcon = (status) => {
   switch (status) {
