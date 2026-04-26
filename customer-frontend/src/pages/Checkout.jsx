@@ -4,6 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../styles/checkout.css";
 import { useLocation } from "react-router-dom";
+import { State, City } from "country-state-city";
 
 
 
@@ -16,6 +17,10 @@ const Checkout = () => {
   const API_URL = process.env.REACT_APP_API_URL;
   const [checkoutItems, setCheckoutItems] = useState([]);
   const [checkoutTotal, setCheckoutTotal] = useState(0);
+const [stateCode, setStateCode] = useState("");
+
+const states = State.getStatesOfCountry("IN");
+const cities = City.getCitiesOfState("IN", stateCode);
   const [step, setStep] = useState(1);
   const [coupon, setCoupon] = useState("");
   const [discount, setDiscount] = useState(0);
@@ -34,6 +39,8 @@ const Checkout = () => {
 
   const finalAmount = checkoutTotal - discount;
 
+  
+
   useEffect(() => {
   const user = JSON.parse(localStorage.getItem("userInfo"));
 
@@ -42,7 +49,7 @@ const Checkout = () => {
 
     const defaultAddress =
       user.addresses.find(a => a.isDefault) || user.addresses[0];
-      <select defaultValue="0"></select>
+   
 
     if (defaultAddress) {
       setForm({
@@ -57,6 +64,13 @@ const Checkout = () => {
     }
   }
 }, []);
+
+useEffect(() => {
+  if (form.state) {
+    const selected = states.find(s => s.name === form.state);
+    if (selected) setStateCode(selected.isoCode);
+  }
+}, [form.state, states]);
 
   useEffect(() => {
     const fetchCart = async () => {
@@ -169,6 +183,7 @@ const Checkout = () => {
           totalAmount: finalAmount,
           address: form.address,
           phone: form.phone,
+            state: form.state,
           appliedCouponCode: coupon
         }
       },
@@ -265,21 +280,29 @@ modal: {
   <label>Select Saved Address</label>
 
   <select className="custom-select"
-    onChange={(e) => {
-      const selected = savedAddresses[e.target.value];
+   onChange={(e) => {
+  const selected = savedAddresses[e.target.value];
 
-      if (!selected) return;
+  if (!selected) return;
 
-      setForm({
-        firstName: selected.name?.split(" ")[0] || "",
-        lastName: "",
-        address: selected.address,
-        city: selected.city,
-        pincode: selected.pincode,
-        state: selected.state,
-        phone: selected.phone
-      });
-    }}
+  const selectedState = states.find(
+    (s) => s.name === selected.state
+  );
+
+  if (selectedState) {
+    setStateCode(selectedState.isoCode);
+  }
+
+  setForm({
+    firstName: selected.name?.split(" ")[0] || "",
+    lastName: "",
+    address: selected.address,
+    city: selected.city,
+    pincode: selected.pincode,
+    state: selected.state,
+    phone: selected.phone
+  });
+}}
   >
     <option value="">Select Address</option>
 
@@ -301,36 +324,50 @@ modal: {
                   placeholder="Enter full address"
                 />
     
-                {/* <button
-                  className="use-address-btn"
-                  onClick={() => {
-                   if (savedAddresses.length > 0) {
-  const addr = savedAddresses[0];
-
- setForm({
-  firstName: addr.name?.split(" ")[0] || "",
-  lastName: "",
-  address: addr.address,
-  city: addr.city,
-  pincode: addr.pincode,
-  state: addr.state,
-  phone: addr.phone
-});
-}
-                  }}
-                >
-                  Use Saved Address
-                </button> */}
               </div>
 
-              <div className="input-group">
-                <label>City</label>
-                <input
-                  name="city"
-                  value={form.city}
-                  onChange={handleChange}
-                />
-              </div>
+             <div className="input-group">
+  <label>State</label>
+  <select
+    value={stateCode}
+    onChange={(e) => {
+      const selected = states.find(s => s.isoCode === e.target.value);
+
+      setStateCode(selected.isoCode);
+
+      setForm({
+        ...form,
+        state: selected.name,
+        city: ""
+      });
+    }}
+  >
+    <option value="">Select State</option>
+    {states.map((s) => (
+      <option key={s.isoCode} value={s.isoCode}>
+        {s.name}
+      </option>
+    ))}
+  </select>
+</div>
+
+<div className="input-group">
+  <label>City</label>
+  <select
+    value={form.city}
+    onChange={(e) =>
+      setForm({ ...form, city: e.target.value })
+    }
+    disabled={!stateCode}
+  >
+    <option value="">Select City</option>
+    {cities.map((c) => (
+      <option key={c.name} value={c.name}>
+        {c.name}
+      </option>
+    ))}
+  </select>
+</div>
 
               <div className="input-group">
                 <label>Pincode</label>
