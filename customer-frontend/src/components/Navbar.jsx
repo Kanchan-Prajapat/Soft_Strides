@@ -6,19 +6,27 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import avatar from "../pages/default-avtar.png";
 import { useState, useEffect } from "react";
+import {useNavigate} from "react-router-dom"
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faShoppingCart,
   faHeart,
   faHouse,
-  faUser
+  faUser,
+  faBox
 } from "@fortawesome/free-solid-svg-icons";
 
 const Navbar = () => {
   const { cartItems } = useCart();
   const { user } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
+  const navigate = useNavigate();
+  const token = localStorage.getItem("userToken");
+if (!token) {
+  navigate("/login");
+}
+
 
   // 🔥 Prevent scroll when menu open
   useEffect(() => {
@@ -54,6 +62,12 @@ const Navbar = () => {
                 <span className="cart-badge">{cartItems.length}</span>
               )}
             </Link>
+
+            {user && (
+  <Link to="/my-orders" className="nav-icon">
+    <FontAwesomeIcon icon={faBox} />
+  </Link>
+)}
 
             <Link to="/wishlist" className="nav-icon">
               <FontAwesomeIcon icon={faHeart} />
@@ -102,6 +116,12 @@ const Navbar = () => {
         <Link to="/cart" onClick={handleClose}>
           <FontAwesomeIcon icon={faShoppingCart} /> Cart
         </Link>
+
+        {user && (
+  <Link to="/my-orders" onClick={handleClose}>
+    <FontAwesomeIcon icon={faBox} /> My Orders
+  </Link>
+)}
 
         <Link to="/wishlist" onClick={handleClose}>
           <FontAwesomeIcon icon={faHeart} /> Wishlist
