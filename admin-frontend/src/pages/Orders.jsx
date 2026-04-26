@@ -44,7 +44,7 @@ const Orders = () => {
   // 🔄 Update Delivery Status
 const updateDeliveryStatus = async (id, status) => {
   try {
-    await API.put(`/orders/status/${id}`, {
+  await API.put(`/orders/delivery/${id}`, {
       status,
     });
 
@@ -57,7 +57,8 @@ const updateDeliveryStatus = async (id, status) => {
   const filteredOrders = orders.filter((o) => {
     const matchesSearch =
       o._id?.toLowerCase().includes(search.toLowerCase()) ||
-      o.user?.name?.toLowerCase().includes(search.toLowerCase());
+      o.user?.name?.toLowerCase().includes(search.toLowerCase())||
+        o.trackingId?.toLowerCase().includes(search.toLowerCase())
 
     const matchesStatus = statusFilter
       ? o.paymentStatus === statusFilter
@@ -86,9 +87,9 @@ const updateDeliveryStatus = async (id, status) => {
               onChange={(e) => setStatusFilter(e.target.value)}
             >
               <option value="">All</option>
-              <option value="Pending">Pending</option>
-              <option value="Verified">Verified</option>
-              <option value="Rejected">Rejected</option>
+              <option value="Pending">Payment Pending</option>
+              <option value="Verified">Payment Verified</option>
+              <option value="Rejected">Payment Rejected</option>
             </select>
           </div>
         }

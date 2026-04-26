@@ -8,6 +8,9 @@ import Product from "../models/Product.js";
 /* =============================
    CREATE ORDER
 ============================= */
+const trackingId =
+  "SS" + Math.random().toString(36).substring(2, 10).toUpperCase();
+
 export const createOrder = async (req, res) => {
   try {
     if (!req.user) {
@@ -127,7 +130,9 @@ for (const item of parsedProducts) {
       address,
       phone,
       paymentScreenshot: uploadedImage.secure_url,
-      trackingId,
+        paymentId: razorpay_payment_id,
+       trackingId,
+     
       deliveryStatus: "Pending",
       estimatedDelivery,
      history: [
