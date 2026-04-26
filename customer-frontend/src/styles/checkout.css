@@ -594,3 +594,92 @@ MOBILE FIX
 .input-group-static input::placeholder {
   color: #444; 
 }
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-group.full {
+  grid-column: span 2;
+}
+
+.input-group label {
+  font-size: 12px;
+  margin-bottom: 5px;
+  color: #a1a1aa;
+}
+
+/* 🔥 COMMON INPUT STYLE */
+.input-group input,
+.input-group textarea,
+.input-group select {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #2a2a2a;
+  background: #111;
+  color: #fff;
+  outline: none;
+  transition: 0.2s ease;
+}
+
+/* HOVER + FOCUS */
+.input-group input:focus,
+.input-group textarea:focus,
+.input-group select:focus {
+  border-color: #8E7AB5;
+  box-shadow: 0 0 0 1px #8E7AB5;
+}
+
+/* 🔥 DROPDOWN FIX */
+.input-group select {
+  appearance: none;
+  cursor: pointer;
+}
+
+/* ARROW ICON (fake dropdown arrow) */
+.input-group select {
+  background-image: url("data:image/svg+xml;utf8,<svg fill='white' height='20' viewBox='0 0 24 24' width='20'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+   width: 100%;
+  min-width: 0;  
+   background-color: #0f0f0f;
+  border: 1px solid #2a2a2a;
+  color: white;
+  border-radius: 8px;
+  font-size: 14px;
+  background-position: right 10px center;
+}
+
+/* BUTTON */
+.primary-btn {
+  margin-top: 15px;
+  padding: 12px;
+  border-radius: 10px;
+  background: #8E7AB5;
+  border: none;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.primary-btn:hover {
+  background: #7a69a3;
+}
+
+@media (max-width: 768px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .input-group.full {
+    grid-column: span 1;
+  }
+}

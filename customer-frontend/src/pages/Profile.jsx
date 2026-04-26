@@ -4,6 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../styles/profile.css";
 import avatar from "./default-avtar.png";
+import { State, City } from "country-state-city";
 
 const Profile = () => {
   const { user, setUser, logout } = useAuth();
@@ -22,15 +23,16 @@ const Profile = () => {
   const [phone, setPhone] = useState(user?.phone || "");
   const [editingIndex, setEditingIndex] = useState(null);
   const [addresses, setAddresses] = useState(user?.addresses || []);
-const [newAddress, setNewAddress] = useState({
-  name: "",
-  phone: "",
-  address: "",
-  city: "",
-  pincode: "",
-  state: ""
-});
+  const [newAddress, setNewAddress] = useState({
+    name: "",
+    phone: "",
+    address: "",
+    pincode: "",
+  });
   const [orders, setOrders] = useState([]);
+  const [stateCode, setStateCode] = useState("");
+  const states = State.getStatesOfCountry("IN");
+  const cities = City.getCitiesOfState("IN", stateCode);
 
   /* ================= FETCH ORDERS ================= */
   useEffect(() => {
@@ -52,7 +54,7 @@ const [newAddress, setNewAddress] = useState({
   }, [API_URL, token]);
 
 
-  
+
 
   /* ================= UPDATE PROFILE ================= */
   const updateProfile = async () => {
@@ -75,33 +77,33 @@ const [newAddress, setNewAddress] = useState({
   };
 
   /* ================= UPDATE ADDRESS ================= */
- const updateAddress = async () => {
-  try {
-    const res = await axios.put(
-      `${API_URL}/api/users/update-address/${editingIndex}`,
-      newAddress,
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
+  const updateAddress = async () => {
+    try {
+      const res = await axios.put(
+        `${API_URL}/api/users/update-address/${editingIndex}`,
+        newAddress,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
 
-    setUser(res.data);
-    localStorage.setItem("userInfo", JSON.stringify(res.data));
-    setAddresses(res.data.addresses);
+      setUser(res.data);
+      localStorage.setItem("userInfo", JSON.stringify(res.data));
+      setAddresses(res.data.addresses);
 
-    setEditingIndex(null);
-    setNewAddress({
-      name: "",
-      phone: "",
-      address: "",
-      city: "",
-      pincode: "",
-      state: ""
-    });
+      setEditingIndex(null);
+      setNewAddress({
+        name: "",
+        phone: "",
+        address: "",
+        city: "",
+        pincode: "",
+        state: ""
+      });
 
-    alert("Address updated");
-  } catch (err) {
-    alert("Update failed");
-  }
-};
+      alert("Address updated");
+    } catch (err) {
+      alert("Update failed");
+    }
+  };
 
   /* ================= DELETE ACCOUNT ================= */
   const deleteAccount = async () => {
@@ -121,42 +123,42 @@ const [newAddress, setNewAddress] = useState({
 
   };
 
-   const addAddress = async () => {
-  try {
-    const res = await axios.put(
-      `${API_URL}/api/users/add-address`,
-      newAddress,
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
+  const addAddress = async () => {
+    try {
+      const res = await axios.put(
+        `${API_URL}/api/users/add-address`,
+        newAddress,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
 
-    setUser(res.data);
-    localStorage.setItem("userInfo", JSON.stringify(res.data));
-    setAddresses(res.data.addresses);
-    alert("Address added");
-  } catch (err) {
-    alert("Failed to add address");
-  }
-};
+      setUser(res.data);
+      localStorage.setItem("userInfo", JSON.stringify(res.data));
+      setAddresses(res.data.addresses);
+      alert("Address added");
+    } catch (err) {
+      alert("Failed to add address");
+    }
+  };
 
 
-const deleteAddress = async (index) => {
-  if (!window.confirm("Delete this address?")) return;
+  const deleteAddress = async (index) => {
+    if (!window.confirm("Delete this address?")) return;
 
-  try {
-    const res = await axios.delete(
-      `${API_URL}/api/users/delete-address/${index}`,
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
+    try {
+      const res = await axios.delete(
+        `${API_URL}/api/users/delete-address/${index}`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
 
-    setUser(res.data);
-    localStorage.setItem("userInfo", JSON.stringify(res.data));
-    setAddresses(res.data.addresses);
+      setUser(res.data);
+      localStorage.setItem("userInfo", JSON.stringify(res.data));
+      setAddresses(res.data.addresses);
 
-    alert("Address deleted");
-  } catch (err) {
-    alert("Delete failed");
-  }
-};
+      alert("Address deleted");
+    } catch (err) {
+      alert("Delete failed");
+    }
+  };
 
 
   return (<div className="container profile-page"> <h2 className="profile-title">My Profile</h2>
@@ -228,20 +230,20 @@ const deleteAddress = async (index) => {
                     <div className="sidebar-order-product">
 
                       <img
-                       src={
-  order.products[0].product?.images?.[0] ||
-  order.products[0].image ||
-  "/no-image.png"
-}
+                        src={
+                          order.products[0].product?.images?.[0] ||
+                          order.products[0].image ||
+                          "/no-image.png"
+                        }
                         alt={order.products[0].product?.name || order.products[0].name}
                       />
 
 
 
                       <div className="order-info">
-                      <p className="order-id">
-  Order #{order._id.slice(-5)}
-</p>
+                        <p className="order-id">
+                          Order #{order._id.slice(-5)}
+                        </p>
                         <p className="product-name">
                           {order.products[0].product?.name || order.products[0].name}
                         </p>
@@ -304,133 +306,165 @@ const deleteAddress = async (index) => {
         </div>
 
         <div className="profile-section">
-  <h3>Add Address</h3>
+          <h3>Add Address</h3>
 
-  <input
-    placeholder="Full Name"
-    value={newAddress.name}
-    onChange={(e) =>
-      setNewAddress({ ...newAddress, name: e.target.value })
-    }
-  />
+          <input
+            placeholder="Full Name"
+            value={newAddress.name}
+            onChange={(e) =>
+              setNewAddress({ ...newAddress, name: e.target.value })
+            }
+          />
 
-  <input
-    placeholder="Phone"
-    value={newAddress.phone}
-    onChange={(e) =>
-      setNewAddress({ ...newAddress, phone: e.target.value })
-    }
-  />
+          <input
+            placeholder="Phone"
+            value={newAddress.phone}
+            onChange={(e) =>
+              setNewAddress({ ...newAddress, phone: e.target.value })
+            }
+          />
 
-  <input
-    placeholder="Address"
-    value={newAddress.address}
-    onChange={(e) =>
-      setNewAddress({ ...newAddress, address: e.target.value })
-    }
-  />
-
-  <input
-    placeholder="City"
-    value={newAddress.city}
-    onChange={(e) =>
-      setNewAddress({ ...newAddress, city: e.target.value })
-    }
-  />
-
-  <input
-    placeholder="Pincode"
-    value={newAddress.pincode}
-    onChange={(e) =>
-      setNewAddress({ ...newAddress, pincode: e.target.value })
-    }
-  />
-
-  <input
-    placeholder="State"
-    value={newAddress.state}
-    onChange={(e) =>
-      setNewAddress({ ...newAddress, state: e.target.value })
-    }
-  />
-<div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
-  <button
-    className="profile-btn save"
-    onClick={editingIndex !== null ? updateAddress : addAddress}
-  >
-    {editingIndex !== null ? "Update Address" : "Add Address"}
-  </button>
-
-  {editingIndex !== null && (
-    <button
-      className="profile-btn edit"
-      onClick={() => {
-        setEditingIndex(null);
-        setNewAddress({
-          name: "",
-          phone: "",
-          address: "",
-          city: "",
-          pincode: "",
-          state: ""
-        });
-      }}
-    >
-      Cancel
-    </button>
-  )}
-</div>
-</div>
+          <input
+            placeholder="Address"
+            value={newAddress.address}
+            onChange={(e) =>
+              setNewAddress({ ...newAddress, address: e.target.value })
+            }
+          />
 
 
+          <div className="input-group">
+            <label>City</label>
+            <select
+              value={newAddress.city}
+              onChange={(e) =>
+                setNewAddress({ ...newAddress, city: e.target.value })
+              }
+              disabled={!stateCode}
+            >
+              <option value="">Select City</option>
 
-{addresses.length > 0 && (
-  <div style={{ marginTop: "10px" }}>
-    {addresses.map((addr, i) => (
-  <div
-  key={i}
-  className="profile-info-row"
-  style={{
-    marginBottom: "10px",
-    padding: "12px",
-    border: "1px solid #2a2a2a",
-    borderRadius: "8px",
-    background: "#111"
-  }}
->
+              {cities.map((c) => (
+                <option key={c.name} value={c.name}>
+                  {c.name}
+                </option>
+              ))}
+            </select>
+          </div>
 
-  {/* TEXT */}
-  <div style={{ marginBottom: "10px" }}>
-    <p className="value">{addr.name}</p>
-    <p style={{ fontSize: "13px", color: "#aaa" }}>
-      {addr.address}, {addr.city}, {addr.state} - {addr.pincode}
-    </p>
-  </div>
+          <div className="input-group">
+            <label>State</label>
 
-  {/* BUTTONS */}
-  <div style={{ display: "flex", gap: "10px" }}>
-    <button
-      className="profile-btn edit"
-      onClick={() => {
-        setEditingIndex(i);
-        setNewAddress(addr);
-      }}
-    >
-      Edit
-    </button>
+            <select
+              value={stateCode}
+              onChange={(e) => {
+                const selected = states.find(s => s.isoCode === e.target.value);
 
-    <button
-      className="profile-btn delete"
-      onClick={() => deleteAddress(i)}
-    >
-      Delete
-    </button>
-  </div>
+                setStateCode(selected.isoCode);
+          
 
-</div>
-    ))}
-  </div>
-)}
+                setNewAddress({
+                  ...newAddress,
+                  state: selected.name
+                });
+              }}
+            >
+              <option value="">Select State</option>
+              {states.map((s) => (
+                <option key={s.isoCode} value={s.isoCode}>
+                  {s.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <input
+            placeholder="Pincode"
+            value={newAddress.pincode}
+            onChange={(e) =>
+              setNewAddress({ ...newAddress, pincode: e.target.value })
+            }
+          />
+
+
+          <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
+            <button
+              className="profile-btn save"
+              onClick={editingIndex !== null ? updateAddress : addAddress}
+            >
+              {editingIndex !== null ? "Update Address" : "Add Address"}
+            </button>
+
+            {editingIndex !== null && (
+              <button
+                className="profile-btn edit"
+                onClick={() => {
+                  setEditingIndex(null);
+                  setNewAddress({
+                    name: "",
+                    phone: "",
+                    address: "",
+                    city: "",
+                    pincode: "",
+                    state: ""
+                  });
+                }}
+              >
+                Cancel
+              </button>
+            )}
+          </div>
+        </div>
+
+
+
+        {addresses.length > 0 && (
+          <div style={{ marginTop: "10px" }}>
+            {addresses.map((addr, i) => (
+              <div
+                key={i}
+                className="profile-info-row"
+                style={{
+                  marginBottom: "10px",
+                  padding: "12px",
+                  border: "1px solid #2a2a2a",
+                  borderRadius: "8px",
+                  background: "#111"
+                }}
+              >
+
+                {/* TEXT */}
+                <div style={{ marginBottom: "10px" }}>
+                  <p className="value">{addr.name}</p>
+                  <p style={{ fontSize: "13px", color: "#aaa" }}>
+                    {addr.address}, {addr.city}, {addr.state} - {addr.pincode}
+                  </p>
+                </div>
+
+                {/* BUTTONS */}
+                <div style={{ display: "flex", gap: "10px" }}>
+                  <button
+                    className="profile-btn edit"
+                    onClick={() => {
+                      setEditingIndex(i);
+                      setNewAddress(addr);
+                    }}
+                  >
+                    Edit
+                  </button>
+
+                  <button
+                    className="profile-btn delete"
+                    onClick={() => deleteAddress(i)}
+                  >
+                    Delete
+                  </button>
+                </div>
+
+              </div>
+            ))}
+          </div>
+        )}
 
       </div>
     </div>
