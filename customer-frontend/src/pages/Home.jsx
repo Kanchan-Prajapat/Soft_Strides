@@ -5,6 +5,7 @@ import axios from "axios";
 import FlashSaleSection from "../components/FlashSaleSection";
 import { useWishlist } from "../context/WishlistContext";
 import { FaHeart } from "react-icons/fa";
+import CategorySlider from "../components/CategorySlider";
 
 const Home = () => {
   const [banners, setBanners] = useState([]);
@@ -164,7 +165,7 @@ useEffect(() => {
 
 
       {/* ================= CATEGORY SECTION ================= */}
-      {/* <CategorySlider /> */}
+      <CategorySlider />
 
         <section className="featured-section">
         <h2>FEATURED PRODUCTS</h2>
