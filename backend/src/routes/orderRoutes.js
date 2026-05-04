@@ -16,6 +16,7 @@ import { protect } from "../middleware/authMiddleware.js";
 import { adminOnly } from "../middleware/adminMiddleware.js";
 import upload from "../middleware/uploadMiddleware.js";
 import Order from "../models/Order.js";
+import { getOrderTracking } from "../controllers/orderController.js";
 
 const router = express.Router();
 
@@ -58,6 +59,7 @@ router.put("/payment/:id", protect, adminOnly, updatePaymentStatus);
 router.put("/delivery/:id", protect, adminOnly, updateDeliveryStatus);
 router.put("/return/approve/:id", protect, adminOnly, approveReturn);
 router.put("/return/reject/:id", protect, adminOnly, rejectReturn);
+router.get("/track/:id", protect, getOrderTracking);
 router.put("/return/status/:id", protect, adminOnly, updateReturnStatus);
 router.put("/return/update/:id", protect, adminOnly, updateReturnStatus);
 

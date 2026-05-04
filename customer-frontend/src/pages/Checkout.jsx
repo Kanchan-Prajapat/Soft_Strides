@@ -17,10 +17,10 @@ const Checkout = () => {
   const API_URL = process.env.REACT_APP_API_URL;
   const [checkoutItems, setCheckoutItems] = useState([]);
   const [checkoutTotal, setCheckoutTotal] = useState(0);
-const [stateCode, setStateCode] = useState("");
+  const [stateCode, setStateCode] = useState("");
 
-const states = State.getStatesOfCountry("IN");
-const cities = City.getCitiesOfState("IN", stateCode);
+  const states = State.getStatesOfCountry("IN");
+  const cities = City.getCitiesOfState("IN", stateCode);
   const [step, setStep] = useState(1);
   const [coupon, setCoupon] = useState("");
   const [discount, setDiscount] = useState(0);
@@ -39,38 +39,38 @@ const cities = City.getCitiesOfState("IN", stateCode);
 
   const finalAmount = checkoutTotal - discount;
 
-  
+
 
   useEffect(() => {
-  const user = JSON.parse(localStorage.getItem("userInfo"));
+    const user = JSON.parse(localStorage.getItem("userInfo"));
 
-  if (user?.addresses) {
-    setSavedAddresses(user.addresses);
+    if (user?.addresses) {
+      setSavedAddresses(user.addresses);
 
-    const defaultAddress =
-      user.addresses.find(a => a.isDefault) || user.addresses[0];
-   
+      const defaultAddress =
+        user.addresses.find(a => a.isDefault) || user.addresses[0];
 
-    if (defaultAddress) {
-      setForm({
-        firstName: defaultAddress.name?.split(" ")[0] || "",
-        lastName: "",
-        address: defaultAddress.address,
-        city: defaultAddress.city,
-        pincode: defaultAddress.pincode,
-        state: defaultAddress.state,
-        phone: defaultAddress.phone
-      });
+
+      if (defaultAddress) {
+        setForm({
+          firstName: defaultAddress.name?.split(" ")[0] || "",
+          lastName: "",
+          address: defaultAddress.address,
+          city: defaultAddress.city,
+          pincode: defaultAddress.pincode,
+          state: defaultAddress.state,
+          phone: defaultAddress.phone
+        });
+      }
     }
-  }
-}, []);
+  }, []);
 
-useEffect(() => {
-  if (form.state) {
-    const selected = states.find(s => s.name === form.state);
-    if (selected) setStateCode(selected.isoCode);
-  }
-}, [form.state, states]);
+  useEffect(() => {
+    if (form.state) {
+      const selected = states.find(s => s.name === form.state);
+      if (selected) setStateCode(selected.isoCode);
+    }
+  }, [form.state, states]);
 
   useEffect(() => {
     const fetchCart = async () => {
@@ -170,57 +170,59 @@ useEffect(() => {
         name: "Soft Strides",
         description: "Order Payment",
 
-      handler: async function (response) {
-  try {
-    const verifyRes = await axios.post(
-      `${API_URL}/api/payments/verify`,
-      {
-        razorpay_order_id: response.razorpay_order_id,
-        razorpay_payment_id: response.razorpay_payment_id,
-        razorpay_signature: response.razorpay_signature,
-        orderData: {
-          products: checkoutItems,
-          totalAmount: finalAmount,
-          address: form.address,
-          phone: form.phone,
-            state: form.state,
-          appliedCouponCode: coupon
-        }
-      },
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
+        handler: async function (response) {
+          try {
+            const verifyRes = await axios.post(
+              `${API_URL}/api/payments/verify`,
+              {
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature,
+                orderData: {
+                  products: checkoutItems,
+                  totalAmount: finalAmount,
+                  address: form.address,
+                  phone: form.phone,
+                  state: form.state,
+                  city: form.city,
+                  pincode: form.pincode,
+                  appliedCouponCode: coupon
+                }
+              },
+              { headers: { Authorization: `Bearer ${token}` } }
+            );
 
-    console.log("VERIFY RESPONSE:", verifyRes.data);
+            console.log("VERIFY RESPONSE:", verifyRes.data);
 
-    if (verifyRes.data.success) {
-      alert("Payment Successful 🎉");
+            if (verifyRes.data.success) {
+              alert("Payment Successful 🎉");
 
-      // 🔥 IMPORTANT
-      setStep(3);
+              // 🔥 IMPORTANT
+              setStep(3);
 
-      // 🔥 REDIRECT AFTER SMALL DELAY
-      setTimeout(() => {
-        navigate("/checkout/order-success");
-      }, 1000);
-    } else {
-      alert("Payment verification failed");
-    }
+              // 🔥 REDIRECT AFTER SMALL DELAY
+              setTimeout(() => {
+                navigate("/checkout/order-success");
+              }, 1000);
+            } else {
+              alert("Payment verification failed");
+            }
 
-  } catch (error) {
-    console.error("VERIFY ERROR:", error);
-    alert("Payment verification error ❌");
+          } catch (error) {
+            console.error("VERIFY ERROR:", error);
+            alert("Payment verification error ❌");
 
-    // 🔥 fallback redirect
-    navigate("/checkout/order-success");
-  }
-},
+            // 🔥 fallback redirect
+            navigate("/checkout/order-success");
+          }
+        },
 
-modal: {
-  ondismiss: function () {
-    alert("Payment cancelled");
-    setLoading(false);
-  }
-},
+        modal: {
+          ondismiss: function () {
+            alert("Payment cancelled");
+            setLoading(false);
+          }
+        },
 
         theme: {
           color: "#8E7AB5"
@@ -276,43 +278,43 @@ modal: {
                 />
               </div>
 
-                            <div className="input-group full">
-  <label>Select Saved Address</label>
+              <div className="input-group full">
+                <label>Select Saved Address</label>
 
-  <select className="custom-select"
-   onChange={(e) => {
-  const selected = savedAddresses[e.target.value];
+                <select className="custom-select"
+                  onChange={(e) => {
+                    const selected = savedAddresses[e.target.value];
 
-  if (!selected) return;
+                    if (!selected) return;
 
-  const selectedState = states.find(
-    (s) => s.name === selected.state
-  );
+                    const selectedState = states.find(
+                      (s) => s.name === selected.state
+                    );
 
-  if (selectedState) {
-    setStateCode(selectedState.isoCode);
-  }
+                    if (selectedState) {
+                      setStateCode(selectedState.isoCode);
+                    }
 
-  setForm({
-    firstName: selected.name?.split(" ")[0] || "",
-    lastName: "",
-    address: selected.address,
-    city: selected.city,
-    pincode: selected.pincode,
-    state: selected.state,
-    phone: selected.phone
-  });
-}}
-  >
-    <option value="">Select Address</option>
+                    setForm({
+                      firstName: selected.name?.split(" ")[0] || "",
+                      lastName: "",
+                      address: selected.address,
+                      city: selected.city,
+                      pincode: selected.pincode,
+                      state: selected.state,
+                      phone: selected.phone
+                    });
+                  }}
+                >
+                  <option value="">Select Address</option>
 
-    {savedAddresses.map((addr, index) => (
-      <option key={index} value={index}>
-        {addr.name} - {addr.address} ({addr.city})
-      </option>
-    ))}
-  </select>
-</div>
+                  {savedAddresses.map((addr, index) => (
+                    <option key={index} value={index}>
+                      {addr.name} - {addr.address} ({addr.city})
+                    </option>
+                  ))}
+                </select>
+              </div>
 
 
               <div className="input-group full">
@@ -323,51 +325,51 @@ modal: {
                   onChange={handleChange}
                   placeholder="Enter full address"
                 />
-    
+
               </div>
 
-             <div className="input-group">
-  <label>State</label>
-  <select
-    value={stateCode}
-    onChange={(e) => {
-      const selected = states.find(s => s.isoCode === e.target.value);
+              <div className="input-group">
+                <label>State</label>
+                <select
+                  value={stateCode}
+                  onChange={(e) => {
+                    const selected = states.find(s => s.isoCode === e.target.value);
 
-      setStateCode(selected.isoCode);
+                    setStateCode(selected.isoCode);
 
-      setForm({
-        ...form,
-        state: selected.name,
-        city: ""
-      });
-    }}
-  >
-    <option value="">Select State</option>
-    {states.map((s) => (
-      <option key={s.isoCode} value={s.isoCode}>
-        {s.name}
-      </option>
-    ))}
-  </select>
-</div>
+                    setForm({
+                      ...form,
+                      state: selected.name,
+                      city: ""
+                    });
+                  }}
+                >
+                  <option value="">Select State</option>
+                  {states.map((s) => (
+                    <option key={s.isoCode} value={s.isoCode}>
+                      {s.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
-<div className="input-group">
-  <label>City</label>
-  <select
-    value={form.city}
-    onChange={(e) =>
-      setForm({ ...form, city: e.target.value })
-    }
-    disabled={!stateCode}
-  >
-    <option value="">Select City</option>
-    {cities.map((c) => (
-      <option key={c.name} value={c.name}>
-        {c.name}
-      </option>
-    ))}
-  </select>
-</div>
+              <div className="input-group">
+                <label>City</label>
+                <select
+                  value={form.city}
+                  onChange={(e) =>
+                    setForm({ ...form, city: e.target.value })
+                  }
+                  disabled={!stateCode}
+                >
+                  <option value="">Select City</option>
+                  {cities.map((c) => (
+                    <option key={c.name} value={c.name}>
+                      {c.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
               <div className="input-group">
                 <label>Pincode</label>

@@ -4,6 +4,7 @@ import cloudinary from "../config/cloudinary.js";
 import streamifier from "streamifier";
 import Coupon from "../models/Coupon.js";
 import Product from "../models/Product.js";
+import { createShipment, trackShipment } from "../services/shiprocketService.js";
 
 /* =============================
    CREATE ORDER
@@ -22,13 +23,16 @@ export const createOrder = async (req, res) => {
       });
     }
 
-    const {
-      products,
-      totalAmount,
-      address,
-      phone,
-      appliedCouponCode,
-    } = req.body;
+  const {
+  products,
+  totalAmount,
+  address,
+  phone,
+  city,
+  state,
+  pincode,
+  appliedCouponCode,
+} = req.body;
 
     const parsedProducts = JSON.parse(products);
 
@@ -130,7 +134,6 @@ for (const item of parsedProducts) {
       address,
       phone,
       paymentScreenshot: uploadedImage.secure_url,
-        paymentId: razorpay_payment_id,
        trackingId,
      
       deliveryStatus: "Pending",
@@ -234,27 +237,103 @@ export const updateDeliveryStatus = async (req, res) => {
   try {
     const { status } = req.body;
 
-    const order = await Order.findById(req.params.id);
-    if (!order)
+    const order = await Order.findById(req.params.id).populate("user");
+
+    if (!order) {
       return res.status(404).json({ message: "Order not found" });
+    }
 
     order.deliveryStatus = status;
 
-    // 🔥 push actual status
-    order.history.push({
-      status: status,
+    // 🧠 TRACK HISTORY
+  const lastStatus = order.history.at(-1)?.status;
+
+if (lastStatus !== status) {
+  order.history.push({
+    status,
+    type: "delivery",
+    date: new Date(),
+  });
+}
+
+   // 🚚 IF CONFIRMED → CREATE SHIPMENT
+if (status === "Confirmed" && !order.awbCode) {
+  try {
+    const shipment = await createShipment(order);
+
+    order.awbCode = shipment.awb_code;
+
+    console.log("Shipment created:", shipment);
+  } catch (err) {
+    console.error("Shiprocket error:", err.response?.data || err.message);
+  }
+}
+
+    await order.save();
+
+    res.json(order);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+
+
+export const updateTracking = async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.id);
+
+    if (!order || !order.trackingId) {
+      return res.status(404).json({ message: "No tracking ID" });
+    }
+
+   const data = await trackShipment(order.awbCode);
+
+    const tracking = data.tracking_data.shipment_track;
+
+    order.history = tracking.map((item) => ({
+      status: item.current_status,
       type: "delivery",
-      date: new Date(),
-    });
+      date: new Date(item.updated_date),
+    }));
+
+    await order.save();
+
+    res.json(order);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+export const getOrderTracking = async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.id);
+
+    if (!order || !order.awbCode) {
+      return res.status(404).json({ message: "No tracking available" });
+    }
+
+    const data = await trackShipment(order.awbCode);
+
+    const tracking = data.tracking_data?.shipment_track || [];
+
+    // 🔥 Convert Shiprocket → your timeline
+    const history = tracking.map((item) => ({
+      status: item.current_status || item.status,
+      type: "delivery",
+      date: new Date(item.updated_date || item.date),
+    }));
+
+    order.history = history;
 
     await order.save();
 
     res.json(order);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error("Tracking error:", error);
+    res.status(500).json({ message: "Tracking failed" });
   }
 };
-
 
 export const cancelOrder = async (req, res) => {
   try {

@@ -1,8 +1,13 @@
 import "./OrderModal.css";
-import { verifyPayment, rejectPayment } from "../api/orders";
+import { verifyPayment, rejectPayment} from "../api/orders";
 import TrackingTimeline from "./TrackingTimeline";
+import { useEffect, useState } from "react";
+import API from "../api/api";
 
 const OrderModal = ({ order, onClose, onStatusUpdate }) => {
+
+  const [updatedOrder, setUpdatedOrder] = useState(order);
+
   const handleVerify = async () => {
     await verifyPayment(order._id);
     onStatusUpdate();
@@ -14,6 +19,19 @@ const OrderModal = ({ order, onClose, onStatusUpdate }) => {
     onStatusUpdate();
     onClose();
   };
+
+  useEffect(() => {
+    const fetchTracking = async () => {
+      try {
+        const res = await API.get(`/orders/track/${order._id}`);
+        setUpdatedOrder(res.data); // 🔥 IMPORTANT
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    if (order?._id) fetchTracking();
+  }, [order]);
 
   return (
     <div className="modal-overlay">
@@ -27,10 +45,12 @@ const OrderModal = ({ order, onClose, onStatusUpdate }) => {
 
     <p><strong>Customer:</strong> {order.user?.name}</p>
     <p><strong>Email:</strong> {order.user?.email}</p>
-    <p><strong>Phone:</strong> {order.shippingAddress?.phone}</p>
-    <p><strong>Address:</strong> {order.shippingAddress?.address}</p>
+   <p><strong>Phone:</strong> {order.phone}</p>
+<p><strong>Address:</strong> {order.address}</p>
     <p><strong>Total:</strong> ₹{order.totalAmount}</p>
     <p><strong>Status:</strong> {order.paymentStatus}</p>
+ <p><strong>Tracking ID:</strong> {updatedOrder.trackingId}</p>
+            <p><strong>AWB:</strong> {updatedOrder.awbCode || "Generating..."}</p>
 
     <h3 style={{ marginTop: 20 }}>Products</h3>
 
@@ -83,9 +103,10 @@ const OrderModal = ({ order, onClose, onStatusUpdate }) => {
           )}
 
           
-  <h4 style={{ marginTop: 20 }}>Order Timeline</h4>
+   <h4 style={{ marginTop: 20 }}>Order Timeline</h4>
 
-<TrackingTimeline history={order.history} />
+        {/* ✅ UPDATED */}
+        <TrackingTimeline history={updatedOrder.history || []} />
 
 
          

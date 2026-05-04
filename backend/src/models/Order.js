@@ -39,6 +39,9 @@ products: [
 
     address: String,
     phone: String,
+    city: String,
+state: String,
+pincode: String,
 
     paymentScreenshot: String,
 
@@ -54,6 +57,7 @@ products: [
     },
 
     trackingId: String,
+    awbCode: String,
 
     deliveryStatus: {
       type: String,

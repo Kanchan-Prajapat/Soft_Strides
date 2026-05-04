@@ -54,6 +54,11 @@ const MyOrders = () => {
                 <p className="order-id">
                   Order ID: #{order._id.slice(-6)}
                 </p>
+                 <p>Tracking ID: {order.trackingId}</p>
+    <p>Courier ID: {order.awbCode || "Generating..."}</p>
+    <button onClick={() => navigator.clipboard.writeText(order.awbCode)}>
+  Copy
+</button>
                 <p className="order-date">
                   {new Date(order.createdAt).toDateString()}
                 </p>

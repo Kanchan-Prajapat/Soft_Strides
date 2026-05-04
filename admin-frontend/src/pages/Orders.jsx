@@ -42,23 +42,18 @@ const Orders = () => {
 
 
   // 🔄 Update Delivery Status
-const updateDeliveryStatus = async (id, status) => {
-  try {
-  await API.put(`/orders/delivery/${id}`, {
-      status,
-    });
+  const updateStatus = async (id, status) => {
+    await api.put(`/orders/delivery/${id}`, { status });
+    onStatusUpdate();
+  };
 
-    loadOrders(); // refresh data
-  } catch (error) {
-    console.error("Delivery update failed", error);
-  }
-};
+
   // 🔍 Filter Logic
   const filteredOrders = orders.filter((o) => {
     const matchesSearch =
       o._id?.toLowerCase().includes(search.toLowerCase()) ||
-      o.user?.name?.toLowerCase().includes(search.toLowerCase())||
-        o.trackingId?.toLowerCase().includes(search.toLowerCase())
+      o.user?.name?.toLowerCase().includes(search.toLowerCase()) ||
+      o.trackingId?.toLowerCase().includes(search.toLowerCase())
 
     const matchesStatus = statusFilter
       ? o.paymentStatus === statusFilter
@@ -104,7 +99,9 @@ const updateDeliveryStatus = async (id, status) => {
               <th>Payment</th>
               <th>Delivery</th>
               <th>Tracking ID</th>
+              <th>AWB Code</th>
               <th>Actions</th>
+               <th>Tracking</th>
             </tr>
           </thead>
 
@@ -168,9 +165,7 @@ const updateDeliveryStatus = async (id, status) => {
                   <td>
                     <select
                       value={o.deliveryStatus}
-                      onChange={(e) =>
-                        updateDeliveryStatus(o._id, e.target.value)
-                      }
+                      onChange={(e) => updateStatus(o._id, e.target.value)}
                       className="input"
                     >
                       <option value="Pending">Pending</option>
@@ -185,6 +180,7 @@ const updateDeliveryStatus = async (id, status) => {
                   </td>
 
                   <td>{o.trackingId}</td>
+                  <td>{o.awbCode || "Not generated"}</td>
 
                   <td>
                     <button
@@ -192,6 +188,18 @@ const updateDeliveryStatus = async (id, status) => {
                       onClick={() => setSelectedOrder(o)}
                     >
                       Details
+                    </button>
+                  </td>
+
+                  <td>
+                    <button
+                      className="view-btn"
+                      onClick={async () => {
+                        const res = await api.get(`/orders/track/${o._id}`);
+                        console.log(res.data);
+                      }}
+                    >
+                      Refresh Tracking
                     </button>
                   </td>
                 </tr>

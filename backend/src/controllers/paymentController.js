@@ -1,6 +1,7 @@
 import razorpay from "../config/razorpay.js";
 import crypto from "crypto";
 import Order from "../models/Order.js";
+import { createShipment } from "../services/shiprocketService.js";
 
 // Initialize Razorpay
 // const razorpay = new Razorpay({
@@ -65,30 +66,53 @@ export const verifyRazorpayPayment = async (req, res) => {
       return res.status(400).json({ success: false });
     }
 
-    // ✅ SAVE ORDER (AUTO VERIFIED)
-     const order = await Order.create({
-    user: req.user._id,
-    products: detailedProducts,
-    totalAmount: orderData.totalAmount,
-    address: orderData.address,
-    phone: orderData.phone,
-    paymentStatus: "Paid",
-    paymentId: razorpay_payment_id,
-    history: [
-  {
-    status: "Order Placed",
-    type: "delivery",
-    date: new Date(),
-  },
-  {
-    status: "Confirmed",
-    type: "delivery",
-    date: new Date(),
-  },
-],
-deliveryStatus: "Confirmed",
-   
-  });
+  const trackingId =
+  "SS" + Math.random().toString(36).substring(2, 10).toUpperCase();
+
+const order = await Order.create({
+  user: req.user._id,
+  products: detailedProducts,
+  totalAmount: orderData.totalAmount,
+
+  address: orderData.address,
+  phone: orderData.phone,
+
+  city: orderData.city,
+  state: orderData.state,
+  pincode: orderData.pincode,
+
+  trackingId,
+
+  paymentStatus: "Paid",
+  paymentId: razorpay_payment_id,
+
+  deliveryStatus: "Confirmed",
+
+  history: [
+    {
+      status: "Order Placed",
+      type: "delivery",
+      date: new Date(),
+    },
+    {
+      status: "Confirmed",
+      type: "delivery",
+      date: new Date(),
+    },
+  ],
+});
+
+if (!order.awbCode) {
+  try {
+    const shipment = await createShipment(order);
+
+    order.awbCode = shipment.awb_code;
+
+    await order.save();
+  } catch (err) {
+    console.error("Shiprocket error:", err);
+  }
+}
 
     res.json({ success: true, order });
 
