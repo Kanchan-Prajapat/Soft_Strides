@@ -24,9 +24,27 @@ const ProductViewModal = ({ product, onClose }) => {
         <p><strong>Price:</strong> ₹{product.price}</p>
         <p><strong>Stock:</strong> {product.stock}</p>
 
+        <div className="highlight-grid">
+  
+     <p><strong>Product Category:</strong> {product.category?.name}</p>
+  
+    <p> <strong>Fit:</strong> {product.fit}</p>
+  
+    <p><strong>Fabric:</strong> {product.fabric}</p>
+ 
+    <p><strong>Length:</strong> {product.length}</p>
+
+    <p><strong>Closure:</strong> {product.closure}</p>
+  
+</div>
+
         <p style={{ marginTop: 12 }}>
           <strong>Description:</strong><br />
-          {product.description}
+         <ul className="desc-list">
+  {product.description?.map((point, i) => (
+    <li key={i}>{point}</li>
+  ))}
+</ul>
         </p>
 
         <button className="view-btn" onClick={onClose}>

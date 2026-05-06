@@ -27,7 +27,7 @@ const ProductDetails = () => {
   const { toggleWishlist, isInWishlist } = useWishlist();
   const [currentImage, setCurrentImage] = useState(0);
   const hasSizes = product?.sizes?.length > 0;
-
+const [fullView, setFullView] = useState(false);
 
   const refresh = () => setFetchProduct((prev) => !prev);
   const navigate = useNavigate();
@@ -146,6 +146,8 @@ const ProductDetails = () => {
     <img
       src={product.images[currentImage]}
       alt={product.name}
+         onClick={() => setFullView(true)}
+           className="modal-image"
     />
   </div>
 
@@ -168,7 +170,41 @@ const ProductDetails = () => {
 
           <p className="price">₹{product.price}</p>
 
-          <p className="description">{product.description}</p>
+        <div className="description">
+  <h4>Product Highlights</h4>
+
+  <ul>
+    {product.description?.map((point, i) => (
+      <li key={i}>{point}</li>
+    ))}
+  </ul>
+</div>
+
+<div className="key-highlights">
+  <h3>Key Highlights</h3>
+
+  <div className="highlight-grid">
+    <div>
+      <span>Fit</span>
+      <p>{product.fit}</p>
+    </div>
+
+    <div>
+      <span>Fabric</span>
+      <p>{product.fabric}</p>
+    </div>
+
+    <div>
+      <span>Length</span>
+      <p>{product.length}</p>
+    </div>
+
+    <div>
+      <span>Closure</span>
+      <p>{product.closure}</p>
+    </div>
+  </div>
+</div>
 
           <div className="size-section">
             {hasSizes && <h4>Select Size</h4>}
@@ -307,6 +343,52 @@ const ProductDetails = () => {
           ))}
         </div>
       </div>
+
+      {fullView && (
+  <div className="image-modal">
+
+    {/* CLOSE BUTTON */}
+    <span className="close-btn" onClick={() => setFullView(false)}>
+      ✕
+    </span>
+
+    {/* LEFT ARROW */}
+    <button
+      className="modal-arrow left"
+      onClick={() =>
+        setCurrentImage(
+          currentImage === 0
+            ? product.images.length - 1
+            : currentImage - 1
+        )
+      }
+    >
+      ❮
+    </button>
+
+    {/* IMAGE */}
+    <img
+      src={product.images[currentImage]}
+      alt="full view"
+      className="modal-image"
+    />
+
+    {/* RIGHT ARROW */}
+    <button
+      className="modal-arrow right"
+      onClick={() =>
+        setCurrentImage(
+          currentImage === product.images.length - 1
+            ? 0
+            : currentImage + 1
+        )
+      }
+    >
+      ❯
+    </button>
+
+  </div>
+)}
 
 
       {showPopup && (

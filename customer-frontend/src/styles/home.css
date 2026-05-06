@@ -37,10 +37,11 @@ HERO SLIDER
 /* ================= HERO CONTENT ================= */
 .hero-content {
   position: absolute;
-  top: 50%;
+  top: 90%;
   left: 8%;
   transform: translateY(-50%);
   max-width: 600px;
+
 }
 
 .hero-content h1 {
@@ -66,6 +67,7 @@ HERO SLIDER
   color: #fff;
   border-radius: 4px;
   transition: var(--transition);
+  margin-top:40px
 }
 
 .hero-btn:hover {
@@ -125,6 +127,7 @@ SLIDER
   overflow-x: auto;
   scroll-behavior: smooth;
   padding: 20px 60px;
+  cursor: grab;
 
   will-change: scroll-position;
    -webkit-overflow-scrolling: touch;
@@ -132,6 +135,10 @@ SLIDER
 
 .category-slider::-webkit-scrollbar {
   display: none;
+}
+
+.category-slider:active {
+  cursor: grabbing;
 }
 
 /* =========================
@@ -146,8 +153,7 @@ CARD
   border-radius: 10px;
   padding: 15px;
   border: 1px solid var(--border);
-
-  transition: all 0.3s ease;
+  transition: transform 0.35s ease, opacity 0.35s ease;
   cursor: pointer;
 
  backface-visibility: hidden;
@@ -385,6 +391,7 @@ MOBILE RESPONSIVE
   .hero-content {
     left: 5%;
     right: 5%;
+    top: 95%;
   }
 
   .hero-content h1 { font-size: 26px; }
@@ -399,6 +406,7 @@ MOBILE RESPONSIVE
 
   .hero-btn {
     padding: 10px 18px;
+  
   }
 
   .category-title {

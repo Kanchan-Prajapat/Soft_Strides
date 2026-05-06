@@ -637,7 +637,13 @@ select.input:focus {
 
 /* Add button */
 .add-btn {
+  background: rgb(20, 20, 20);
   white-space: nowrap;
+  border: 1px solid gray;
+}
+
+.add-btn:hover {
+  color: #fff;
 }
 
 /* Search wrapper */

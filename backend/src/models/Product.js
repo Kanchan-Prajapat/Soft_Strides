@@ -47,25 +47,10 @@ const reviewSchema = new mongoose.Schema(
 
 const productSchema = new mongoose.Schema(
   {
-   name: {
-      type: String,
-      required: true,
-    },
-
-    price: {
-      type: Number,
-      required: true,
-    },
-
-    stock: {
-      type: Number,
-      required: true,
-    },
-
-    description: {
-      type: String,
-    },
-
+    name: { type: String, required: true },
+    price: { type: Number, required: true },
+    stock: { type: Number, required: true },
+  description: { type: [String], default: [], required: true },
     category: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Category",
@@ -74,32 +59,59 @@ const productSchema = new mongoose.Schema(
 
     images: [String],
 
-
     sizes: {
-  type: [String],
-  default: [],
-},
+      type: [String],
+      default: [],
+    },
+
+    // 🔥 NEW FIELDS
+    fit: {
+      type: String,
+      enum: ["Regular", "Oversized", "Slim", "Relaxed"],
+      default: "Regular",
+    },
+
+    fabric: {
+      type: String,
+      enum: [
+        "Cotton",
+        "Combed Cotton",
+        "Jersey",
+        "Tri-blend",
+        "Polyester",
+        "Poplin",
+        "Oxford",
+        "Linen",
+        "Twill",
+      ],
+      default: "Cotton",
+    },
+
+    length: {
+      type: String,
+      enum: ["Regular", "Long", "Short"],
+      default: "Regular",
+    },
+
+    closure: {
+      type: String,
+      enum: ["Button", "Zip", "No Closure"],
+      default: "No Closure",
+    },
 
     reviews: [reviewSchema],
-    rating: {
-      type: Number,
-      default: 0,
-    },
-    numReviews: {
-      type: Number,
-      default: 0,
-    },
-    wishlist: [
-  {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Product",
-  },
-],
+    rating: { type: Number, default: 0 },
+    numReviews: { type: Number, default: 0 },
 
+    wishlist: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Product",
+      },
+    ],
   },
   { timestamps: true }
 );
-
 
 
 const Product = mongoose.model("Product", productSchema);

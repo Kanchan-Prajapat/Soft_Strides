@@ -4,7 +4,7 @@ import streamifier from "streamifier";
 
 export const createProduct = async (req, res) => {
   try {
-    const { name, price, stock, sizes, category, description } = req.body;
+    const { name, price, stock, sizes, category, description, fit, fabric, length, closure } = req.body;
 
     if (!name || !price || !stock || !category) {
       return res.status(400).json({ message: "Missing required fields" });
@@ -41,8 +41,14 @@ export const createProduct = async (req, res) => {
       stock,
       category,
       sizes: sizes ? sizes.split(",").map((s) => s.trim()) : [],
-      description,
+    description: req.body.description
+  ? JSON.parse(req.body.description)
+  : [],
       images: imageUrls,
+      fit,
+      fabric,
+      length,
+      closure,
     });
 
     res.status(201).json(product);
@@ -121,7 +127,7 @@ export const getSingleProduct = async (req, res) => {
 // UPDATE PRODUCT (ADMIN)
 export const updateProduct = async (req, res) => {
   try {
-    const { name, price, stock, category, description, sizes } = req.body;
+    const { name, price, stock, category, description, sizes, fit,  fabric,  length,  closure, } = req.body;
 
     const updates = {
       name,
@@ -129,7 +135,13 @@ export const updateProduct = async (req, res) => {
       stock,
       sizes: sizes ? sizes.split(",").map((s) => s.trim()) : [],
       category,
-      description,
+description: req.body.description
+  ? JSON.parse(req.body.description)
+  : [],
+      fit,
+      fabric,
+      length,
+      closure,
 
     };
 
