@@ -1,6 +1,12 @@
 /* =========================
 PRODUCT PAGE
 ========================= */
+
+.products-page,
+.product-page {
+  overflow-x: hidden;
+}
+
 .product-page {
   padding: 60px 5%;
   background: var(--bg-main);
@@ -14,6 +20,7 @@ PRODUCT PAGE
   grid-template-columns: 1fr 1fr;
   gap: 50px;
   margin-bottom: 60px;
+
 }
 
 /* ================= LEFT ================= */
@@ -449,7 +456,8 @@ REVIEWS SECTION
 
 .related-section {
   margin-top: 60px;
-  padding: 0 20px;
+ padding-left: 20px;
+ 
 }
 
 .related-section h2 {
@@ -464,6 +472,7 @@ REVIEWS SECTION
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 10px; /* 🔥 tight like H&M */
+  margin-left: -20px; /* 🔥 align with main content */
 }
 
 /* ================= CARD ================= */
@@ -486,6 +495,7 @@ REVIEWS SECTION
   object-fit: cover;
 
   background: #1a1a1d;
+  max-width: 100%;
   border-radius: 4px;
 }
 
@@ -555,6 +565,8 @@ REVIEWS SECTION
 
 .related-card {
   position: relative;
+   width: 100%;
+  min-width: 0; 
 }
 
 /* ❤️ icon */
