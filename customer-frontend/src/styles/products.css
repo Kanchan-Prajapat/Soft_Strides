@@ -1,3 +1,7 @@
+body {
+  overflow-x: hidden;
+}
+
 /* =========================
 PRODUCTS PAGE
 ========================= */
@@ -13,16 +17,20 @@ LAYOUT
 .products-layout {
   display: grid;
   grid-template-columns: 240px 1fr;
-  gap: 30px;
-  padding: 0 5%;
+  gap: 20px;
+  padding: 0 20px;
+  max-width: 1200px;
+  margin: auto;
 }
 
 /* =========================
 SIDEBAR
 ========================= */
 .sidebar {
-  background: #18181b;
-  padding: 20px;
+   backdrop-filter: blur(10px);
+  background: rgba(24,24,27,0.7);
+  padding: 16px;
+  width: 100%;
   border-radius: 10px;
   border: 1px solid rgba(255,255,255,0.05);
   position: sticky;
@@ -68,9 +76,11 @@ SIDEBAR
 PRODUCT GRID
 ========================= */
 .products-grid {
+
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 18px;
+
 }
 
 /* =========================
@@ -80,6 +90,9 @@ PRODUCT CARD
   background: transparent;
   border: none;
   display: flex;
+
+
+    height: 100%;
   flex-direction: column;
   position: relative;
   cursor: pointer;
@@ -147,6 +160,7 @@ PRODUCT INFO
   display: flex;
   flex-direction: column;
   gap: 6px;
+   flex-grow: 1;
 }
 
 .product-info-top h4 {
@@ -253,6 +267,8 @@ MOBILE FILTER BUTTON
   border-radius: 4px;
 }
 
+.close-filter-btn
+{  display: none;}
 /* =========================
 RESPONSIVE
 ========================= */
@@ -268,6 +284,7 @@ RESPONSIVE
 @media (max-width: 900px) {
   .products-layout {
     grid-template-columns: 1fr;
+      padding: 0 10px;
   }
 
   .sidebar {
@@ -289,11 +306,23 @@ RESPONSIVE
 
 /* MOBILE FINAL CLEAN */
 @media (max-width: 600px) {
+  .products-layout {
+    grid-template-columns: 1fr;
+      padding: 0 10px;
+      overflow-x :hidden;
+  }
+  .product-image-wrapper {
+  width: 100%;
+  max-width: 100%;
+}
 
-  .products-grid {
-    grid-template-columns: repeat(2, 1fr);
+  .product-card{
+     width: 100%;
+  min-width: 0; }
+
+   .products-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 8px;
-    padding: 8px;
   }
 
   .product-info h4 {
@@ -327,6 +356,19 @@ RESPONSIVE
     height: 22px;
     font-size: 10px;
   }
+
+    .close-filter-btn {
+    display: block;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    color: var(--text-main);
+    cursor: pointer;
+    z-index: 1000;
+  }
 }
 
 /* =========================
@@ -358,10 +400,7 @@ SIDEBAR DRAWER (MOBILE)
     z-index: 1500;
   }
 
-  
-}
-
-  .close-filter-btn {
+    .close-filter-btn {
     display: block;
     position: absolute;
     top: 15px;
@@ -373,3 +412,7 @@ SIDEBAR DRAWER (MOBILE)
     cursor: pointer;
     z-index: 1000;
   }
+
+  
+}
+
