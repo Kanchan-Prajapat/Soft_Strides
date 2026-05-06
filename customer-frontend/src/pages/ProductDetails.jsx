@@ -134,6 +134,7 @@ const ProductDetails = () => {
       <img
         key={i}
         src={img}
+        alt={product.name}
         onClick={() => setCurrentImage(i)}
         className={`thumb ${currentImage === i ? "active-thumb" : ""}`}
       />
