@@ -19,42 +19,77 @@ PRODUCT PAGE
 /* ================= LEFT ================= */
 .details-left {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  gap: 15px;
+  align-items: flex-start;
 }
 
-/* MAIN IMAGE */
-.main-image {
-  width: 100%;
-  max-width: 420px;
-  height: 400px;
-  object-fit: contain;
-  border-radius: 8px;
-  border: 1px solid var(--border);
-  background: #2a2a2f;
-}
-
-/* THUMBNAILS */
-.thumbnail-row {
+/* LEFT THUMBNAILS COLUMN */
+.thumbnail-column {
   display: flex;
+  flex-direction: column;
   gap: 10px;
-  margin-top: 15px;
 }
 
+/* THUMB IMAGE */
 .thumb {
-  width: 60px;
-  height: 60px;
-  object-fit: contain;
+  width: 70px;
+  height: 90px;
+  object-fit: cover;
   cursor: pointer;
   border-radius: 6px;
-  border: 1px solid var(--border);
-  background: #2a2a2f;
+  border: 2px solid transparent;
   transition: 0.3s;
 }
 
 .thumb:hover {
   border-color: var(--primary);
 }
+
+.active-thumb {
+  border: 2px solid var(--primary);
+}
+
+/* MAIN IMAGE BOX */
+.main-image {
+  width: 100%;
+  max-width: 420px;
+  aspect-ratio: 3 / 4;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #2a2a2f;
+}
+
+/* IMAGE FULL COVER (NO GAP, NO OVERFLOW ISSUE) */
+.main-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+.image-dots {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  background: #c7c7c7;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.active-dot {
+  background: var(--primary);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
 
 /* ================= RIGHT ================= */
 .details-right h1 {
@@ -367,8 +402,22 @@ REVIEWS SECTION
     justify-items: center;   /* 🔥 center everything */
   }
 
+
   .details-left {
-    align-items: center;
+    flex-direction: row;   /* 🔥 keep same as desktop */
+    align-items: flex-start;
+  }
+
+ 
+
+  .thumbnail-column {
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .thumb {
+    width: 50px;
+    height: 60px;
   }
 
   .details-right {

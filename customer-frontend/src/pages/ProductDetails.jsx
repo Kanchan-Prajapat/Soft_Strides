@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { useWishlist } from "../context/WishlistContext";
 import { FaHeart } from "react-icons/fa";
 import CartDrawer from "../components/CartDrawer";
+import { useSwipeable } from "react-swipeable";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -18,13 +19,13 @@ const ProductDetails = () => {
 
   // ✅ ALL STATES AT TOP
   const [product, setProduct] = useState(null);
-  const [mainImage, setMainImage] = useState(null);
   const [selectedSize, setSelectedSize] = useState("");
   const [fetchProduct, setFetchProduct] = useState(false);
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
-    const [cartOpen, setCartOpen] = useState(false);
+  const [cartOpen, setCartOpen] = useState(false);
   const { toggleWishlist, isInWishlist } = useWishlist();
+  const [currentImage, setCurrentImage] = useState(0);
   const hasSizes = product?.sizes?.length > 0;
 
 
@@ -46,6 +47,19 @@ const ProductDetails = () => {
 
     fetchProductData();
   }, [id, fetchProduct, API_URL]);
+
+ const handlers = useSwipeable({
+  onSwipedLeft: () => {
+    setCurrentImage((prev) =>
+      prev === product.images.length - 1 ? 0 : prev + 1
+    );
+  },
+  onSwipedRight: () => {
+    setCurrentImage((prev) =>
+      prev === 0 ? product.images.length - 1 : prev - 1
+    );
+  },
+});
 
   useEffect(() => {
     if (showPopup) {
@@ -72,11 +86,6 @@ const ProductDetails = () => {
     fetchRelated();
   }, [product, API_URL]);
 
-  useEffect(() => {
-    if (product?.images?.length > 0) {
-      setMainImage(product.images[0]);
-    }
-  }, [product]);
 
 
   if (!product) {
@@ -84,11 +93,11 @@ const ProductDetails = () => {
   }
 
 
- const isInCart = cartItems?.some(
-  (item) =>
-    item._id === product._id &&
-    item.size === (hasSizes ? selectedSize : "Free Size")
-);
+  const isInCart = cartItems?.some(
+    (item) =>
+      item._id === product._id &&
+      item.size === (hasSizes ? selectedSize : "Free Size")
+  );
 
 
   const handleAddToCart = () => {
@@ -97,9 +106,9 @@ const ProductDetails = () => {
       return;
     }
     if (isInCart) {
-  navigate("/cart");
-  return;
-}
+      navigate("/cart");
+      return;
+    }
 
     addToCart({
       ...product,
@@ -117,25 +126,40 @@ const ProductDetails = () => {
       <div className="product-wrapper">
 
         {/* LEFT SIDE */}
-        <div className="details-left">
-          <img
-            src={mainImage}
-            alt={product.name}
-            className="main-image"
-          />
+       <div className="details-left">
 
-          <div className="thumbnail-row">
-            {product.images?.map((img, index) => (
-              <img
-                key={index}
-                src={img}
-                alt="thumb"
-                className="thumb"
-                onClick={() => setMainImage(img)}
-              />
-            ))}
-          </div>
-        </div>
+  {/* LEFT THUMBNAILS */}
+  <div className="thumbnail-column">
+    {product.images.map((img, i) => (
+      <img
+        key={i}
+        src={img}
+        onClick={() => setCurrentImage(i)}
+        className={`thumb ${currentImage === i ? "active-thumb" : ""}`}
+      />
+    ))}
+  </div>
+<div>
+  {/* MAIN IMAGE */}
+  <div className="main-image" {...handlers}>
+    <img
+      src={product.images[currentImage]}
+      alt={product.name}
+    />
+  </div>
+
+  <div className="image-dots">
+  {product.images.map((_, i) => (
+    <span
+      key={i}
+      className={i === currentImage ? "active-dot" : "dot"}
+      onClick={() => setCurrentImage(i)}
+    />
+  ))}
+</div>
+
+</div>
+</div>
 
         {/* RIGHT SIDE */}
         <div className="details-right">
@@ -168,7 +192,7 @@ const ProductDetails = () => {
             {isInCart ? (
               <button
                 className="add-cart"
-               onClick={() => setCartOpen(true)}
+                onClick={() => setCartOpen(true)}
               >
                 View Cart
               </button>
@@ -293,12 +317,12 @@ const ProductDetails = () => {
           </button>
         </div>
       )}
-      <CartDrawer 
-  open={cartOpen} 
-  onClose={() => setCartOpen(false)} 
-/>
+      <CartDrawer
+        open={cartOpen}
+        onClose={() => setCartOpen(false)}
+      />
 
-      
+
     </div>
 
 
