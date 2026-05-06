@@ -27,77 +27,107 @@ fetchCategories();
 
 /* ================= SMOOTH CENTER SCALE ================= */
 useEffect(() => {
-const slider = scrollRef.current;
-if (!slider) return;
+  const slider = scrollRef.current;
+  if (!slider) return;
 
+  const handleScroll = () => {
+    const cards = slider.querySelectorAll(".category-card");
 
-const handleScroll = () => {
-  const cards = slider.querySelectorAll(".category-card");
+    const center = slider.scrollLeft + slider.offsetWidth / 2;
 
-  const center = slider.scrollLeft + slider.offsetWidth / 2;
+    cards.forEach((card) => {
+      const cardCenter =
+        card.offsetLeft + card.offsetWidth / 2;
 
-  cards.forEach((card) => {
-    const cardCenter =
-      card.offsetLeft + card.offsetWidth / 2;
+      const distance = Math.abs(center - cardCenter);
 
-    const distance = Math.abs(center - cardCenter);
+const threshold = slider.offsetWidth / 4;
 
-    // 🔥 smooth scaling (NO JUMP)
-    const scale = Math.max(0.85, 1 - distance / 500);
-    const opacity = Math.max(0.5, 1 - distance / 600);
+if (distance < threshold) {
+        card.classList.add("active");
+      } else {
+        card.classList.remove("active");
+      }
+    });
+  };
 
-    card.style.transform = `scale(${scale})`;
-    card.style.opacity = opacity;
-  });
-};
+  slider.addEventListener("scroll", handleScroll);
+  handleScroll();
 
-slider.addEventListener("scroll", handleScroll);
-handleScroll();
-
-return () => slider.removeEventListener("scroll", handleScroll);
-
-
+  return () => slider.removeEventListener("scroll", handleScroll);
 }, []);
 
 /* ================= AUTO SCROLL (SMOOTH) ================= */
 useEffect(() => {
-const slider = scrollRef.current;
-if (!slider) return;
+  const slider = scrollRef.current;
+  if (!slider) return;
 
+  let interval;
+  let isPaused = false;
 
-let scrollAmount = 0;
+  const startAutoScroll = () => {
+    interval = setInterval(() => {
+      if (isPaused) return;
 
-const interval = setInterval(() => {
-  scrollAmount += 220;
+      const cardWidth = getCardWidth();
 
-  if (scrollAmount >= slider.scrollWidth) {
-    scrollAmount = 0;
-  }
+      slider.scrollBy({
+        left: cardWidth,
+        behavior: "smooth",
+      });
 
-  slider.scrollTo({
-    left: scrollAmount,
-    behavior: "smooth",
-  });
-}, 3000);
+      // infinite reset
+      if (slider.scrollLeft >= slider.scrollWidth / 2) {
+        slider.scrollLeft = 0;
+      }
+    }, 2500); // every 2.5 sec
+  };
 
-return () => clearInterval(interval);
+  startAutoScroll();
 
+  const pause = () => (isPaused = true);
+  const resume = () => (isPaused = false);
 
+  slider.addEventListener("mouseenter", pause);
+  slider.addEventListener("mouseleave", resume);
+  slider.addEventListener("touchstart", pause);
+  slider.addEventListener("touchend", resume);
+
+  return () => {
+    clearInterval(interval);
+    slider.removeEventListener("mouseenter", pause);
+    slider.removeEventListener("mouseleave", resume);
+    slider.removeEventListener("touchstart", pause);
+    slider.removeEventListener("touchend", resume);
+  };
 }, [categories]);
+
+
+const getCardWidth = () => {
+  const slider = scrollRef.current;
+  const card = slider.querySelector(".category-card");
+  return card ? card.offsetWidth + 20 : 260; // gap included
+};
 
 /* ================= MANUAL SCROLL ================= */
 const scrollLeft = () => {
-scrollRef.current.scrollBy({
-left: -250,
-behavior: "smooth",
-});
+  const slider = scrollRef.current;
+  const cardWidth = getCardWidth();
+
+  slider.scrollBy({
+    left: -cardWidth,
+    behavior: "smooth",
+  });
 };
 
 const scrollRight = () => {
-scrollRef.current.scrollBy({
-left: 250,
-behavior: "smooth",
-});
+  const slider = scrollRef.current;
+  const cardWidth = getCardWidth();
+
+  slider.scrollBy({
+    left: cardWidth,
+    behavior: "smooth",
+  });
 };
 
 return ( <section className="category-section"> <h2 className="category-title">Shop By Category</h2>
@@ -108,7 +138,7 @@ return ( <section className="category-section"> <h2 className="category-title">S
     </button>
 
     <div className="category-slider" ref={scrollRef}>
-      {categories.map((cat) => (
+     {[...categories, ...categories].map((cat, index) => (
         <div
           key={cat._id}
           className="category-card"

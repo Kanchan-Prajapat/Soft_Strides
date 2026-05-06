@@ -126,7 +126,8 @@ SLIDER
   scroll-behavior: smooth;
   padding: 20px 60px;
 
-  scroll-snap-type: x mandatory;
+  will-change: scroll-position;
+   -webkit-overflow-scrolling: touch;
 }
 
 .category-slider::-webkit-scrollbar {
@@ -137,7 +138,7 @@ SLIDER
 CARD
 ========================= */
 .category-card {
-  min-width: 220px;
+  min-width: 240px;
   flex-shrink: 0;
   scroll-snap-align: center;
 
@@ -149,8 +150,9 @@ CARD
   transition: all 0.3s ease;
   cursor: pointer;
 
-  transform: scale(0.95);
-  opacity: 0.7;
+ backface-visibility: hidden;
+  transform: translateZ(0);
+  opacity: 0.6;
 }
 
 /* ACTIVE CENTER CARD (JS handles scaling) */
@@ -161,8 +163,8 @@ CARD
 /* IMAGE */
 .category-card img {
   width: 100%;
-  height: 160px;
-  object-fit: contain;
+  height: 260px;
+  object-fit: cover;
   margin-bottom: 10px;
 }
 
@@ -172,15 +174,27 @@ CARD
   text-align: center;
 }
 
+.category-card.active {
+  transform: scale(1);
+  opacity: 1;
+}
+
 /* =========================
 FADE EFFECT (LEFT + RIGHT)
 ========================= */
+
+.category-wrapper {
+  position: relative;
+  padding: 0 40px; /* 🔥 space for arrows */
+}
+
 .category-wrapper::before,
 .category-wrapper::after {
   content: "";
   position: absolute;
+ 
   top: 0;
-  width: 60px;
+  width: 40px;
   height: 100%;
   z-index: 5;
   pointer-events: none;
@@ -205,16 +219,20 @@ ARROWS
   transform: translateY(-50%);
   background: #1e1e22;
   border: 1px solid var(--border);
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
+   display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
-  z-index: 10;
+  z-index: 20;
   transition: 0.3s;
 }
 
 .cat-arrow:hover {
   border-color: var(--primary);
+  transform: translateY(-50%) scale(1.1);
 }
 
 .cat-arrow.left {
@@ -235,15 +253,17 @@ MOBILE RESPONSIVE
   }
 
   .category-card {
-    min-width: 160px;
+ 
+       min-width: 75%;   /* 🔥 main fix */
+    max-width: 75%;
   }
 
   .category-card img {
-    height: 130px;
+    height: 140px;
   }
 
   .cat-arrow {
-    display: none;
+    display: none !important;
   }
 }
 
@@ -252,12 +272,20 @@ MOBILE RESPONSIVE
     font-size: 22px;
   }
 
-  .category-card {
-    min-width: 140px;
+  .category-card { 
+      min-width: 75%;   /* 🔥 main fix */
+    max-width: 75%;
   }
 
   .category-card img {
-    height: 110px;
+    height: 250px;
+    width: 100%;
+  }
+  .category-slider {
+  padding: 20px 10px;
+}
+.cat-arrow {
+    display: none !important;
   }
 }
 
