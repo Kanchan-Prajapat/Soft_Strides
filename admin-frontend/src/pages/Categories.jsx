@@ -52,7 +52,7 @@ const Categories = () => {
         title="Product Categories"
         right={
           <button
-            className="btn"
+            className="add-btn"
             onClick={() => {
               setEditCategory(null);
               setModalOpen(true);

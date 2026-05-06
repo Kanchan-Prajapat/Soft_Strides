@@ -93,7 +93,7 @@ const handleCreate = async () => {
 />
 
           <button
-            className="btn"
+            className="add-btn"
             onClick={handleCreate}
             disabled={loading}
           >

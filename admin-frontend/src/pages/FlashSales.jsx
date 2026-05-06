@@ -99,7 +99,7 @@ const handleDelete = async (id) => {
           </div>
 
           <button
-            className="btn"
+            className="add-btn"
             style={{ marginTop: 20 }}
             onClick={handleCreate}
           >

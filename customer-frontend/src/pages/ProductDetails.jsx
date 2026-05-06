@@ -147,7 +147,7 @@ const [fullView, setFullView] = useState(false);
       src={product.images[currentImage]}
       alt={product.name}
          onClick={() => setFullView(true)}
-           className="modal-image"
+          
     />
   </div>
 

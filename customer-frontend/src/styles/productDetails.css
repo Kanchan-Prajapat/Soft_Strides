@@ -20,6 +20,7 @@ PRODUCT PAGE
   grid-template-columns: 1fr 1fr;
   gap: 50px;
   margin-bottom: 60px;
+  align-items: start;
 
 }
 
@@ -60,7 +61,8 @@ PRODUCT PAGE
 .main-image {
   width: 100%;
   max-width: 420px;
-  aspect-ratio: 3 / 4;
+ 
+  height: 500px;    
   border-radius: 6px;
   overflow: hidden;
   background: #2a2a2f;
@@ -144,6 +146,10 @@ PRODUCT PAGE
 
 .modal-arrow.right {
   right: 20px;
+}
+
+.modal-arrow:hover{
+  transform: translateY(-50%) scale(1.1);
 }
 
 
@@ -471,7 +477,7 @@ REVIEWS SECTION
   }
 
   .main-image {
-    height: 320px;
+      height: 350px;
   }
   .submitBtn{
     margin-left: 0px;
