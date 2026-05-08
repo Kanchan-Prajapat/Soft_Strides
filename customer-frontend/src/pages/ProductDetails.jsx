@@ -10,6 +10,7 @@ import { useWishlist } from "../context/WishlistContext";
 import { FaHeart } from "react-icons/fa";
 import CartDrawer from "../components/CartDrawer";
 import { useSwipeable } from "react-swipeable";
+import { Truck, RefreshCcw, Package } from "lucide-react";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -243,10 +244,56 @@ const [fullView, setFullView] = useState(false);
             )}
           </div>
 
+          
+
         </div>
+
+{/* 🔥 FEATURE STRIP (TOP) */}
+<div className="feature-strip">
+  <div className="feature-item">
+    <Truck size={45} />
+    <p>Free Shipping</p>
+    <span>3–7 Days</span>
+  </div>
+
+  <div className="feature-item">
+    <RefreshCcw size={45} />
+    <p>7 Days Return</p>
+    <span>Easy Exchange</span>
+  </div>
+
+  <div className="feature-item">
+    <Package size={45} />
+    <p>Fast Dispatch</p>
+    <span>24–48 hrs</span>
+  </div>
+</div>
+
+{/* 🔥 DETAILED INFO (BOTTOM) */}
+<div className="product-extra-info">
+
+  <div className="info-box">
+    <h4><Truck size={18}/> Shipping Info</h4>
+    <ul>
+      <li>Free shipping on prepaid orders</li>
+      <li>Dispatch within 24–48 hours</li>
+      <li>Delivery in 3–7 days</li>
+      <li>Live tracking available</li>
+    </ul>
+  </div>
+
+  <div
+    className="info-box clickable"
+    onClick={() => navigate("/returns-policy")}
+  >
+    <h4><RefreshCcw size={18}/> Returns & Exchange</h4>
+    <p>7 days easy return policy</p>
+  </div>
+
+</div>
+
       </div>
 
-      {/* REVIEWS SECTION */}
       {/* REVIEWS SECTION */}
       <div className="reviews-section">
         <h2>Customer Reviews</h2>

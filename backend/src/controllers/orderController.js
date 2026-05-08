@@ -213,6 +213,34 @@ if (type === "rejected") {
   }
 };
 
+/* =============================
+   SINGLE ORDER DETAILS
+============================= */
+export const getSingleOrder = async (req, res) => {
+  try {
+
+    const order = await Order.findById(req.params.id)
+      .populate({
+        path: "products.product",
+        select: "name images price"
+      });
+
+    if (!order) {
+      return res.status(404).json({
+        message: "Order not found"
+      });
+    }
+
+    res.json(order);
+
+  } catch (error) {
+    console.error("GET SINGLE ORDER ERROR:", error);
+
+    res.status(500).json({
+      message: error.message
+    });
+  }
+};
 
 /* =============================
    UPDATE PAYMENT STATUS

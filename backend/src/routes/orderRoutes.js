@@ -10,6 +10,7 @@ import {
   returnOrder,
   approveReturn,
   rejectReturn,
+  getSingleOrder,
   updateReturnStatus
 } from "../controllers/orderController.js";
 import { protect } from "../middleware/authMiddleware.js";

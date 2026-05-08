@@ -54,11 +54,12 @@ const MyOrders = () => {
                 <p className="order-id">
                   Order ID: #{order._id.slice(-6)}
                 </p>
-                 <p>Tracking ID: {order.trackingId}</p>
-    <p>Courier ID: {order.awbCode || "Generating..."}</p>
-    <button onClick={() => navigator.clipboard.writeText(order.awbCode)}>
-  Copy
-</button>
+                <p>Tracking ID: {order.trackingId}</p>
+                <p>Courier ID: {order.awbCode || "Generating..."}</p>
+                <button className="return-btn"
+                  onClick={() => navigator.clipboard.writeText(order.awbCode)}>
+                  Track Order 🚚
+                </button>
                 <p className="order-date">
                   {new Date(order.createdAt).toDateString()}
                 </p>
@@ -77,14 +78,20 @@ const MyOrders = () => {
               {order.products?.map((item, index) => (
                 <div key={index} className="order-product-row">
                   <img
-                    src={item.product?.images?.[0]}
-                    alt={item.product?.name}
+                    src={
+                      item.product?.images?.[0] ||
+                      item.image ||
+                      "/no-image.png"
+                    }
+                    alt={item.product?.name || item.name}
                     className="order-product-img"
                     onClick={(e) => {
-                      e.stopPropagation(); // 🔥 prevent card click
-                      navigate(`/product/${item.product?._id}`);
+                      e.stopPropagation();
+
+                      if (item.product?._id) {
+                        navigate(`/product/${item.product._id}`);
+                      }
                     }}
-                    style={{ cursor: "pointer" }}
                   />
 
                   <div className="order-product-info">
@@ -94,28 +101,17 @@ const MyOrders = () => {
 
                     <p>Size: {item.size || "Free Size"}</p>
                     <p>Qty: {item.qty}</p>
+                    <div className="order-status-box">
+                      <span className={`status-badge ${order.deliveryStatus}`}>
+                        {order.deliveryStatus}
+                      </span>
+                    </div>
                   </div>
                 </div>
               ))}
             </div>
 
-            {/* TIMELINE */}
-            {order.history?.length > 0 ? (
-              <div className="timeline-horizontal">
-                {order.history.map((step, index) => (
-                  <div key={index} className="timeline-step">
-                    <div className="timeline-status">
-                      {step.status}
-                    </div>
-                    <div className="timeline-date">
-                      {new Date(step.date).toLocaleDateString()}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <p className="no-timeline">Order placed</p>
-            )}
+
           </div>
         ))
       )}

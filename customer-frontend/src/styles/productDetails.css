@@ -212,6 +212,88 @@ PRODUCT PAGE
   margin-top: 3px;
 }
 
+/* FEATURE STRIP */
+.feature-strip {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  background: #1f1f20;;
+  border-radius: 10px;
+  padding: 18px;
+  margin-top: 30px;
+}
+
+.feature-item {
+  text-align: center;
+  flex: 1;
+}
+
+.feature-item p {
+  font-weight: 600;
+  margin-top: 6px;
+}
+
+.feature-item span {
+  font-size: 12px;
+  color: #aaa;
+}
+
+/* INFO CARDS */
+.product-extra-info {
+  margin-top: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.info-box {
+  background: linear-gradient(145deg, #121212, #0d0d0d);
+  border: 1px solid #222;
+  padding: 18px;
+  border-radius: 12px;
+  transition: 0.3s;
+}
+
+.info-box:hover {
+  border-color: var(--primary);
+  transform: translateY(-2px);
+}
+
+.info-box h4 {
+  font-size: 14px;
+  margin-bottom: 10px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.info-box ul {
+  padding-left: 16px;
+}
+
+.info-box li {
+  font-size: 12px;
+  color: #aaa;
+  margin-bottom: 6px;
+}
+
+.info-box.clickable {
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.info-box svg {
+  color: var(--primary);
+  stroke-width: 1.5;
+}
+
+.info-box.clickable:hover {
+  background: #1a1a1f;
+}
+
+
+
 /* BUTTON GROUP (IMPORTANT) */
 .product-actions {
   display: flex;
@@ -492,6 +574,12 @@ REVIEWS SECTION
   .product-actions {
     justify-content: center;
   }
+
+  .feature-strip {
+    flex-direction: column;
+    gap: 12px;
+  }
+
 }
 
 @media (max-width: 768px) {

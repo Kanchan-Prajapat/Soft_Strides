@@ -179,7 +179,28 @@ const Checkout = () => {
                 razorpay_payment_id: response.razorpay_payment_id,
                 razorpay_signature: response.razorpay_signature,
                 orderData: {
-                  products: checkoutItems,
+                  products: checkoutItems.map((item) => ({
+                    _id: item.product?._id || item._id,
+
+                    name: item.product?.name || item.name,
+
+                    images:
+                      item.product?.images || item.images || [],
+
+                    image:
+                      item.product?.images?.[0] ||
+                      item.image,
+
+                    price:
+                      item.product?.price || item.price,
+
+                    qty:
+                      item.quantity || item.qty || 1,
+
+                    size:
+                      item.size || "Free Size",
+                  })),
+
                   totalAmount: finalAmount,
                   address: form.address,
                   phone: form.phone,

@@ -54,18 +54,27 @@ const isReturnable = (() => {
   ========================= */
 
 
-  useEffect(() => {
+ 
     
+  useEffect(() => {
+
   const fetchOrder = async () => {
     try {
+
       const res = await api.get(`/orders/${id}`);
+
+      console.log(res.data);
+
       setOrder(res.data);
+
     } catch (err) {
       console.error(err);
     }
   };
+
   fetchOrder();
-  }, [id]);
+
+}, [id]);
 
   if (!order) return <p className="loading">Loading...</p>;
 
@@ -167,33 +176,49 @@ const isReturnable = (() => {
       </div>
 
       {/* PRODUCTS */}
-      <div className="order-section">
-        <h3>Items</h3>
+      {/* PRODUCTS */}
+<div className="order-section">
+  <h3>Items</h3>
 
-        {order.products.map((item, i) => (
-          <div key={i} className="order-product">
+  <div className="ordered-items-list">
+    {order.products.map((item, i) => (
+      <div key={i} className="order-product-card">
+
+        {/* IMAGE */}
         <img
-  src={item.product?.images?.[0] || item.image || "/no-image.png"}
-  alt={item.product?.name || item.name}
-  onClick={() => {
-    if (item.product?._id) {
-      navigate(`/product/${item.product._id}`);
-    }
-  }}
-  style={{ cursor: item.product?._id ? "pointer" : "default" }}
-/>
+          src={
+            item.product?.images?.[0] ||
+            item.image ||
+            "/no-image.png"
+          }
+          alt={item.product?.name || item.name}
+          className="ordered-product-image"
+          onClick={() => {
+            if (item.product?._id) {
+              navigate(`/product/${item.product._id}`);
+            }
+          }}
+        />
 
-            <div>
-              <p className="product-name">
-                {item.product?.name || item.name}
-              </p>
-              <p>Size: {item.size || "Free Size"}</p>
-              <p>Qty: {item.qty}</p>
-              <p>₹{item.price}</p>
-            </div>
-          </div>
-        ))}
+        {/* INFO */}
+        <div className="ordered-product-info">
+          <h4>
+            {item.product?.name || item.name}
+          </h4>
+
+          <p>Size: {item.size || "Free Size"}</p>
+
+          <p>Quantity: {item.qty}</p>
+
+          <p className="ordered-price">
+            ₹{item.price}
+          </p>
+        </div>
+
       </div>
+    ))}
+  </div>
+</div>
 
       {/* TIMELINE */}
       <div className="order-section">
