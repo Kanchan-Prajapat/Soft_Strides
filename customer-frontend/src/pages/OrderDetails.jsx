@@ -211,7 +211,7 @@ const isReturnable = (() => {
           <p>Quantity: {item.qty}</p>
 
           <p className="ordered-price">
-            ₹{item.price}
+            ₹{item.discountPrice}
           </p>
         </div>
 

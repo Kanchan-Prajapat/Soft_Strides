@@ -29,7 +29,7 @@ const CartDrawer = ({ open, onClose }) => {
           <h4>{item.name}</h4>
           <p>Size: {item.size}</p>
           <p>Qty: {item.qty}</p>
-          <p>₹{item.price}</p>
+          <p>₹{item.discountPrice}</p>
         </div>
       </div>
     ))}

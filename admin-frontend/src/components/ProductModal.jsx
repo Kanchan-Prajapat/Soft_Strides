@@ -4,7 +4,8 @@ import "./ProductModal.css";
 
 const ProductModal = ({ product, categories, onClose, onSuccess }) => {
   const [name, setName] = useState(product?.name || "");
-  const [price, setPrice] = useState(product?.price || "");
+  const [originalPrice, setOriginalPrice] = useState(product?.originalPrice || "");
+  const [discountPrice, setDiscountPrice] = useState(product?.discountPrice || "");
   const [stock, setStock] = useState(product?.stock || "");
   const [category, setCategory] = useState(
     product?.category?._id ?? ""
@@ -28,7 +29,8 @@ const [descPoints, setDescPoints] = useState(
     const form = new FormData();
 
     form.append("name", name);
-    form.append("price", price);
+    form.append("originalPrice", originalPrice);
+    form.append("discountPrice", discountPrice);
     form.append("stock", stock);
     form.append("category", category);
     form.append("sizes", sizes);
@@ -95,12 +97,19 @@ const [descPoints, setDescPoints] = useState(
 
        
 
-        <input
-          type="number"
-          placeholder="Price"
-          value={price}
-          onChange={(e) => setPrice(e.target.value)}
-        />
+     <input
+  type="number"
+  placeholder="Original Price"
+  value={originalPrice}
+  onChange={(e) => setOriginalPrice(e.target.value)}
+/>
+
+<input
+  type="number"
+  placeholder="Discounted Price"
+  value={discountPrice}
+  onChange={(e) => setDiscountPrice(e.target.value)}
+/>
 
         <select value={category} onChange={(e) => setCategory(e.target.value)}>
           <option value="">Select Category</option>

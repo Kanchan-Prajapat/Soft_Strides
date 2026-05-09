@@ -2,6 +2,18 @@ import "./ProductModal.css";
 import "../styles/theme.css";
 
 const ProductViewModal = ({ product, onClose }) => {
+
+  const hasDiscount =
+    product.originalPrice > product.discountPrice;
+
+  const discountPercent = hasDiscount
+    ? Math.round(
+        ((product.originalPrice - product.discountPrice) /
+          product.originalPrice) *
+          100
+      )
+    : 0;
+
   return (
     <div className="modal-overlay">
       <div className="modal">
@@ -20,32 +32,69 @@ const ProductViewModal = ({ product, onClose }) => {
           </div>
         )}
 
-        <p><strong>Category:</strong> {product.category?.name || "—"}</p>
-        <p><strong>Price:</strong> ₹{product.price}</p>
-        <p><strong>Stock:</strong> {product.stock}</p>
+        <p>
+          <strong>Category:</strong>{" "}
+          {product.category?.name || "—"}
+        </p>
+
+        {/* PRICE SECTION */}
+        <div className="price-box">
+
+          <span className="discount-price">
+            ₹{product.discountPrice}
+          </span>
+
+          {hasDiscount && (
+            <>
+              <span className="original-price">
+                ₹{product.originalPrice}
+              </span>
+
+              <span className="discount-percent">
+                {discountPercent}% OFF
+              </span>
+            </>
+          )}
+        </div>
+
+        <p>
+          <strong>Stock:</strong> {product.stock}
+        </p>
 
         <div className="highlight-grid">
-  
-     <p><strong>Product Category:</strong> {product.category?.name}</p>
-  
-    <p> <strong>Fit:</strong> {product.fit}</p>
-  
-    <p><strong>Fabric:</strong> {product.fabric}</p>
- 
-    <p><strong>Length:</strong> {product.length}</p>
 
-    <p><strong>Closure:</strong> {product.closure}</p>
-  
-</div>
+          <p>
+            <strong>Product Category:</strong>{" "}
+            {product.category?.name}
+          </p>
 
-        <p style={{ marginTop: 12 }}>
-          <strong>Description:</strong><br />
-         <ul className="desc-list">
-  {product.description?.map((point, i) => (
-    <li key={i}>{point}</li>
-  ))}
-</ul>
-        </p>
+          <p>
+            <strong>Fit:</strong> {product.fit}
+          </p>
+
+          <p>
+            <strong>Fabric:</strong> {product.fabric}
+          </p>
+
+          <p>
+            <strong>Length:</strong> {product.length}
+          </p>
+
+          <p>
+            <strong>Closure:</strong> {product.closure}
+          </p>
+
+        </div>
+
+        <div style={{ marginTop: 12 }}>
+          <strong>Description:</strong>
+
+          <ul className="desc-list">
+            {product.description?.map((point, i) => (
+              <li key={i}>{point}</li>
+            ))}
+          </ul>
+        </div>
 
         <button className="view-btn" onClick={onClose}>
           Close

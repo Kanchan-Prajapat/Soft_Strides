@@ -111,7 +111,7 @@ const Wishlist = () => {
 
                 <div className="left">
                   <h3>{item.name}</h3>
-                  <p>₹{item.price}</p>
+                  <p>₹{item.discountPrice}</p>
                 </div>
 
                 <div className="right">

@@ -29,6 +29,8 @@ HERO SLIDER
   filter: brightness(60%);
 }
 
+
+
 .slide.active {
   opacity: 1;
   z-index: 1;

@@ -49,7 +49,7 @@ for (const item of parsedProducts) {
     product: product._id,
     name: product.name,
     image: product.images?.[0] || null,
-    price: product.price,
+    price: product.discountPrice,
     qty: item.qty,
     size: item.size,
   });
@@ -527,7 +527,7 @@ export const updateReturnStatus = async (req, res) => {
     // Push into unified history
    order.history = order.history || [];
 order.history.push({
-  status: "Refund Done",
+  status,
   type: "return",
   date: new Date(),
 });

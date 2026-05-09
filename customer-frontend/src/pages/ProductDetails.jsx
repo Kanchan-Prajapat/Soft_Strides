@@ -100,6 +100,16 @@ const [fullView, setFullView] = useState(false);
       item.size === (hasSizes ? selectedSize : "Free Size")
   );
 
+const hasDiscount =
+  product.originalPrice > product.discountPrice;
+
+const discountPercent = hasDiscount
+  ? Math.round(
+      ((product.originalPrice - product.discountPrice) /
+        product.originalPrice) *
+        100
+    )
+  : 0;
 
   const handleAddToCart = () => {
     if (hasSizes && !selectedSize) {
@@ -169,7 +179,25 @@ const [fullView, setFullView] = useState(false);
         <div className="details-right">
           <h1>{product.name}</h1>
 
-          <p className="price">₹{product.price}</p>
+       <div className="price-box">
+
+  <span className="discount-price">
+    ₹{product.discountPrice}
+  </span>
+
+  {hasDiscount && (
+    <>
+      <span className="original-price">
+        ₹{product.originalPrice}
+      </span>
+
+      <span className="discount-percent">
+        {discountPercent}% OFF
+      </span>
+    </>
+  )}
+
+</div>
 
         <div className="description">
   <h4>Product Highlights</h4>
@@ -385,7 +413,29 @@ const [fullView, setFullView] = useState(false);
 
               <img src={item.images?.[0]} alt={item.name} />
               <h4>{item.name}</h4>
-              <p>₹{item.price}</p>
+             <div className="related-price-box">
+
+  <span className="related-main-price">
+    ₹{item.discountPrice}
+  </span>
+
+  {item.originalPrice > item.discountPrice && (
+    <>
+      <span className="related-old-price">
+        ₹{item.originalPrice}
+      </span>
+
+      <span className="related-discount">
+        {Math.round(
+          ((item.originalPrice - item.discountPrice) /
+            item.originalPrice) *
+            100
+        )}% OFF
+      </span>
+    </>
+  )}
+
+</div>
             </div>
           ))}
         </div>

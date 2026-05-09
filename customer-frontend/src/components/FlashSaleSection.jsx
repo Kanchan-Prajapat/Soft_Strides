@@ -83,7 +83,7 @@ const FlashSaleSection = () => {
           }`}
         >
           {sale.products.map((product) => {
-            const originalPrice = product.price;
+            const originalPrice = product.originalPrice;
             const discount = sale.discountPercentage || 0;
 
             const discountedPrice =

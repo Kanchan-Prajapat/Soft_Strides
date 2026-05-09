@@ -4,7 +4,7 @@ import { useWishlist } from "../context/WishlistContext";
 import { useState } from "react";
 import "../styles/products.css";
 
-const ProductCard = ({ product, discountedPrice, openCart }) => {
+const ProductCard = ({ product,  openCart }) => {
   const navigate = useNavigate();
   const { addToCart } = useCart();
   const { cartItems } = useCart();
@@ -89,14 +89,30 @@ const ProductCard = ({ product, discountedPrice, openCart }) => {
         <div className="product-info-top">
           <h4>{product.name}</h4>
 
-          {discountedPrice ? (
-            <div className="flash-price">
-              <span className="old-price">₹{product.price}</span>
-              <span className="new-price">₹{discountedPrice}</span>
-            </div>
-          ) : (
-            <p className="price">₹{product.price}</p>
-          )}
+        <div className="flash-price">
+
+  <span className="new-price">
+    ₹{product.discountPrice}
+  </span>
+
+  {product.originalPrice > product.discountPrice && (
+    <>
+      <span className="old-price">
+        ₹{product.originalPrice}
+      </span>
+
+      <span className="off-percent">
+        {Math.round(
+          ((product.originalPrice - product.discountPrice) /
+            product.originalPrice) *
+            100
+        )}% OFF
+      </span>
+    </>
+  )}
+
+</div>
+
         </div>
 
         {/* 🔥 SIZES */}

@@ -98,6 +98,38 @@ h3 {
   animation: spin 1s linear infinite;
 }
 
+.price-box,
+.details-price-box,
+.related-price-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.discount-price,
+.main-price,
+.related-main-price {
+  font-size: 22px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.original-price,
+.cut-price,
+.related-old-price {
+  text-decoration: line-through;
+  color: #888;
+}
+
+.discount-percent,
+.save-badge,
+.related-discount {
+  color: #9b6dff;
+  font-weight: 600;
+  font-size: 14px;
+}
+
 @keyframes spin {
   100% { transform: rotate(360deg); }
 }

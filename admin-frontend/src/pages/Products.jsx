@@ -96,7 +96,8 @@ const Products = () => {
             <tr>
               <th>Product</th>
               <th>Name</th>
-              <th>Price</th>
+              <th>Original Price</th>
+              <th>Discount Price</th>
               <th>Stock</th>
               <th style={{ width: 220 }}>Actions</th>
             </tr>
@@ -105,7 +106,7 @@ const Products = () => {
           <tbody>
             {filteredProducts.length === 0 ? (
               <tr>
-                <td colSpan="4" className="empty-row">
+                <td colSpan="6" className="empty-row">
                   No products found
                 </td>
               </tr>
@@ -124,7 +125,8 @@ const Products = () => {
                   />
                   </td>
                   <td>{p.name}</td>
-                  <td>₹{p.price}</td>
+                  <td>₹{p.originalPrice}</td>
+                  <td>₹{p.discountPrice}</td>
                   <td>{p.stock}</td>
                   <td>
                     <div className="action-buttons">

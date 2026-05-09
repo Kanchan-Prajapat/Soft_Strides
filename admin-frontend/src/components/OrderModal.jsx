@@ -58,7 +58,7 @@ const OrderModal = ({ order, onClose, onStatusUpdate }) => {
       <div key={index} className="modal-product-info">
         <strong>{item.name}</strong>
         <div>Size: {item.size}</div>
-        <div>Qty: {item.quantity}</div>
+      <div>Qty: {item.qty}</div>
       </div>
     ))}
   </div>
@@ -79,7 +79,7 @@ const OrderModal = ({ order, onClose, onStatusUpdate }) => {
 
 </div>
 
-        <div className="order-section">
+        {/* <div className="order-section">
           <h4>Payment Screenshot</h4>
           <div className="payment-image-wrapper">
             <img
@@ -88,7 +88,7 @@ const OrderModal = ({ order, onClose, onStatusUpdate }) => {
               onClick={() => window.open(order.paymentScreenshot)}
             />
           </div>
-        </div>
+        </div> */}
 
         <div className="modal-actions">
           {order.paymentStatus === "Pending" && (

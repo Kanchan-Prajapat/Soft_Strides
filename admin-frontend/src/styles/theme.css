@@ -662,6 +662,31 @@ select.input:focus {
 /* MOBILE RESPONSIVE */
 /* ========================= */
 
+.price-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.discount-price {
+  color: white;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.original-price {
+  color: #888;
+  text-decoration: line-through;
+  font-size: 14px;
+}
+
+.discount-percent {
+  color: #9b6dff;
+  font-size: 13px;
+  font-weight: 600;
+}
+
 @media (max-width: 768px) {
 
   .products-header {

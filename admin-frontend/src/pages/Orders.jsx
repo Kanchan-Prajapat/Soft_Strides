@@ -42,10 +42,17 @@ const Orders = () => {
 
 
   // 🔄 Update Delivery Status
-  const updateStatus = async (id, status) => {
-    await api.put(`/orders/delivery/${id}`, { status });
-    onStatusUpdate();
-  };
+ const updateStatus = async (id, status) => {
+  try {
+    await API.put(`/orders/delivery/${id}`, { status });
+
+    // refresh orders
+    loadOrders();
+
+  } catch (error) {
+    console.error("Delivery update failed", error);
+  }
+};
 
 
   // 🔍 Filter Logic
@@ -195,7 +202,7 @@ const Orders = () => {
                     <button
                       className="view-btn"
                       onClick={async () => {
-                        const res = await api.get(`/orders/track/${o._id}`);
+                    const res = await API.get(`/orders/track/${o._id}`);
                         console.log(res.data);
                       }}
                     >

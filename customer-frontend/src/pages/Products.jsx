@@ -33,6 +33,7 @@ const Products = () => {
         });
 
         setProducts(res.data);
+        console.log(products)
       } catch (error) {
         console.error("Error fetching products:", error);
       } finally {
@@ -51,8 +52,8 @@ const Products = () => {
         product.sizes?.includes(selectedSize)) &&
       (selectedColor === "All" ||
         product.color === selectedColor) &&
-      product.price >= priceRange[0] &&
-      product.price <= priceRange[1]
+      product.discountPrice >= priceRange[0] &&
+      product.discountPrice <= priceRange[1]
     );
   });
 

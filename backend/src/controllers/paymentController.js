@@ -51,7 +51,8 @@ export const verifyRazorpayPayment = async (req, res) => {
     product: product._id,
     name: product.name,
     image: product.images?.[0] || product.image,
-    price: product.price,
+    discountPrice: product.discountPrice,
+    originalPrice: product.originalPrice,
     qty: item.quantity || item.qty || 1,
     size: item.size || "Free Size"
   };

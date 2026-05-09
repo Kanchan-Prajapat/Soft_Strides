@@ -190,7 +190,14 @@ useEffect(() => {
       <Link to={`/product/${item._id}`}>
         <img src={item.images?.[0]} alt={item.name} />
         <h4>{item.name}</h4>
-        <p>₹{item.price}</p>
+        <p>₹{item.discountPrice}</p>
+        {item.originalPrice > item.discountPrice && (
+          <div className="discount-badge">
+            {Math.round(
+              ((item.originalPrice - item.discountPrice) / item.originalPrice) * 100
+            )}% OFF
+          </div>
+        )}
       </Link>
     </div>
   ))}

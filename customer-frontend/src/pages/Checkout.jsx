@@ -89,7 +89,7 @@ const Checkout = () => {
         setCheckoutItems(items);
 
         const total = items.reduce(
-          (acc, item) => acc + item.product.price * item.quantity,
+          (acc, item) => acc + item.product.discountPrice * item.quantity,
           0
         );
 
@@ -192,9 +192,10 @@ const Checkout = () => {
                       item.image,
 
                     price:
-                      item.product?.price || item.price,
+                      item.product?.discountPrice || item.price,
 
                     qty:
+
                       item.quantity || item.qty || 1,
 
                     size:
@@ -442,7 +443,7 @@ const Checkout = () => {
                   <div>
                     <p>{product.name}</p>
                     <span>
-                      ₹{product.price} × {item.quantity || 1}
+                      ₹{product.discountPrice} × {item.quantity || 1}
                     </span>
                   </div>
                 </div>

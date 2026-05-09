@@ -48,7 +48,7 @@ const Cart = () => {
                   </p>
 
                   <p className="cart-price">
-                    ₹{item.price}
+                    ₹{item.discountPrice}
                   </p>
 
                   {/* QTY */}
