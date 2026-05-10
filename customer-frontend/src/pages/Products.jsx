@@ -33,7 +33,7 @@ const Products = () => {
         });
 
         setProducts(res.data);
-        console.log(products)
+
       } catch (error) {
         console.error("Error fetching products:", error);
       } finally {
