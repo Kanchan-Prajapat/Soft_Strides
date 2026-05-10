@@ -28,7 +28,7 @@ const ProductDetails = () => {
   const { toggleWishlist, isInWishlist } = useWishlist();
   const [currentImage, setCurrentImage] = useState(0);
   const hasSizes = product?.sizes?.length > 0;
-const [fullView, setFullView] = useState(false);
+  const [fullView, setFullView] = useState(false);
 
   const refresh = () => setFetchProduct((prev) => !prev);
   const navigate = useNavigate();
@@ -49,18 +49,18 @@ const [fullView, setFullView] = useState(false);
     fetchProductData();
   }, [id, fetchProduct, API_URL]);
 
- const handlers = useSwipeable({
-  onSwipedLeft: () => {
-    setCurrentImage((prev) =>
-      prev === product.images.length - 1 ? 0 : prev + 1
-    );
-  },
-  onSwipedRight: () => {
-    setCurrentImage((prev) =>
-      prev === 0 ? product.images.length - 1 : prev - 1
-    );
-  },
-});
+  const handlers = useSwipeable({
+    onSwipedLeft: () => {
+      setCurrentImage((prev) =>
+        prev === product.images.length - 1 ? 0 : prev + 1
+      );
+    },
+    onSwipedRight: () => {
+      setCurrentImage((prev) =>
+        prev === 0 ? product.images.length - 1 : prev - 1
+      );
+    },
+  });
 
   useEffect(() => {
     if (showPopup) {
@@ -100,16 +100,16 @@ const [fullView, setFullView] = useState(false);
       item.size === (hasSizes ? selectedSize : "Free Size")
   );
 
-const hasDiscount =
-  product.originalPrice > product.discountPrice;
+  const hasDiscount =
+    product.originalPrice > product.discountPrice;
 
-const discountPercent = hasDiscount
-  ? Math.round(
+  const discountPercent = hasDiscount
+    ? Math.round(
       ((product.originalPrice - product.discountPrice) /
         product.originalPrice) *
-        100
+      100
     )
-  : 0;
+    : 0;
 
   const handleAddToCart = () => {
     if (hasSizes && !selectedSize) {
@@ -137,103 +137,102 @@ const discountPercent = hasDiscount
       <div className="product-wrapper">
 
         {/* LEFT SIDE */}
-       <div className="details-left">
+        <div className="details-left">
 
-  {/* LEFT THUMBNAILS */}
-  <div className="thumbnail-column">
-    {product.images.map((img, i) => (
-      <img
-        key={i}
-        src={img}
-        alt={product.name}
-        onClick={() => setCurrentImage(i)}
-        className={`thumb ${currentImage === i ? "active-thumb" : ""}`}
-      />
-    ))}
-  </div>
-<div>
-  {/* MAIN IMAGE */}
-  <div className="main-image" {...handlers}>
-    <img
-      src={product.images[currentImage]}
-      alt={product.name}
-         onClick={() => setFullView(true)}
-          
-    />
-  </div>
+          {/* LEFT THUMBNAILS */}
+          <div className="thumbnail-column">
+            {product.images.map((img, i) => (
+              <img
+                key={i}
+                src={img}
+                alt={product.name}
+                onClick={() => setCurrentImage(i)}
+                className={`thumb ${currentImage === i ? "active-thumb" : ""}`}
+              />
+            ))}
+          </div>
 
-  <div className="image-dots">
-  {product.images.map((_, i) => (
-    <span
-      key={i}
-      className={i === currentImage ? "active-dot" : "dot"}
-      onClick={() => setCurrentImage(i)}
-    />
-  ))}
-</div>
+          <div>
+            {/* MAIN IMAGE */}
+            <div className="main-image" {...handlers}>
+              <img
+                src={product.images[currentImage]}
+                alt={product.name}
+                onClick={() => setFullView(true)}
+              />
+            </div>
 
-</div>
-</div>
+            <div className="image-dots">
+              {product.images.map((_, i) => (
+                <span
+                  key={i}
+                  className={i === currentImage ? "active-dot" : "dot"}
+                  onClick={() => setCurrentImage(i)}
+                />
+              ))}
+            </div>
+          </div>
 
+        </div>
         {/* RIGHT SIDE */}
         <div className="details-right">
           <h1>{product.name}</h1>
 
-       <div className="price-box">
+          <div className="price-box">
 
-  <span className="discount-price">
-    ₹{product.discountPrice}
-  </span>
+            <span className="discount-price">
+              ₹{product.discountPrice}
+            </span>
 
-  {hasDiscount && (
-    <>
-      <span className="original-price">
-        ₹{product.originalPrice}
-      </span>
+            {hasDiscount && (
+              <>
+                <span className="original-price">
+                  ₹{product.originalPrice}
+                </span>
 
-      <span className="discount-percent">
-        {discountPercent}% OFF
-      </span>
-    </>
-  )}
+                <span className="discount-percent">
+                  {discountPercent}% OFF
+                </span>
+              </>
+            )}
 
-</div>
+          </div>
 
-        <div className="description">
-  <h4>Product Highlights</h4>
+          <div className="description">
+            <h4>Product Highlights</h4>
 
-  <ul>
-    {product.description?.map((point, i) => (
-      <li key={i}>{point}</li>
-    ))}
-  </ul>
-</div>
+            <ul>
+              {product.description?.map((point, i) => (
+                <li key={i}>{point}</li>
+              ))}
+            </ul>
+          </div>
 
-<div className="key-highlights">
-  <h3>Key Highlights</h3>
+          <div className="key-highlights">
+            <h3>Key Highlights</h3>
 
-  <div className="highlight-grid">
-    <div>
-      <span>Fit</span>
-      <p>{product.fit}</p>
-    </div>
+            <div className="highlight-grid">
+              <div>
+                <span>Fit</span>
+                <p>{product.fit}</p>
+              </div>
 
-    <div>
-      <span>Fabric</span>
-      <p>{product.fabric}</p>
-    </div>
+              <div>
+                <span>Fabric</span>
+                <p>{product.fabric}</p>
+              </div>
 
-    <div>
-      <span>Length</span>
-      <p>{product.length}</p>
-    </div>
+              <div>
+                <span>Length</span>
+                <p>{product.length}</p>
+              </div>
 
-    <div>
-      <span>Closure</span>
-      <p>{product.closure}</p>
-    </div>
-  </div>
-</div>
+              <div>
+                <span>Closure</span>
+                <p>{product.closure}</p>
+              </div>
+            </div>
+          </div>
 
           <div className="size-section">
             {hasSizes && <h4>Select Size</h4>}
@@ -272,53 +271,53 @@ const discountPercent = hasDiscount
             )}
           </div>
 
-          
+
 
         </div>
 
-{/* 🔥 FEATURE STRIP (TOP) */}
-<div className="feature-strip">
-  <div className="feature-item">
-    <Truck size={45} />
-    <p>Free Shipping</p>
-    <span>3–7 Days</span>
-  </div>
+        {/* 🔥 FEATURE STRIP (TOP) */}
+        <div className="feature-strip">
+          <div className="feature-item">
+            <Truck size={45} />
+            <p>Free Shipping</p>
+            <span>3–7 Days</span>
+          </div>
 
-  <div className="feature-item">
-    <RefreshCcw size={45} />
-    <p>7 Days Return</p>
-    <span>Easy Exchange</span>
-  </div>
+          <div className="feature-item">
+            <RefreshCcw size={45} />
+            <p>7 Days Return</p>
+            <span>Easy Exchange</span>
+          </div>
 
-  <div className="feature-item">
-    <Package size={45} />
-    <p>Fast Dispatch</p>
-    <span>24–48 hrs</span>
-  </div>
-</div>
+          <div className="feature-item">
+            <Package size={45} />
+            <p>Fast Dispatch</p>
+            <span>24–48 hrs</span>
+          </div>
+        </div>
 
-{/* 🔥 DETAILED INFO (BOTTOM) */}
-<div className="product-extra-info">
+        {/* 🔥 DETAILED INFO (BOTTOM) */}
+        <div className="product-extra-info">
 
-  <div className="info-box">
-    <h4><Truck size={18}/> Shipping Info</h4>
-    <ul>
-      <li>Free shipping on prepaid orders</li>
-      <li>Dispatch within 24–48 hours</li>
-      <li>Delivery in 3–7 days</li>
-      <li>Live tracking available</li>
-    </ul>
-  </div>
+          <div className="info-box">
+            <h4><Truck size={18} /> Shipping Info</h4>
+            <ul>
+              <li>Free shipping on prepaid orders</li>
+              <li>Dispatch within 24–48 hours</li>
+              <li>Delivery in 3–7 days</li>
+              <li>Live tracking available</li>
+            </ul>
+          </div>
 
-  <div
-    className="info-box clickable"
-    onClick={() => navigate("/returns-policy")}
-  >
-    <h4><RefreshCcw size={18}/> Returns & Exchange</h4>
-    <p>7 days easy return policy</p>
-  </div>
+          <div
+            className="info-box clickable"
+            onClick={() => navigate("/returns-policy")}
+          >
+            <h4><RefreshCcw size={18} /> Returns & Exchange</h4>
+            <p>7 days easy return policy</p>
+          </div>
 
-</div>
+        </div>
 
       </div>
 
@@ -413,79 +412,79 @@ const discountPercent = hasDiscount
 
               <img src={item.images?.[0]} alt={item.name} />
               <h4>{item.name}</h4>
-             <div className="related-price-box">
+              <div className="related-price-box">
 
-  <span className="related-main-price">
-    ₹{item.discountPrice}
-  </span>
+                <span className="related-main-price">
+                  ₹{item.discountPrice}
+                </span>
 
-  {item.originalPrice > item.discountPrice && (
-    <>
-      <span className="related-old-price">
-        ₹{item.originalPrice}
-      </span>
+                {item.originalPrice > item.discountPrice && (
+                  <>
+                    <span className="related-old-price">
+                      ₹{item.originalPrice}
+                    </span>
 
-      <span className="related-discount">
-        {Math.round(
-          ((item.originalPrice - item.discountPrice) /
-            item.originalPrice) *
-            100
-        )}% OFF
-      </span>
-    </>
-  )}
+                    <span className="related-discount">
+                      {Math.round(
+                        ((item.originalPrice - item.discountPrice) /
+                          item.originalPrice) *
+                        100
+                      )}% OFF
+                    </span>
+                  </>
+                )}
 
-</div>
+              </div>
             </div>
           ))}
         </div>
       </div>
 
       {fullView && (
-  <div className="image-modal">
+        <div className="image-modal">
 
-    {/* CLOSE BUTTON */}
-    <span className="close-btn" onClick={() => setFullView(false)}>
-      ✕
-    </span>
+          {/* CLOSE BUTTON */}
+          <span className="close-btn" onClick={() => setFullView(false)}>
+            ✕
+          </span>
 
-    {/* LEFT ARROW */}
-    <button
-      className="modal-arrow left"
-      onClick={() =>
-        setCurrentImage(
-          currentImage === 0
-            ? product.images.length - 1
-            : currentImage - 1
-        )
-      }
-    >
-      ❮
-    </button>
+          {/* LEFT ARROW */}
+          <button
+            className="modal-arrow left"
+            onClick={() =>
+              setCurrentImage(
+                currentImage === 0
+                  ? product.images.length - 1
+                  : currentImage - 1
+              )
+            }
+          >
+            ❮
+          </button>
 
-    {/* IMAGE */}
-    <img
-      src={product.images[currentImage]}
-      alt="full view"
-      className="modal-image"
-    />
+          {/* IMAGE */}
+          <img
+            src={product.images[currentImage]}
+            alt="full view"
+            className="modal-image"
+          />
 
-    {/* RIGHT ARROW */}
-    <button
-      className="modal-arrow right"
-      onClick={() =>
-        setCurrentImage(
-          currentImage === product.images.length - 1
-            ? 0
-            : currentImage + 1
-        )
-      }
-    >
-      ❯
-    </button>
+          {/* RIGHT ARROW */}
+          <button
+            className="modal-arrow right"
+            onClick={() =>
+              setCurrentImage(
+                currentImage === product.images.length - 1
+                  ? 0
+                  : currentImage + 1
+              )
+            }
+          >
+            ❯
+          </button>
 
-  </div>
-)}
+        </div>
+      )}
 
 
       {showPopup && (
