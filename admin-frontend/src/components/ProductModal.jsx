@@ -140,6 +140,7 @@ const [descPoints, setDescPoints] = useState(
           <option>Select Fabric</option>
           <option>Cotton</option>
           <option>Combed Cotton</option>
+          <option>Cotton Lycra</option>
           <option>Jersey</option>
           <option>Tri-blend</option>
           <option>Polyester</option>
