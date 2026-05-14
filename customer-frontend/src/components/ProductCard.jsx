@@ -1,25 +1,19 @@
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { useWishlist } from "../context/WishlistContext";
-import { useState } from "react";
 import "../styles/products.css";
 
 const ProductCard = ({ product,  openCart }) => {
   const navigate = useNavigate();
-  const { addToCart } = useCart();
-  const { cartItems } = useCart();
   const { toggleWishlist, isInWishlist } = useWishlist();
+  const { addToCart, cartItems } = useCart();
 
   const isWishlisted = isInWishlist(product._id);
 
-  // 🔥 SIZE STATE (MISSING THA)
-  const [selectedSize, setSelectedSize] = useState(product.sizes?.[0] || "Free Size");
-  const hasSizes = product.sizes && product.sizes.length > 0;
-  const isInCart = cartItems.some(
-  (item) =>
-    item._id === product._id &&
-    item.size === selectedSize
+const isAdded = cartItems.some(
+  (item) => item._id === product._id
 );
+
 
   /* ========================
      WISHLIST
@@ -29,160 +23,92 @@ const ProductCard = ({ product,  openCart }) => {
     toggleWishlist(product);
   };
 
-  /* ========================
-     BUY NOW
-  ======================== */
-  const handleBuyNow = (e) => {
-    e.stopPropagation();
+ 
+ 
 
-    if (!selectedSize) {
-      alert("Please select size");
-      return;
-    }
+return (
+  <div
+    className="product-card"
+    onClick={() => navigate(`/product/${product._id}`)}
+  >
 
-    addToCart({ ...product, size: selectedSize, qty: 1 });
-    navigate("/checkout");
-  };
-
-  /* ========================
-     ADD TO CART
-  ======================== */
-  const handleAddToCart = (e) => {
-    e.stopPropagation();
-
-    if (!selectedSize) {
-      alert("Please select size");
-      return;
-    }
-
-    addToCart({ ...product, size: selectedSize, qty: 1 });
-  };
-
-
-
-  return (
-    <div
-      className="product-card"
-      onClick={() => navigate(`/product/${product._id}`)}
+    {/* ❤️ Wishlist */}
+    <button
+      className={`wishlist-btn ${isWishlisted ? "active" : ""}`}
+      onClick={handleWishlist}
     >
-      {/* ❤️ Wishlist */}
-      <button
-        className={`wishlist-btn ${isWishlisted ? "active" : ""}`}
-        onClick={handleWishlist}
-      >
-        {isWishlisted ? "❤️" : "🤍"}
-      </button>
+      {isWishlisted ? "❤️" : "🤍"}
+    </button>
 
-      {product.originalPrice > product.discountPrice && (
-  <div className="discount-badge">
-    {Math.round(
-      ((product.originalPrice - product.discountPrice) /
-        product.originalPrice) *
-        100
-    )}
-    % OFF
-  </div>
-)}
-
-      {/* IMAGE */}
-      <div className="product-image-wrapper">
-        <img
-          src={product.images?.[0]}
-          alt={product.name}
-          className="product-image"
-        />
-      </div>
-
-      {/* INFO */}
-      <div className="product-info">
-
-        {/* 🔥 NAME + PRICE SAME ROW */}
-        <div className="product-info-top">
-          <h4>{product.name}</h4>
-
-        <div className="flash-price">
-
-  <span className="new-price">
-    ₹{product.discountPrice}
-  </span>
-
-  {product.originalPrice > product.discountPrice && (
-    <>
-      <span className="old-price">
-        ₹{product.originalPrice}
-      </span>
-
-      <span className="off-percent">
+    {/* 🔥 Discount */}
+    {product.originalPrice > product.discountPrice && (
+      <div className="minimal-discount-badge">
         {Math.round(
           ((product.originalPrice - product.discountPrice) /
             product.originalPrice) *
             100
-        )}% OFF
-      </span>
-    </>
-  )}
+        )}
+        % off
+      </div>
+    )}
 
-</div>
+    {/* IMAGE */}
+    <div className="product-image-wrapper">
+      <img
+        src={product.images?.[0]}
+        alt={product.name}
+        className="product-image"
+      />
+    </div>
 
-        </div>
+    {/* INFO */}
+    <div className="product-info">
 
-        {/* 🔥 SIZES */}
-        <div className="size-badges">
-          {hasSizes ? (
-            product.sizes.map((size, i) => (
-              <span
-                key={i}
-                className={selectedSize === size ? "active-size" : ""}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setSelectedSize(size);
-                }}
-              >
-                {size}
+      <div className="product-bottom">
+
+        <div className="product-text">
+          <h4>{product.name}</h4>
+
+          <div className="flash-price">
+            <span className="new-price">
+              ₹{product.discountPrice}
+            </span>
+
+            {product.originalPrice > product.discountPrice && (
+              <span className="old-price">
+                ₹{product.originalPrice}
               </span>
-            ))
-          ) : (
-            <span className="free-size active-size">Free Size</span>
-          )}
+            )}
+
+      <button
+  className={`add-icon-btn ${isAdded ? "added" : ""}`}
+
+  onClick={(e) => {
+    e.stopPropagation();
+
+    addToCart({
+      ...product,
+      size: product.sizes?.[0] || "Free Size",
+      qty: 1,
+    });
+
+    openCart();
+  }}
+>
+  {isAdded ? "✓" : "+"}
+</button>
+
+
+          </div>
         </div>
 
-        {/* 🔥 BUTTONS */}
-        <div className="btn-group">
-          {isInCart ? (
-            <button
-           onClick={(e) => {
-        e.stopPropagation();
-        openCart();   // ✅ open drawer
-      }}
-            >
-              View Cart
-            </button>
-          ) : (
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                handleAddToCart(e);
-                openCart();
-              }}
-            >
-              Add to Cart
-            </button>
-          )}
-
-          <button
-            className="buy-btn"
-            onClick={(e) => {
-              e.stopPropagation();
-              handleBuyNow(e);
-            }}
-          >
-            Buy Now
-          </button>
-        </div>
+      
       </div>
 
     </div>
-  );
+
+  </div>
+);
 };
 
 export default ProductCard;
