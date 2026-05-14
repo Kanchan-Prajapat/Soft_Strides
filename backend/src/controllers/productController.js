@@ -1,6 +1,6 @@
 import Product from "../models/Product.js";
 import cloudinary from "../config/cloudinary.js";
-import streamifier from "streamifier";
+
 
 export const createProduct = async (req, res) => {
   try {
@@ -14,26 +14,19 @@ export const createProduct = async (req, res) => {
       return res.status(400).json({ message: "Images required" });
     }
 
-    const imageUrls = [];
+   const imageUrls = [];
 
-    for (const file of req.files) {
+for (const file of req.files) {
 
-      const uploadStream = () =>
-        new Promise((resolve, reject) => {
-          const stream = cloudinary.uploader.upload_stream(
-            { folder: "softstrides/products" },
-            (error, result) => {
-              if (result) resolve(result);
-              else reject(error);
-            }
-          );
-
-          streamifier.createReadStream(file.buffer).pipe(stream);
-        });
-
-      const uploadedImage = await uploadStream();
-      imageUrls.push(uploadedImage.secure_url);
+  const uploadedImage = await cloudinary.uploader.upload(
+    file.path,
+    {
+      folder: "softstrides/products",
     }
+  );
+
+  imageUrls.push(uploadedImage.secure_url);
+}
 
     const product = await Product.create({
       name,
@@ -85,10 +78,10 @@ export const getProducts = async (req, res) => {
     }
 
     if (minPrice && maxPrice) {
-      filter.price = {
-        $gte: Number(minPrice),
-        $lte: Number(maxPrice),
-      };
+    filter.discountPrice = {
+  $gte: Number(minPrice),
+  $lte: Number(maxPrice),
+};
     }
 
     if (size) {
