@@ -4,7 +4,7 @@ import cloudinary from "../config/cloudinary.js";
 
 export const createProduct = async (req, res) => {
   try {
-    const { name,  originalPrice, discountPrice, stock, sizes, category, description, fit, fabric, length, closure } = req.body;
+    const { name, originalPrice, discountPrice, stock, sizes, category, description, fit, fabric, length, closure } = req.body;
 
     if (!name || !originalPrice || !discountPrice || !stock || !category) {
       return res.status(400).json({ message: "Missing required fields" });
@@ -14,30 +14,30 @@ export const createProduct = async (req, res) => {
       return res.status(400).json({ message: "Images required" });
     }
 
-   const imageUrls = [];
+    const imageUrls = [];
 
-for (const file of req.files) {
+    for (const file of req.files) {
 
-  const uploadedImage = await cloudinary.uploader.upload(
-    file.path,
-    {
-      folder: "softstrides/products",
+      const uploadedImage = await cloudinary.uploader.upload(
+        file.path,
+        {
+          folder: "softstrides/products",
+        }
+      );
+
+      imageUrls.push(uploadedImage.secure_url);
     }
-  );
-
-  imageUrls.push(uploadedImage.secure_url);
-}
 
     const product = await Product.create({
       name,
       originalPrice,
-discountPrice,
+      discountPrice,
       stock,
       category,
       sizes: sizes ? sizes.split(",").map((s) => s.trim()) : [],
-    description: req.body.description
-  ? JSON.parse(req.body.description)
-  : [],
+      description: req.body.description
+        ? JSON.parse(req.body.description)
+        : [],
       images: imageUrls,
       fit,
       fabric,
@@ -46,6 +46,7 @@ discountPrice,
     });
 
     res.status(201).json(product);
+    console.log("PRODUCT CREATED:", product);
 
   } catch (err) {
     console.error("CREATE PRODUCT ERROR:", err);
@@ -78,10 +79,10 @@ export const getProducts = async (req, res) => {
     }
 
     if (minPrice && maxPrice) {
-    filter.discountPrice = {
-  $gte: Number(minPrice),
-  $lte: Number(maxPrice),
-};
+      filter.discountPrice = {
+        $gte: Number(minPrice),
+        $lte: Number(maxPrice),
+      };
     }
 
     if (size) {
@@ -121,18 +122,18 @@ export const getSingleProduct = async (req, res) => {
 // UPDATE PRODUCT (ADMIN)
 export const updateProduct = async (req, res) => {
   try {
-    const { name,originalPrice, discountPrice, stock, category, description, sizes, fit,  fabric,  length,  closure, } = req.body;
+    const { name, originalPrice, discountPrice, stock, category, description, sizes, fit, fabric, length, closure, } = req.body;
 
     const updates = {
       name,
       originalPrice,
-discountPrice,
+      discountPrice,
       stock,
       sizes: sizes ? sizes.split(",").map((s) => s.trim()) : [],
       category,
-description: req.body.description
-  ? JSON.parse(req.body.description)
-  : [],
+      description: req.body.description
+        ? JSON.parse(req.body.description)
+        : [],
       fit,
       fabric,
       length,

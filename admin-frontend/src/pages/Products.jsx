@@ -37,6 +37,8 @@ const Products = () => {
     load();
   }, []);
 
+
+
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this product?"))
       return;
@@ -70,6 +72,7 @@ const Products = () => {
               onClick={() => {
                 setEditProduct(null);
                 setModalOpen(true);
+
               }}
             >
               Add Product

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { createProduct, updateProduct } from "../api/products";
 import "./ProductModal.css";
+import { useToast } from "../components/Toast";
 
 const ProductModal = ({ product, categories, onClose, onSuccess }) => {
   const [name, setName] = useState(product?.name || "");
@@ -23,9 +24,12 @@ const [descPoints, setDescPoints] = useState(
   const [fabric, setFabric] = useState(product?.fabric || "Cotton");
   const [length, setLength] = useState(product?.length || "Regular");
   const [closure, setClosure] = useState(product?.closure || "No Closure");
+const { showToast } = useToast();
+ 
 
 
   const handleSubmit = async () => {
+  try {
     const form = new FormData();
 
     form.append("name", name);
@@ -40,8 +44,6 @@ const [descPoints, setDescPoints] = useState(
     form.append("length", length);
     form.append("closure", closure);
 
-    
-
     if (images.length > 0) {
       images.forEach((img) => {
         form.append("images", img);
@@ -50,13 +52,22 @@ const [descPoints, setDescPoints] = useState(
 
     if (product) {
       await updateProduct(product._id, form);
+      showToast("Product updated successfully", "success");
     } else {
       await createProduct(form);
+      showToast("Product created successfully", "success");
     }
 
     onSuccess();
     onClose();
-  };
+
+  } catch (err) {
+    showToast("Something went wrong", "error");
+    console.error(err);
+  }
+};
+
+
   return (
     <div className="modal-overlay">
       <div className="modal">
