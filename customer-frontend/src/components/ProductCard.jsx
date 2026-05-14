@@ -73,6 +73,17 @@ const ProductCard = ({ product,  openCart }) => {
         {isWishlisted ? "❤️" : "🤍"}
       </button>
 
+      {product.originalPrice > product.discountPrice && (
+  <div className="discount-badge">
+    {Math.round(
+      ((product.originalPrice - product.discountPrice) /
+        product.originalPrice) *
+        100
+    )}
+    % OFF
+  </div>
+)}
+
       {/* IMAGE */}
       <div className="product-image-wrapper">
         <img

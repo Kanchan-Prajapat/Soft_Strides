@@ -18,8 +18,8 @@ const handleGoogleLogin = async (credentialResponse) => {
 
     console.log("RESPONSE:", res.data);
 
-    localStorage.setItem("adminToken", res.data.token);
-    localStorage.setItem("adminInfo", JSON.stringify(res.data.user));
+    localStorage.setItem("token", res.data.token);
+localStorage.setItem("adminInfo", JSON.stringify(res.data.user));
 
    
     window.location.href = "/dashboard";
