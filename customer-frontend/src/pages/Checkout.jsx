@@ -37,8 +37,10 @@ const Checkout = () => {
     phone: ""
   });
 
-  const finalAmount = checkoutTotal - discount;
-
+const finalAmount =
+  Number(checkoutTotal || 0) - Number(discount || 0);
+console.log("FINAL AMOUNT:", finalAmount);
+console.log("Creating Razorpay order...");
 
 
   useEffect(() => {
@@ -88,12 +90,13 @@ const Checkout = () => {
 
         setCheckoutItems(items);
 
-        const total = items.reduce(
-          (acc, item) => acc + item.product.discountPrice * item.quantity,
-          0
-        );
+       const total = cartItems.reduce(
+  (acc, item) =>
+    acc + Number(item.discountPrice) * Number(item.qty || 1),
+  0
+);
 
-        setCheckoutTotal(total);
+setCheckoutTotal(total);
 
       } catch (err) {
         console.log("Cart fetch error:", err);
@@ -103,10 +106,16 @@ const Checkout = () => {
     if (isBuyNow) {
       fetchCart(); // 🔥 only 1 item will come
     } else {
-      setCheckoutItems(cartItems);
-      setCheckoutTotal(totalPrice);
-    }
+  setCheckoutItems(cartItems);
 
+  const total = cartItems.reduce(
+    (acc, item) =>
+      acc + Number(item.discountPrice) * Number(item.qty || 1),
+    0
+  );
+
+  setCheckoutTotal(total);
+}
   }, [isBuyNow, cartItems, totalPrice, API_URL]);
 
   // Autofill
@@ -443,7 +452,7 @@ const Checkout = () => {
                   <div>
                     <p>{product.name}</p>
                     <span>
-                      ₹{product.discountPrice} × {item.quantity || 1}
+                  ₹{product.discountPrice} × {item.quantity || item.qty || 1}
                     </span>
                   </div>
                 </div>

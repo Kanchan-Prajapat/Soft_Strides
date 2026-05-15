@@ -88,10 +88,13 @@ export const CartProvider = ({ children }) => {
   /* ==============================
      TOTAL PRICE
   ============================== */
-  const totalPrice = cartItems.reduce(
-    (acc, item) => acc + item.price * item.qty,
-    0
-  );
+ const totalPrice = cartItems.reduce(
+  (acc, item) =>
+    acc +
+    Number(item.discountPrice || 0) *
+    Number(item.qty || 1),
+  0
+);
 
   return (
     <CartContext.Provider

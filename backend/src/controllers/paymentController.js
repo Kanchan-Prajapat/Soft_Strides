@@ -47,6 +47,7 @@ export const verifyRazorpayPayment = async (req, res) => {
     const detailedProducts = orderData.products.map(item => {
   const product = item.product || item;
 
+
   return {
     product: product._id,
     name: product.name,
@@ -57,6 +58,10 @@ export const verifyRazorpayPayment = async (req, res) => {
     size: item.size || "Free Size"
   };
 });
+
+console.log("ORDER RESPONSE:", order);
+console.log("OPTIONS:", options);
+
 
     const generatedSignature = crypto
       .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)

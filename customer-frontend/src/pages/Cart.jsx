@@ -7,9 +7,16 @@ const Cart = () => {
     cartItems,
     increaseQty,
     decreaseQty,
-    removeItem,
-    totalPrice,
+    removeItem
   } = useCart();
+
+  const cartTotal = cartItems.reduce(
+  (acc, item) =>
+    acc +
+    Number(item.discountPrice || 0) *
+    Number(item.qty || 1),
+  0
+);
 
   const navigate = useNavigate();
 
@@ -87,7 +94,7 @@ const Cart = () => {
 
           {/* SUMMARY */}
           <div className="cart-summary">
-            <h3>Total: ₹{totalPrice}</h3>
+            <h3>Total: ₹{cartTotal}</h3>
 
             <button
               className="checkout-btn"
