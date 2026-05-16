@@ -39,10 +39,9 @@ const Cart = () => {
               >
                 {/* IMAGE */}
                 <div className="cart-left">
-                  <img
-                    src={item.images?.[0]}
-                    alt={item.name}
-                  />
+                  <div className="premium-image-wrapper" style={{ width: 140 }}>
+                    <img src={item.images?.[0]} alt={item.name} className="premium-image" />
+                  </div>
                 </div>
 
                 {/* DETAILS */}

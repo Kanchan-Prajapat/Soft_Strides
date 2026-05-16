@@ -53,11 +53,11 @@ return (
     )}
 
     {/* IMAGE */}
-    <div className="product-image-wrapper">
+    <div className="premium-image-wrapper">
       <img
         src={product.images?.[0]}
         alt={product.name}
-        className="product-image"
+        className="premium-image"
       />
     </div>
 

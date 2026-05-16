@@ -57,22 +57,10 @@ PRODUCT PAGE
   border: 2px solid var(--primary);
 }
 
-/* MAIN IMAGE BOX */
-.main-image {
-  width: 100%;
+/* MAIN IMAGE BOX OVERRIDE */
+.main-image-override {
   max-width: 420px;
- 
-  height: 500px;    
   border-radius: 6px;
-  overflow: hidden;
-  background: #2a2a2f;
-}
-
-/* IMAGE FULL COVER (NO GAP, NO OVERFLOW ISSUE) */
-.main-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
 }
 
 
@@ -695,18 +683,6 @@ REVIEWS SECTION
   background: transparent;
   border: none;
   padding: 0;
-}
-
-/* ================= IMAGE ================= */
-
-.related-card img {
-  width: 100%;
-  aspect-ratio: 3/4;   /* 🔥 H&M style */
-  object-fit: cover;
-
-  background: #1a1a1d;
-  max-width: 100%;
-  border-radius: 4px;
 }
 
 /* ================= TEXT ================= */

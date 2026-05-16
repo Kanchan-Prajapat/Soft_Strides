@@ -468,10 +468,9 @@ const Checkout = () => {
 
               return (
                 <div key={`${item._id}-${item.size}`} className="summary-item">
-                  <img
-                    src={product.images?.[0] || product.image}
-                    alt={product.name}
-                  />
+                  <div className="premium-image-wrapper square" style={{ width: 64, minWidth: 64 }}>
+                    <img src={product.images?.[0] || product.image} alt={product.name} className="premium-image" />
+                  </div>
                   <div>
                     <p>{product.name}</p>
                     <span>

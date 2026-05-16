@@ -77,22 +77,17 @@ const MyOrders = () => {
             <div className="order-products">
               {order.products?.map((item, index) => (
                 <div key={index} className="order-product-row">
-                  <img
-                    src={
-                      item.product?.images?.[0] ||
-                      item.image ||
-                      "/no-image.png"
-                    }
-                    alt={item.product?.name || item.name}
-                    className="order-product-img"
-                    onClick={(e) => {
-                      e.stopPropagation();
-
-                      if (item.product?._id) {
-                        navigate(`/product/${item.product._id}`);
-                      }
-                    }}
-                  />
+                  <div className="premium-image-wrapper square" style={{ width: 64, minWidth: 64 }}>
+                    <img
+                      src={item.product?.images?.[0] || item.image || "/no-image.png"}
+                      alt={item.product?.name || item.name}
+                      className="premium-image"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        if (item.product?._id) navigate(`/product/${item.product._id}`);
+                      }}
+                    />
+                  </div>
 
                   <div className="order-product-info">
                     <p className="product-name">

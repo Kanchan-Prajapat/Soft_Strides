@@ -198,7 +198,9 @@ useEffect(() => {
     </div>
   )}
 
-  <img src={item.images?.[0]} alt={item.name} />
+  <div className="premium-image-wrapper">
+    <img src={item.images?.[0]} alt={item.name} className="premium-image" />
+  </div>
 
   <h4>{item.name}</h4>
 

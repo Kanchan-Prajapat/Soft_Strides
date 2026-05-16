@@ -393,3 +393,40 @@ GLOBAL ANIMATIONS
     transform: translateY(0);
   }
 }
+
+/* =========================
+   PREMIUM PRODUCT IMAGES
+========================= */
+.premium-image-wrapper {
+  width: 100%;
+  aspect-ratio: 4/5;
+  overflow: hidden;
+  border-radius: 10px;
+  background: #111;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.premium-image-wrapper.square {
+  aspect-ratio: 1/1;
+}
+
+.premium-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.5s ease;
+}
+
+.premium-image.contain {
+  object-fit: contain;
+}
+
+/* For image zoom on hover when inside a card */
+.card:hover .premium-image,
+.product-card:hover .premium-image {
+  transform: scale(1.08);
+}

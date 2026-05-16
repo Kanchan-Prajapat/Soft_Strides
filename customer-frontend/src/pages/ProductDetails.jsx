@@ -154,11 +154,12 @@ const ProductDetails = () => {
 
           <div>
             {/* MAIN IMAGE */}
-            <div className="main-image" {...handlers}>
+            <div className="premium-image-wrapper main-image-override" {...handlers}>
               <img
                 src={product.images[currentImage]}
                 alt={product.name}
                 onClick={() => setFullView(true)}
+                className="premium-image"
               />
             </div>
 
@@ -410,7 +411,9 @@ const ProductDetails = () => {
                 <FaHeart />
               </div>
 
-              <img src={item.images?.[0]} alt={item.name} />
+              <div className="premium-image-wrapper">
+                <img src={item.images?.[0]} alt={item.name} className="premium-image" />
+              </div>
               <h4>{item.name}</h4>
               <div className="related-price-box">
 

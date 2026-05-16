@@ -116,16 +116,10 @@ const Products = () => {
             ) : (
               filteredProducts.map((p) => (
                 <tr key={p._id}>
-                  <td><img
-                    src={p.images?.[0] || "/placeholder.png"}
-                    alt={p.name}
-                    style={{
-                      width: 60,
-                      height: 60,
-                      objectFit: "cover",
-                      borderRadius: 8
-                    }}
-                  />
+                  <td>
+                    <div className="premium-image-wrapper square" style={{ width: 60, minWidth: 60 }}>
+                      <img src={p.images?.[0] || "/placeholder.png"} alt={p.name} className="premium-image" />
+                    </div>
                   </td>
                   <td>{p.name}</td>
                   <td>₹{p.originalPrice}</td>

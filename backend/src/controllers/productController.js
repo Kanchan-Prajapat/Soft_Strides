@@ -16,15 +16,19 @@ export const createProduct = async (req, res) => {
 
     const imageUrls = [];
 
-    for (const file of req.files) {
+    console.log("--- CREATE PRODUCT DEBUG ---");
+    console.log("req.body:", req.body);
+    console.log("req.files:", req.files);
 
+    for (const file of req.files) {
+      console.log("Processing file:", file);
       const uploadedImage = await cloudinary.uploader.upload(
         file.path,
         {
           folder: "softstrides/products",
         }
       );
-
+      console.log("Cloudinary response:", uploadedImage);
       imageUrls.push(uploadedImage.secure_url);
     }
 
@@ -50,7 +54,8 @@ export const createProduct = async (req, res) => {
 
   } catch (err) {
     console.error("CREATE PRODUCT ERROR:", err);
-    res.status(500).json({ message: err.message });
+    console.error("Error Stack:", err.stack);
+    res.status(500).json({ message: err.message, stack: err.stack });
   }
 };
 
