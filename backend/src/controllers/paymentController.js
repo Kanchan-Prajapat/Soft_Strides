@@ -59,8 +59,6 @@ export const verifyRazorpayPayment = async (req, res) => {
   };
 });
 
-console.log("ORDER RESPONSE:", order);
-console.log("OPTIONS:", options);
 
 
     const generatedSignature = crypto

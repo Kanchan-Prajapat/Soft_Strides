@@ -31,7 +31,7 @@ export const createShipment = async (order) => {
 
       pickup_location: "Primary",
 
-      billing_customer_name: order.user?.name || "Customer",
+      billing_customer_name: "SoftStrides Customer",
 
       billing_last_name: "",
 
@@ -55,7 +55,7 @@ export const createShipment = async (order) => {
         name: item.name,
         sku: item.product?.toString() || "SKU",
         units: item.qty,
-        selling_price: item.price,
+        selling_price: item.discountPrice,
       })),
 
       payment_method: "Prepaid",
@@ -70,6 +70,7 @@ export const createShipment = async (order) => {
 
     console.log("SHIPROCKET PAYLOAD:");
     console.log(JSON.stringify(payload, null, 2));
+    console.log("SHIPROCKET TOKEN:", token);
 
     const res = await axios.post(
       `${process.env.SHIPROCKET_BASE_URL}/orders/create/adhoc`,
@@ -83,6 +84,7 @@ export const createShipment = async (order) => {
 
     console.log("SHIPROCKET SUCCESS:");
     console.log(res.data);
+    console.log("SHIPROCKET RESPONSE:", res.data);
 
     return res.data;
 

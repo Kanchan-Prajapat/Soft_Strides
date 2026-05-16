@@ -200,8 +200,8 @@ setCheckoutTotal(total);
                       item.product?.images?.[0] ||
                       item.image,
 
-                    price:
-                      item.product?.discountPrice || item.price,
+                    discountPrice:
+                      item.product?.discountPrice || item.discountPrice,
 
                     qty:
 
