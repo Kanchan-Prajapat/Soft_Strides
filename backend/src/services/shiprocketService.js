@@ -31,7 +31,7 @@ export const createShipment = async (order) => {
 
       pickup_location: "Primary",
 
-      billing_customer_name: "SoftStrides Customer",
+      billing_customer_name: order.customerName || "Customer",
 
       billing_last_name: "",
 
@@ -45,7 +45,7 @@ export const createShipment = async (order) => {
 
       billing_country: "India",
 
-      billing_email: "customer@gmail.com",
+      billing_email: order.customerEmail || "test@gmail.com",
 
       billing_phone: order.phone,
 

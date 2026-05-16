@@ -45,19 +45,19 @@ export const verifyRazorpayPayment = async (req, res) => {
     } = req.body;
 
     const detailedProducts = orderData.products.map(item => {
-  const product = item.product || item;
+      const product = item.product || item;
 
 
-  return {
-    product: product._id,
-    name: product.name,
-    image: product.images?.[0] || product.image,
-    discountPrice: product.discountPrice,
-    originalPrice: product.originalPrice,
-    qty: item.quantity || item.qty || 1,
-    size: item.size || "Free Size"
-  };
-});
+      return {
+        product: product._id,
+        name: product.name,
+        image: product.images?.[0] || product.image,
+        discountPrice: product.discountPrice,
+        originalPrice: product.originalPrice,
+        qty: item.quantity || item.qty || 1,
+        size: item.size || "Free Size"
+      };
+    });
 
 
 
@@ -70,53 +70,56 @@ export const verifyRazorpayPayment = async (req, res) => {
       return res.status(400).json({ success: false });
     }
 
-  const trackingId =
-  "SS" + Math.random().toString(36).substring(2, 10).toUpperCase();
+    const trackingId =
+      "SS" + Math.random().toString(36).substring(2, 10).toUpperCase();
 
-const order = await Order.create({
-  user: req.user._id,
-  products: detailedProducts,
-  totalAmount: orderData.totalAmount,
+    const order = await Order.create({
+      user: req.user._id,
 
-  address: orderData.address,
-  phone: orderData.phone,
+      customerName: req.user.name,
+      customerEmail: req.user.email,
+      products: detailedProducts,
+      totalAmount: orderData.totalAmount,
 
-  city: orderData.city,
-  state: orderData.state,
-  pincode: orderData.pincode,
+      address: orderData.address,
+      phone: orderData.phone,
 
-  trackingId,
+      city: orderData.city,
+      state: orderData.state,
+      pincode: orderData.pincode,
 
-  paymentStatus: "Paid",
-  paymentId: razorpay_payment_id,
+      trackingId,
 
-  deliveryStatus: "Confirmed",
+      paymentStatus: "Paid",
+      paymentId: razorpay_payment_id,
 
-  history: [
-    {
-      status: "Order Placed",
-      type: "delivery",
-      date: new Date(),
-    },
-    {
-      status: "Confirmed",
-      type: "delivery",
-      date: new Date(),
-    },
-  ],
-});
+      deliveryStatus: "Confirmed",
 
-if (!order.awbCode) {
-  try {
-    const shipment = await createShipment(order);
+      history: [
+        {
+          status: "Order Placed",
+          type: "delivery",
+          date: new Date(),
+        },
+        {
+          status: "Confirmed",
+          type: "delivery",
+          date: new Date(),
+        },
+      ],
+    });
 
-    order.awbCode = shipment.awb_code;
+    if (!order.awbCode) {
+      try {
+        const shipment = await createShipment(order);
 
-    await order.save();
-  } catch (err) {
-    console.error("Shiprocket error:", err);
-  }
-}
+        order.awbCode = shipment.awb_code;
+
+        await order.save();
+      } catch (err) {
+        console.error("Shiprocket error:", err);
+      }
+    }
 
     res.json({ success: true, order });
 
@@ -137,7 +140,7 @@ export const updateDeliveryStatus = async (req, res) => {
 
     // ✅ update status
     order.deliveryStatus = status;
-    
+
 
     // ✅ push into history (ONLY if not duplicate)
     const lastStatus = order.history[order.history.length - 1]?.status;

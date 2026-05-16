@@ -8,20 +8,23 @@ const orderSchema = new mongoose.Schema(
       required: true,
     },
 
-products: [
-  {
-    product: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Product",
-    },
-    name: String,
-    image: String,
-    discountPrice: Number,
-    originalPrice: Number,
-    qty: Number,
-    size: String,
-  },
-],
+    customerName: String,
+    customerEmail: String,
+
+    products: [
+      {
+        product: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Product",
+        },
+        name: String,
+        image: String,
+        discountPrice: Number,
+        originalPrice: Number,
+        qty: Number,
+        size: String,
+      },
+    ],
 
     totalAmount: {
       type: Number,
@@ -41,15 +44,15 @@ products: [
     address: String,
     phone: String,
     city: String,
-state: String,
-pincode: String,
+    state: String,
+    pincode: String,
 
     paymentScreenshot: String,
 
     paymentMethod: {
-  type: String,
-  default: "COD"
-},
+      type: String,
+      default: "COD"
+    },
 
     paymentStatus: {
       type: String,
@@ -82,50 +85,50 @@ pincode: String,
     estimatedDelivery: Date,
 
     isCancelled: {
-  type: Boolean,
-  default: false,
-},
+      type: Boolean,
+      default: false,
+    },
 
-cancelReason: String,
+    cancelReason: String,
 
-isReturned: {
-  type: Boolean,
-  default: false,
-},
+    isReturned: {
+      type: Boolean,
+      default: false,
+    },
 
-returnReason: String,
+    returnReason: String,
 
-returnStatus: {
-  type: String,
-   enum: [
-    "None",
-    "Requested",
-    "Approved",
-    "Pickup Scheduled",
-    "Picked Up",
-    "Refunded",
-    "Completed",
-    "Rejected"
-  ],
-  default: "None",
-},
-
-history: [
-  {
-    status: {
+    returnStatus: {
       type: String,
-      required: true,
+      enum: [
+        "None",
+        "Requested",
+        "Approved",
+        "Pickup Scheduled",
+        "Picked Up",
+        "Refunded",
+        "Completed",
+        "Rejected"
+      ],
+      default: "None",
     },
-    type: {
-      type: String, // delivery | return | cancel
-      required: true,
-    },
-    date: {
-      type: Date,
-      default: Date.now,
-    },
-  },
-],
+
+    history: [
+      {
+        status: {
+          type: String,
+          required: true,
+        },
+        type: {
+          type: String, // delivery | return | cancel
+          required: true,
+        },
+        date: {
+          type: Date,
+          default: Date.now,
+        },
+      },
+    ],
 
 
   },
