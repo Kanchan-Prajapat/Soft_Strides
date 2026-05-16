@@ -146,10 +146,7 @@ const isReturnable = (() => {
     }
   };
 
-  const refreshTracking = async () => {
-  const res = await api.get(`/orders/track/${order._id}`);
-  setOrder(res.data);
-};
+
 
   return (
     <div className="order-details-container">
@@ -230,8 +227,21 @@ const isReturnable = (() => {
       {/* ACTION BUTTONS */}
      <div className="order-actions">
 
-     <button  className="return-btn" onClick={refreshTracking}>
-  Track Order 🚚
+    <button
+  className="return-btn"
+  onClick={() => {
+
+    navigator.clipboard.writeText(order.awbCode);
+
+    window.open(
+      "https://shiprocket.co/tracking/",
+      "_blank"
+    );
+
+   alert("Copied tracking code 🚚");
+  }}
+>
+  Track Order on Shiprocket 🚚
 </button>
 
   {isCancelable && (
