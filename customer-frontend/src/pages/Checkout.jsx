@@ -9,7 +9,12 @@ import { State, City } from "country-state-city";
 
 
 const Checkout = () => {
-  const { cartItems, totalPrice } = useCart();
+  const {
+  cartItems,
+  subtotal,
+  shippingCharge,
+  totalPrice
+} = useCart();
   const location = useLocation();
 
   const isBuyNow = new URLSearchParams(location.search).get("type") === "buyNow";
@@ -38,7 +43,9 @@ const Checkout = () => {
   });
 
 const finalAmount =
-  Number(checkoutTotal || 0) - Number(discount || 0);
+  Number(checkoutTotal || 0)
+  + Number(shippingCharge || 0)
+  - Number(discount || 0);
 console.log("FINAL AMOUNT:", finalAmount);
 console.log("Creating Razorpay order...");
 
@@ -178,6 +185,17 @@ setCheckoutTotal(total);
         order_id: razorpayOrder.id,
         name: "Soft Strides",
         description: "Order Payment",
+        prefill: {
+  name:
+    `${form.firstName} ${form.lastName}`,
+
+  contact: form.phone,
+
+  email:
+    JSON.parse(
+      localStorage.getItem("userInfo")
+    )?.email || "",
+},
 
         handler: async function (response) {
           try {
@@ -466,7 +484,35 @@ setCheckoutTotal(total);
               <button onClick={applyCoupon}>Apply</button>
             </div>
 
-            <h3>Total ₹{finalAmount}</h3>
+          <div className="price-summary">
+
+  <p>
+    Subtotal:
+    <span>₹{checkoutTotal}</span>
+  </p>
+
+  <p>
+    Shipping:
+    <span>
+      {shippingCharge === 0
+        ? "FREE"
+        : `₹${shippingCharge}`}
+    </span>
+  </p>
+
+  {discount > 0 && (
+    <p>
+      Discount:
+      <span>- ₹{discount}</span>
+    </p>
+  )}
+
+  <h3>
+    Total:
+    <span>₹{finalAmount}</span>
+  </h3>
+
+</div>
           </div>
 
         </div>

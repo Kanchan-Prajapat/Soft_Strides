@@ -88,13 +88,19 @@ export const CartProvider = ({ children }) => {
   /* ==============================
      TOTAL PRICE
   ============================== */
- const totalPrice = cartItems.reduce(
+const subtotal = cartItems.reduce(
   (acc, item) =>
     acc +
     Number(item.discountPrice || 0) *
     Number(item.qty || 1),
   0
 );
+
+const shippingCharge =
+  subtotal >= 999 ? 0 : 79;
+
+const totalPrice =
+  subtotal + shippingCharge;
 
   return (
     <CartContext.Provider
@@ -105,6 +111,8 @@ export const CartProvider = ({ children }) => {
         decreaseQty,
         removeItem,
         totalPrice,
+        shippingCharge,
+        subtotal
       }}
     >
       {children}
