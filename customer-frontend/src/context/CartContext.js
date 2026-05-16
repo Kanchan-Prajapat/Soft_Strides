@@ -100,7 +100,7 @@ const subtotal = cartItems.reduce(
 );
 
 const shippingCharge =
-  subtotal >= 999 ? 0 : 79;
+  subtotal >= 999 ? 0 : 59;
 
 const totalPrice =
   subtotal + shippingCharge;
