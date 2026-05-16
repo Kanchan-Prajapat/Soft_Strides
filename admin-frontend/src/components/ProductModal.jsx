@@ -79,6 +79,7 @@ const ProductModal = ({ product, categories, onClose, onSuccess }) => {
       {cropImage && (
         <ImageCropper
           image={cropImage}
+          defaultAspect={3 / 5}
           onClose={() => setCropImage(null)}
 
           onCropDone={(croppedFile) => {

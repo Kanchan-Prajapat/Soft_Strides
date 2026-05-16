@@ -5,7 +5,7 @@ const ImageCropper = ({
   image,
   onClose,
   onCropDone,
-  defaultAspect = 3 / 4
+  defaultAspect = 3 / 5
 }) => {
 
   const [crop, setCrop] = useState({ x: 0, y: 0 });
@@ -82,10 +82,13 @@ const ImageCropper = ({
           onChange={(e) => setAspect(Number(e.target.value))}
           style={{ padding: '8px', background: '#333', color: 'white', border: '1px solid #444', borderRadius: '4px' }}
         >
+          <option value={3 / 5}>3:5 (Product — recommended)</option>
+          <option value={9 / 16}>9:16 (Product — tall)</option>
           <option value={1}>1:1 (Square)</option>
           <option value={3 / 4}>3:4 (Portrait)</option>
           <option value={4 / 3}>4:3 (Landscape)</option>
-          <option value={16 / 9}>16:9 (Widescreen)</option>
+          <option value={16 / 9}>16:9 (Widescreen / Banner)</option>
+          
         </select>
       </div>
 

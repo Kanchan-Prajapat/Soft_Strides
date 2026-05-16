@@ -399,7 +399,7 @@ GLOBAL ANIMATIONS
 ========================= */
 .premium-image-wrapper {
   width: 100%;
-  aspect-ratio: 4/5;
+  aspect-ratio: 3/5;
   overflow: hidden;
   border-radius: 10px;
   background: #111;
