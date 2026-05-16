@@ -10,11 +10,11 @@ import { State, City } from "country-state-city";
 
 const Checkout = () => {
   const {
-  cartItems,
-  subtotal,
-  shippingCharge,
-  totalPrice
-} = useCart();
+    cartItems,
+    shippingCharge,
+    totalPrice,
+    clearCart
+  } = useCart();
   const location = useLocation();
 
   const isBuyNow = new URLSearchParams(location.search).get("type") === "buyNow";
@@ -42,12 +42,12 @@ const Checkout = () => {
     phone: ""
   });
 
-const finalAmount =
-  Number(checkoutTotal || 0)
-  + Number(shippingCharge || 0)
-  - Number(discount || 0);
-console.log("FINAL AMOUNT:", finalAmount);
-console.log("Creating Razorpay order...");
+  const finalAmount =
+    Number(checkoutTotal || 0)
+    + Number(shippingCharge || 0)
+    - Number(discount || 0);
+  console.log("FINAL AMOUNT:", finalAmount);
+  console.log("Creating Razorpay order...");
 
 
   useEffect(() => {
@@ -97,13 +97,13 @@ console.log("Creating Razorpay order...");
 
         setCheckoutItems(items);
 
-       const total = cartItems.reduce(
-  (acc, item) =>
-    acc + Number(item.discountPrice) * Number(item.qty || 1),
-  0
-);
+        const total = cartItems.reduce(
+          (acc, item) =>
+            acc + Number(item.discountPrice) * Number(item.qty || 1),
+          0
+        );
 
-setCheckoutTotal(total);
+        setCheckoutTotal(total);
 
       } catch (err) {
         console.log("Cart fetch error:", err);
@@ -113,16 +113,16 @@ setCheckoutTotal(total);
     if (isBuyNow) {
       fetchCart(); // 🔥 only 1 item will come
     } else {
-  setCheckoutItems(cartItems);
+      setCheckoutItems(cartItems);
 
-  const total = cartItems.reduce(
-    (acc, item) =>
-      acc + Number(item.discountPrice) * Number(item.qty || 1),
-    0
-  );
+      const total = cartItems.reduce(
+        (acc, item) =>
+          acc + Number(item.discountPrice) * Number(item.qty || 1),
+        0
+      );
 
-  setCheckoutTotal(total);
-}
+      setCheckoutTotal(total);
+    }
   }, [isBuyNow, cartItems, totalPrice, API_URL]);
 
   // Autofill
@@ -186,16 +186,16 @@ setCheckoutTotal(total);
         name: "Soft Strides",
         description: "Order Payment",
         prefill: {
-  name:
-    `${form.firstName} ${form.lastName}`,
+          name:
+            `${form.firstName} ${form.lastName}`,
 
-  contact: form.phone,
+          contact: form.phone,
 
-  email:
-    JSON.parse(
-      localStorage.getItem("userInfo")
-    )?.email || "",
-},
+          email:
+            JSON.parse(
+              localStorage.getItem("userInfo")
+            )?.email || "",
+        },
 
         handler: async function (response) {
           try {
@@ -245,6 +245,7 @@ setCheckoutTotal(total);
 
             if (verifyRes.data.success) {
               alert("Payment Successful 🎉");
+              clearCart();
 
               // 🔥 IMPORTANT
               setStep(3);
@@ -275,7 +276,11 @@ setCheckoutTotal(total);
 
         theme: {
           color: "#8E7AB5"
-        }
+        },
+        retry: {
+          enabled: true,
+          max_count: 2,
+        },
       };
 
       const paymentObject = new window.Razorpay(options);
@@ -462,7 +467,7 @@ setCheckoutTotal(total);
               const product = item.product || item; // 🔥 important fix
 
               return (
-                <div key={item._id} className="summary-item">
+                <div key={`${item._id}-${item.size}`} className="summary-item">
                   <img
                     src={product.images?.[0] || product.image}
                     alt={product.name}
@@ -470,7 +475,7 @@ setCheckoutTotal(total);
                   <div>
                     <p>{product.name}</p>
                     <span>
-                  ₹{product.discountPrice} × {item.quantity || item.qty || 1}
+                      ₹{product.discountPrice} × {item.quantity || item.qty || 1}
                     </span>
                   </div>
                 </div>
@@ -484,35 +489,35 @@ setCheckoutTotal(total);
               <button onClick={applyCoupon}>Apply</button>
             </div>
 
-          <div className="price-summary">
+            <div className="price-summary">
 
-  <p>
-    Subtotal:
-    <span>₹{checkoutTotal}</span>
-  </p>
+              <p>
+                Subtotal:
+                <span>₹{checkoutTotal}</span>
+              </p>
 
-  <p>
-    Shipping:
-    <span>
-      {shippingCharge === 0
-        ? "FREE"
-        : `₹${shippingCharge}`}
-    </span>
-  </p>
+              <p>
+                Shipping:
+                <span>
+                  {shippingCharge === 0
+                    ? "FREE"
+                    : `₹${shippingCharge}`}
+                </span>
+              </p>
 
-  {discount > 0 && (
-    <p>
-      Discount:
-      <span>- ₹{discount}</span>
-    </p>
-  )}
+              {discount > 0 && (
+                <p>
+                  Discount:
+                  <span>- ₹{discount}</span>
+                </p>
+              )}
 
-  <h3>
-    Total:
-    <span>₹{finalAmount}</span>
-  </h3>
+              <h3>
+                Total:
+                <span>₹{finalAmount}</span>
+              </h3>
 
-</div>
+            </div>
           </div>
 
         </div>

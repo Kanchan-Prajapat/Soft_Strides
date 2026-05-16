@@ -85,6 +85,9 @@ export const CartProvider = ({ children }) => {
     );
   };
 
+const clearCart = () => {
+  setCartItems([]);
+};
   /* ==============================
      TOTAL PRICE
   ============================== */
@@ -112,7 +115,8 @@ const totalPrice =
         removeItem,
         totalPrice,
         shippingCharge,
-        subtotal
+        subtotal,
+        clearCart
       }}
     >
       {children}
