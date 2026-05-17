@@ -17,7 +17,7 @@
   import couponRoutes from "./routes/couponRoutes.js";
   import wishlistRoutes from "./routes/wishlistRoutes.js";
 import flashSaleRoutes from "./routes/flashSaleRoutes.js";
-import contactRoutes from "./routes/contactUs.js";
+import contactRoutes from "./routes/contactRoutes.js";
 import cartRoutes from "./routes/cartRoutes.js";
 
 
