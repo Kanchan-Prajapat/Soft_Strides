@@ -183,6 +183,7 @@ const ProductModal = ({ product, categories, onClose, onSuccess }) => {
             <option>Cotton</option>
             <option>Combed Cotton</option>
             <option>Cotton Lycra</option>
+            <option>Cotton Blends</option>
             <option>Jersey</option>
             <option>Tri-blend</option>
             <option>Polyester</option>

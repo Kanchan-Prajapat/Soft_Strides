@@ -43,10 +43,10 @@ export const createProduct = async (req, res) => {
         ? JSON.parse(req.body.description)
         : [],
       images: imageUrls,
-      fit,
-      fabric,
-      length,
-      closure,
+    fit: fit?.trim(),
+fabric: fabric?.trim(),
+length: length?.trim(),
+closure: closure?.trim(),
     });
 
     res.status(201).json(product);

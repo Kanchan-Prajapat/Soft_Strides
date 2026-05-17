@@ -75,7 +75,7 @@ discountPrice: {
     // 🔥 NEW FIELDS
     fit: {
       type: String,
-      enum: ["Regular", "Oversized", "Slim", "Relaxed"],
+      enum: ["Regular", "Oversized", "Slim", "Relaxed", "Other"],
       default: "Regular",
     },
 
@@ -84,6 +84,8 @@ discountPrice: {
       enum: [
         "Cotton",
         "Combed Cotton",
+        "Cotton Lycra",
+        "Cotton Blends",
         "Jersey",
         "Tri-blend",
         "Polyester",
@@ -91,21 +93,32 @@ discountPrice: {
         "Oxford",
         "Linen",
         "Twill",
+        "Other",
       ],
       default: "Cotton",
     },
 
-    length: {
-      type: String,
-      enum: ["Regular", "Long", "Short"],
-      default: "Regular",
-    },
+   length: {
+  type: String,
+  enum: [
+    "Regular",
+    "Long",
+    "Short",
+    "Other"
+  ],
+  default: "Regular",
+},
 
-    closure: {
-      type: String,
-      enum: ["Button", "Zip", "No Closure"],
-      default: "No Closure",
-    },
+   closure: {
+  type: String,
+  enum: [
+    "Button",
+    "Zip",
+    "No Closure",
+    "Other"
+  ],
+  default: "No Closure",
+},
 
     reviews: [reviewSchema],
     rating: { type: Number, default: 0 },
