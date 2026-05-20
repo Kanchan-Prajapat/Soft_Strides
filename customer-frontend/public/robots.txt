@@ -6,4 +6,4 @@ Disallow:
 User-agent: *
 Allow: /
 
-Sitemap: https://soft-strides-user.vercel.app/sitemap.xml
+Sitemap: https://softstrides.in/sitemap.xml

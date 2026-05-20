@@ -1,63 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
   <!-- Home -->
   <url>
-    <loc>https://soft-strides-user.vercel.app/</loc>
+    <loc>https://softstrides.in/</loc>
     <priority>1.0</priority>
   </url>
 
-  <!-- Main Pages -->
+  <!-- Products -->
   <url>
-    <loc>https://soft-strides-user.vercel.app/products</loc>
+    <loc>https://softstrides.in/products</loc>
     <priority>0.9</priority>
   </url>
 
+  <!-- Cart -->
   <url>
-    <loc>https://soft-strides-user.vercel.app/cart</loc>
+    <loc>https://softstrides.in/cart</loc>
     <priority>0.7</priority>
   </url>
 
+  <!-- Wishlist -->
   <url>
-    <loc>https://soft-strides-user.vercel.app/wishlist</loc>
+    <loc>https://softstrides.in/wishlist</loc>
     <priority>0.7</priority>
   </url>
 
+  <!-- Profile -->
   <url>
-    <loc>https://soft-strides-user.vercel.app/profile</loc>
+    <loc>https://softstrides.in/profile</loc>
     <priority>0.5</priority>
   </url>
 
-  <!-- Auth Pages -->
+  <!-- Login -->
   <url>
-    <loc>https://soft-strides-user.vercel.app/login</loc>
+    <loc>https://softstrides.in/login</loc>
     <priority>0.4</priority>
   </url>
 
+  <!-- Register -->
   <url>
-    <loc>https://soft-strides-user.vercel.app/register</loc>
+    <loc>https://softstrides.in/register</loc>
     <priority>0.4</priority>
   </url>
 
-  <!-- Policies -->
+  <!-- Privacy Policy -->
   <url>
-    <loc>https://soft-strides-user.vercel.app/privacy-policy</loc>
+    <loc>https://softstrides.in/privacy-policy</loc>
     <priority>0.5</priority>
   </url>
 
+  <!-- Terms -->
   <url>
-    <loc>https://soft-strides-user.vercel.app/terms</loc>
+    <loc>https://softstrides.in/terms</loc>
     <priority>0.5</priority>
   </url>
 
+  <!-- Refund Policy -->
   <url>
-    <loc>https://soft-strides-user.vercel.app/refund-policy</loc>
+    <loc>https://softstrides.in/refund-policy</loc>
     <priority>0.5</priority>
   </url>
 
   <!-- Contact -->
   <url>
-    <loc>https://soft-strides-user.vercel.app/contact</loc>
+    <loc>https://softstrides.in/contact</loc>
     <priority>0.6</priority>
   </url>
 
