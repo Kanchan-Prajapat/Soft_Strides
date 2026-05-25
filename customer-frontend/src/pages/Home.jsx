@@ -18,6 +18,7 @@ const Home = () => {
         FETCH BANNERS
   ============================= */
 const premiumRef = useRef();
+const isMobile = window.innerWidth <= 768;
 
 useEffect(() => {
   const observer = new IntersectionObserver(
@@ -106,12 +107,19 @@ useEffect(() => {
 
           {banners.map((banner, index) => (
             <div
-              key={banner._id}
+             key={`${banner._id}-${index}`}
               className={`slide ${
                 index === current ? "active" : ""
               }`}
             >
-              <img src={banner.image} alt="banner" />
+             <img
+  src={
+    isMobile
+      ? banner.mobileImage
+      : banner.desktopImage
+  }
+  alt={banner.title}
+/>
 
               <div className="hero-content">
                 <h1>{banner.title}</h1>

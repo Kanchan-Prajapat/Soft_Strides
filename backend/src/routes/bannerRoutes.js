@@ -20,7 +20,10 @@ router.post(
   "/",
   protect,
   adminOnly,
-  upload.single("image"),
+ upload.fields([
+  { name: "desktopImage", maxCount: 1 },
+  { name: "mobileImage", maxCount: 1 },
+]),
   createBanner
 );
 
@@ -28,7 +31,10 @@ router.put(
   "/:id",
   protect,
   adminOnly,
-  upload.single("image"),
+  upload.fields([
+    { name: "desktopImage", maxCount: 1 },
+    { name: "mobileImage", maxCount: 1 },
+  ]),
   updateBanner
 );
 

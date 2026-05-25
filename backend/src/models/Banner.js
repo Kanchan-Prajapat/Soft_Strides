@@ -3,12 +3,17 @@ import mongoose from "mongoose";
 const bannerSchema = new mongoose.Schema(
   {
     title: String,
-    image: String,
-    link: String, // redirect URL
+
+    desktopImage: String,
+    mobileImage: String,
+
+    link: String,
+
     isActive: {
       type: Boolean,
       default: true,
     },
+
     description: String,
   },
   { timestamps: true }

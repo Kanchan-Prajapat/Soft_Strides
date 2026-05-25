@@ -1,42 +1,51 @@
 //controllers/bannerController.js
 import Banner from "../models/Banner.js";
 import cloudinary from "../config/cloudinary.js";
-import streamifier from "streamifier";
+import fs from "fs";
+
+const uploadToCloudinary = async (filePath) => {
+  return await cloudinary.uploader.upload(filePath, {
+    folder: "softstrides/banners",
+  });
+};
 
 
 export const createBanner = async (req, res) => {
   try {
-    if (!req.file) {
-      return res.status(400).json({ message: "Image required" });
+    const desktopFile = req.files?.desktopImage?.[0];
+    const mobileFile = req.files?.mobileImage?.[0];
+
+    if (!desktopFile || !mobileFile) {
+      return res.status(400).json({
+        message: "Both images required",
+      });
     }
 
-    const streamUpload = () =>
-      new Promise((resolve, reject) => {
-        const stream = cloudinary.uploader.upload_stream(
-          { folder: "softstrides/banners" },
-          (error, result) => {
-            if (result) resolve(result);
-            else reject(error);
-          }
-        );
+    const desktopUploaded =
+      await uploadToCloudinary(desktopFile.path);
 
-        streamifier.createReadStream(req.file.buffer).pipe(stream);
-      });
-
-    const uploaded = await streamUpload();
+    const mobileUploaded =
+      await uploadToCloudinary(mobileFile.path);
 
     const banner = await Banner.create({
       title: req.body.title,
-      image: uploaded.secure_url,
-      link: req.body.link,
       description: req.body.description,
+
+      desktopImage: desktopUploaded.secure_url,
+      mobileImage: mobileUploaded.secure_url,
     });
 
     res.status(201).json(banner);
+
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    console.log(err);
+
+    res.status(500).json({
+      message: err.message,
+    });
   }
 };
+
 
 export const getActiveBanners = async (req, res) => {
   const banners = await Banner.find({ isActive: true }).sort({ createdAt: -1 });
@@ -53,43 +62,50 @@ export const toggleBanner = async (req, res) => {
 
 export const updateBanner = async (req, res) => {
   try {
-    const { title, description } = req.body;
-
     const banner = await Banner.findById(req.params.id);
 
     if (!banner) {
-      return res.status(404).json({ message: "Banner not found" });
+      return res.status(404).json({
+        message: "Banner not found",
+      });
     }
 
-    banner.title = title || banner.title;
-    banner.description = description || banner.description;
+    banner.title = req.body.title || banner.title;
 
-    if (req.file) {
-      const streamUpload = () =>
-        new Promise((resolve, reject) => {
-          const stream = cloudinary.uploader.upload_stream(
-            { folder: "softstrides/banners" },
-            (error, result) => {
-              if (result) resolve(result);
-              else reject(error);
-            }
-          );
+    banner.description =
+      req.body.description || banner.description;
 
-          streamifier.createReadStream(req.file.buffer).pipe(stream);
-        });
+    const desktopFile = req.files?.desktopImage?.[0];
+    const mobileFile = req.files?.mobileImage?.[0];
 
-      const uploaded = await streamUpload();
-      banner.image = uploaded.secure_url;
+    if (desktopFile) {
+      const uploaded = await uploadToCloudinary(
+        desktopFile.path
+      );
+
+      banner.desktopImage = uploaded.secure_url;
     }
 
-    const updatedBanner = await banner.save();
+    if (mobileFile) {
+      const uploaded = await uploadToCloudinary(
+        mobileFile.path
+      );
 
-    res.json(updatedBanner);
+      banner.mobileImage = uploaded.secure_url;
+    }
+
+    await banner.save();
+
+    res.json(banner);
+
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    console.log(err);
+
+    res.status(500).json({
+      message: err.message,
+    });
   }
 };
-
 
 
 
