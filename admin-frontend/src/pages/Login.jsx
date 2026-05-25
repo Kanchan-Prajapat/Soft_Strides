@@ -22,7 +22,7 @@ const handleGoogleLogin = async (credentialResponse) => {
 localStorage.setItem("adminInfo", JSON.stringify(res.data.user));
 
    
-    window.location.href = "/dashboard";
+navigate("/dashboard");
 
   } catch (err) {
     showToast(err.response?.data?.message || "Access denied", "error");
