@@ -98,10 +98,7 @@ useEffect(() => {
     <div className="home-page">
 
       {/* ================= HERO SLIDER ================= */}
-{/* 1. TOP ANNOUNCEMENT BAR */}
-<div className="announcement-bar">
-  <span>Free shipping on orders above ₹500 🚚</span>
-</div>
+
       {banners.length > 0 && (
         <section className="hero-slider">
 
