@@ -26,6 +26,11 @@ const orderSchema = new mongoose.Schema(
       },
     ],
 
+    subtotal: Number,
+handlingCharge: Number,
+deliveryCharge: Number,
+smallCartFee: Number,
+
     totalAmount: {
       type: Number,
       required: true,

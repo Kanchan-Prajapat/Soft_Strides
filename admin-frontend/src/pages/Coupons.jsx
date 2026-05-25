@@ -93,7 +93,7 @@ const handleCreate = async () => {
 />
 
           <button
-            className="add-btn"
+            className="btn add-btn"
             onClick={handleCreate}
             disabled={loading}
           >
@@ -110,6 +110,7 @@ const handleCreate = async () => {
             <tr>
               <th>Code</th>
               <th>Discount</th>
+              <th>Minimum Amount</th>
               <th>Status</th>
               <th>Actions</th>
             </tr>
@@ -119,6 +120,7 @@ const handleCreate = async () => {
               <tr key={c._id}>
                 <td>{c.code}</td>
                 <td>{c.discount}%</td>
+                <td>₹{c.minAmount}</td>
                 <td>{c.isActive ? "Active" : "Disabled"}</td>
                 <td>
                   <button

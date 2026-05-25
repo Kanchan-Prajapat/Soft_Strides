@@ -19,8 +19,8 @@ const CartDrawer = ({ open, onClose }) => {
 
   {/* SCROLL AREA */}
   <div className="drawer-items">
-    {cartItems.map((item) => (
-      <div key={`${item._id}-${item.size}`} className="drawer-item">
+    {cartItems.map((item, index) => (
+      <div key={`${item._id}-${item.size}-${index}`} className="drawer-item">
         <div className="premium-image-wrapper square" style={{ width: 70, minWidth: 70 }}>
           <img src={item.images?.[0]} alt={item.name || "product"} className="premium-image" />
         </div>

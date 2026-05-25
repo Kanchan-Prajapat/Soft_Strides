@@ -15,82 +15,91 @@ const trackingId =
 export const createOrder = async (req, res) => {
   try {
     if (!req.user) {
-  return res.status(401).json({ message: "Login required" });
-}
+      return res.status(401).json({ message: "Login required" });
+    }
     if (!req.file) {
       return res.status(400).json({
         message: "Payment screenshot is required",
       });
     }
 
-  const {
-  products,
-  totalAmount,
-  address,
-  phone,
-  city,
-  state,
-  pincode,
-  appliedCouponCode,
-} = req.body;
+    const {
+      products,
+      totalAmount,
+
+      subtotal,
+      handlingCharge,
+      deliveryCharge,
+      smallCartFee,
+      discountAmount: frontendDiscount,
+
+      address,
+      phone,
+      city,
+      state,
+      pincode,
+
+      appliedCouponCode,
+    } = req.body;
 
     const parsedProducts = JSON.parse(products);
 
-const detailedProducts = [];
+    const detailedProducts = [];
 
-for (const item of parsedProducts) {
-  const productId = item.product || item._id;
+    for (const item of parsedProducts) {
+      const productId = item.product || item._id;
 
-  const product = await Product.findById(productId);
+      const product = await Product.findById(productId);
 
-  if (!product) continue;
+      if (!product) continue;
 
-  detailedProducts.push({
-    product: product._id,
-    name: product.name,
-    image: product.images?.[0] || null,
-    price: product.discountPrice,
-    qty: item.qty,
-    size: item.size,
-  });
-}
+      detailedProducts.push({
+        product: product._id,
+        name: product.name,
+        image: product.images?.[0] || null,
+        price: product.discountPrice,
+        qty: item.qty,
+        size: item.size,
+      });
+    }
     let finalAmount = Number(totalAmount);
-    let discountAmount = 0;
+    
 
     /* =============================
        COUPON VALIDATION
     ============================= */
 
     if (appliedCouponCode) {
-      const coupon = await Coupon.findOne({
-        code: appliedCouponCode.toUpperCase(),
-        isActive: true,
-      });
+  const coupon = await Coupon.findOne({
+    code: appliedCouponCode.toUpperCase(),
+    isActive: true,
+  });
 
-      if (!coupon)
-        return res.status(400).json({ message: "Invalid coupon" });
+  if (!coupon)
+    return res.status(400).json({
+      message: "Invalid coupon",
+    });
 
-      if (new Date() > coupon.expiryDate)
-        return res.status(400).json({ message: "Coupon expired" });
+  if (new Date() > coupon.expiryDate)
+    return res.status(400).json({
+      message: "Coupon expired",
+    });
 
-      if (finalAmount < coupon.minAmount)
-        return res.status(400).json({
-          message: `Minimum order amount ₹${coupon.minAmount}`,
-        });
+  if (coupon.usedBy.includes(req.user._id))
+    return res.status(400).json({
+      message: "Coupon already used",
+    });
 
-      if (coupon.usedBy.includes(req.user._id))
-        return res.status(400).json({
-          message: "Coupon already used",
-        });
-
+  await Coupon.findOneAndUpdate(
+    { code: appliedCouponCode.toUpperCase() },
+    {
+      $push: { usedBy: req.user._id },
+    }
+  );
+}
       discountAmount = (finalAmount * coupon.discount) / 100;
       finalAmount -= discountAmount;
 
-      await Coupon.findOneAndUpdate(
-        { code: appliedCouponCode.toUpperCase() },
-        { $push: { usedBy: req.user._id } }
-      );
-    }
 
     /* =============================
        UPLOAD SCREENSHOT
@@ -129,22 +138,26 @@ for (const item of parsedProducts) {
       user: req.user._id,
       products: detailedProducts,
       totalAmount: finalAmount,
-      discountAmount,
       appliedCouponCode: appliedCouponCode || null,
       address,
       phone,
       paymentScreenshot: uploadedImage.secure_url,
-       trackingId,
-     
+      trackingId,
+      subtotal,
+      handlingCharge,
+      deliveryCharge,
+      smallCartFee,
+      discountAmount,
+
       deliveryStatus: "Pending",
       estimatedDelivery,
-     history: [
-  {
-    status: "Pending",
-    type: "delivery",
-    date: new Date(),
-  },
-],
+      history: [
+        {
+          status: "Pending",
+          type: "delivery",
+          date: new Date(),
+        },
+      ],
 
     });
 
@@ -161,9 +174,9 @@ for (const item of parsedProducts) {
 export const getMyOrders = async (req, res) => {
   const orders = await Order.find({ user: req.user._id })
     .populate({
-  path: "products.product",
-  select: "name images price"
-})
+      path: "products.product",
+      select: "name images price"
+    })
     .sort({ createdAt: -1 });
 
   res.json(orders);
@@ -181,25 +194,25 @@ export const getAllOrders = async (req, res) => {
       filter.isCancelled = true;
     }
 
-   if (type === "returned") {
-  filter.deliveryStatus = { 
-    $in: [
-      "Return Requested",
-      "Return Approved",
-      "Pickup Scheduled",
-      "Picked Up",
-      "Returned",
-      "Refund Processed",
-      "Refund Completed"
-    ] 
-  };
-}
+    if (type === "returned") {
+      filter.deliveryStatus = {
+        $in: [
+          "Return Requested",
+          "Return Approved",
+          "Pickup Scheduled",
+          "Picked Up",
+          "Returned",
+          "Refund Processed",
+          "Refund Completed"
+        ]
+      };
+    }
 
-if (type === "rejected") {
-  filter.deliveryStatus = {
-    $in: ["Return Rejected", "Cancelled"]
-  };
-}
+    if (type === "rejected") {
+      filter.deliveryStatus = {
+        $in: ["Return Rejected", "Cancelled"]
+      };
+    }
 
 
     const orders = await Order.find(filter)
@@ -274,28 +287,28 @@ export const updateDeliveryStatus = async (req, res) => {
     order.deliveryStatus = status;
 
     // 🧠 TRACK HISTORY
-  const lastStatus = order.history.at(-1)?.status;
+    const lastStatus = order.history.at(-1)?.status;
 
-if (lastStatus !== status) {
-  order.history.push({
-    status,
-    type: "delivery",
-    date: new Date(),
-  });
-}
+    if (lastStatus !== status) {
+      order.history.push({
+        status,
+        type: "delivery",
+        date: new Date(),
+      });
+    }
 
-   // 🚚 IF CONFIRMED → CREATE SHIPMENT
-if (status === "Confirmed" && !order.awbCode) {
-  try {
-    const shipment = await createShipment(order);
+    // 🚚 IF CONFIRMED → CREATE SHIPMENT
+    if (status === "Confirmed" && !order.awbCode) {
+      try {
+        const shipment = await createShipment(order);
 
-    order.awbCode = shipment.awb_code;
+        order.awbCode = shipment.awb_code;
 
-    console.log("Shipment created:", shipment);
-  } catch (err) {
-    console.error("Shiprocket error:", err.response?.data || err.message);
-  }
-}
+        console.log("Shipment created:", shipment);
+      } catch (err) {
+        console.error("Shiprocket error:", err.response?.data || err.message);
+      }
+    }
 
     await order.save();
 
@@ -315,7 +328,7 @@ export const updateTracking = async (req, res) => {
       return res.status(404).json({ message: "No tracking ID" });
     }
 
-   const data = await trackShipment(order.awbCode);
+    const data = await trackShipment(order.awbCode);
 
     const tracking = data.tracking_data.shipment_track;
 
@@ -381,9 +394,9 @@ export const cancelOrder = async (req, res) => {
     if (!order)
       return res.status(404).json({ message: "Order not found" });
 
-  if (!req.user || !order.user || order.user.toString() !== req.user._id.toString()) {
-  return res.status(403).json({ message: "Not authorized" });
-}
+    if (!req.user || !order.user || order.user.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ message: "Not authorized" });
+    }
 
     if (["Shipped", "Out for Delivery", "Delivered"].includes(order.deliveryStatus)) {
       return res.status(400).json({
@@ -462,12 +475,12 @@ export const approveReturn = async (req, res) => {
 
     order.deliveryStatus = "Return Approved";
 
-   order.history = order.history || [];
-order.history.push({
-  status: "Return Approved",
-  type: "return",
-  date: new Date(),
-});
+    order.history = order.history || [];
+    order.history.push({
+      status: "Return Approved",
+      type: "return",
+      date: new Date(),
+    });
 
     await order.save();
 
@@ -489,12 +502,12 @@ export const rejectReturn = async (req, res) => {
     order.deliveryStatus = "Return Rejected";
     order.isReturned = false;
 
-  order.history = order.history || [];
-order.history.push({
-  status: "Return Rejected",
-  type: "return",
-  date: new Date(),
-});
+    order.history = order.history || [];
+    order.history.push({
+      status: "Return Rejected",
+      type: "return",
+      date: new Date(),
+    });
 
     await order.save();
 
@@ -525,12 +538,12 @@ export const updateReturnStatus = async (req, res) => {
     }
 
     // Push into unified history
-   order.history = order.history || [];
-order.history.push({
-  status,
-  type: "return",
-  date: new Date(),
-});
+    order.history = order.history || [];
+    order.history.push({
+      status,
+      type: "return",
+      date: new Date(),
+    });
     await order.save();
 
     res.json(order);

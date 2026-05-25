@@ -32,9 +32,9 @@ const Cart = () => {
         <div className="cart-layout">
           {/* LEFT SIDE */}
           <div className="cart-items">
-            {cartItems.map((item) => (
+            {cartItems.map((item, index) => (
               <div
-                key={`${item._id}-${item.size}`}
+              key={`${item._id}-${item.size}-${index}`}
                 className="cart-item"
               >
                 {/* IMAGE */}

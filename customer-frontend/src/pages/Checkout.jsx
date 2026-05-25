@@ -11,7 +11,6 @@ import { State, City } from "country-state-city";
 const Checkout = () => {
   const {
     cartItems,
-    shippingCharge,
     totalPrice,
     clearCart
   } = useCart();
@@ -42,10 +41,26 @@ const Checkout = () => {
     phone: ""
   });
 
+  const handlingCharge = 5;
+
+
+  // FREE DELIVERY ABOVE 699
+  const deliveryCharge =
+    checkoutTotal >= 699 ? 0 : 49;
+
+  // SMALL CART FEE
+  const smallCartFee =
+    checkoutTotal < 699 ? 20 : 0;
+
   const finalAmount =
+
     Number(checkoutTotal || 0)
-    + Number(shippingCharge || 0)
+    + handlingCharge
+    + deliveryCharge
+    + smallCartFee
     - Number(discount || 0);
+
+
   console.log("FINAL AMOUNT:", finalAmount);
   console.log("Creating Razorpay order...");
 
@@ -228,6 +243,12 @@ const Checkout = () => {
                     size:
                       item.size || "Free Size",
                   })),
+
+                  subtotal: checkoutTotal,
+                  handlingCharge,
+                  deliveryCharge,
+                  smallCartFee,
+                  discountAmount: discount,
 
                   totalAmount: finalAmount,
                   address: form.address,
@@ -463,11 +484,11 @@ const Checkout = () => {
           <div className="checkout-right">
             <h3>Order Summary</h3>
 
-            {checkoutItems.map((item) => {
+            {checkoutItems.map((item, index) => {
               const product = item.product || item; // 🔥 important fix
 
               return (
-                <div key={`${item._id}-${item.size}`} className="summary-item">
+                <div key={`${item._id}-${item.size}-${index}`} className="summary-item">
                   <div className="premium-image-wrapper square" style={{ width: 64, minWidth: 64 }}>
                     <img src={product.images?.[0] || product.image} alt={product.name} className="premium-image" />
                   </div>
@@ -482,7 +503,7 @@ const Checkout = () => {
             })}
 
             <div className="coupon-box">
-              <p>Have Coupen?</p>
+              <p>Have Coupon?</p>
               <p>Apply Here!</p>
               <input style={{ padding: '5px', color: '#fff', width: '100px' }} value={coupon} onChange={(e) => setCoupon(e.target.value)} />
               <button onClick={applyCoupon}>Apply</button>
@@ -490,29 +511,51 @@ const Checkout = () => {
 
             <div className="price-summary">
 
+              {/* MRP */}
               <p>
-                Subtotal:
+                MRP
                 <span>₹{checkoutTotal}</span>
               </p>
 
+              {/* Handling */}
               <p>
-                Shipping:
-                <span>
-                  {shippingCharge === 0
-                    ? "FREE"
-                    : `₹${shippingCharge}`}
-                </span>
+                Handling Charge
+                <span>₹{handlingCharge}</span>
               </p>
 
-              {discount > 0 && (
+              {/* Small Cart */}
+              {smallCartFee > 0 && (
                 <p>
-                  Discount:
-                  <span>- ₹{discount}</span>
+                  Small Cart Fee
+                  <span>₹{smallCartFee}</span>
                 </p>
               )}
 
+              {/* Shipping */}
+              <p>
+                Delivery Charges
+                <span>
+                  {deliveryCharge === 0
+                    ? "FREE"
+                    : `₹${deliveryCharge}`}
+                </span>
+              </p>
+
+              {/* Discount */}
+              {discount > 0 && (
+                <p className="discount-line">
+                  Discount
+                   <p>Coupon Applied</p>
+                  <span>-₹{discount}</span>
+                 
+                </p>
+              )}
+
+              <hr />
+
+              {/* TOTAL */}
               <h3>
-                Total:
+                Bill Total
                 <span>₹{finalAmount}</span>
               </h3>
 
