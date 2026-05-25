@@ -391,7 +391,7 @@ MOBILE RESPONSIVE
 
 @media (max-width: 768px) {
    .hero-slider {
-    height: 72vh;
+    height: 82vh;
   }
 
   .slide img {
@@ -411,7 +411,7 @@ MOBILE RESPONSIVE
 }
 
 @media (max-width: 480px) {
-  .hero-slider { height: 60vh; }
+  .hero-slider { height: 82vh; }
 
   .hero-content h1 { font-size: 22px; }
 
