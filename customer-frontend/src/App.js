@@ -36,7 +36,7 @@ function ScrollToTop() {
 function App() {
   return (
     <BrowserRouter>
-    
+
       <ScrollToTop />
 
       <Navbar />
@@ -46,19 +46,26 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/products" element={<Products />} />
         <Route path="/product/:id" element={<ProductDetails />} />
-        <Route path="/checkout" element={<Checkout />} />
+        <Route
+          path="/checkout"
+          element={
+            <ProtectedRoute>
+              <Checkout />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/cart" element={<ProtectedRoute><Cart /></ProtectedRoute>} />
         <Route path="/my-orders" element={<ProtectedRoute><MyOrders /></ProtectedRoute>} />
         <Route path="/wishlist" element={<ProtectedRoute><Wishlist /></ProtectedRoute>} />
-        <Route path="/contact" element={<ProtectedRoute><Contact /></ProtectedRoute>} />
+        <Route path="/contact" element={<Contact />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms" element={<TermsConditions />} />
         <Route path="/refund-policy" element={<RefundPolicy />} />
         <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-         <Route path="/checkout/order-success" element={<ProtectedRoute><OrderSuccess /></ProtectedRoute>} />
-         <Route path="/order/:id" element={<ProtectedRoute><OrderDetails /></ProtectedRoute>} />
-         
+        <Route path="/checkout/order-success" element={<ProtectedRoute><OrderSuccess /></ProtectedRoute>} />
+        <Route path="/order/:id" element={<ProtectedRoute><OrderDetails /></ProtectedRoute>} />
+
       </Routes>
       <Footer />
     </BrowserRouter>

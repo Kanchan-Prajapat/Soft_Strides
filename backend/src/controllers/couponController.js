@@ -116,3 +116,27 @@ export const getCoupons = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+
+// GET AVAILABLE COUPONS FOR CHECKOUT
+export const getAvailableCoupons = async (req, res) => {
+  try {
+    const { totalAmount } = req.query;
+
+    const coupons = await Coupon.find({
+      isActive: true,
+      expiryDate: { $gt: new Date() },
+    });
+
+    // only applicable coupons
+    const filteredCoupons = coupons.filter(
+      (coupon) => Number(totalAmount) >= coupon.minAmount
+    );
+
+    res.json(filteredCoupons);
+
+  } catch (error) {
+    console.log("AVAILABLE COUPONS ERROR:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};

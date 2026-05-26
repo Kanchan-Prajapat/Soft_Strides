@@ -3,10 +3,16 @@ import "../styles/auth.css";
 import logo from "../assets/Logo.png";
 import { GoogleLogin } from "@react-oauth/google";
 import axios from "axios";
+import { useLocation } from "react-router-dom";
+
+
+
 
 const Register = () => {
   const navigate = useNavigate();
   const API_URL = process.env.REACT_APP_API_URL;
+    const location = useLocation();
+ const from = location.state?.from?.pathname || "/";
 
   return (
     <div className="auth-wrapper">
@@ -34,7 +40,7 @@ const Register = () => {
                   JSON.stringify(res.data.user)
                 );
 
-                window.location.href = "/";
+              navigate(from, { replace: true });
               } catch (err) {
                 alert("Google signup failed");
               }

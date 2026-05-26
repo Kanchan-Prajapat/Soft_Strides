@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import avatar from "../pages/default-avtar.png";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -21,11 +20,7 @@ const Navbar = () => {
   const { cartItems } = useCart();
   const { user } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
-  const Navigate = useNavigate();
-  const token = localStorage.getItem("userToken");
-if (!token) {
-  Navigate("/login");
-}
+ 
 
   // 🔥 Prevent scroll when menu open
   useEffect(() => {
@@ -55,7 +50,7 @@ if (!token) {
               <FontAwesomeIcon icon={faHouse} />
             </Link>
 
-            <Link to="/cart" className="nav-icon">
+            <Link  to={user ? "/cart" : "/login"} className="nav-icon">
               <FontAwesomeIcon icon={faShoppingCart} />
               {cartItems.length > 0 && (
                 <span className="cart-badge">{cartItems.length}</span>
@@ -68,13 +63,11 @@ if (!token) {
   </Link>
 )}
 
-
-
-            <Link to="/wishlist" className="nav-icon">
+            <Link  to={user ? "/wishlist" : "/login"} className="nav-icon">
               <FontAwesomeIcon icon={faHeart} />
             </Link>
 
-            <Link to="/profile">
+            <Link  to={user ? "/profile" : "/login"}>
               <img
                 src={user?.profileImage || avatar}
                 alt="Profile"
@@ -114,7 +107,7 @@ if (!token) {
           <FontAwesomeIcon icon={faHouse} /> Home
         </Link>
 
-        <Link to="/cart" onClick={handleClose}>
+        <Link  to={user ? "/cart" : "/login"} onClick={handleClose}>
           <FontAwesomeIcon icon={faShoppingCart} /> Cart
         </Link>
 {user && (
@@ -123,11 +116,11 @@ if (!token) {
   </Link>
 )}
 
-        <Link to="/wishlist" onClick={handleClose}>
+        <Link  to={user ? "/wishlist" : "/login"} onClick={handleClose}>
           <FontAwesomeIcon icon={faHeart} /> Wishlist
         </Link>
 
-        <Link to="/profile" onClick={handleClose}>
+        <Link  to={user ? "/profile" : "/login"} onClick={handleClose}>
           <FontAwesomeIcon icon={faUser} /> Profile
         </Link>
 

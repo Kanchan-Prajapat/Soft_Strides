@@ -17,6 +17,8 @@ AUTH BOX
   width: 100%;
   max-width: 380px;
   padding: 45px 30px;
+  align-items: center;
+  text-align: center;
 
   background: rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(12px);
@@ -33,6 +35,23 @@ AUTH BOX
   color: var(--text-muted);
   margin-top: -20px;
   margin-bottom: 20px;
+}
+
+.skip-btn {
+  width: 50%;
+  margin-top: 14px;
+  padding: 12px;
+  border: 1px solid #555;
+  background: transparent;
+  color: #bbb;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.skip-btn:hover {
+  border-color: #8E7AB5;
+  color: white;
 }
 
 /* =========================

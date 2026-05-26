@@ -21,6 +21,7 @@ const Checkout = () => {
   const API_URL = process.env.REACT_APP_API_URL;
   const [checkoutItems, setCheckoutItems] = useState([]);
   const [checkoutTotal, setCheckoutTotal] = useState(0);
+  const [availableCoupons, setAvailableCoupons] = useState([]);
   const [stateCode, setStateCode] = useState("");
 
   const states = State.getStatesOfCountry("IN");
@@ -171,6 +172,33 @@ const Checkout = () => {
       setDiscount(0);
     }
   };
+
+  useEffect(() => {
+
+  const fetchCoupons = async () => {
+    try {
+
+     const token = localStorage.getItem("userToken");
+
+const { data } = await axios.get(
+  `${API_URL}/api/coupons/available?totalAmount=${totalPrice}`,
+  {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+);
+
+      setAvailableCoupons(data);
+
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  fetchCoupons();
+
+}, [totalPrice, API_URL]);
 
   // 🔥 RAZORPAY PAYMENT
   const handlePayment = async () => {
@@ -501,6 +529,36 @@ const Checkout = () => {
                 </div>
               );
             })}
+
+            {availableCoupons.length > 0 && (
+  <div className="available-offers">
+
+    <h4>🎁 Available Offers</h4>
+
+  {availableCoupons.map((item) => (
+
+  <div
+    className={`offer-item ${
+      coupon === item.code
+        ? "active-offer"
+        : ""
+    }`}
+    key={item._id}
+
+    onClick={() => setCoupon(item.code)}
+  >
+    <strong>{item.code}</strong>
+
+    {" - "}
+
+    {item.discount}% OFF above ₹{item.minAmount}
+
+  </div>
+
+))}
+
+  </div>
+)}
 
             <div className="coupon-box">
               <p>Have Coupon?</p>

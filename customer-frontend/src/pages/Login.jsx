@@ -1,11 +1,16 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "../styles/auth.css";
 import logo from "../assets/Logo.png";
 import { GoogleLogin } from "@react-oauth/google";
 import axios from "axios";
+import { useAuth } from "../context/AuthContext";
 
 const Login = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+ const from = location.state?.from?.pathname || "/";
+ const { login } = useAuth();
+
   const API_URL = process.env.REACT_APP_API_URL;
 
   return (
@@ -28,13 +33,8 @@ const Login = () => {
                   }
                 );
 
-                localStorage.setItem("userToken", res.data.token);
-                localStorage.setItem(
-                  "userInfo",
-                  JSON.stringify(res.data.user)
-                );
-
-                window.location.href = "/";
+               login(res.data.user, res.data.token);
+navigate(from, { replace: true });
               } catch (err) {
                 alert("Google login failed");
               }
@@ -49,6 +49,14 @@ const Login = () => {
         >
           Don’t have an account? Register
         </p>
+
+        <button
+          className="skip-btn"
+          onClick={() => navigate("/")}
+        >
+          Continue Without Login
+        </button>
+
       </div>
     </div>
   );
