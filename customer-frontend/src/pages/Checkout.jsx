@@ -11,7 +11,6 @@ import { State, City } from "country-state-city";
 const Checkout = () => {
   const {
     cartItems,
-    totalPrice,
     clearCart
   } = useCart();
   const location = useLocation();
@@ -97,6 +96,7 @@ const Checkout = () => {
     }
   }, [form.state, states]);
 
+
   useEffect(() => {
     const fetchCart = async () => {
       try {
@@ -113,13 +113,19 @@ const Checkout = () => {
 
         setCheckoutItems(items);
 
-        const total = cartItems.reduce(
-          (acc, item) =>
-            acc + Number(item.discountPrice) * Number(item.qty || 1),
-          0
-        );
+       const total = items.reduce(
+  (acc, item) =>
+    acc +
+    Number(
+      item.product?.discountPrice ||
+      item.discountPrice
+    ) *
+      Number(item.qty || item.quantity || 1),
+  0
+);
 
         setCheckoutTotal(total);
+        console.log("CHECKOUT TOTAL:", total);
 
       } catch (err) {
         console.log("Cart fetch error:", err);
@@ -139,9 +145,8 @@ const Checkout = () => {
 
       setCheckoutTotal(total);
     }
-  }, [isBuyNow, cartItems, totalPrice, API_URL]);
+  }, [isBuyNow, cartItems, API_URL]);
 
-  // Autofill
 
 
   const handleChange = (e) => {
@@ -156,7 +161,7 @@ const Checkout = () => {
       const res = await axios.post(
         `${API_URL}/api/coupons/apply`,
         {
-          code: coupon,
+         code: coupon.trim(),
           totalAmount: checkoutTotal
         },
         {
@@ -168,37 +173,41 @@ const Checkout = () => {
       alert("Coupon applied!");
 
     } catch (err) {
-      alert("Invalid coupon");
+     alert(
+  err.response?.data?.message ||
+  "Coupon failed"
+);
       setDiscount(0);
     }
   };
 
   useEffect(() => {
 
-  const fetchCoupons = async () => {
-    try {
+    const fetchCoupons = async () => {
+      try {
 
-     const token = localStorage.getItem("userToken");
+        const token = localStorage.getItem("userToken");
 
-const { data } = await axios.get(
-  `${API_URL}/api/coupons/available?totalAmount=${totalPrice}`,
-  {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  }
-);
+        const { data } = await axios.get(
+       `${API_URL}/api/coupons/available?totalAmount=${checkoutTotal}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setAvailableCoupons(data);
+console.log("AVAILABLE COUPONS:", data);
 
-      setAvailableCoupons(data);
 
-    } catch (err) {
-      console.log(err);
-    }
-  };
+      } catch (err) {
+        console.log(err);
+      }
+    };
 
-  fetchCoupons();
+    fetchCoupons();
 
-}, [totalPrice, API_URL]);
+  }, [checkoutTotal, API_URL]);
 
   // 🔥 RAZORPAY PAYMENT
   const handlePayment = async () => {
@@ -531,34 +540,28 @@ const { data } = await axios.get(
             })}
 
             {availableCoupons.length > 0 && (
-  <div className="available-offers">
+              <div className="available-offers">
 
-    <h4>🎁 Available Offers</h4>
+                <h4>🎁 Available Offers</h4>
 
-  {availableCoupons.map((item) => (
+                {availableCoupons
+                  .filter((coupon) => checkoutTotal >= coupon.minAmount)
+                  .map((coupon) => (
+                    <div
+                      key={coupon._id}
+                      className="offer-item"
+                      onClick={() => setCoupon(coupon.code)}
+                    >
+                      <strong>{coupon.code}</strong>
 
-  <div
-    className={`offer-item ${
-      coupon === item.code
-        ? "active-offer"
-        : ""
-    }`}
-    key={item._id}
+                      {" - "}
 
-    onClick={() => setCoupon(item.code)}
-  >
-    <strong>{item.code}</strong>
+                      {coupon.discount}% OFF above ₹{coupon.minAmount}
+                    </div>
+                  ))}
 
-    {" - "}
-
-    {item.discount}% OFF above ₹{item.minAmount}
-
-  </div>
-
-))}
-
-  </div>
-)}
+              </div>
+            )}
 
             <div className="coupon-box">
               <p>Have Coupon?</p>
@@ -601,12 +604,10 @@ const { data } = await axios.get(
 
               {/* Discount */}
               {discount > 0 && (
-                <p className="discount-line">
-                  Discount
-                   <p>Coupon Applied</p>
-                  <span>-₹{discount}</span>
-                 
-                </p>
+                <div className="discount-line">
+                  <span>Discount (Coupon Applied)</span>
+                  <span>₹{discount}</span>
+                </div>
               )}
 
               <hr />

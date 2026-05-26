@@ -82,6 +82,7 @@ const handleCreate = async () => {
 <input
   type="date"
   value={expiryDate}
+  placeholder="Expiry date"
   onChange={(e) => setExpiryDate(e.target.value)}
 />
 
@@ -111,6 +112,7 @@ const handleCreate = async () => {
               <th>Code</th>
               <th>Discount</th>
               <th>Minimum Amount</th>
+              <th>Expiry Date</th>
               <th>Status</th>
               <th>Actions</th>
             </tr>
@@ -121,6 +123,7 @@ const handleCreate = async () => {
                 <td>{c.code}</td>
                 <td>{c.discount}%</td>
                 <td>₹{c.minAmount}</td>
+                <td>{c.expiryDate ? new Date(c.expiryDate).toLocaleString() : "No Expiry"}</td>
                 <td>{c.isActive ? "Active" : "Disabled"}</td>
                 <td>
                   <button

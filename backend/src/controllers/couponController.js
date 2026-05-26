@@ -3,23 +3,37 @@ import Coupon from "../models/Coupon.js";
 
 export const applyCoupon = async (req, res) => {
   try {
-    const { code, totalAmount } = req.body;
 
-    if (!code || !totalAmount) {
-      return res.status(400).json({ message: "Invalid request" });
+    const code = req.body.code?.trim().toUpperCase();
+
+    const totalAmount = Number(req.body.totalAmount);
+
+    console.log("CODE:", code);
+    console.log("TOTAL:", totalAmount);
+
+    if (!code || isNaN(totalAmount)) {
+      return res.status(400).json({
+        message: "Invalid request",
+      });
     }
 
     const coupon = await Coupon.findOne({
-      code: code.toUpperCase(),
+      code,
       isActive: true,
     });
 
+    console.log("COUPON:", coupon);
+
     if (!coupon) {
-      return res.status(400).json({ message: "Invalid coupon" });
+      return res.status(400).json({
+        message: "Invalid coupon",
+      });
     }
 
-    if (new Date() > coupon.expiryDate) {
-      return res.status(400).json({ message: "Coupon expired" });
+    if (new Date() > new Date(coupon.expiryDate)) {
+      return res.status(400).json({
+        message: "Coupon expired",
+      });
     }
 
     if (totalAmount < coupon.minAmount) {
@@ -28,7 +42,12 @@ export const applyCoupon = async (req, res) => {
       });
     }
 
-    if (coupon.usedBy.includes(req.user._id)) {
+    const alreadyUsed = coupon.usedBy.some(
+      (id) =>
+        id.toString() === req.user._id.toString()
+    );
+
+    if (alreadyUsed) {
       return res.status(400).json({
         message: "You already used this coupon",
       });
@@ -37,15 +56,22 @@ export const applyCoupon = async (req, res) => {
     const discountAmount =
       (totalAmount * coupon.discount) / 100;
 
-    const finalAmount = totalAmount - discountAmount;
+    const finalAmount =
+      totalAmount - discountAmount;
 
     res.json({
+      success: true,
       discountAmount,
       finalAmount,
     });
+
   } catch (error) {
+
     console.log("APPLY COUPON ERROR:", error);
-    res.status(500).json({ message: "Server error" });
+
+    res.status(500).json({
+      message: "Server error",
+    });
   }
 };
 
@@ -121,22 +147,29 @@ export const getCoupons = async (req, res) => {
 // GET AVAILABLE COUPONS FOR CHECKOUT
 export const getAvailableCoupons = async (req, res) => {
   try {
-    const { totalAmount } = req.query;
+    const totalAmount =
+      Number(req.query.totalAmount || 0);
 
     const coupons = await Coupon.find({
       isActive: true,
       expiryDate: { $gt: new Date() },
-    });
+      minAmount: { $lte: totalAmount },
+    }).sort({ createdAt: -1 });
 
-    // only applicable coupons
-    const filteredCoupons = coupons.filter(
-      (coupon) => Number(totalAmount) >= coupon.minAmount
-    );
+    // remove already used coupons
+   const filteredCoupons = coupons.filter(
+  (coupon) =>
+    !coupon.usedBy.some(
+      (id) => id.toString() === req.user._id.toString()
+    )
+);
 
     res.json(filteredCoupons);
 
   } catch (error) {
-    console.log("AVAILABLE COUPONS ERROR:", error);
-    res.status(500).json({ message: "Server error" });
+    console.log("AVAILABLE COUPON ERROR:", error);
+    res.status(500).json({
+      message: "Server error",
+    });
   }
 };
