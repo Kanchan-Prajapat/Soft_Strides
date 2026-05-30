@@ -10,6 +10,7 @@ const Coupons = () => {
   const [loading, setLoading] = useState(false);
   const [expiryDate, setExpiryDate] = useState("");
 const [minAmount, setMinAmount] = useState("");
+const [maxUsesPerUser, setMaxUsesPerUser] = useState("1");
 
 
   const loadCoupons = async () => {
@@ -33,6 +34,7 @@ const handleCreate = async () => {
       discount,
       expiryDate,
       minAmount,
+      maxUsesPerUser,
     });
 
     alert("Coupon created");
@@ -41,6 +43,7 @@ const handleCreate = async () => {
     setDiscount("");
     setExpiryDate("");
     setMinAmount("");
+    setMaxUsesPerUser("1");
 
     loadCoupons();
   } catch (err) {
@@ -80,6 +83,13 @@ const handleCreate = async () => {
 />
 
 <input
+  type="number"
+  placeholder="Max Uses Per User"
+  value={maxUsesPerUser}
+  onChange={(e) => setMaxUsesPerUser(e.target.value)}
+/>
+
+<input
   type="date"
   value={expiryDate}
   placeholder="Expiry date"
@@ -112,6 +122,7 @@ const handleCreate = async () => {
               <th>Code</th>
               <th>Discount</th>
               <th>Minimum Amount</th>
+              <th>Max Uses/User</th>
               <th>Expiry Date</th>
               <th>Status</th>
               <th>Actions</th>
@@ -123,6 +134,7 @@ const handleCreate = async () => {
                 <td>{c.code}</td>
                 <td>{c.discount}%</td>
                 <td>₹{c.minAmount}</td>
+                <td>{c.maxUsesPerUser || 1}</td>
                 <td>{c.expiryDate ? new Date(c.expiryDate).toLocaleString() : "No Expiry"}</td>
                 <td>{c.isActive ? "Active" : "Disabled"}</td>
                 <td>

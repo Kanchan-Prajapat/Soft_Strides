@@ -48,10 +48,10 @@ export const CartProvider = ({ children }) => {
   /* ==============================
      INCREASE QTY (ID + SIZE)
   ============================== */
-  const increaseQty = (id, size) => {
+  const increaseQty = (id, size, index) => {
     setCartItems((prev) =>
       prev.map((item) =>
-        item._id === id && item.size === size
+        item._id === id && item.size === size && item.index === index
           ? { ...item, qty: item.qty + 1 }
           : item
       )
@@ -61,11 +61,11 @@ export const CartProvider = ({ children }) => {
   /* ==============================
      DECREASE QTY (ID + SIZE)
   ============================== */
-  const decreaseQty = (id, size) => {
+  const decreaseQty = (id, size, index) => {
     setCartItems((prev) =>
       prev
         .map((item) =>
-          item._id === id && item.size === size
+          item._id === id && item.size === size && item.index === index
             ? { ...item, qty: item.qty - 1 }
             : item
         )
@@ -76,11 +76,11 @@ export const CartProvider = ({ children }) => {
   /* ==============================
      REMOVE ITEM (ID + SIZE)
   ============================== */
-  const removeItem = (id, size) => {
+  const removeItem = (id, size, index) => {
     setCartItems((prev) =>
       prev.filter(
         (item) =>
-          !(item._id === id && item.size === size)
+          !(item._id === id && item.size === size && item.index === index)
       )
     );
   };

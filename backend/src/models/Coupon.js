@@ -21,6 +21,8 @@ const couponSchema = new mongoose.Schema(
       required: true,
     },
 
+    
+
     minAmount: {
       type: Number,
       default: 0,
@@ -31,12 +33,24 @@ const couponSchema = new mongoose.Schema(
       default: true,
     },
 
-    usedBy: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-      },
-    ],
+    maxUsesPerUser: {
+  type: Number,
+  default: 1,
+},
+
+usedBy: [
+  {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+
+    count: {
+      type: Number,
+      default: 0,
+    },
+  },
+],
   },
   { timestamps: true }
 );

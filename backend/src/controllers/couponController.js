@@ -42,16 +42,20 @@ export const applyCoupon = async (req, res) => {
       });
     }
 
-    const alreadyUsed = coupon.usedBy.some(
-      (id) =>
-        id.toString() === req.user._id.toString()
-    );
+  const userUsage = coupon.usedBy.find(
+  (u) =>
+    u.user.toString() ===
+    req.user._id.toString()
+);
 
-    if (alreadyUsed) {
-      return res.status(400).json({
-        message: "You already used this coupon",
-      });
-    }
+if (
+  userUsage &&
+  userUsage.count >= coupon.maxUsesPerUser
+) {
+  return res.status(400).json({
+    message: "Coupon usage limit reached",
+  });
+}
 
     const discountAmount =
       (totalAmount * coupon.discount) / 100;
@@ -80,7 +84,7 @@ export const applyCoupon = async (req, res) => {
 // CREATE COUPON
 export const createCoupon = async (req, res) => {
   try {
-    const { code, discount, expiryDate, minAmount } = req.body;
+    const { code, discount, expiryDate, minAmount,  maxUsesPerUser, } = req.body;
 
     if (!code || !discount || !expiryDate) {
       return res.status(400).json({ message: "All fields required" });
@@ -96,6 +100,7 @@ export const createCoupon = async (req, res) => {
       discount,
       expiryDate,
       minAmount,
+      maxUsesPerUser: maxUsesPerUser || 1,
     });
 
     res.status(201).json(coupon);
@@ -157,11 +162,22 @@ export const getAvailableCoupons = async (req, res) => {
     }).sort({ createdAt: -1 });
 
     // remove already used coupons
-   const filteredCoupons = coupons.filter(
-  (coupon) =>
-    !coupon.usedBy.some(
-      (id) => id.toString() === req.user._id.toString()
-    )
+  const filteredCoupons = coupons.filter(
+  (coupon) => {
+
+    const usage = coupon.usedBy.find(
+      (u) =>
+        u.user.toString() ===
+        req.user._id.toString()
+    );
+
+    if (!usage) return true;
+
+    return (
+      usage.count <
+      coupon.maxUsesPerUser
+    );
+  }
 );
 
     res.json(filteredCoupons);
