@@ -2,6 +2,7 @@ import razorpay from "../config/razorpay.js";
 import crypto from "crypto";
 import Order from "../models/Order.js";
 import { createShipment } from "../services/shiprocketService.js";
+import Coupon from "../models/Coupon.js";
 
 // Initialize Razorpay
 // const razorpay = new Razorpay({
@@ -108,6 +109,39 @@ export const verifyRazorpayPayment = async (req, res) => {
         },
       ],
     });
+
+    // ✅ Update coupon usage count after successful payment
+
+if (orderData.appliedCouponCode) {
+
+  const coupon = await Coupon.findOne({
+    code: orderData.appliedCouponCode.toUpperCase(),
+  });
+
+  if (coupon) {
+
+    const usage = coupon.usedBy.find(
+      (u) =>
+        u.user.toString() ===
+        req.user._id.toString()
+    );
+
+    if (usage) {
+
+      usage.count += 1;
+
+    } else {
+
+      coupon.usedBy.push({
+        user: req.user._id,
+        count: 1,
+      });
+
+    }
+
+    await coupon.save();
+  }
+}
 
     if (!order.awbCode) {
       try {

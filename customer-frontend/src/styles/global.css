@@ -29,6 +29,12 @@ RESET
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+
+}
+
+*:focus-visible {
+  outline: 2px solid #8f6ad8;
 }
 
 /* =========================

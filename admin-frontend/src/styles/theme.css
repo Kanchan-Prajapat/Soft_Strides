@@ -25,6 +25,18 @@
   fill: white !important;
 }
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+a,
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
 /* Reset-ish */
 * { box-sizing: border-box; }
 html, body, #root {
