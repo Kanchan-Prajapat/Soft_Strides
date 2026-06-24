@@ -652,6 +652,7 @@ select.input:focus {
   background: rgb(20, 20, 20);
   white-space: nowrap;
   border: 1px solid gray;
+  color: #aaa;
 }
 
 .add-btn:hover {

@@ -52,7 +52,7 @@ const Categories = () => {
         title="Product Categories"
         right={
           <button
-            className="add-btn"
+            className="btn add-btn"
             onClick={() => {
               setEditCategory(null);
               setModalOpen(true);
@@ -110,7 +110,7 @@ const Categories = () => {
 
                   <td>
                     <span
-                      style={{ cursor: "pointer", textDecoration: "underline" }}
+                      style={{ cursor: "pointer", textDecoration: "none" }}
                       onClick={() =>
                         window.location.href = `/products?category=${c._id}`
                       }
