@@ -1,6 +1,7 @@
 import "../styles/products.css";
 
 const SidebarFilters = ({
+  categories,
   selectedCategory,
   setSelectedCategory,
   selectedSize,
@@ -9,63 +10,138 @@ const SidebarFilters = ({
   setSelectedColor,
   priceRange,
   setPriceRange,
+  clearFilters,
 }) => {
   return (
     <div className="sidebar">
 
+      <button
+        className="clear-filter-btn"
+        onClick={clearFilters}
+      >
+        Clear Filters
+      </button>
+
       <h3>Filters</h3>
 
-      {/* Category */}
+      {/* CATEGORY */}
       <div className="filter-group">
+
         <label>Category</label>
-        <select
-          value={selectedCategory}
-          onChange={(e) =>
-            setSelectedCategory(e.target.value)
-          }
-        >
-          <option>All</option>
-          <option>Dress</option>
-          <option>Shirt</option>
-          <option>Jeans</option>
-        </select>
+
+        <div className="filter-options">
+
+          <label className="filter-option">
+            <input
+              type="radio"
+              name="category"
+              checked={selectedCategory === "All"}
+              onChange={() => setSelectedCategory("All")}
+            />
+            <span>All</span>
+          </label>
+
+          {categories.map((cat) => (
+            <label
+              key={cat._id}
+              className="filter-option"
+            >
+              <input
+                type="radio"
+                name="category"
+                checked={selectedCategory === cat.name}
+                onChange={() =>
+                  setSelectedCategory(cat.name)
+                }
+              />
+
+              <span>{cat.name}</span>
+
+            </label>
+          ))}
+
+        </div>
+
       </div>
 
-      {/* Size */}
+      {/* SIZE */}
       <div className="filter-group">
+
         <label>Size</label>
-        <select
-          value={selectedSize}
-          onChange={(e) =>
-            setSelectedSize(e.target.value)
-          }
-        >
-          <option>All</option>
-          <option>S</option>
-          <option>M</option>
-          <option>L</option>
-          <option>XL</option>
-        </select>
+
+        <div className="filter-options">
+
+          {["All", "S", "M", "L", "XL", "XXL"].map((size) => (
+
+            <label
+              key={size}
+              className="filter-option"
+            >
+
+              <input
+                type="radio"
+                name="size"
+                checked={selectedSize === size}
+                onChange={() =>
+                  setSelectedSize(size)
+                }
+              />
+
+              <span>{size}</span>
+
+            </label>
+
+          ))}
+
+        </div>
+
       </div>
 
-      {/* Color */}
+      {/* COLOR */}
+
       <div className="filter-group">
+
         <label>Color</label>
-        <select
-          value={selectedColor}
-          onChange={(e) =>
-            setSelectedColor(e.target.value)
-          }
-        >
-          <option>All</option>
-          <option>Black</option>
-          <option>White</option>
-          <option>Blue</option>
-        </select>
+
+        <div className="filter-options">
+
+          {[
+            "All",
+            "Black",
+            "White",
+            "Grey",
+            "Blue",
+            "Red",
+          ].map((color) => (
+
+            <label
+              key={color}
+              className="filter-option"
+            >
+
+              <input
+                type="radio"
+                name="color"
+                checked={selectedColor === color}
+                onChange={() =>
+                  setSelectedColor(color)
+                }
+              />
+
+              <span>{color}</span>
+
+            </label>
+
+          ))}
+
+        </div>
+
       </div>
 
-      {/* Price Slider */}
+      {/* PRICE */}
+
       <div className="filter-group">
+
         <label>Price Range</label>
 
         <input
@@ -75,11 +151,17 @@ const SidebarFilters = ({
           step="500"
           value={priceRange[1]}
           onChange={(e) =>
-            setPriceRange([0, Number(e.target.value)])
+            setPriceRange([
+              0,
+              Number(e.target.value),
+            ])
           }
         />
 
-        <p>₹0 - ₹{priceRange[1]}</p>
+        <p>
+          ₹0 - ₹{priceRange[1]}
+        </p>
+
       </div>
 
     </div>

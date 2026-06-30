@@ -199,6 +199,7 @@ const ProductDetails = () => {
 
           </div>
 
+
           <div className="description">
             <h4>Product Highlights</h4>
 

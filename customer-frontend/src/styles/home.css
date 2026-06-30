@@ -700,3 +700,22 @@ MOBILE RESPONSIVE
     padding: 6px 10px;
   }
 }
+
+.featured-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:28px;
+}
+
+@media(max-width:992px){
+.featured-grid{
+    grid-template-columns:repeat(2,1fr);
+}
+}
+
+@media(max-width:600px){
+.featured-grid{
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+}
+}

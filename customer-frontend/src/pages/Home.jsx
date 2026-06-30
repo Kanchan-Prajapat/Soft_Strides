@@ -3,15 +3,14 @@ import "../styles/home.css";
 import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import FlashSaleSection from "../components/FlashSaleSection";
-import { useWishlist } from "../context/WishlistContext";
-import { FaHeart } from "react-icons/fa";
 import CategorySlider from "../components/CategorySlider";
+import ProductCard from "../components/ProductCard";
 
 const Home = () => {
   const [banners, setBanners] = useState([]);
   const [current, setCurrent] = useState(0);
    const [products, setProducts] = useState([]);
-   const { toggleWishlist, isInWishlist } = useWishlist();
+ 
   const API_URL = process.env.REACT_APP_API_URL;
 
   /* =============================
@@ -191,47 +190,16 @@ useEffect(() => {
         <section className="featured-section">
         <h2>FEATURED PRODUCTS</h2>
 
-       <div className="product-grid">
+      <div className="products-grid featured-grid">
   {products.slice(0, 8).map((item) => (
-    <div key={item._id} className="product-card">
-
-      {/* ❤️ WISHLIST ICON */}
-      <div
-        className={`wishlist-icon ${
-          isInWishlist(item._id) ? "active" : ""
-        }`}
-        onClick={(e) => {
-          e.stopPropagation(); // 🔥 prevent redirect
-          toggleWishlist(item);
-        }}
-      >
-        <FaHeart />
-      </div>
-
-     <Link to={`/product/${item._id}`}>
-
-  {item.originalPrice > item.discountPrice && (
-    <div className="discount-badge">
-      {Math.round(
-        ((item.originalPrice - item.discountPrice) /
-          item.originalPrice) * 100
-      )}% OFF
-    </div>
-  )}
-
-  <div className="premium-image-wrapper">
-    <img src={item.images?.[0]} alt={item.name} className="premium-image" />
-  </div>
-
-  <h4>{item.name}</h4>
-
-  <p>₹{item.discountPrice}</p>
-
-</Link>
-
-    </div>
+    <ProductCard
+      key={item._id}
+      product={item}
+      openCart={() => {}}
+    />
   ))}
 </div>
+
       </section>
 
       {/* ================= FLASH SALE ================= */}
