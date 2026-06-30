@@ -16,6 +16,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
             ["Dashboard", "/dashboard"],
             ["Orders", "/orders"],
             ["Products", "/products"],
+            ["Featured Products", "/featured-products"],
             ["Customers", "/customers"],
             ["Categories", "/categories"],
             ["FlashSales", "/flash-sales"],

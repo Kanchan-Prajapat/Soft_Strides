@@ -43,6 +43,7 @@ export const createProduct = async (req, res) => {
         ? JSON.parse(req.body.description)
         : [],
       images: imageUrls,
+      featuredPriority: 9999,
     fit: fit?.trim(),
 fabric: fabric?.trim(),
 length: length?.trim(),
@@ -110,8 +111,10 @@ export const getProducts = async (req, res) => {
 // GET SINGLE PRODUCT
 export const getSingleProduct = async (req, res) => {
   try {
-    const product = await Product.findById(req.params.id)
-      .populate("category");
+  const product = await Product.findOne({
+  _id: req.params.id,
+  isVisible: true,
+}).populate("category");
 
     if (!product) {
       return res.status(404).json({ message: "Product not found" });
@@ -190,3 +193,123 @@ export const deleteProduct = async (req, res) => {
 //   const category = await Category.create({ name: req.body.name });
 //   res.json(category);
 // };
+
+
+export const toggleProductVisibility = async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id);
+
+    if (!product) {
+      return res.status(404).json({
+        message: "Product not found",
+      });
+    }
+
+    product.isVisible = !product.isVisible;
+
+    await product.save();
+
+    res.json({
+      message: `Product ${
+        product.isVisible ? "Published" : "Hidden"
+      } successfully`,
+      product,
+    });
+
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      message: "Server error",
+    });
+  }
+};
+
+export const updateFeaturedPriority = async (req, res) => {
+  try {
+    const { featuredPriority } = req.body;
+
+    const product = await Product.findById(req.params.id);
+
+    if (!product) {
+      return res.status(404).json({
+        message: "Product not found",
+      });
+    }
+
+    product.featuredPriority = Number(featuredPriority);
+
+    await product.save();
+
+    res.json({
+      message: "Priority updated successfully",
+      product,
+    });
+
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      message: "Server Error",
+    });
+  }
+};
+
+export const getFeaturedProducts = async (req, res) => {
+  try {
+
+    const filter = {
+      isVisible: true,
+    };
+
+    if (req.query.category) {
+      filter.category = req.query.category;
+    }
+
+    const products = await Product.find(filter)
+      .populate("category").sort({ featuredPriority: 1 });
+
+    res.json(products);
+
+  } catch (error) {
+    res.status(500).json({
+      message: "Server Error",
+    });
+  }
+};
+
+export const reorderFeaturedProducts = async (req, res) => {
+  try {
+    const { products } = req.body;
+
+    if (!products || !Array.isArray(products)) {
+      return res.status(400).json({
+        message: "Invalid request",
+      });
+    }
+
+    const updates = products.map((item, index) =>
+      Product.findByIdAndUpdate(
+        item._id,
+        {
+          featuredPriority: index + 1,
+        }
+      )
+    );
+
+    await Promise.all(updates);
+
+    res.json({
+      message: "Featured products reordered successfully",
+    });
+
+  } catch (error) {
+
+    console.error(error);
+
+    res.status(500).json({
+      message: "Server Error",
+    });
+
+  }
+};

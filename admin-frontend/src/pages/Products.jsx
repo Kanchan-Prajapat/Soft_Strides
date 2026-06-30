@@ -4,16 +4,16 @@ import TableCard from "../components/TableCard";
 import ProductModal from "../components/ProductModal";
 import ProductViewModal from "../components/ProductViewModal";
 import { useSearchParams } from "react-router-dom";
-import { fetchProducts, deleteProduct } from "../api/products";
+import { fetchProducts, deleteProduct, toggleProductVisibility } from "../api/products";
 import { fetchCategories } from "../api/categories";
 import { useToast } from "../components/Toast";
+
 import "../styles/theme.css";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [search, setSearch] = useState("");
-
   const [modalOpen, setModalOpen] = useState(false);
   const [editProduct, setEditProduct] = useState(null);
   const [searchParams] = useSearchParams();
@@ -29,7 +29,9 @@ const Products = () => {
     const c = await fetchCategories();
     setProducts(p);
     setCategories(c);
-    console.log("Reloaded:", p);
+    const map = {};
+
+  console.log("Reloaded:", p);
 
   };
 
@@ -47,6 +49,23 @@ const Products = () => {
     showToast("Product deleted", "success");
     load();
   };
+
+  const handleVisibility = async (id) => {
+    try {
+      const res = await toggleProductVisibility(id);
+
+      showToast(res.message, "success");
+
+      load();
+    } catch (err) {
+      showToast(
+        err.response?.data?.message || "Something went wrong",
+        "error"
+      );
+    }
+  };
+
+
 
   const filteredProducts = products.filter((p) => {
     const matchesSearch =
@@ -125,6 +144,7 @@ const Products = () => {
                   <td>₹{p.originalPrice}</td>
                   <td>₹{p.discountPrice}</td>
                   <td>{p.stock}</td>
+                
                   <td>
                     <div className="action-buttons">
                       <button
@@ -143,6 +163,13 @@ const Products = () => {
                         }}
                       >
                         Edit
+                      </button>
+
+                      <button
+                        className={p.isVisible ? "view-btn danger" : "view-btn"}
+                        onClick={() => handleVisibility(p._id)}
+                      >
+                        {p.isVisible ? "Hide" : "Publish"}
                       </button>
 
                       <button

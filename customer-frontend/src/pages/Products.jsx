@@ -28,7 +28,7 @@ const Products = () => {
       try {
         setLoading(true);
 
-        const res = await axios.get(`${API_URL}/api/products`, {
+        const res = await axios.get(`${API_URL}/api/featured`, {
           params: { category: categoryId }
         });
 

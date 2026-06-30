@@ -21,7 +21,7 @@ import { useLocation } from "react-router-dom";
 import OrderSuccess from "./pages/OrderSuccess";
 import OrderDetails from "./pages/OrderDetails";
 import ProtectedRoute from "./components/ProtectedRoute";
-
+import WhatsAppFloat from "./components/WhatsAppFloat";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -68,6 +68,7 @@ function App() {
 
       </Routes>
       <Footer />
+      <WhatsAppFloat />
     </BrowserRouter>
   );
 }

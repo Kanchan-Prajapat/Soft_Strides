@@ -58,6 +58,14 @@ discountPrice: {
   required: true,
 },
     stock: { type: Number, required: true },
+    isVisible: {
+  type: Boolean,
+  default: false,
+},
+featuredPriority: {
+    type: Number,
+    default: 9999,
+},
   description: { type: [String], default: [], required: true },
     category: {
       type: mongoose.Schema.Types.ObjectId,
@@ -72,7 +80,6 @@ discountPrice: {
       default: [],
     },
 
-    // 🔥 NEW FIELDS
     fit: {
       type: String,
       enum: ["Regular", "Oversized", "Slim", "Relaxed", "Other"],

@@ -6,6 +6,10 @@ import {
   updateProduct,
   deleteProduct,
   getSingleProduct,
+  toggleProductVisibility,
+  getFeaturedProducts,
+  updateFeaturedPriority,
+  reorderFeaturedProducts,
 } from "../controllers/productController.js";
 import { protect } from "../middleware/authMiddleware.js";
 import { adminOnly } from "../middleware/adminMiddleware.js";
@@ -13,6 +17,9 @@ import mongoose from "mongoose";
 import Product from "../models/Product.js";
 
 const router = express.Router();
+
+router.get("/featured", getFeaturedProducts);
+
 
 router.get("/", getProducts);
 
@@ -24,7 +31,25 @@ router.post(
   createProduct
 );
 
+router.put(
+  "/reorder",
+  protect,
+  adminOnly,
+  reorderFeaturedProducts
+);
 router.put("/:id", protect, adminOnly, upload.array("images", 5), updateProduct);
+router.put(
+  "/:id/visibility",
+  protect,
+  adminOnly,
+  toggleProductVisibility
+);
+router.put(
+  "/:id/priority",
+  protect,
+  adminOnly,
+  updateFeaturedPriority
+);
 router.delete("/:id", protect, adminOnly, deleteProduct);
 router.get("/:id", getSingleProduct);
 // RELATED PRODUCTS

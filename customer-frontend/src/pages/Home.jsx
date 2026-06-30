@@ -18,7 +18,23 @@ const Home = () => {
         FETCH BANNERS
   ============================= */
 const premiumRef = useRef();
-const isMobile = window.innerWidth <= 768;
+const [isMobile, setIsMobile] = useState(
+  window.innerWidth <= 768
+);
+
+useEffect(() => {
+  const handleResize = () => {
+    setIsMobile(window.innerWidth <= 768);
+  };
+
+  window.addEventListener("resize", handleResize);
+
+  return () =>
+    window.removeEventListener(
+      "resize",
+      handleResize
+    );
+}, []);
 
 useEffect(() => {
   const observer = new IntersectionObserver(
@@ -56,7 +72,7 @@ useEffect(() => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await axios.get(`${API_URL}/api/products`);
+       const res = await axios.get( `${API_URL}/api/products/featured`);
         setProducts(res.data || []);
       } catch (err) {
         console.error(err);
@@ -124,7 +140,7 @@ useEffect(() => {
                 {banner.subtitle && (
                   <p>{banner.subtitle}</p>
                 )}
-                <h2 style={{marginBottom:"20px", marginTop:"-30px", marginLeft:"10PX"}}>{banner.description}</h2>
+                <h2 >{banner.description}</h2>
 
                 <Link
                   to="/products"

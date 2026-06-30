@@ -19,6 +19,7 @@ import ReturnedOrders from "./pages/ReturnedOrders";
 import RejectedOrders from "./pages/RejectedOrders";
 import FlashSales from "./pages/FlashSales";
 import Messages from "./pages/Messages";
+import FeaturedProducts from "./pages/FeaturedProducts";
 
 
 
@@ -92,7 +93,12 @@ function App() {
         <Route path="/messages" element={
           <ProtectedRoute><Messages /></ProtectedRoute>} />
 
+        <Route path="/featured-products" element={
+          <ProtectedRoute><FeaturedProducts/></ProtectedRoute>} />
+
       </Routes>
+
+
     </BrowserRouter>
   );
 }
