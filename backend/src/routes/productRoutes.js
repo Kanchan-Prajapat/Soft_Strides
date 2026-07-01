@@ -8,6 +8,7 @@ import {
   getSingleProduct,
   toggleProductVisibility,
   getFeaturedProducts,
+  getAdminProducts,
   updateFeaturedPriority,
   reorderFeaturedProducts,
 } from "../controllers/productController.js";
@@ -20,6 +21,12 @@ const router = express.Router();
 
 router.get("/featured", getFeaturedProducts);
 
+router.get(
+  "/admin",
+  protect,
+  adminOnly,
+  getAdminProducts
+);
 
 router.get("/", getProducts);
 

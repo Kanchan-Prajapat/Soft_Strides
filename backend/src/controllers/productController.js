@@ -75,7 +75,7 @@ export const getProducts = async (req, res) => {
       search,
     } = req.query;
 
-    let filter = {};
+   let filter = {};
 
     if (search) {
       filter.name = { $regex: search, $options: "i" };
@@ -258,6 +258,7 @@ export const updateFeaturedPriority = async (req, res) => {
 };
 
 export const getFeaturedProducts = async (req, res) => {
+  
   try {
 
     const filter = {
@@ -276,6 +277,21 @@ export const getFeaturedProducts = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       message: "Server Error",
+    });
+  }
+};
+
+export const getAdminProducts = async (req, res) => {
+  try {
+    const products = await Product.find({})
+      .populate("category")
+      .sort({ createdAt: -1 });
+
+    res.json(products);
+
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
     });
   }
 };

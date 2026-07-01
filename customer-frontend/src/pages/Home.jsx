@@ -191,7 +191,7 @@ useEffect(() => {
         <h2>FEATURED PRODUCTS</h2>
 
       <div className="products-grid featured-grid">
-  {products.slice(0, 8).map((item) => (
+  {products.map((item) => (
     <ProductCard
       key={item._id}
       product={item}

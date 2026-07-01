@@ -11,7 +11,7 @@ const reviewSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-     photo: {
+    photo: {
       type: String,
     },
 
@@ -21,11 +21,11 @@ const reviewSchema = new mongoose.Schema(
     },
 
     helpfulUsers: [
-  {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-  },
-],
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
 
     rating: {
       type: Number,
@@ -48,33 +48,34 @@ const reviewSchema = new mongoose.Schema(
 const productSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
-   originalPrice: {
-  type: Number,
-  required: true,
-},
+    originalPrice: {
+      type: Number,
+      required: true,
+    },
 
-discountPrice: {
-  type: Number,
-  required: true,
-},
+    discountPrice: {
+      type: Number,
+      required: true,
+    },
     stock: { type: Number, required: true },
     isVisible: {
-  type: Boolean,
-  default: false,
-},
-featuredPriority: {
-    type: Number,
-    default: 9999,
-},
-  description: { type: [String], default: [], required: true },
+      type: Boolean,
+      default: false,
+    },
+
+    featuredPriority: {
+      type: Number,
+      default: 9999,
+    },
+    description: { type: [String], default: [], required: true },
     category: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Category",
       required: true,
     },
     color: {
-    type:String
-},
+      type: String
+    },
 
     images: [String],
 
@@ -108,27 +109,27 @@ featuredPriority: {
       default: "Cotton",
     },
 
-   length: {
-  type: String,
-  enum: [
-    "Regular",
-    "Long",
-    "Short",
-    "Other"
-  ],
-  default: "Regular",
-},
+    length: {
+      type: String,
+      enum: [
+        "Regular",
+        "Long",
+        "Short",
+        "Other"
+      ],
+      default: "Regular",
+    },
 
-   closure: {
-  type: String,
-  enum: [
-    "Button",
-    "Zip",
-    "No Closure",
-    "Other"
-  ],
-  default: "No Closure",
-},
+    closure: {
+      type: String,
+      enum: [
+        "Button",
+        "Zip",
+        "No Closure",
+        "Other"
+      ],
+      default: "No Closure",
+    },
 
     reviews: [reviewSchema],
     rating: { type: Number, default: 0 },
