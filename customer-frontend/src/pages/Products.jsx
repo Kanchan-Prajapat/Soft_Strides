@@ -51,22 +51,18 @@ const Products = () => {
 
 
 
-const fetchAllCategories = async () => {
-  try {
-    const res = await axios.get(`${API_URL}/api/categories`);
+useEffect(() => {
+  const fetchAllCategories = async () => {
+    try {
+      const res = await axios.get(`${API_URL}/api/categories`);
+      setCategories(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
-    console.log("Categories =>", res.data);
-
-    setCategories(res.data);
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-
-  useEffect(() => {
-    fetchAllCategories();
-  }, []);
+  fetchAllCategories();
+}, [API_URL]);
 
   const colors = [
   "All",
