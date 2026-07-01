@@ -4,9 +4,9 @@ import cloudinary from "../config/cloudinary.js";
 
 export const createProduct = async (req, res) => {
   try {
-    const { name, originalPrice, discountPrice, stock, sizes, category, description, fit, fabric, length, closure } = req.body;
+    const { name, originalPrice, discountPrice, stock, sizes, category, color, description, fit, fabric, length, closure } = req.body;
 
-    if (!name || !originalPrice || !discountPrice || !stock || !category) {
+    if (!name || !originalPrice || !discountPrice || !stock || !category || !color) {
       return res.status(400).json({ message: "Missing required fields" });
     }
 
@@ -38,6 +38,7 @@ export const createProduct = async (req, res) => {
       discountPrice,
       stock,
       category,
+      color: color?.trim(),
       sizes: sizes ? sizes.split(",").map((s) => s.trim()) : [],
       description: req.body.description
         ? JSON.parse(req.body.description)
@@ -130,7 +131,7 @@ export const getSingleProduct = async (req, res) => {
 // UPDATE PRODUCT (ADMIN)
 export const updateProduct = async (req, res) => {
   try {
-    const { name, originalPrice, discountPrice, stock, category, description, sizes, fit, fabric, length, closure, } = req.body;
+    const { name, originalPrice, discountPrice, stock, category, color, description, sizes, fit, fabric, length, closure, } = req.body;
 
     const updates = {
       name,
@@ -139,6 +140,7 @@ export const updateProduct = async (req, res) => {
       stock,
       sizes: sizes ? sizes.split(",").map((s) => s.trim()) : [],
       category,
+      color: color?.trim(),
       description: req.body.description
         ? JSON.parse(req.body.description)
         : [],

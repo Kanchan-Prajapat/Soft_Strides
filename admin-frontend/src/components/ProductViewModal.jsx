@@ -60,6 +60,9 @@ const ProductViewModal = ({ product, onClose }) => {
         <p>
           <strong>Stock:</strong> {product.stock}
         </p>
+        <p>
+          <strong>Color:</strong> {product.color || "—"}
+        </p>
 
         <div className="highlight-grid">
 

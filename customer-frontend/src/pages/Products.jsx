@@ -5,7 +5,7 @@ import ProductCard from "../components/ProductCard";
 import "../styles/products.css";
 import { useLocation } from "react-router-dom";
 import CartDrawer from "../components/CartDrawer";
-import { fetchCategories } from "../api/categories";
+
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -32,7 +32,7 @@ const Products = () => {
       try {
         setLoading(true);
 
-        const res = await axios.get(`${API_URL}/api/products/featured`, {
+        const res = await axios.get(`${API_URL}/api/products`, {
           params: { category: categoryId }
         });
 
@@ -49,20 +49,40 @@ const Products = () => {
   }, [API_URL, categoryId]);
 
 
-  
 
-  const fetchAllCategories = async () => {
-    try {
-      const data = await fetchCategories();
-      setCategories(data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+
+const fetchAllCategories = async () => {
+  try {
+    const res = await axios.get(`${API_URL}/api/categories`);
+
+    console.log("Categories =>", res.data);
+
+    setCategories(res.data);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 
   useEffect(() => {
     fetchAllCategories();
   }, []);
+
+  const colors = [
+  "All",
+  ...new Set(
+    products
+      .map((product) => product.color)
+      .filter(Boolean)
+  ),
+];
+
+const sizes = [
+  "All",
+  ...new Set(
+    products.flatMap((product) => product.sizes || [])
+  ),
+];
 
   let filteredProducts = products.filter((product) => {
     return (
@@ -71,7 +91,7 @@ const Products = () => {
         .includes(search.toLowerCase()) &&
 
       (selectedCategory === "All" ||
-        product.category?.name === selectedCategory) &&
+        product.category?._id === selectedCategory) &&
 
       (selectedSize === "All" ||
         product.sizes?.includes(selectedSize)) &&
@@ -106,7 +126,7 @@ const Products = () => {
     );
   }
 
-  
+
 
   const clearFilters = () => {
     setSelectedCategory("All");
@@ -155,52 +175,58 @@ const Products = () => {
 
         <div className="active-filters">
 
-  {selectedCategory !== "All" && (
-    <button
-      className="filter-chip"
-      onClick={() => setSelectedCategory("All")}
-    >
-      {selectedCategory} ✕
-    </button>
-  )}
+          {
+            selectedCategory !== "All" && (
 
-  {selectedSize !== "All" && (
-    <button
-      className="filter-chip"
-      onClick={() => setSelectedSize("All")}
-    >
-      {selectedSize} ✕
-    </button>
-  )}
+              <button className="filter-chip"
+                onClick={() => setSelectedCategory("All")} >
 
-  {selectedColor !== "All" && (
-    <button
-      className="filter-chip"
-      onClick={() => setSelectedColor("All")}
-    >
-      {selectedColor} ✕
-    </button>
-  )}
+                {
+                  categories.find(
+                    cat => cat._id === selectedCategory
+                  )?.name
+                }
 
-  {priceRange[1] !== 10000 && (
-    <button
-      className="filter-chip"
-      onClick={() => setPriceRange([0, 10000])}
-    >
-      Under ₹{priceRange[1]} ✕
-    </button>
-  )}
+                ✕ </button>
+            )}
 
-  {search && (
-    <button
-      className="filter-chip"
-      onClick={() => setSearch("")}
-    >
-      "{search}" ✕
-    </button>
-  )}
+          {selectedSize !== "All" && (
+            <button
+              className="filter-chip"
+              onClick={() => setSelectedSize("All")}
+            >
+              {selectedSize} ✕
+            </button>
+          )}
 
-</div>
+          {selectedColor !== "All" && (
+            <button
+              className="filter-chip"
+              onClick={() => setSelectedColor("All")}
+            >
+              {selectedColor} ✕
+            </button>
+          )}
+
+          {priceRange[1] !== 10000 && (
+            <button
+              className="filter-chip"
+              onClick={() => setPriceRange([0, 10000])}
+            >
+              Under ₹{priceRange[1]} ✕
+            </button>
+          )}
+
+          {search && (
+            <button
+              className="filter-chip"
+              onClick={() => setSearch("")}
+            >
+              "{search}" ✕
+            </button>
+          )}
+
+        </div>
 
         {/* MOBILE FILTER */}
         <button
@@ -232,18 +258,25 @@ const Products = () => {
               ✕
             </button>
 
-            <SidebarFilters
-              categories={categories}
-              selectedCategory={selectedCategory}
-              setSelectedCategory={setSelectedCategory}
-              selectedSize={selectedSize}
-              setSelectedSize={setSelectedSize}
-              selectedColor={selectedColor}
-              setSelectedColor={setSelectedColor}
-              priceRange={priceRange}
-              setPriceRange={setPriceRange}
-              clearFilters={clearFilters}
-            />
+           <SidebarFilters
+  categories={categories}
+  colors={colors}
+  sizes={sizes}
+
+  selectedCategory={selectedCategory}
+  setSelectedCategory={setSelectedCategory}
+
+  selectedSize={selectedSize}
+  setSelectedSize={setSelectedSize}
+
+  selectedColor={selectedColor}
+  setSelectedColor={setSelectedColor}
+
+  priceRange={priceRange}
+  setPriceRange={setPriceRange}
+
+  clearFilters={clearFilters}
+/>
           </div>
 
           {/* PRODUCTS */}

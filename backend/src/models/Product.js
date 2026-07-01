@@ -72,6 +72,9 @@ featuredPriority: {
       ref: "Category",
       required: true,
     },
+    color: {
+    type:String
+},
 
     images: [String],
 

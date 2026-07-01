@@ -8,6 +8,7 @@ const ProductModal = ({ product, categories, onClose, onSuccess }) => {
   const [name, setName] = useState(product?.name || "");
   const [originalPrice, setOriginalPrice] = useState(product?.originalPrice || "");
   const [discountPrice, setDiscountPrice] = useState(product?.discountPrice || "");
+  const [color, setColor] = useState(product?.color || "");
   const [stock, setStock] = useState(product?.stock || "");
   const [category, setCategory] = useState(
     product?.category?._id ?? ""
@@ -42,6 +43,7 @@ const ProductModal = ({ product, categories, onClose, onSuccess }) => {
       form.append("discountPrice", discountPrice);
       form.append("stock", stock);
       form.append("category", category);
+      form.append("color", color);
       form.append("sizes", sizes);
       form.append("description", JSON.stringify(descPoints));
       form.append("fit", fit);
@@ -177,6 +179,28 @@ const ProductModal = ({ product, categories, onClose, onSuccess }) => {
             <option>Relaxed</option>
             <option>Other</option>
           </select>
+
+          <select
+            value={color}
+            onChange={(e) => setColor(e.target.value)}
+          >
+            <option value="">Select Color</option>
+
+            <option value="Black">Black</option>
+            <option value="White">White</option>
+            <option value="Grey">Grey</option>
+            <option value="Blue">Blue</option>
+            <option value="Red">Red</option>
+            <option value="Green">Green</option>
+            <option value="Yellow">Yellow</option>
+            <option value="Orange">Orange</option>
+            <option value="Pink">Pink</option>
+            <option value="Brown">Brown</option>
+            <option value="Purple">Purple</option>
+            <option value="Beige">Beige</option>
+            <option value="Other">Other</option>
+          </select>
+
 
           <select value={fabric} onChange={(e) => setFabric(e.target.value)}>
             <option>Select Fabric</option>

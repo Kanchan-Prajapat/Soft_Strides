@@ -2,14 +2,21 @@ import "../styles/products.css";
 
 const SidebarFilters = ({
   categories,
+  colors,
+  sizes,
+
   selectedCategory,
   setSelectedCategory,
+
   selectedSize,
   setSelectedSize,
+
   selectedColor,
   setSelectedColor,
+
   priceRange,
   setPriceRange,
+
   clearFilters,
 }) => {
   return (
@@ -49,9 +56,10 @@ const SidebarFilters = ({
               <input
                 type="radio"
                 name="category"
-                checked={selectedCategory === cat.name}
+                checked={selectedCategory === cat._id}
+
                 onChange={() =>
-                  setSelectedCategory(cat.name)
+                  setSelectedCategory(cat._id)
                 }
               />
 
@@ -71,27 +79,25 @@ const SidebarFilters = ({
 
         <div className="filter-options">
 
-          {["All", "S", "M", "L", "XL", "XXL"].map((size) => (
+        {sizes.map((size) => (
 
-            <label
-              key={size}
-              className="filter-option"
-            >
+<label
+  key={size}
+  className="filter-option"
+>
 
-              <input
-                type="radio"
-                name="size"
-                checked={selectedSize === size}
-                onChange={() =>
-                  setSelectedSize(size)
-                }
-              />
+<input
+  type="radio"
+  name="size"
+  checked={selectedSize===size}
+  onChange={()=>setSelectedSize(size)}
+/>
 
-              <span>{size}</span>
+<span>{size}</span>
 
-            </label>
+</label>
 
-          ))}
+))}
 
         </div>
 
@@ -105,20 +111,12 @@ const SidebarFilters = ({
 
         <div className="filter-options">
 
-          {[
-            "All",
-            "Black",
-            "White",
-            "Grey",
-            "Blue",
-            "Red",
-          ].map((color) => (
+          {colors.map((color) => (
 
             <label
               key={color}
               className="filter-option"
             >
-
               <input
                 type="radio"
                 name="color"
