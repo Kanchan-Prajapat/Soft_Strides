@@ -138,7 +138,7 @@ const SidebarFilters = ({
 
       {/* PRICE */}
 
-      <div className="filter-group">
+      <div className="filter-group price">
 
         <label>Price Range</label>
 

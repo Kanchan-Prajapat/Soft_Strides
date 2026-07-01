@@ -99,6 +99,10 @@ PRODUCTS PAGE
     color:#8d8d8d;
 }
 
+.filter-group.price > label{
+    margin-bottom:10px;
+}
+
 /* =========================
 LAYOUT
 ========================= */
@@ -221,10 +225,13 @@ SIDEBAR
    backdrop-filter: blur(10px);
   background: rgba(24,24,27,0.7);
   padding: 16px;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
   width: 100%;
   border-radius: 10px;
   border: 1px solid rgba(255,255,255,0.05);
   position: sticky;
+
   top: 100px;
 }
 
