@@ -20,7 +20,7 @@ const WhatsAppFloat = () => {
     };
   }, []);
 
-  const phone = "8690709955"; // Replace with client's WhatsApp number
+  const phone = "8824469405"; // Replace with client's WhatsApp number
 
   const message =
     "Hi Soft Strides 👋%0A%0AI'm interested in your products.%0ACan you help me?";
