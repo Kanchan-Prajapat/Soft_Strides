@@ -25,7 +25,7 @@ const WhatsAppFloat = () => {
   const message =
     "Hi Soft Strides 👋%0A%0AI'm interested in your products.%0ACan you help me?";
 
-  const whatsappLink = `https://wa.me/${phone}?text=${message}`;
+  const whatsappLink = `https://wa.me/+91${phone}?text=${message}`;
 
   return (
     <div className="whatsapp-container">
