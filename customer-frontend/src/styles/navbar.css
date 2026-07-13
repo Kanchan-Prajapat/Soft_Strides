@@ -11,10 +11,10 @@ NAVBAR
 .navbar {
   width: 100%;
   padding: 8px 10px;
-  background: rgba(18, 18, 18, 0.95);
-  backdrop-filter: blur(10px);
+   background: rgba(18,18,18,.92);
+    backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border);
-  position: relative;
+  position: sticky;
   top: 0;
   z-index: 1000;
 }
@@ -50,8 +50,22 @@ SEARCH (ALWAYS SAFE)
 ========================= */
 .nav-center {
   margin-top: 12px;
-  width: 100%;
+  width:min(520px,42vw);
   padding: 0 4px;
+}
+
+.nav-icon {
+  background: transparent;
+  outline: none;
+  border: none;
+}
+
+.nav-icon:focus,
+.nav-icon:focus-visible,
+.nav-icon:active {
+  outline: none;
+  background: transparent;
+  box-shadow: none;
 }
 
 .search-bar {
@@ -87,7 +101,7 @@ RIGHT ICONS
 .nav-right {
   display: flex;
   align-items: center;
-  gap: 22px;
+  gap: 28px;
 }
 
 /* ICON */
@@ -102,7 +116,8 @@ RIGHT ICONS
 /* HOVER */
 .nav-icon:hover {
   color: var(--primary);
-  transform: translateY(-2px) scale(1.08);
+  transform: translateY(-3px) scale(1.01);
+  transition:.25s cubic-bezier(.4,0,.2,1);
 }
 
 /* GLOW */
@@ -174,7 +189,7 @@ DRAWER
   position: fixed;
   top: 0;
   right: -100%;
-  width: 260px;
+ width:min(82vw,320px);
   height: 100vh;
   background: #1e1e22;
   padding: 20px;
@@ -182,10 +197,18 @@ DRAWER
   z-index: 2000;
   display: flex;
   flex-direction: column;
+  transition:
+right .35s ease,
+opacity .35s;
+
+opacity:0;
 }
+
+
 
 .mobile-menu.open {
   right: 0;
+  opacity:1;
 }
 
 .menu-header {
@@ -220,7 +243,8 @@ DRAWER
 .menu-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.5);
+ background:rgba(0,0,0,.55);
+backdrop-filter:blur(3px);
 }
 
 /* =========================
@@ -232,34 +256,49 @@ MOBILE RESPONSIVE
     padding: 10px 14px;
   }
 
-  /* hide desktop icons */
+  .nav-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .nav-left {
+    flex-shrink: 0;
+  }
+
+  .logo-image {
+    width: 36px;
+    height: 36px;
+  }
+
+  /* Search between logo and menu */
+  .nav-center {
+    position: static !important;
+    transform: none !important;
+
+    flex: 1;
+    width: auto;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .search-bar {
+    width: 100%;
+  }
+
+  .mobile-menu-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+  }
+
   .nav-right {
     display: none;
   }
-
-  /* show menu */
-  .mobile-menu-icon {
-    display: block;
-  }
-
-  /* search below */
-  .nav-center {
-    margin-top: 10px;
-  }
-
-  /* logo smaller */
-  .logo-image {
-    height: 34px;
-    width: 34px;
-  }
-
-  /* disable heavy hover */
-  .nav-icon:hover,
-  .logo-image:hover {
-    transform: none;
-  }
 }
-
 /* =========================
 DESKTOP CENTER SEARCH
 ========================= */
@@ -280,13 +319,40 @@ DESKTOP CENTER SEARCH
     margin: 0 auto;
   }
 
-  .nav-center {
-    max-width: 500px;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 420px;
-  }
+  .nav-center{
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    width:420px;
+    max-width:500px;
+    margin-bottom: 20px;
+}
   
+}
+
+
+
+
+
+/* Active Nav Icon */
+.nav-icon.active {
+  color: var(--primary);
+  transform: none;
+}
+
+.nav-icon.active svg {
+  color: var(--primary);
+}
+
+/* Don't show the hover glow when active */
+.nav-icon.active::after {
+  display: none;
+}
+
+.nav-icon[aria-current="page"] {
+  color: var(--primary);
+  background: transparent !important;
+  box-shadow: none !important;
+  outline: none !important;
 }

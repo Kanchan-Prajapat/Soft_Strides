@@ -2,7 +2,7 @@ import "../styles/navbar.css";
 import logo from "../assets/Logo.png";
 import { useCart } from "../context/CartContext";
 import SearchBar from "./SearchBar";
-import { Link } from "react-router-dom";
+import { Link , NavLink} from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import avatar from "../pages/default-avtar.png";
 import { useState, useEffect } from "react";
@@ -46,26 +46,46 @@ const Navbar = () => {
 
           {/* DESKTOP ICONS */}
           <div className="nav-right desktop-only">
-            <Link to="/" className="nav-icon">
-              <FontAwesomeIcon icon={faHouse} />
-            </Link>
+           <NavLink
+  to="/"
+  className={({ isActive }) =>
+    isActive ? "nav-icon active" : "nav-icon"
+  }
+>
+  <FontAwesomeIcon icon={faHouse} />
+</NavLink>
 
-            <Link  to={user ? "/cart" : "/login"} className="nav-icon">
-              <FontAwesomeIcon icon={faShoppingCart} />
-              {cartItems.length > 0 && (
-                <span className="cart-badge">{cartItems.length}</span>
-              )}
-            </Link>
+           <NavLink
+  to={user ? "/cart" : "/login"}
+  className={({ isActive }) =>
+    isActive ? "nav-icon active" : "nav-icon"
+  }
+>
+  <FontAwesomeIcon icon={faShoppingCart} />
+  {cartItems.length > 0 && (
+    <span className="cart-badge">{cartItems.length}</span>
+  )}
+</NavLink>
 
            {user && (
-  <Link to="/my-orders" className="nav-icon">
-    <FontAwesomeIcon icon={faBox} />
-  </Link>
+ <NavLink
+  to="/my-orders"
+  className={({ isActive }) =>
+    isActive ? "nav-icon active" : "nav-icon"
+  }
+>
+  <FontAwesomeIcon icon={faBox} />
+</NavLink>
 )}
 
-            <Link  to={user ? "/wishlist" : "/login"} className="nav-icon">
-              <FontAwesomeIcon icon={faHeart} />
-            </Link>
+          <NavLink
+  to={user ? "/wishlist" : "/login"}
+  className={({ isActive }) =>
+    isActive ? "nav-icon active" : "nav-icon"
+  }
+>
+  <FontAwesomeIcon icon={faHeart} />
+</NavLink>
 
             <Link  to={user ? "/profile" : "/login"}>
               <img
