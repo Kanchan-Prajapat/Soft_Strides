@@ -11,7 +11,7 @@ import { FaHeart } from "react-icons/fa";
 import CartDrawer from "../components/CartDrawer";
 import { useSwipeable } from "react-swipeable";
 import { Truck, RefreshCcw, Package } from "lucide-react";
-
+import SEO from "../components/SEO";
 const ProductDetails = () => {
   const { id } = useParams();
   const { addToCart, cartItems } = useCart();
@@ -132,6 +132,12 @@ const ProductDetails = () => {
 
   return (
     <div className="product-page">
+    <SEO
+    title={`${product.name} | Soft Strides`}
+    description={product.description}
+    image={product.images[0]}
+    url={`https://softstrides.in/product/${product.slug}`}
+/>
 
       {/* TOP SECTION */}
       <div className="product-wrapper">

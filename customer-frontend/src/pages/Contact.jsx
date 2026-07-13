@@ -1,7 +1,7 @@
 import "../styles/contact.css";
 import { useState } from "react";
 import { sendMessage } from "../api/contact";
-
+import SEO from "../components/SEO";
 const Contact = () => {
 
   const [successMsg, setSuccessMsg] = useState("");
@@ -54,6 +54,11 @@ const Contact = () => {
 
   return (
     <div className="contact-page container">
+   <SEO
+  title="Contact Soft Strides"
+  description="Contact our support team for orders, exchanges, and product enquiries."
+  url="https://softstrides.in/contact"
+/>
 
       {/* HEADER */}
       <div className="contact-header">

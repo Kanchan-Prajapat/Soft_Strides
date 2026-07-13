@@ -677,13 +677,13 @@ MOBILE RESPONSIVE
   align-items: center;
   gap: 10px;
   color: #a1a1aa; /* Muted gray text */
-  font-size: 13px;
+  font-size: 18px;
   font-weight: 500;
 }
 
 .feature-item i {
   color: #8E7AB5; /* Icons in purple */
-  font-size: 18px;
+  font-size: 20px;
 }
 
 /* --- Responsive (Mobile Pe Stack Karein) --- */

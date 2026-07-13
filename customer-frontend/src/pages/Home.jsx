@@ -2,10 +2,11 @@ import { Link } from "react-router-dom";
 import "../styles/home.css";
 import { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import FlashSaleSection from "../components/FlashSaleSection";
+// import FlashSaleSection from "../components/FlashSaleSection";
 import CategorySlider from "../components/CategorySlider";
 import ProductCard from "../components/ProductCard";
-
+import SEO from "../components/SEO";
+import { getOrganizationSchema } from "../utils/schema";
 const Home = () => {
   const [banners, setBanners] = useState([]);
   const [current, setCurrent] = useState(0);
@@ -110,7 +111,11 @@ useEffect(() => {
   };
 
   return (
+    
     <div className="home-page">
+    <SEO
+        schema={getOrganizationSchema()}
+      />
 
       {/* ================= HERO SLIDER ================= */}
 
@@ -145,7 +150,7 @@ useEffect(() => {
                   to="/products"
                   className="hero-btn"
                 >
-                  Shop Now
+                  Explore Collection
                 </Link>
               </div>
             </div>
@@ -180,8 +185,8 @@ useEffect(() => {
   </div>
 </div>
 
-
-  <FlashSaleSection />
+{/* 
+  <FlashSaleSection /> */}
 
 
       {/* ================= CATEGORY SECTION ================= */}

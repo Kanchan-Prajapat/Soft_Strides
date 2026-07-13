@@ -1,7 +1,7 @@
 import { useCart } from "../context/CartContext";
 import { useNavigate } from "react-router-dom";
 import "../styles/cart.css";
-
+import SEO from "../components/SEO";
 const Cart = () => {
   const {
     cartItems,
@@ -22,6 +22,10 @@ const Cart = () => {
 
   return (
     <div className="container cart-page">
+   <SEO
+  title="Shopping Cart"
+  robots="noindex,nofollow"
+/>
       <h2 className="cart-title">
         Your Premium Selection
       </h2>
