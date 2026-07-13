@@ -3,7 +3,7 @@ import { Helmet } from "react-helmet-async";
 const defaultSEO = {
   title: "Soft Strides | Premium Oversized & Graphic T-Shirts India",
   description:
-    "Premium oversized, graphic and cotton t-shirts for men & women. Comfortable streetwear made for everyday wear. Secure payments, easy exchanges and fast delivery across India.",
+    "Premium oversized, graphic and cotton Anime T-Shirts in India. Comfortable streetwear made for everyday wear. Secure payments, easy exchanges and fast delivery across India.",
   image: "https://softstrides.in/social-banner.jpg",
   url: "https://softstrides.in/",
 };
