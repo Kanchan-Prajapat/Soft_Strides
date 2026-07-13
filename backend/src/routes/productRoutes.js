@@ -11,6 +11,7 @@ import {
   getAdminProducts,
   updateFeaturedPriority,
   reorderFeaturedProducts,
+    searchSuggestions,
 } from "../controllers/productController.js";
 import { protect } from "../middleware/authMiddleware.js";
 import { adminOnly } from "../middleware/adminMiddleware.js";
@@ -44,6 +45,8 @@ router.put(
   adminOnly,
   reorderFeaturedProducts
 );
+
+router.get("/search", searchSuggestions);
 router.put("/:id", protect, adminOnly, upload.array("images", 5), updateProduct);
 router.put(
   "/:id/visibility",

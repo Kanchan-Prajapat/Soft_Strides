@@ -238,46 +238,7 @@ NAVBAR (GLASS + MATTE)
   border-bottom: 1px solid var(--border);
 }
 
-/* =========================
-SEARCH BAR
-========================= */
-.search-bar {
-  display: flex;
-  max-width: 500px;
-  width: 100%;
 
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  overflow: hidden;
-}
-
-.search-bar input {
-  flex: 1;
-  background: transparent;
-  border: none;
-  padding: 10px 15px;
-  color: var(--text-main);
-}
-
-.search-bar input::placeholder {
-  color: var(--text-muted);
-}
-
-
-.search-btn {
-  background: var(--primary);
-  padding: 0 20px;
-  color: white;
-  border: 1px solid var(--primary) ; /* 🔥 remove border */
-  outline: none;         /* 🔥 remove black outline */
-  box-shadow: none;      /* 🔥 extra safety */
-}
-
-.search-btn:focus {
- outline: none;
-  box-shadow: 0 0 0 2px rgba(142, 122, 181, 0.4);
-}
 
 /* =========================
 FOOTER

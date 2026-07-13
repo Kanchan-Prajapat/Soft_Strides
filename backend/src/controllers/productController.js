@@ -342,3 +342,33 @@ export const reorderFeaturedProducts = async (req, res) => {
 };
 
 
+
+// SEARCH SUGGESTIONS (Navbar)
+export const searchSuggestions = async (req, res) => {
+  try {
+    const { q } = req.query;
+
+    if (!q || q.trim().length < 2) {
+      return res.json([]);
+    }
+
+    const products = await Product.find({
+      isVisible: true,
+      name: {
+        $regex: q.trim(),
+        $options: "i",
+      },
+    })
+      .populate("category", "name")
+      .select("name images category")
+      .limit(5);
+
+    res.json(products);
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      message: "Server Error",
+    });
+  }
+};
