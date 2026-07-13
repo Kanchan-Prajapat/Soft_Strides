@@ -19,8 +19,7 @@
 import flashSaleRoutes from "./routes/flashSaleRoutes.js";
 import contactRoutes from "./routes/contactRoutes.js";
 import cartRoutes from "./routes/cartRoutes.js";
-
-
+import shareRoutes from "./routes/shareRoutes.js";
 
   dotenv.config();
   connectDB();
@@ -32,6 +31,7 @@ import cartRoutes from "./routes/cartRoutes.js";
   app.use(cors());
   app.use("/uploads", express.static("uploads"));
   app.use("/api/products", productRoutes);
+  app.use("/share", shareRoutes);
   app.use("/api/orders", orderRoutes);
   app.use("/api/users", userRoutes);
   app.use("/api/admin", adminRoutes);

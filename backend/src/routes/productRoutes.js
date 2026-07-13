@@ -1,5 +1,8 @@
 import express from "express";
 import upload from "../middleware/uploadMiddleware.js";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
 import {
   createProduct,
   getProducts,
@@ -17,8 +20,11 @@ import { protect } from "../middleware/authMiddleware.js";
 import { adminOnly } from "../middleware/adminMiddleware.js";
 import mongoose from "mongoose";
 import Product from "../models/Product.js";
+import { getProductOG } from "../controllers/productController.js";
 
 const router = express.Router();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 router.get("/featured", getFeaturedProducts);
 
@@ -61,6 +67,9 @@ router.put(
   updateFeaturedPriority
 );
 router.delete("/:id", protect, adminOnly, deleteProduct);
+router.get("/:id/og", getProductOG);
+
+
 router.get("/:id", getSingleProduct);
 // RELATED PRODUCTS
 

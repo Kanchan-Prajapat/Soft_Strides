@@ -372,3 +372,46 @@ export const searchSuggestions = async (req, res) => {
     });
   }
 };
+
+
+// =========================
+// PRODUCT OPEN GRAPH DATA
+// =========================
+export const getProductOG = async (req, res) => {
+  try {
+    const product = await Product.findOne({
+      _id: req.params.id,
+      isVisible: true,
+    }).populate("category");
+
+    if (!product) {
+      return res.status(404).json({
+        message: "Product not found",
+      });
+    }
+
+    res.json({
+      title: product.name,
+      description:
+        product.description?.[0] ||
+        "Premium oversized streetwear from Soft Strides.",
+
+      image: product.images?.[0] || "",
+
+      price: product.discountPrice,
+
+      originalPrice: product.originalPrice,
+
+      category: product.category?.name || "",
+
+      url: `https://softstrides.in/product/${product._id}`,
+    });
+
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      message: "Server Error",
+    });
+  }
+};
