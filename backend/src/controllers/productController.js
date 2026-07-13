@@ -1,6 +1,6 @@
 import Product from "../models/Product.js";
 import cloudinary from "../config/cloudinary.js";
-
+import { getEstimatedDeliveryDate } from "../utils/deliveryUtils.js";
 
 export const createProduct = async (req, res) => {
   try {
@@ -112,21 +112,30 @@ export const getProducts = async (req, res) => {
 // GET SINGLE PRODUCT
 export const getSingleProduct = async (req, res) => {
   try {
-  const product = await Product.findOne({
-  _id: req.params.id,
-  isVisible: true,
-}).populate("category");
+    const product = await Product.findOne({
+      _id: req.params.id,
+      isVisible: true,
+    }).populate("category");
 
     if (!product) {
-      return res.status(404).json({ message: "Product not found" });
+      return res.status(404).json({
+        message: "Product not found",
+      });
     }
 
-    res.json(product);
+    const deliveryDate = getEstimatedDeliveryDate();
+
+    res.json({
+      ...product.toObject(),
+      estimatedDelivery: deliveryDate,
+    });
+
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({
+      message: error.message,
+    });
   }
 };
-
 
 // UPDATE PRODUCT (ADMIN)
 export const updateProduct = async (req, res) => {
@@ -331,3 +340,5 @@ export const reorderFeaturedProducts = async (req, res) => {
 
   }
 };
+
+

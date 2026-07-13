@@ -21,6 +21,23 @@
   gap: 22px;
 }
 
+.app-shell{
+    min-height:100vh;
+    background:#0d0d0d;
+}
+
+.admin-layout{
+    display:flex;
+    min-height:100vh;
+}
+
+.app-main{
+    flex:1;
+    padding:32px;
+    overflow-x:auto;
+    min-width:0;
+}
+
 @media (max-width: 768px) {
   .app-shell {
     flex-direction: column;

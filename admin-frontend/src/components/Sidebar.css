@@ -1,7 +1,9 @@
 .sidebar {
-  width: 240px;
+   width: var(--sidebar-width);
+    min-width: var(--sidebar-width);
+    max-width: var(--sidebar-width);
   position: sticky;
-  height: 140vh;
+  height: 100vh;
   background: #0c0c0c;
   border-right: 1px solid var(--border-subtle);
   display: flex;

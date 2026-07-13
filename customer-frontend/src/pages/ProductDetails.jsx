@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+
 import { useParams } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import ReviewForm from "../components/ReviewForm";
@@ -29,7 +30,7 @@ const ProductDetails = () => {
   const [currentImage, setCurrentImage] = useState(0);
   const hasSizes = product?.sizes?.length > 0;
   const [fullView, setFullView] = useState(false);
-
+  const imageRef = useRef(null);
   const refresh = () => setFetchProduct((prev) => !prev);
   const navigate = useNavigate();
 
@@ -70,6 +71,49 @@ const ProductDetails = () => {
 
 
   useEffect(() => {
+    const handleKey = (e) => {
+      if (!fullView) return;
+
+      if (e.key === "Escape") setFullView(false);
+
+      if (e.key === "ArrowRight") {
+        setCurrentImage((prev) =>
+          prev === product.images.length - 1 ? 0 : prev + 1
+        );
+      }
+
+      if (e.key === "ArrowLeft") {
+        setCurrentImage((prev) =>
+          prev === 0 ? product.images.length - 1 : prev - 1
+        );
+      }
+    };
+
+    window.addEventListener("keydown", handleKey);
+
+    return () =>
+      window.removeEventListener("keydown", handleKey);
+
+  }, [fullView, currentImage, product]);
+
+  useEffect(() => {
+
+    document.body.style.overflow =
+
+      fullView
+
+        ?
+
+        "hidden"
+
+        :
+
+        "auto";
+
+  }, [fullView]);
+
+
+  useEffect(() => {
     const fetchRelated = async () => {
       try {
         if (!product?.category) return;
@@ -93,6 +137,29 @@ const ProductDetails = () => {
     return <div className="container">Loading product...</div>;
   }
 
+  const handleMouseMove = (e) => {
+    const image = imageRef.current;
+
+    if (!image) return;
+
+    const rect = image.getBoundingClientRect();
+
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+
+    image.style.transformOrigin = `${x}% ${y}%`;
+    image.style.transform = "scale(2)";
+  };
+
+  const handleMouseLeave = () => {
+    const image = imageRef.current;
+
+    if (!image) return;
+
+    image.style.transformOrigin = "center center";
+    image.style.transform = "scale(1)";
+  };
+
 
   const isInCart = cartItems?.some(
     (item) =>
@@ -110,6 +177,15 @@ const ProductDetails = () => {
       100
     )
     : 0;
+    
+console.log(product);
+console.log(product.estimatedDelivery);
+    const formattedDate = new Date(product.estimatedDelivery)
+    .toLocaleDateString("en-IN",{
+        weekday:"long",
+        day:"numeric",
+        month:"long",
+    });
 
   const handleAddToCart = () => {
     if (hasSizes && !selectedSize) {
@@ -132,11 +208,11 @@ const ProductDetails = () => {
 
   return (
     <div className="product-page">
-    <SEO
-    title={`${product.name} | Soft Strides`}
-    description={product.description}
-    image={product.images[0]}
-    url={`https://softstrides.in/product/${product.slug}`}
+     <SEO
+  title={`${product.name} | Soft Strides`}
+  description={product.description?.join(" • ")}
+  image={product.images[0]}
+  url={`https://softstrides.in/product/${product.slug}`}
 />
 
       {/* TOP SECTION */}
@@ -161,12 +237,20 @@ const ProductDetails = () => {
           <div>
             {/* MAIN IMAGE */}
             <div className="premium-image-wrapper main-image-override" {...handlers}>
-              <img
-                src={product.images[currentImage]}
-                alt={product.name}
-                onClick={() => setFullView(true)}
-                className="premium-image"
-              />
+
+              <div
+                className="premium-image-wrapper"
+                onMouseMove={handleMouseMove}
+                onMouseLeave={handleMouseLeave}
+              >
+                <img
+                  ref={imageRef}
+                  src={product.images[currentImage]}
+                  alt={product.name}
+                  className="premium-image"
+                  onClick={() => setFullView(true)}
+                />
+              </div>
             </div>
 
             <div className="image-dots">
@@ -243,7 +327,7 @@ const ProductDetails = () => {
           </div>
 
           <div className="size-section">
-            {hasSizes && <h4>Select Size</h4>}
+      
 
             {product?.sizes?.length > 0 ? (
               product.sizes.map((size) => (
@@ -253,13 +337,21 @@ const ProductDetails = () => {
                     }`}
                   onClick={() => setSelectedSize(size)}
                 >
-                  {size}
+                  {selectedSize === size && (
+                    <span className="size-check">✓</span>
+                  )}
+
+                  <span>{size}</span>
                 </button>
               ))
             ) : (
               <button className="size-btn active">Free Size</button>
             )}
+
+            
           </div>
+
+                {hasSizes && <h4 className="size-tag">Select Size</h4>}
 
           <div className="product-actions">
             {isInCart ? (
@@ -270,14 +362,28 @@ const ProductDetails = () => {
                 View Cart
               </button>
             ) : (
-              <button
-                className="add-cart"
-                onClick={handleAddToCart}
-              >
-                Add to Cart
-              </button>
+             <button
+    className="add-cart-btn"
+    onClick={handleAddToCart}
+>
+    <i className="ri-shopping-bag-3-line"></i>
+
+    Add to Cart
+</button>
             )}
           </div>
+
+          <div className="delivery-info">
+  <i className="ri-truck-line"></i>
+
+  <div>
+    <h4>
+      Delivery by <span>{formattedDate}</span>
+    </h4>
+
+    <p>Free Shipping on Prepaid Orders</p>
+  </div>
+</div>
 
 
 
@@ -451,7 +557,7 @@ const ProductDetails = () => {
       </div>
 
       {fullView && (
-        <div className="image-modal">
+        <div className="image-modal" onClick={() => setFullView(false)}>
 
           {/* CLOSE BUTTON */}
           <span className="close-btn" onClick={() => setFullView(false)}>
@@ -477,6 +583,7 @@ const ProductDetails = () => {
             src={product.images[currentImage]}
             alt="full view"
             className="modal-image"
+            onClick={(e) => e.stopPropagation()}
           />
 
           {/* RIGHT ARROW */}
@@ -492,6 +599,10 @@ const ProductDetails = () => {
           >
             ❯
           </button>
+
+          <div className="image-counter">
+            {currentImage + 1} / {product.images.length}
+          </div>
 
         </div>
       )}

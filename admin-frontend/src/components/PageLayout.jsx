@@ -9,7 +9,6 @@ const PageLayout = ({ children }) => {
   return (
     <div className="app-shell">
 
-      {/* Topbar for mobile */}
       <div className="admin-topbar">
         <FaBars
           className="hamburger"
@@ -18,11 +17,18 @@ const PageLayout = ({ children }) => {
         <h3>Admin Panel</h3>
       </div>
 
-      <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
+      <div className="admin-layout">
 
-      <main className="app-main">
-        {children}
-      </main>
+        <Sidebar
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+        />
+
+        <main className="app-main">
+          {children}
+        </main>
+
+      </div>
 
     </div>
   );
