@@ -6,7 +6,8 @@ import ImageCropper from "../components/ImageCropper";
 
 const Banners = () => {
   const [banners, setBanners] = useState([]);
-
+const [desktopPosition, setDesktopPosition] =
+  useState("center");
   // ================= CREATE FORM =================
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -81,6 +82,11 @@ const Banners = () => {
         description
       );
 
+      formData.append(
+  "desktopPosition",
+  desktopPosition
+);
+
       if (desktopImageFile) {
         formData.append(
           "desktopImage",
@@ -141,6 +147,10 @@ const Banners = () => {
       banner.desktopImage || null
     );
 
+setDesktopPosition(
+  banner.desktopPosition || "center"
+);
+
     setMobilePreview(
       banner.mobileImage || null
     );
@@ -174,6 +184,7 @@ const Banners = () => {
 
     setDesktopPreview(null);
     setMobilePreview(null);
+    setDesktopPosition("center");
 
     setCropImage(null);
 
@@ -259,6 +270,20 @@ const Banners = () => {
                 <label>
                   Desktop Banner (16:9)
                 </label>
+
+                <label>Desktop Focus</label>
+
+<select
+  className="input"
+  value={desktopPosition}
+  onChange={(e) =>
+    setDesktopPosition(e.target.value)
+  }
+>
+  <option value="left">Left</option>
+  <option value="center">Center</option>
+  <option value="right">Right</option>
+</select>
 
                 <input
                   type="file"

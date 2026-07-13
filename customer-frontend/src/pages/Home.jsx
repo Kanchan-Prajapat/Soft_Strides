@@ -129,15 +129,22 @@ useEffect(() => {
                 index === current ? "active" : ""
               }`}
             >
-             <img
-  src={
-    isMobile
-      ? banner.mobileImage
-      : banner.desktopImage
-  }
-  alt={banner.title}
-/>
+            <img
+    src={
+      isMobile
+        ? banner.mobileImage
+        : banner.desktopImage
+    }
 
+    alt={banner.title}
+
+    style={{
+      objectPosition:
+        isMobile
+          ? "center"
+          : banner.desktopPosition || "center",
+    }}
+/>
               <div className="hero-content">
                 <h1>{banner.title}</h1>
 
@@ -222,8 +229,7 @@ useEffect(() => {
             </h1>
 
             <p>
-              Discover premium footwear crafted for comfort,
-              performance, and modern style.
+              Discover premium oversized T-shirts crafted from high-quality cotton, designed for everyday comfort and bold self-expression.
               Designed for everyday confidence.
             </p>
 

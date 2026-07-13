@@ -27,13 +27,16 @@ export const createBanner = async (req, res) => {
     const mobileUploaded =
       await uploadToCloudinary(mobileFile.path);
 
-    const banner = await Banner.create({
-      title: req.body.title,
-      description: req.body.description,
+  const banner = await Banner.create({
+  title: req.body.title,
+  description: req.body.description,
 
-      desktopImage: desktopUploaded.secure_url,
-      mobileImage: mobileUploaded.secure_url,
-    });
+  desktopImage: desktopUploaded.secure_url,
+  mobileImage: mobileUploaded.secure_url,
+
+  desktopPosition:
+    req.body.desktopPosition || "center",
+});
 
     res.status(201).json(banner);
 
@@ -74,6 +77,8 @@ export const updateBanner = async (req, res) => {
 
     banner.description =
       req.body.description || banner.description;
+    banner.desktopPosition =
+  req.body.desktopPosition || banner.desktopPosition;
 
     const desktopFile = req.files?.desktopImage?.[0];
     const mobileFile = req.files?.mobileImage?.[0];
