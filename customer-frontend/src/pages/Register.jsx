@@ -5,7 +5,7 @@ import { GoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 
-
+import SEO from "../components/SEO";
 
 
 const Register = () => {
@@ -16,6 +16,12 @@ const Register = () => {
 
   return (
     <div className="auth-wrapper">
+    <SEO
+  title="Create an Account | Soft Strides"
+  description="Create your Soft Strides account to shop premium oversized t-shirts, track orders, save your wishlist, and enjoy faster checkout."
+  url="https://softstrides.in/register"
+  robots="noindex,nofollow"
+/>
       <div className="auth-box">
         <img src={logo} alt="Soft Strides" className="auth-logo" />
 

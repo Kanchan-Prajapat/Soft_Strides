@@ -13,11 +13,7 @@ HERO SLIDER
 
     width:100%;
 
-    aspect-ratio:16/9;
-
-    max-height:760px;
-
-    min-height:560px;
+    height:clamp(420px,60vh,620px);
 
     overflow:hidden;
 }
@@ -38,9 +34,9 @@ HERO SLIDER
 
     object-position:center;
 
-    transform:scale(1.18);
+    transform:none;
 
-    transition:transform .6s ease;
+    display:block;
 }
 
 .slide.active {
@@ -56,7 +52,7 @@ HERO SLIDER
     transform:translateY(-50%);
     z-index:10;
 
-    max-width:600px;
+    max-width:480px;
 
     display:flex;
     flex-direction:column;
@@ -65,7 +61,7 @@ HERO SLIDER
 }
 
 .hero-content h1{
-    font-size:clamp(36px,4vw,64px);
+       font-size:clamp(32px,3.5vw,56px);
     line-height:1.05;
     font-weight:800;
     color:#fff;
@@ -94,7 +90,7 @@ HERO SLIDER
   color: #fff;
   border-radius: 4px;
   transition: var(--transition);
-  margin-top:40px
+  margin-top:8px
 }
 
 .hero-btn:hover {

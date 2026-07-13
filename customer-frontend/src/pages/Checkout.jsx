@@ -6,7 +6,7 @@ import "../styles/checkout.css";
 import { useLocation } from "react-router-dom";
 import { State, City } from "country-state-city";
 
-
+import SEO from "../components/SEO";
 
 const Checkout = () => {
   const {
@@ -354,6 +354,11 @@ console.log("AVAILABLE COUPONS:", data);
 
   return (
     <div className="checkout-wrapper">
+    <SEO
+  title="Checkout - Soft Strides"
+  description="Securely complete your Soft Strides order with trusted payment options, fast shipping, and hassle-free exchanges."
+  url="https://softstrides.in/checkout"
+/>
 
       {/* STEP */}
       <div className="checkout-progress">

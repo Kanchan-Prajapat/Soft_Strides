@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import "../styles/orders.css";
 import { useNavigate } from "react-router-dom";
 import api from "../api/api";
+import SEO from "../components/SEO";
 
 const MyOrders = () => {
   const [orders, setOrders] = useState([]);
@@ -36,6 +37,11 @@ const MyOrders = () => {
 
   return (
     <div className="orders-container">
+    <SEO
+  title="My Orders | Soft Strides"
+  description="Track your Soft Strides orders, view order history, check delivery status, and manage returns or exchanges for your premium streetwear purchases."
+  url="https://softstrides.in/my-orders"
+/>
       <h2 className="orders-title">My Orders</h2>
 
       {orders.length === 0 ? (

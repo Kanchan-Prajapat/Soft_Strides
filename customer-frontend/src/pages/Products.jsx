@@ -5,7 +5,7 @@ import ProductCard from "../components/ProductCard";
 import "../styles/products.css";
 import { useLocation } from "react-router-dom";
 import CartDrawer from "../components/CartDrawer";
-
+import SEO from "../components/SEO";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -135,7 +135,12 @@ const sizes = [
 
   return (
     <div className="products-page">
-
+<SEO
+  title="Shop Premium Oversized T-Shirts | Soft Strides"
+  description="Explore Soft Strides' collection of premium oversized, graphic, anime, and cotton t-shirts for men and women. Discover stylish streetwear with secure payments, easy exchanges, and fast delivery across India."
+  url="https://softstrides.in/products"
+  keywords="oversized t-shirts, graphic t-shirts, anime t-shirts, cotton t-shirts, streetwear India, premium t-shirts, men's oversized t-shirts, women's oversized t-shirts, Soft Strides"
+/>
       {/* TOP BAR */}
       <div className="container">
 

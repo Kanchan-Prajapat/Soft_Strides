@@ -198,8 +198,11 @@ setDesktopPosition(
       {/* ================= CROPPER ================= */}
       {cropImage && (
         <ImageCropper
-          image={cropImage}
-          defaultAspect={16 / 9}
+          image={cropImage}defaultAspect={
+  cropType === "desktop"
+    ? 1920 / 700
+    : 9 / 16
+}
           onClose={() => setCropImage(null)}
           onCropDone={(croppedFile) => {
 
@@ -268,7 +271,7 @@ setDesktopPosition(
              
 
                 <label>
-                  Desktop Banner (16:9)
+                  Desktop Banner (1900×700)
                 </label>
 
                 <label>Desktop Focus</label>
@@ -406,7 +409,7 @@ setDesktopPosition(
                       <div
                         style={{
                           width: 160,
-                          aspectRatio: "16/9",
+                          aspectRatio: "1920/700",
                           overflow: "hidden",
                           borderRadius: 6,
                           background: "#111",
@@ -508,7 +511,7 @@ setDesktopPosition(
                       display: "block",
                     }}
                   >
-                    Desktop Banner
+                  Desktop Hero Banner (1920×700)
                   </label>
 
                   <input

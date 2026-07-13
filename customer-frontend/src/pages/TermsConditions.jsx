@@ -1,8 +1,13 @@
 import "../styles/privacy.css";
+import SEO from "../components/SEO";
 const TermsConditions = () => {
   return (
     <div className="privacy-container">
-
+<SEO
+  title="Terms & Conditions | Soft Strides"
+  description="Read the Soft Strides Terms & Conditions to understand the rules for using our website, placing orders, payments, returns, exchanges, and other legal information."
+  url="https://softstrides.in/terms"
+/>
       {/* HEADER */}
       <div className="privacy-header">
         <h1>Terms & Conditions</h1>

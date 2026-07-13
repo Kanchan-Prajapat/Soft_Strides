@@ -1,8 +1,13 @@
 import "../styles/privacy.css"
+import SEO from "../components/SEO";
 const PrivacyPolicy = () => {
   return (
     <div className="privacy-container">
-
+<SEO
+  title="Privacy Policy | Soft Strides"
+  description="Read the Soft Strides Privacy Policy to learn how we collect, use, store, and protect your personal information, payment details, and shopping data."
+  url="https://softstrides.in/privacy-policy"
+/>
       {/* HEADER */}
       <div className="privacy-header">
         <h1>Privacy Policy</h1>

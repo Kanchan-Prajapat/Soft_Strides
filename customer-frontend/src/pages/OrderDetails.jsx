@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "../styles/orderDetails.css";
 import api from "../api/api"; // ✅ use interceptor
 import TrackingTimeline from "./TrackingTimeline";
-
+import SEO from "../components/SEO";
 const OrderDetails = () => {
   const { id } = useParams();
   const [order, setOrder] = useState(null);
@@ -19,6 +19,15 @@ const isCancelable = ![
   "Delivered",
   "Cancelled"
 ].includes(order?.deliveryStatus);
+
+const orderSchema = {
+  "@context": "https://schema.org",
+  "@type": "Order",
+  orderNumber: order._id,
+  orderStatus: order.deliveryStatus,
+  priceCurrency: "INR",
+  price: order.totalAmount,
+};
 
   // const isReturnInProgress = [
   //   "Return Requested",
@@ -150,7 +159,13 @@ const isReturnable = (() => {
 
   return (
     <div className="order-details-container">
-
+<SEO
+  title="Order Details | Soft Strides"
+  description="View your order details, delivery status, tracking timeline, payment information, and manage cancellations or returns."
+  url={`https://softstrides.in/orders/${id}`}
+  robots="noindex,nofollow"
+  schema={orderSchema}
+/>
       {/* HEADER */}
       <div className="order-header">
         <h2>Order Details</h2>

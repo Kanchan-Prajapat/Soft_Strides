@@ -4,7 +4,7 @@ import logo from "../assets/Logo.png";
 import { GoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
-
+import SEO from "../components/SEO";
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -15,6 +15,12 @@ const Login = () => {
 
   return (
     <div className="auth-wrapper">
+    <SEO
+  title="Login | Soft Strides"
+  description="Sign in to your Soft Strides account to manage your orders, wishlist, profile, and enjoy a seamless shopping experience."
+  url="https://softstrides.in/login"
+  robots="noindex,nofollow"
+/>
       <div className="auth-box">
         <img src={logo} alt="Soft Strides" className="auth-logo" />
 

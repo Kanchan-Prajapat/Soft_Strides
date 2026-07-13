@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import "../styles/profile.css";
 import avatar from "./default-avtar.png";
 import { State, City } from "country-state-city";
-
+import SEO from "../components/SEO";
 const Profile = () => {
   const { user, setUser, logout } = useAuth();
   const navigate = useNavigate();
@@ -161,7 +161,15 @@ const Profile = () => {
   };
 
 
-  return (<div className="container profile-page"> <h2 className="profile-title">My Profile</h2>
+  return (<div className="container profile-page"> 
+  <SEO
+  title="My Profile | Soft Strides"
+  description="Manage your Soft Strides profile, personal information, saved addresses, and account settings."
+  url="https://softstrides.in/profile"
+  robots="noindex,nofollow"
+/>
+  
+  <h2 className="profile-title">My Profile</h2>
 
 
     <div className="profile-grid">

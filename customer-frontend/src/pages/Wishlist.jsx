@@ -2,7 +2,7 @@ import "../styles/wishlist.css";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../api/axiosInstance";
-
+import SEO from "../components/SEO";
 const Wishlist = () => {
   const [wishlist, setWishlist] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -85,6 +85,12 @@ const Wishlist = () => {
 
   return (
     <div className="wishlist-page">
+    <SEO
+  title="My Wishlist | Soft Strides"
+  description="View and manage your saved favorite products in your Soft Strides wishlist."
+  url="https://softstrides.in/wishlist"
+  robots="noindex,nofollow"
+/>
       <h2>Your Wishlist</h2>
 
       {wishlist.length === 0 ? (

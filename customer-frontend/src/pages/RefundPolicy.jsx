@@ -1,8 +1,13 @@
 import "../styles/privacy.css";
+import SEO from "../components/SEO";
 const RefundPolicy = () => {
   return (
     <div className="privacy-container">
-
+<SEO
+  title="Refund & Return Policy | Soft Strides"
+  description="Read the Soft Strides Refund & Return Policy to understand our return eligibility, exchange process, refund timelines, and terms for purchases made on our website."
+  url="https://softstrides.in/refund-policy"
+/>
       {/* HEADER */}
       <div className="privacy-header">
         <h1>Refund Policy</h1>
