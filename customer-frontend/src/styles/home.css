@@ -9,13 +9,19 @@ body {
 HERO SLIDER
 ========================= */
 .hero-slider{
-    position:relative;
 
-    width:100%;
+width:100%;
 
-    height:clamp(420px,60vh,620px);
+aspect-ratio:16/7;
 
-    overflow:hidden;
+max-height:560px;
+
+min-height:420px;
+
+overflow:hidden;
+
+position:relative;
+
 }
 
 .slide {
@@ -48,7 +54,8 @@ HERO SLIDER
 .hero-content{
     position:absolute;
     top:50%;
-    left:8%;
+   left:7%;
+max-width:500px;
     transform:translateY(-50%);
     z-index:10;
 
@@ -676,6 +683,7 @@ MOBILE RESPONSIVE
   align-items: center;
   background: #18181b; /* Subtle dark gray/black */
   padding: 20px 5%;
+  padding-left: 250px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
@@ -684,7 +692,7 @@ MOBILE RESPONSIVE
   align-items: center;
   gap: 10px;
   color: #a1a1aa; /* Muted gray text */
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 500;
 }
 

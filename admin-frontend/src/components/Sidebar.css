@@ -1,5 +1,6 @@
 .sidebar {
   width: 240px;
+  position: sticky;
   height: 140vh;
   background: #0c0c0c;
   border-right: 1px solid var(--border-subtle);
