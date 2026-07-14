@@ -130,30 +130,55 @@ const scrollRight = () => {
   });
 };
 
-return ( <section className="category-section"> <h2 className="category-title">Shop By Category</h2>
+return ( <section className="category-section"> 
+  <div className="section-heading">
+
+<p>DISCOVER COLLECTIONS</p>
+
+<h2>Shop By Category</h2>
+
+</div>
 
   <div className="category-wrapper">
     <button className="cat-arrow left" onClick={scrollLeft}>
-      ❮
+      <i className="ri-arrow-left-s-line"></i>
     </button>
 
     <div className="category-slider" ref={scrollRef}>
      {[...categories, ...categories].map((cat, index) => (
-        <div
-          key={cat._id}
-          className="category-card"
-          onClick={() =>
-            navigate(`/products?category=${cat._id}`)
-          }
-        >
-          <img src={cat.image} alt={cat.name} />
-          <h4>{cat.name}</h4>
-        </div>
+       <div
+  key={`${cat._id}-${index}`}
+  className="category-card"
+  onClick={() =>
+    navigate(`/products?category=${cat._id}`)
+  }
+>
+  <img
+    src={cat.image}
+    alt={cat.name}
+    className="category-image"
+  />
+
+  <div className="category-overlay">
+
+    <div className="category-content">
+
+      <h3>{cat.name}</h3>
+
+      <span className="category-link">
+        Explore Collection →
+      </span>
+
+    </div>
+
+  </div>
+
+</div>
       ))}
     </div>
 
     <button className="cat-arrow right" onClick={scrollRight}>
-      ❯
+      <i className="ri-arrow-right-s-line"></i>
     </button>
   </div>
 </section>
