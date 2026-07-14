@@ -1149,3 +1149,76 @@ select.input:focus {
   color:#ffbf47;
   border:1px solid rgba(255,170,0,.35);
 }
+
+/* ===========================
+ORDERS TOOLBAR
+=========================== */
+
+.orders-toolbar{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    flex-wrap:wrap;
+}
+
+.toolbar-search{
+    width:280px;
+}
+
+.toolbar-select{
+    width:180px;
+}
+
+.refresh-btn{
+
+    height:42px;
+
+    padding:0 18px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#1b1b1b;
+
+    color:#fff;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.25s;
+}
+
+.refresh-btn:hover{
+
+    background:#19181b;
+
+    transform:translateY(-2px);
+}
+
+.info-banner{
+    margin-bottom:18px;
+    padding:14px 18px;
+    border-radius:12px;
+    background:rgba(142,122,181,.08);
+    border:1px solid rgba(142,122,181,.2);
+    color:#b9b9c5;
+    font-size:14px;
+}
+
+
+.customer-info{
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+}
+
+.customer-info strong{
+    color:#fff;
+    font-size:14px;
+}
+
+.customer-info small{
+    color:#8b8b8b;
+}

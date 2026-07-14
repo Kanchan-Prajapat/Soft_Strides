@@ -66,6 +66,20 @@ const Products = () => {
   };
 
 
+const totalProducts = products.length;
+
+const publishedProducts = products.filter(
+  (p) => p.isVisible
+).length;
+
+const hiddenProducts = products.filter(
+  (p) => !p.isVisible
+).length;
+
+const outOfStock = products.filter(
+  (p) => p.stock <= 0
+).length;
+
 
   const filteredProducts = products.filter((p) => {
     const matchesSearch =
@@ -81,6 +95,29 @@ const Products = () => {
 
   return (
     <PageLayout title="Products">
+    <div className="stats-grid">
+
+  <div className="stat-card">
+    <span>Total Products</span>
+    <strong>{totalProducts}</strong>
+  </div>
+
+  <div className="stat-card success">
+    <span>Published</span>
+    <strong>{publishedProducts}</strong>
+  </div>
+
+  <div className="stat-card warning">
+    <span>Hidden</span>
+    <strong>{hiddenProducts}</strong>
+  </div>
+
+  <div className="stat-card danger">
+    <span>Out of Stock</span>
+    <strong>{outOfStock}</strong>
+  </div>
+
+</div>
       <TableCard
         title="Product Catalog"
         right={

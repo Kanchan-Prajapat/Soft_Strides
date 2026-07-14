@@ -52,6 +52,24 @@ const FeaturedProducts = () => {
     load();
   }, []);
 
+  /* ===========================
+   FEATURED STATS
+=========================== */
+
+const totalFeatured = products.length;
+
+const publishedFeatured = products.filter(
+  (p) => p.isVisible
+).length;
+
+const hiddenFeatured = products.filter(
+  (p) => !p.isVisible
+).length;
+
+const lowStock = products.filter(
+  (p) => p.stock > 0 && p.stock <= 10
+).length;
+
   const filteredProducts = products.filter((p) =>
     p.name.toLowerCase().includes(search.toLowerCase())
   );
@@ -127,20 +145,53 @@ const FeaturedProducts = () => {
 
   return (
     <PageLayout title="Featured Products">
+    <div className="stats-grid">
+
+  <div className="stat-card">
+    <span>Total Featured</span>
+    <strong>{totalFeatured}</strong>
+  </div>
+
+  <div className="stat-card success">
+    <span>Published</span>
+    <strong>{publishedFeatured}</strong>
+  </div>
+
+  <div className="stat-card warning">
+    <span>Hidden</span>
+    <strong>{hiddenFeatured}</strong>
+  </div>
+
+  <div className="stat-card danger">
+    <span>Low Stock</span>
+    <strong>{lowStock}</strong>
+  </div>
+
+</div>
       <TableCard
         title="Featured Products"
-        right={
-          <div className="table-toolbar">
-            <input
-              className="input search-input"
-              placeholder="Search featured products..."
-              value={search}
-              onChange={(e) =>
-                setSearch(e.target.value)
-              }
-            />
-          </div>
+       right={
+  <div className="products-header">
+
+    <div className="table-toolbar">
+
+      <input
+        className="input search-input"
+        placeholder="Search featured products..."
+        value={search}
+        onChange={(e) =>
+          setSearch(e.target.value)
         }
+      />
+
+    </div>
+
+<div className="info-banner">
+  <span>☰ Drag & drop products to change their display order on the homepage.</span>
+</div>
+
+  </div>
+}
       >
         <DndContext
           collisionDetection={closestCenter}

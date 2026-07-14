@@ -54,6 +54,8 @@ const Customers = () => {
 
 const searchText = search.toLowerCase();
 
+
+
 const filteredCustomers = customers.filter((c) => {
   const name = c.name?.toLowerCase() || "";
   const email = c.email?.toLowerCase() || "";
@@ -71,41 +73,74 @@ const filteredCustomers = customers.filter((c) => {
     admin?.email === "softstride7@gmail.com" ||
     admin?.email === "kanchanprajapat208@gmail.com"
 
-  const total = customers.length;
-  const blocked = customers.filter((c) => c.isBlocked).length;
-  const active = total - blocked;
+ /* ===========================
+   CUSTOMER STATS
+=========================== */
+
+const totalCustomers = customers.length;
+
+const activeCustomers = customers.filter(
+  (c) => !c.isBlocked
+).length;
+
+const blockedCustomers = customers.filter(
+  (c) => c.isBlocked
+).length;
+
+const admins = customers.filter(
+  (c) => c.role === "admin"
+).length;
 
   return (
     <PageLayout title="Customers">
       {/* STATS CARDS */}
       <div className="stats-grid">
-        <div className="stat-card">
-          <h4>Total Customers</h4>
-          <h2>{total}</h2>
-        </div>
 
-        <div className="stat-card">
-          <h4>Active</h4>
-          <h2>{active}</h2>
-        </div>
+  <div className="stat-card">
+    <span>Total Customers</span>
+    <strong>{totalCustomers}</strong>
+  </div>
 
-        <div className="stat-card">
-          <h4>Blocked</h4>
-          <h2>{blocked}</h2>
-        </div>
-      </div>
+  <div className="stat-card success">
+    <span>Active Customers</span>
+    <strong>{activeCustomers}</strong>
+  </div>
+
+  <div className="stat-card danger">
+    <span>Blocked</span>
+    <strong>{blockedCustomers}</strong>
+  </div>
+
+  <div className="stat-card warning">
+    <span>Admins</span>
+    <strong>{admins}</strong>
+  </div>
+
+</div>
 
       <TableCard
         title="Customers"
-        right={
-          <input
-            className="input"
-            placeholder="Search name or email or role..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            style={{ width: 250 }}
-          />
-        }
+       right={
+  <div className="orders-toolbar">
+
+    <input
+      className="input toolbar-search"
+      placeholder="🔍 Search customer..."
+      value={search}
+      onChange={(e) => setSearch(e.target.value)}
+    />
+
+    <button
+      className="refresh-btn"
+      onClick={() =>
+        fetchCustomers().then(setCustomers)
+      }
+    >
+      🔄 Refresh
+    </button>
+
+  </div>
+}
       >
         <table className="table">
           <thead>
@@ -129,14 +164,20 @@ const filteredCustomers = customers.filter((c) => {
               filteredCustomers.map((c) => (
                 <tr key={c._id}>
                   {/* CLICKABLE NAME */}
-                  <td
-                    style={{ cursor: "pointer", fontWeight: 500 }}
-                    onClick={() => navigate(`/customers/${c._id}`)}
-                  >
-                    {c.name}
-                  </td>
+                 <td
+  style={{ cursor: "pointer" }}
+  onClick={() => navigate(`/customers/${c._id}`)}
+>
 
-                  <td>{c.email}</td>
+  <div className="customer-info">
+
+    <strong>{c.name}</strong>
+
+    <small>{c.email}</small>
+
+  </div>
+
+</td>
 
                   <td>
                     <span

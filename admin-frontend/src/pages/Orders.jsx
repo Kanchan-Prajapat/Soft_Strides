@@ -38,7 +38,8 @@ const Orders = () => {
       console.error("Payment status update failed", error);
     }
   };
-
+const [paymentMethodFilter, setPaymentMethodFilter] = useState("");
+const [deliveryFilter, setDeliveryFilter] = useState("");
 
 
   // 🔄 Update Delivery Status
@@ -54,6 +55,30 @@ const Orders = () => {
   }
 };
 
+/* ===========================
+   ORDER SUMMARY
+=========================== */
+
+const totalOrders = orders.length;
+
+const onlineOrders = orders.filter(
+  (o) => o.paymentMethod === "ONLINE"
+).length;
+
+const codOrders = orders.filter(
+  (o) => o.paymentMethod === "COD"
+).length;
+
+const pendingDelivery = orders.filter(
+  (o) =>
+    o.deliveryStatus !== "Delivered" &&
+    o.deliveryStatus !== "Cancelled"
+).length;
+
+const totalRevenue = orders.reduce(
+  (sum, o) => sum + o.totalAmount,
+  0
+);
 
   // 🔍 Filter Logic
   const filteredOrders = orders.filter((o) => {
@@ -63,38 +88,138 @@ const Orders = () => {
       o.trackingId?.toLowerCase().includes(search.toLowerCase())
 
     const matchesStatus = statusFilter
-      ? o.paymentStatus === statusFilter
-      : true;
+  ? o.paymentStatus === statusFilter
+  : true;
 
-    return matchesSearch && matchesStatus;
+const matchesMethod = paymentMethodFilter
+  ? o.paymentMethod === paymentMethodFilter
+  : true;
+
+const matchesDelivery = deliveryFilter
+  ? o.deliveryStatus === deliveryFilter
+  : true;
+
+return (
+  matchesSearch &&
+  matchesStatus &&
+  matchesMethod &&
+  matchesDelivery
+);
   });
 
   return (
     <PageLayout title="Orders">
+
+    <div className="stats-grid">
+
+  <div className="stat-card">
+
+    <span>Total Orders</span>
+
+    <strong>{totalOrders}</strong>
+
+  </div>
+
+  <div className="stat-card">
+
+    <span>Online Orders</span>
+
+    <strong>{onlineOrders}</strong>
+
+  </div>
+
+  <div className="stat-card">
+
+    <span>COD Orders</span>
+
+    <strong>{codOrders}</strong>
+
+  </div>
+
+  <div className="stat-card">
+
+    <span>Pending Delivery</span>
+
+    <strong>{pendingDelivery}</strong>
+
+  </div>
+
+  <div className="stat-card">
+
+    <span>Revenue</span>
+
+    <strong>₹{totalRevenue}</strong>
+
+  </div>
+
+</div>
       <TableCard
         title="All Orders"
-        right={
-          <div style={{ display: "flex", gap: 10 }}>
-            <input
-              className="input"
-              placeholder="Search..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              style={{ width: 200 }}
-            />
+       right={
+  <div className="orders-toolbar">
 
-            <select
-              className="input"
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-            >
-              <option value="">All</option>
-              <option value="Pending">Payment Pending</option>
-              <option value="Verified">Payment Verified</option>
-              <option value="Rejected">Payment Rejected</option>
-            </select>
-          </div>
-        }
+    <input
+      className="input toolbar-search"
+      placeholder="🔍 Search order, customer, tracking..."
+      value={search}
+      onChange={(e) => setSearch(e.target.value)}
+    />
+
+    <select
+      className="input toolbar-select"
+      value={paymentMethodFilter}
+      onChange={(e) =>
+        setPaymentMethodFilter(e.target.value)
+      }
+    >
+      <option value="">💳 Payment Method</option>
+      <option value="ONLINE">Online</option>
+      <option value="COD">Cash on Delivery</option>
+    </select>
+
+    <select
+      className="input toolbar-select"
+      value={statusFilter}
+      onChange={(e) =>
+        setStatusFilter(e.target.value)
+      }
+    >
+      <option value="">💰 Payment Status</option>
+      <option value="Pending">Pending</option>
+      <option value="Verified">Verified</option>
+      <option value="Rejected">Rejected</option>
+      <option value="Paid">Paid</option>
+    </select>
+
+    <select
+      className="input toolbar-select"
+      value={deliveryFilter}
+      onChange={(e) =>
+        setDeliveryFilter(e.target.value)
+      }
+    >
+      <option value="">🚚 Delivery</option>
+      <option value="Pending">Pending</option>
+      <option value="Confirmed">Confirmed</option>
+      <option value="Packed">Packed</option>
+      <option value="Shipped">Shipped</option>
+      <option value="Out for Delivery">
+        Out for Delivery
+      </option>
+      <option value="Delivered">
+        Delivered
+      </option>
+    </select>
+
+    <button
+      className="refresh-btn"
+      onClick={loadOrders}
+    >
+      🔄 Refresh
+    </button>
+
+  </div>
+}
       >
         <table className="table">
           <thead>
