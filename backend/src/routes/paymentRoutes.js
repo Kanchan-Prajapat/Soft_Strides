@@ -4,6 +4,7 @@ import Order from "../models/Order.js";
 import {
   createRazorpayOrder,
   verifyRazorpayPayment,
+  createCODOrder
 } from "../controllers/paymentController.js";
 
 
@@ -21,7 +22,11 @@ router.get("/", protect, async (req, res) => {
     res.status(500).json({ message: "Failed to fetch payments" });
   }
 });
-
+router.post(
+  "/cod",
+  protect,
+  createCODOrder
+);
 router.post("/create-order", createRazorpayOrder);
 router.post("/verify", protect, verifyRazorpayPayment);
 

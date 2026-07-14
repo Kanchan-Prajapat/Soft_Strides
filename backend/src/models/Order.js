@@ -56,8 +56,18 @@ smallCartFee: Number,
 
     paymentMethod: {
       type: String,
-      default: "COD"
+      enum: ["COD","ONLINE"],
+      defualt: "ONLINE",
     },
+
+    smallCartFee: Number,
+
+    codCharge: {
+    type: Number,
+    default: 0,
+},
+
+
 
     paymentStatus: {
       type: String,

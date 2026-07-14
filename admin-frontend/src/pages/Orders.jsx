@@ -103,6 +103,7 @@ const Orders = () => {
               <th>Product</th>
               <th>Customer</th>
               <th>Total</th>
+              <th>Method</th>
               <th>Payment</th>
               <th>Delivery</th>
               <th>Tracking ID</th>
@@ -152,6 +153,19 @@ const Orders = () => {
                   </td>
 
                   <td>₹{o.totalAmount}</td>
+<td>
+  <span
+    className={`payment-method-badge ${
+      o.paymentMethod === "COD"
+        ? "cod"
+        : "online"
+    }`}
+  >
+    {o.paymentMethod === "COD"
+      ? " COD"
+      : " Online"}
+  </span>
+</td>
 
                   {/* Payment Dropdown */}
                   <td>

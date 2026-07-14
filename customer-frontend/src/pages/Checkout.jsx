@@ -22,7 +22,7 @@ const Checkout = () => {
   const [checkoutTotal, setCheckoutTotal] = useState(0);
   const [availableCoupons, setAvailableCoupons] = useState([]);
   const [stateCode, setStateCode] = useState("");
-
+const [paymentMethod, setPaymentMethod] = useState("ONLINE");
   const states = State.getStatesOfCountry("IN");
   const cities = City.getCitiesOfState("IN", stateCode);
   const [step, setStep] = useState(1);
@@ -42,7 +42,8 @@ const Checkout = () => {
   });
 
   const handlingCharge = 5;
-
+const COD_CHARGE = 29;
+const FREE_COD_LIMIT = 999;
 
   // FREE DELIVERY ABOVE 699
   const deliveryCharge =
@@ -51,14 +52,19 @@ const Checkout = () => {
   // SMALL CART FEE
   const smallCartFee =
     checkoutTotal < 699 ? 20 : 0;
+const codCharge =
+  paymentMethod === "COD" &&
+  checkoutTotal < FREE_COD_LIMIT
+    ? COD_CHARGE
+    : 0;
 
-  const finalAmount =
-
-    Number(checkoutTotal || 0)
-    + handlingCharge
-    + deliveryCharge
-    + smallCartFee
-    - Number(discount || 0);
+ const finalAmount =
+  Number(checkoutTotal || 0)
+  + handlingCharge
+  + deliveryCharge
+  + smallCartFee
+  + codCharge
+  - Number(discount || 0);
 
 
   console.log("FINAL AMOUNT:", finalAmount);
@@ -222,13 +228,104 @@ console.log("AVAILABLE COUPONS:", data);
       }
 
       // Create order
-      const orderRes = await axios.post(
-        `${API_URL}/api/payments/create-order`,
-        { amount: finalAmount },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      // =======================
+// CASH ON DELIVERY
+// =======================
+if (paymentMethod === "COD") {
 
-      const razorpayOrder = orderRes.data;
+  const codRes = await axios.post(
+    `${API_URL}/api/payments/cod`,
+    {
+      orderData: {
+        products: checkoutItems.map((item) => ({
+          _id: item.product?._id || item._id,
+
+          name: item.product?.name || item.name,
+
+          images:
+            item.product?.images || item.images || [],
+
+          image:
+            item.product?.images?.[0] ||
+            item.image,
+
+          discountPrice:
+            item.product?.discountPrice ||
+            item.discountPrice,
+
+          qty:
+            item.quantity ||
+            item.qty ||
+            1,
+
+          size:
+            item.size || "Free Size",
+        })),
+
+        subtotal: checkoutTotal,
+
+        handlingCharge,
+
+        deliveryCharge,
+
+        smallCartFee,
+
+        discountAmount: discount,
+
+        totalAmount: finalAmount,
+
+        address: form.address,
+
+        phone: form.phone,
+
+        state: form.state,
+
+        city: form.city,
+
+        pincode: form.pincode,
+
+        appliedCouponCode: coupon,
+      },
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  if (codRes.data.success) {
+
+    alert("Order Placed Successfully 🎉");
+
+    clearCart();
+
+    setStep(3);
+
+    setTimeout(() => {
+      navigate("/checkout/order-success");
+    }, 1000);
+
+  }
+
+  return;
+}
+
+// =======================
+// ONLINE PAYMENT
+// =======================
+
+const orderRes = await axios.post(
+  `${API_URL}/api/payments/create-order`,
+  { amount: finalAmount },
+  {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+);
+
+const razorpayOrder = orderRes.data;
 
       const options = {
         key: process.env.REACT_APP_RAZORPAY_KEY,
@@ -597,6 +694,16 @@ console.log("AVAILABLE COUPONS:", data);
                 </p>
               )}
 
+            {paymentMethod === "COD" && (
+  <p>
+    Cash on Delivery
+    <span>
+      {codCharge === 0 ? "FREE" : `₹${codCharge}`}
+    </span>
+  </p>
+
+)}
+
               {/* Shipping */}
               <p>
                 Delivery Charges
@@ -632,9 +739,79 @@ console.log("AVAILABLE COUPONS:", data);
       {/* STEP 2 */}
       {step === 2 && (
         <div className="payment-screen">
-          <h2>Payment Method</h2>
-          <p>Amount to be paid:</p>
-          <span className="total-amount">₹{finalAmount}</span>
+        <h2>Select Payment Method</h2>
+<p>
+Choose your preferred payment option.
+</p>
+
+<div className="payment-options">
+
+ <label
+  className={`payment-option ${
+    paymentMethod === "ONLINE" ? "active" : ""
+  }`}
+>
+  <input
+    type="radio"
+    value="ONLINE"
+    checked={paymentMethod === "ONLINE"}
+    onChange={(e) => setPaymentMethod(e.target.value)}
+  />
+
+  <div>
+
+    <strong>Pay Online</strong>
+
+    <p className="online-info">
+      Secure payment via Razorpay
+    </p>
+
+    <span className="cod-warning">
+     No COD charges 
+    </span>
+
+  </div>
+</label>
+
+<label
+  className={`payment-option ${
+    paymentMethod === "COD" ? "active" : ""
+  }`}
+>
+  <input
+    type="radio"
+    value="COD"
+    checked={paymentMethod === "COD"}
+    onChange={(e) => setPaymentMethod(e.target.value)}
+  />
+
+  <div>
+
+    <strong>Cash on Delivery</strong>
+
+    <p className="payment-sub">
+      Pay after delivery
+    </p>
+
+    {codCharge > 29 ? (
+        <span className="cod-free">
+        🎉 FREE COD
+      </span>
+    
+    ) : (
+      <span className="cod-warning">
+        ₹29 COD charge
+      </span>
+    )}
+
+  </div>
+</label>
+
+</div>
+
+<span className="total-amount">
+  ₹{finalAmount}
+</span>
 
           {/* <button
   onClick={() => navigate("/checkout/order-success")}
@@ -647,12 +824,29 @@ console.log("AVAILABLE COUPONS:", data);
             className="primary-btn"
             disabled={loading}
           >
-            {loading ? "Initializing Razorpay..." : "Pay Securely"}
+            {loading
+  ? paymentMethod === "ONLINE"
+    ? "Initializing Razorpay..."
+    : "Placing Order..."
+  : paymentMethod === "ONLINE"
+    ? "Pay Securely"
+    : "Place COD Order"}
+
           </button>
 
-          <p style={{ fontSize: '12px', marginTop: '20px', color: '#52525b' }}>
-            100% Secure Payment via Razorpay
-          </p>
+        <p
+  style={{
+    fontSize: "12px",
+    marginTop: "20px",
+    color: "#8b8b95",
+  }}
+>
+  {paymentMethod === "ONLINE"
+    ? "🔒 100% Secure Payment via Razorpay"
+    : codCharge > 0
+    ? "📦 ₹29 Cash on Delivery charge included in total."
+    : "🎉 No additional COD charges on this order."}
+</p>
         </div>
       )}
 

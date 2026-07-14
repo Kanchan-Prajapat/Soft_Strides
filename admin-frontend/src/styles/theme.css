@@ -1125,3 +1125,27 @@ select.input:focus {
 .premium-image.contain {
   object-fit: contain;
 }
+
+
+.payment-method-badge{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:6px 12px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:600;
+  letter-spacing:.4px;
+}
+
+.payment-method-badge.online{
+  background:rgba(142,122,181,.18);
+  color:#bfa8ea;
+  border:1px solid rgba(142,122,181,.4);
+}
+
+.payment-method-badge.cod{
+  background:rgba(255,170,0,.15);
+  color:#ffbf47;
+  border:1px solid rgba(255,170,0,.35);
+}

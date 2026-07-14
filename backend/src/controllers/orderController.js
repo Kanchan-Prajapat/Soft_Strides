@@ -17,11 +17,7 @@ export const createOrder = async (req, res) => {
     if (!req.user) {
       return res.status(401).json({ message: "Login required" });
     }
-    if (!req.file) {
-      return res.status(400).json({
-        message: "Payment screenshot is required",
-      });
-    }
+   
 
     const {
       products,
@@ -40,6 +36,7 @@ export const createOrder = async (req, res) => {
       pincode,
 
       appliedCouponCode,
+      paymentMethod,
     } = req.body;
 
     const parsedProducts = JSON.parse(products);

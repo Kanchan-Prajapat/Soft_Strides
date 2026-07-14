@@ -10,6 +10,8 @@ import Coupon from "../models/Coupon.js";
 //   key_secret: process.env.RAZORPAY_KEY_SECRET,
 // });
 
+const COD_CHARGE = 29;
+const FREE_COD_LIMIT = 999;
 
 /* =========================
    CREATE ORDER
@@ -93,6 +95,7 @@ export const verifyRazorpayPayment = async (req, res) => {
 
       paymentStatus: "Paid",
       paymentId: razorpay_payment_id,
+      paymentMethod: "ONLINE",
 
       deliveryStatus: "Confirmed",
 
@@ -192,5 +195,169 @@ export const updateDeliveryStatus = async (req, res) => {
     res.json(order);
   } catch (error) {
     res.status(500).json({ message: "Update failed" });
+  }
+};
+
+
+export const createCODOrder = async (req, res) => {
+  try {
+    const { orderData } = req.body;
+
+    const detailedProducts = orderData.products.map((item) => {
+  const product = item.product || item;
+
+  return {
+    product: product._id,
+    name: product.name,
+    image: product.images?.[0] || product.image,
+    discountPrice: product.discountPrice,
+    originalPrice: product.originalPrice,
+    qty: item.quantity || item.qty || 1,
+    size: item.size || "Free Size",
+  };
+});
+
+const codCharge =
+  orderData.subtotal < FREE_COD_LIMIT
+    ? COD_CHARGE
+    : 0;
+
+const finalAmount =
+  Number(orderData.totalAmount) +
+  codCharge;
+
+
+const trackingId =
+  "SS" +
+  Math.random()
+    .toString(36)
+    .substring(2, 10)
+    .toUpperCase();
+    
+
+    const order = await Order.create({
+  user: req.user._id,
+
+  customerName: req.user.name,
+  customerEmail: req.user.email,
+
+  products: detailedProducts,
+subtotal: orderData.subtotal,
+
+handlingCharge: orderData.handlingCharge,
+
+deliveryCharge: orderData.deliveryCharge,
+
+smallCartFee: orderData.smallCartFee,
+
+discountAmount:
+  orderData.discountAmount || 0,
+
+appliedCouponCode:
+  orderData.appliedCouponCode || null,
+ totalAmount: finalAmount,
+
+codCharge,
+
+  subtotal: orderData.subtotal,
+  handlingCharge: orderData.handlingCharge,
+  deliveryCharge: orderData.deliveryCharge,
+  smallCartFee: orderData.smallCartFee,
+
+  discountAmount: orderData.discountAmount || 0,
+
+  appliedCouponCode:
+    orderData.appliedCouponCode || null,
+
+  address: orderData.address,
+  phone: orderData.phone,
+
+  city: orderData.city,
+  state: orderData.state,
+  pincode: orderData.pincode,
+
+  trackingId,
+
+  // ⭐ COD
+  paymentMethod: "COD",
+  paymentStatus: "Pending",
+
+  deliveryStatus: "Confirmed",
+
+  history: [
+    {
+      status: "Order Placed",
+      type: "delivery",
+      date: new Date(),
+    },
+    {
+      status: "Confirmed",
+      type: "delivery",
+      date: new Date(),
+    },
+  ],
+});
+
+// ✅ Update coupon usage
+if (orderData.appliedCouponCode) {
+
+  const coupon = await Coupon.findOne({
+    code: orderData.appliedCouponCode.toUpperCase(),
+  });
+
+  if (coupon) {
+
+    const usage = coupon.usedBy.find(
+      (u) =>
+        u.user.toString() ===
+        req.user._id.toString()
+    );
+
+    if (usage) {
+
+      usage.count += 1;
+
+    } else {
+
+      coupon.usedBy.push({
+        user: req.user._id,
+        count: 1,
+      });
+
+    }
+
+    await coupon.save();
+  }
+}
+
+// ✅ Create Shiprocket Shipment
+if (!order.awbCode) {
+
+  try {
+
+    const shipment = await createShipment(order);
+
+    order.awbCode = shipment.awb_code;
+
+    await order.save();
+
+  } catch (err) {
+
+    console.error("Shiprocket Error:", err);
+
+  }
+
+}
+return res.json({
+  success: true,
+  order,
+});
+  } catch (error) {
+    console.error(error);
+
+
+    res.status(500).json({
+      message: "COD Order Failed",
+    });
   }
 };
