@@ -20,14 +20,6 @@ const isCancelable = ![
   "Cancelled"
 ].includes(order?.deliveryStatus);
 
-const orderSchema = {
-  "@context": "https://schema.org",
-  "@type": "Order",
-  orderNumber: order._id,
-  orderStatus: order.deliveryStatus,
-  priceCurrency: "INR",
-  price: order.totalAmount,
-};
 
   // const isReturnInProgress = [
   //   "Return Requested",
@@ -86,6 +78,16 @@ const isReturnable = (() => {
 }, [id]);
 
   if (!order) return <p className="loading">Loading...</p>;
+
+  const orderSchema = {
+  "@context": "https://schema.org",
+  "@type": "Order",
+  orderNumber: order._id,
+  orderStatus: order.deliveryStatus,
+  priceCurrency: "INR",
+  price: order.totalAmount,
+};
+
 
   /* =========================
      ❌ CANCEL HANDLER
