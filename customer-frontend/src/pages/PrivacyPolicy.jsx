@@ -13,6 +13,7 @@ const PrivacyPolicy = () => {
         <h1>Privacy Policy</h1>
         <p className="last-updated">Last Updated: March 2026</p>
       </div>
+      
 
       {/* CARD */}
       <div className="privacy-card">

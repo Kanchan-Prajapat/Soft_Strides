@@ -2,36 +2,39 @@
 ORDERS CONTAINER
 ========================= */
 .orders-container {
-  padding: 60px 10%;
   color: var(--text-main);
-  min-height: 80vh;
-  background: var(--bg-main);
+   padding:70px 8%;
+    background:var(--bg-main);
+    min-height:100vh;
 }
 
 /* TITLE */
 .orders-title {
-  font-size: 26px;
-  margin-bottom: 40px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: uppercase;
+ font-size:34px;
+    font-weight:700;
+    letter-spacing:-.02em;
+    text-transform:none;
+    margin-bottom:40px;
   color: var(--text-main);
 }
 
 /* =========================
 ORDER CARD
 ========================= */
-.order-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 20px;
-  margin-bottom: 25px;
-  transition: 0.25s ease;
+.order-card{
+    background:var(--bg-card);
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:26px;
+    margin-bottom:28px;
+    box-shadow:var(--shadow);
+    transition:var(--transition);
 }
 
-.order-card:hover {
-  border-color: var(--primary);
+
+.order-card:hover{
+    border-color:var(--primary);
+    transform:translateY(-3px);
 }
 
 /* =========================
@@ -40,17 +43,19 @@ TOP
 .order-top {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 15px;
+  margin-bottom:24px;
+    align-items:flex-start;
 }
 
-.order-id {
-  font-weight: 600;
-  font-size: 14px;
+.order-id{
+    font-size:15px;
+    font-weight:700;
 }
 
-.order-date {
-  font-size: 12px;
-  color: var(--text-muted);
+
+.order-date{
+    font-size:13px;
+    color:var(--text-muted);
 }
 
 .order-summary p {
@@ -62,13 +67,13 @@ TOP
 STATUS BADGE
 ========================= */
 .status {
-  padding: 4px 10px;
-  border-radius: 4px;
-  font-size: 11px;
+  padding:8px 16px;
+    border-radius:999px;
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:.04em;
   display: inline-block;
-  margin-top: 5px;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
 }
 
 /* Matte subtle colors */
@@ -99,36 +104,39 @@ PRODUCTS
   display: flex;
   gap: 15px;
   align-items: center;
-  background: #1e1e22;
-  padding: 12px;
-  border-radius: 6px;
+      background:var(--bg-secondary);
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:16px;
   margin-bottom: 12px;
   transition: 0.25s;
 }
 
-.order-product-row:hover {
-  border: 1px solid var(--primary);
+.order-product-row:hover{
+    border-color:var(--primary);
+    transform:translateY(-2px);
 }
 
 /* IMAGE */
 .order-product-img {
-  width: 80px;
-  height: 80px;
-  object-fit: contain;
-  border-radius: 6px;
-  background: #2a2a2f;
+  width:95px;
+    height:115px;
+    object-fit:cover;
+    border-radius:12px;
+    background:var(--bg-main);
   border: 1px solid var(--border);
 }
 
 /* INFO */
-.order-product-info {
-  font-size: 13px;
+.order-product-info{
+    font-size:14px;
+    color:var(--text-muted);
 }
 
 .product-name {
-  font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 4px;
+ font-size:16px;
+    font-weight:600;
+    color:var(--text-main);
 }
 
 .timeline {
@@ -145,7 +153,7 @@ PRODUCTS
   left: 5%;
   right: 5%;
   height: 3px;
-  background: #333;
+ background:var(--border);
   z-index: 0;
 }
 
@@ -182,9 +190,9 @@ PRODUCTS
 }
 
 .circle.active {
-  background: #8b5cf6;   /* your theme purple */
   transform: scale(1.4);
-  box-shadow: 0 0 10px rgba(139, 92, 246, 0.7);
+  background:var(--primary);
+    box-shadow:0 0 10px rgba(192,192,192,.3);
 }
 
 .timeline {
@@ -205,6 +213,8 @@ PRODUCTS
 /* ✅ COMPLETED */
 .circle.completed {
   background: #22c55e; /* green */
+  box-shadow:0 0 10px rgba(34,197,94,.3);
+
 }
 
 /* 🔵 ACTIVE */
@@ -215,8 +225,8 @@ PRODUCTS
 }
 
 /* ⚪ PENDING */
-.circle.pending {
-  background: #444;
+.circle.pending{
+    background:var(--border);
 }
 
 /* TEXT */
@@ -225,10 +235,11 @@ PRODUCTS
   flex: 1;
 }
 
-.timeline-item p {
-  font-size: 12px;
-  margin-top: 6px;
+.timeline-item p{
+    font-size:13px;
+    font-weight:600;
 }
+
 
 .timeline-item small {
   font-size: 10px;
@@ -249,13 +260,46 @@ RESPONSIVE
     gap: 6px;
   }
 
-  .order-product-row {
-    flex-direction: column;
-    align-items: flex-start;
-  }
 
-  .order-product-img {
-    width: 100%;
-    height: 160px;
-  }
+.order-product-row{
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+}
+
+.order-product-img{
+    width:130px;
+    height:160px;
+}
+
+.status{
+    margin-top:10px;
+}
+
+.timeline{
+    overflow-x:auto;
+    gap:20px;
+    padding-bottom:10px;
+}
+
+.timeline-item{
+    min-width:70px;
+}
+
+}
+
+
+.order-summary{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:16px;
+    margin-bottom:24px;
+}
+
+.summary-card{
+    background:var(--bg-secondary);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:16px;
+    text-align:center;
 }

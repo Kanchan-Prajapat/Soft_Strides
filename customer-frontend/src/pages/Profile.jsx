@@ -395,7 +395,7 @@ const Profile = () => {
           />
 
 
-          <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
+          <div style={{ marginTop: "10px" }}>
             <button
               className="profile-btn save"
               onClick={editingIndex !== null ? updateAddress : addAddress}
@@ -432,13 +432,6 @@ const Profile = () => {
               <div
                 key={i}
                 className="profile-info-row"
-                style={{
-                  marginBottom: "10px",
-                  padding: "12px",
-                  border: "1px solid #2a2a2a",
-                  borderRadius: "8px",
-                  background: "#111"
-                }}
               >
 
                 {/* TEXT */}

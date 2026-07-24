@@ -2,23 +2,24 @@
 PROFILE PAGE
 ========================= */
 .profile-page {
-  padding: 40px 0;
-  background: var(--bg-main);
+   padding:70px 0;
+    background:var(--bg-main);
   color: var(--text-main);
 }
 
 /* TITLE */
-.profile-title {
-  font-size: 24px;
-  margin-bottom: 30px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
+.profile-title{
+    font-size:32px;
+    font-weight:700;
+    letter-spacing:-.02em;
+    text-transform:none;
+    margin-bottom:40px;
+    color:var(--text-main);
 }
-
 /* ================= GRID ================= */
 .profile-grid {
   display: flex;
-  gap: 40px;
+  gap: 48px;
 }
 
 .profile-sidebar {
@@ -30,40 +31,51 @@ PROFILE PAGE
 
 .profile-content {
   flex: 2;
-  padding-left: 25px;
-  border-left: 1px solid var(--border);
+border-left:1px solid rgba(255,255,255,.06);
+padding-left:36px;
 }
 
 /* ================= CARD ================= */
-.profile-card {
-  background: var(--bg-card);
-  border-radius: 6px;
-  padding: 20px;
-  border: 1px solid var(--border);
-  transition: 0.25s;
+.profile-card{
+    background:var(--bg-card);
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:24px;
+    box-shadow:var(--shadow);
+    transition:var(--transition);
 }
 
-.profile-card:hover {
-  border-color: var(--primary);
-  transform: translateY(-3px);
+.profile-card:hover{
+    transform:translateY(-4px);
+    border-color:var(--primary);
 }
 
 /* ================= AVATAR ================= */
-.profile-avatar {
-  width: 90px;
-  height: 90px;
-  border-radius: 50%;
-  border: 2px solid var(--primary);
+.profile-avatar{
+    width:110px;
+    height:110px;
+    border:3px solid var(--primary);
+    padding:3px;
+    background:var(--bg-secondary);
 }
+
 
 /* ================= INFO ================= */
 .profile-info-row {
   display: flex;
   justify-content: space-between;
-  padding: 8px 0;
-  border-bottom: 1px solid var(--border);
-  font-size: 13px;
+   padding:14px 0;
+    font-size:14px;
+    border-bottom:1px solid var(--border);
 }
+
+
+.value{
+    text-align:right;
+    word-break:break-word;
+}
+
+
 
 /* ================= ACTIONS ================= */
 .profile-actions {
@@ -73,20 +85,34 @@ PROFILE PAGE
   gap: 8px;
 }
 
-.logout-btn {
-  background: var(--bg-light);
-  border: 1px solid var(--border);
-  padding: 10px;
-  border-radius: 4px;
-  color: var(--text-main);
+.profile-info-row span{
+    color:var(--text-muted);
+}
+
+.logout-btn{
+    background:var(--bg-secondary);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:12px;
+    color:var(--text-main);
+    transition:var(--transition);
+}
+
+.logout-btn:hover{
+    border-color:var(--primary);
 }
 
 .delete-btn {
   border: 1px solid rgba(255, 0, 0, 0.3);
   color: #ff6b6b;
-  padding: 10px;
-  border-radius: 4px;
+  border-radius:12px;
+    padding:12px;
 }
+
+.delete-btn:hover{
+    background:rgba(239,68,68,.08);
+}
+
 
 input:disabled {
   opacity: 0.6;
@@ -94,23 +120,32 @@ input:disabled {
 }
 
 /* ================= SECTION ================= */
-.profile-section {
-  background: var(--bg-card);
-  padding: 20px;
-  border-radius: 6px;
-  border: 1px solid var(--border);
-  margin-bottom: 30px;
+.profile-section{
+    background:var(--bg-card);
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:28px;
+    margin-top:10px;
+    box-shadow:var(--shadow);
 }
+
 
 .profile-section input {
   width: 100%;
-  padding: 10px;
   margin-bottom: 12px;
-  border-radius: 4px;
   border: 1px solid var(--border);
-  background: transparent;
+  background:var(--bg-secondary);
+    border-radius:12px;
+    padding:14px 16px;
   color: var(--text-main);
 }
+
+.profile-section input:focus{
+    outline:none;
+    border-color:var(--primary);
+    box-shadow:0 0 0 3px rgba(192,192,192,.08);
+}
+
 
 /* ================= BUTTON ================= */
 .primary-btn {
@@ -118,16 +153,20 @@ input:disabled {
   width: 100%;
   margin: auto;
   display: block;
-  background: var(--primary);
-  padding: 10px;
-  border-radius: 4px;
-  color: #fff;
+  background:var(--primary);
+    color:#111;
+    border-radius:12px;
+    padding:14px;
+    font-weight:600;
   transition: 0.2s;
 }
 
-.primary-btn:hover {
-  background: var(--primary-dark);
+.primary-btn:hover{
+    background:var(--primary-hover);
+    transform:translateY(-2px);
 }
+
+
 
 .profile-btn {
   margin-top: 12px;
@@ -141,32 +180,38 @@ input:disabled {
 }
 
 /* Edit */
-.profile-btn.edit {
-  background: #2a2a2f;
-  color: #fff;
+.profile-btn.edit{
+    background:var(--bg-secondary);
+    border:1px solid var(--border);
+    color:var(--text-main);
 }
 
-.profile-btn.edit:hover {
-  background: #3a3a3f;
+
+.profile-btn.edit:hover{
+    border-color:var(--primary);
+    background:rgba(255,255,255,.03);
 }
 
 /* Save */
-.profile-btn.save {
-  background: #8E7AB5;
-  color: #fff;
+.profile-btn.save{
+    background:var(--primary);
+    color:#111;
 }
 
-.profile-btn.save:hover {
-  background: #6f5aa8;
+
+.profile-btn.save:hover{
+    background:var(--primary-hover);
 }
 
 /* ================= ORDERS ================= */
-.sidebar-orders {
-  background: var(--bg-card);
-  padding: 15px;
-  border-radius: 6px;
-  border: 1px solid var(--border);
+.sidebar-orders{
+    background:var(--bg-card);
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:22px;
+    box-shadow:var(--shadow);
 }
+
 
 .view-orders-btn {
   width: 100%;
@@ -174,7 +219,7 @@ input:disabled {
   background: var(--primary);
   padding: 10px;
   border-radius: 4px;
-  color: white;
+  color: #111;
 }
 
 /* ================= ORDER PREVIEW ================= */
@@ -186,10 +231,10 @@ input:disabled {
 }
 
 .sidebar-order-product img {
-  width: 50px;
-  height: 55px;
+  width: 60px;
+  height: 74px;
   object-fit: cover;
-  border-radius: 4px;
+  border-radius: 10px;
   border: 1px solid var(--border);
 }
 
@@ -206,10 +251,11 @@ input:disabled {
   font-size: 11px;
 }
 
-.order-price {
-  font-weight: 600;
-  color: var(--primary);
+.order-price{
+    color:var(--primary);
+    font-weight:700;
 }
+
 
 /* STATUS */
 .sidebar-status {
@@ -227,7 +273,9 @@ input:disabled {
 .profile-info-row {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items:flex-start;
+    gap:16px;
+    flex-wrap:wrap;
 }
 
 
@@ -261,6 +309,14 @@ input:disabled {
   margin: 2px 0;
 }
 
+
+.profile-sidebar{
+    position:sticky;
+    top:100px;
+    align-self:flex-start;
+}
+
+
 /* ================= RESPONSIVE ================= */
 @media (max-width: 992px) {
   .profile-grid {
@@ -269,6 +325,49 @@ input:disabled {
 
   .profile-content {
     border-left: none;
-    padding-left: 0;
+    padding-left: 24px;
   }
+
+.profile-card,
+.profile-section,
+.sidebar-orders{
+    padding:20px;
+    width :100%;
+}
+
+.profile-title{
+    font-size:28px;
+}
+
+.profile-sidebar{
+    position:static;
+    top:auto;
+    align-self:stretch;
+}
+
+.address-card{
+    flex-direction:column;
+}
+
+.address-actions{
+    width:100%;
+    display:flex;
+    gap:10px;
+}
+
+.address-actions button{
+    flex:1;
+}
+
+
+.profile-btn{
+    width:100%;
+}
+
+.profile-avatar{
+    width:90px;
+    height:90px;
+}
+
+
 }
