@@ -1,19 +1,129 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  
+/* =========================
+   GOOGLE FONT
+========================= */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
+
+/* =========================
+   ROOT VARIABLES
+========================= */
+
+:root {
+
+  /* Background */
+  --bg-main: #0F1115;
+  --bg-secondary: #181A1F;
+  --bg-card: #23262D;
+
+  /* Text */
+  --text-main: #F5F5F5;
+  --text-secondary: #B0B3B8;
+
+  /* Primary */
+  --primary: #C0C0C0;
+  --primary-hover: #E5E5E5;
+
+  /* Border */
+  --border: rgba(255,255,255,.08);
+
+  /* Accent */
+  --accent: #7C8794;
+
+  /* Shadow */
+  --shadow: 0 12px 35px rgba(0,0,0,.35);
+
+  /* Radius */
+  --radius: 12px;
+
+  /* Transition */
+  --transition: .3s ease;
 }
 
-* {
-  -webkit-tap-highlight-color: transparent;
+/* =========================
+   GLOBAL RESET
+========================= */
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* =========================
+   BODY
+========================= */
+
+html{
+  scroll-behavior:smooth;
 }
 
+body{
+  font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  background:var(--bg-main);
+  color:var(--text-main);
+
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+
+  overflow-x:hidden;
+}
+
+/* =========================
+   COMMON ELEMENTS
+========================= */
+
+a{
+  text-decoration:none;
+  color:inherit;
+}
+
+img{
+  max-width:100%;
+  display:block;
+}
+
+button,
+input,
+textarea,
+select{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+  transition:var(--transition);
+}
+
+code{
+  font-family:source-code-pro,Menlo,Monaco,Consolas,"Courier New",monospace;
+}
+
+/* =========================
+   SELECTION
+========================= */
+
+::selection{
+  background:var(--primary);
+  color:#111;
+}
+
+/* =========================
+   SCROLLBAR
+========================= */
+
+::-webkit-scrollbar{
+  width:8px;
+}
+
+::-webkit-scrollbar-track{
+  background:var(--bg-main);
+}
+
+::-webkit-scrollbar-thumb{
+  background:#3A3D45;
+  border-radius:20px;
+}
+
+::-webkit-scrollbar-thumb:hover{
+  background:var(--primary);
+}

@@ -2,15 +2,28 @@
 FOOTER
 ========================= */
 .footer {
-  background: var(--bg-main);
-  color: var(--text-main);
-  padding: 40px 0 20px;
-  border-top: 1px solid var(--border);
+    background:var(--bg-secondary);
+    color:var(--text-main);
+    padding:60px 0 25px;
+    border-top:1px solid var(--border);
+    position:relative
 }
+
+.footer::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:50%;
+    transform:translateX(-50%);
+    width:80px;
+    height:2px;
+    background:var(--primary);
+}
+
 
 /* CONTAINER */
 .footer-container {
-  width: 90%;
+ width:min(92%,1200px);
   margin: auto;
   text-align: center;
 }
@@ -19,14 +32,15 @@ FOOTER
 .footer-links {
   display: flex;
   justify-content: center;
-  gap: 30px;
+  gap: 36px;
   margin-bottom: 20px;
   flex-wrap: wrap;
 }
 
 .footer-links a {
   color: var(--text-muted);
-  font-size: 13px;
+  font-size: 14px;
+  font-weight: 500;
   letter-spacing: 0.5px;
   transition: 0.2s ease;
   position: relative;
@@ -39,13 +53,14 @@ FOOTER
   left: 0;
   bottom: -3px;
   width: 0%;
-  height: 1px;
-  background: var(--primary);
+  height:2px;
+background:var(--primary);
+border-radius:999px;
   transition: 0.25s ease;
 }
 
-.footer-links a:hover {
-  color: var(--text-main);
+.footer-links a:hover{
+color:var(--primary);
 }
 
 .footer-links a:hover::after {
@@ -57,24 +72,24 @@ FOOTER
   display: flex;
   justify-content: center;
   gap: 18px;
-  font-size: 18px;
+  font-size: 20px;
   margin-bottom: 18px;
 }
 
 .footer-social a {
   color: var(--text-muted);
-  transition: 0.2s ease;
+ transition:var(--transition);
 }
 
 /* subtle hover */
 .footer-social a:hover {
   color: var(--primary);
-  transform: translateY(-2px);
+transform:translateY(-3px) scale(1.08);
 }
 
 /* ================= DIVIDER ================= */
 .footer-divider {
-  width: 50%;
+width:120px;
   height: 1px;
   background: var(--border);
   margin: 18px auto;
@@ -82,9 +97,10 @@ FOOTER
 
 /* ================= COPYRIGHT ================= */
 .footer-copy {
-  font-size: 12px;
+font-size:13px;
+line-height:1.7;
   color: var(--text-muted);
-  letter-spacing: 0.5px;
+  letter-spacing: 0.8px;
 }
 
 /* ================= RESPONSIVE ================= */

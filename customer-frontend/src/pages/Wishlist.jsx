@@ -106,9 +106,13 @@ const Wishlist = () => {
                 className="wishlist-image"
                 onClick={() => navigate(`/product/${item._id}`)}
               >
-                <div className="premium-image-wrapper" style={{ width: 120, minWidth: 120 }}>
-                  <img src={item.image || item.images?.[0]} alt={item.name} className="premium-image" />
-                </div>
+              <div className="premium-image-wrapper">
+  <img
+    src={item.image || item.images?.[0]}
+    alt={item.name}
+    className="premium-image"
+  />
+</div>
               </div>
 
               {/* CONTENT */}

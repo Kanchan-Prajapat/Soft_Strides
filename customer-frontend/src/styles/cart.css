@@ -1,19 +1,19 @@
 /* =========================
 CART PAGE
 ========================= */
-.cart-page {
-  padding: 60px 0;
-  background: var(--bg-main);
-  color: var(--text-main);
+.cart-page{
+    padding:70px 0;
+    background:var(--bg-main);
 }
 
 /* TITLE */
 .cart-title {
-  font-size: 24px;
-  font-weight: 700;
-  margin-bottom: 40px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+font-size:32px;
+font-weight:700;
+letter-spacing:-.02em;
+text-transform:none;
+color:var(--text-main);
+margin-bottom:45px;
 }
 
 /* =========================
@@ -21,7 +21,7 @@ LAYOUT
 ========================= */
 .cart-layout {
   display: flex;
-  gap: 40px;
+  gap: 48px;
   align-items: flex-start;
 }
 
@@ -34,17 +34,19 @@ SUMMARY BOX
 ========================= */
 .cart-summary {
   flex: 1;
-  background: var(--bg-card);
-  padding: 25px;
-  border-radius: 8px;
-  border: 1px solid var(--border);
+  background:var(--bg-card);
+border:1px solid var(--border);
+border-radius:18px;
+padding:28px;
+box-shadow:var(--shadow);
   position: sticky;
   top: 100px;
 }
 
-.cart-summary h3 {
-  font-size: 18px;
-  margin-bottom: 15px;
+.cart-summary h3{
+    font-size:22px;
+    font-weight:700;
+    margin-bottom:20px;
 }
 
 /* =========================
@@ -53,22 +55,26 @@ CART ITEM
 .cart-item {
   display: flex;
   gap: 20px;
-  padding: 25px 0;
+ padding:28px 0;
+align-items:flex-start;
   border-bottom: 1px solid var(--border);
 }
 
 /* IMAGE */
 .cart-left img {
-  width: 140px;
-  height: 180px;
+  width:160px;
+height:210px;
+border-radius:14px;
+overflow:hidden;
   object-fit: cover;
-  border-radius: 6px;
   border: 1px solid var(--border);
 }
 
 /* DETAILS */
 .cart-right h3 {
-  font-size: 16px;
+ font-size:20px;
+font-weight:600;
+line-height:1.4;
   margin-bottom: 6px;
   cursor: pointer;
 }
@@ -79,17 +85,26 @@ CART ITEM
 
 /* DESCRIPTION */
 .cart-desc {
-  font-size: 13px;
-  color: var(--text-muted);
+ font-size:14px;
+line-height:1.7;
+color:var(--text-muted);
   margin-bottom: 10px;
 }
 
 /* PRICE */
 .cart-price {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 12px;
-  color: var(--primary);
+font-size:20px;
+font-weight:700;
+color:var(--primary);
+  margin-bottom: 12px;  
+}
+
+.cart-left img{
+    transition:transform .4s ease;
+}
+
+.cart-item:hover .cart-left img{
+    transform:scale(1.04);
 }
 
 /* =========================
@@ -103,9 +118,10 @@ QUANTITY
 }
 
 .qty-controls button {
-  width: 30px;
-  height: 30px;
-  border-radius: 4px;
+width:38px;
+height:38px;
+border-radius:10px;
+font-weight:600;
   border: 1px solid var(--border);
   background: transparent;
   color: var(--text-main);
@@ -114,6 +130,7 @@ QUANTITY
 
 .qty-controls button:hover {
   border-color: var(--primary);
+  background:rgba(255,255,255,.04);
   color: var(--primary);
 }
 
@@ -124,8 +141,9 @@ BUTTONS
   background: transparent;
   border: 1px solid var(--border);
   color: var(--text-muted);
-  padding: 6px 12px;
-  border-radius: 4px;
+  padding:10px 18px;
+border-radius:10px;
+font-weight:500;
   font-size: 12px;
   transition: 0.2s;
 }
@@ -133,6 +151,7 @@ BUTTONS
 .remove-btn:hover {
   border-color: #ff6b6b;
   color: #ff6b6b;
+  background:rgba(239,68,68,.08);
 }
 
 /* =========================
@@ -143,16 +162,19 @@ CHECKOUT BUTTON
   width: 100%;
   text-align: center;
   background: var(--primary);
-  color: #fff;
-  padding: 12px;
-  border-radius: 4px;
+ color:#111;
+border-radius:12px;
+font-weight:700;
+padding:15px;
+letter-spacing:.3px;
   font-size: 14px;
   margin-top: 15px;
   transition: 0.25s;
 }
 
 .checkout-btn:hover {
-  background: var(--primary-dark);
+  background:var(--primary-hover);
+transform:translateY(-2px);
 }
 
 /* =========================
@@ -160,23 +182,24 @@ EMPTY CART
 ========================= */
 .empty-cart {
   text-align: center;
-  margin-top: 80px;
+  margin-top: 120px;
 }
 
-.empty-cart h2 {
-  margin-bottom: 15px;
+.empty-cart h2{
+    font-size:34px;
+    margin-bottom:18px;
 }
 
 .empty-cart button {
-  background: var(--primary);
-  padding: 10px 20px;
-  border-radius: 4px;
-  color: #fff;
-  transition: 0.2s;
+ background:var(--primary);
+color:#111;
+padding:14px 28px;
+border-radius:12px;
+font-weight:600;
 }
 
 .empty-cart button:hover {
-  background: var(--primary-dark);
+  background: var(--primary-hover);
 }
 
 /* =========================
@@ -203,7 +226,7 @@ RESPONSIVE
 
   .cart-left img {
     width: 100%;
-    max-width: 220px;
+    max-width: 260px;
     height: auto;
   }
 
@@ -216,4 +239,22 @@ RESPONSIVE
   .cart-title {
     font-size: 20px;
   }
+}
+
+.cart-summary hr{
+    border:none;
+    border-top:1px solid var(--border);
+    margin:18px 0;
+}
+
+
+.cart-item{
+    transition:var(--transition);
+}
+
+.cart-item:hover{
+    background:rgba(255,255,255,.015);
+    border-radius:16px;
+    padding-left:12px;
+    padding-right:12px;
 }
