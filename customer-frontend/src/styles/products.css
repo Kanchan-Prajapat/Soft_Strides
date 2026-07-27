@@ -403,10 +403,8 @@ PRODUCT INFO
 
 .product-info {
   padding: 10px 5px 4px 10px;
-
   display: flex;
   flex-direction: column;
-
   gap: 4px;
 }
 

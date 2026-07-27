@@ -232,9 +232,7 @@ CATEGORY SECTION
       transparent);
 
   display: flex;
-
   align-items: flex-end;
-
   padding: 20px;
   padding-top: -20px;
 }
