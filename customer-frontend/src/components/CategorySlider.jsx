@@ -153,6 +153,7 @@ return ( <section className="category-section">
     navigate(`/products?category=${cat._id}`)
   }
 >
+
   <img
     src={cat.image}
     alt={cat.name}
