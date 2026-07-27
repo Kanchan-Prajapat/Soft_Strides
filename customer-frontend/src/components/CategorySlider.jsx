@@ -148,7 +148,7 @@ return ( <section className="category-section">
      {[...categories, ...categories].map((cat, index) => (
        <div
   key={`${cat._id}-${index}`}
-  className="category-card"
+  className="category-card" style={{}}
   onClick={() =>
     navigate(`/products?category=${cat._id}`)
   }
