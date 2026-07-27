@@ -7,11 +7,12 @@ import CategorySlider from "../components/CategorySlider";
 import ProductCard from "../components/ProductCard";
 import SEO from "../components/SEO";
 import { getOrganizationSchema } from "../utils/schema";
+import Loader from "../components/Loader";
 const Home = () => {
   const [banners, setBanners] = useState([]);
   const [current, setCurrent] = useState(0);
    const [products, setProducts] = useState([]);
- 
+ const [loading, setLoading] = useState(true);
   const API_URL = process.env.REACT_APP_API_URL;
 
   /* =============================
@@ -56,31 +57,44 @@ useEffect(() => {
 }, []);
 
 
-  useEffect(() => {
-    const fetchBanners = async () => {
-      try {
-        const res = await axios.get(`${API_URL}/api/banners`);
-        setBanners(res.data || []);
-      } catch (err) {
-        console.error(err);
-      }
-    };
+useEffect(() => {
 
-    fetchBanners();
-  }, [API_URL]);
+  const fetchData = async () => {
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-       const res = await axios.get( `${API_URL}/api/products/featured`);
-        setProducts(res.data || []);
-      } catch (err) {
-        console.error(err);
-      }
-    };
+    try {
 
-    fetchProducts();
-  }, [API_URL]);
+      const [bannerRes, productRes] = await Promise.all([
+
+        axios.get(`${API_URL}/api/banners`),
+
+        axios.get(`${API_URL}/api/products/featured`),
+        
+
+      ]);
+
+      setBanners(bannerRes.data || []);
+
+      setProducts(productRes.data || []);
+      
+
+    } catch (err) {
+
+      console.error(err);
+
+    } finally {
+
+      setLoading(false);
+
+    }
+
+    
+
+  };
+
+  fetchData();
+
+}, [API_URL]);
+
 
   /* =============================
         AUTO SLIDER
@@ -110,7 +124,13 @@ useEffect(() => {
     );
   };
 
+  if (loading) {
+  return <Loader />;
+}
+
+
   return (
+    
     
     <div className="home-page">
     <SEO

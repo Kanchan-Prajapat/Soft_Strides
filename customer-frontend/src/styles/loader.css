@@ -1,0 +1,234 @@
+/* =====================================
+            PREMIUM LOADER
+===================================== */
+
+.loader-screen{
+    position:fixed;
+    inset:0;
+    background:linear-gradient(
+        180deg,
+        #0d0f13 0%,
+        #111318 100%
+    );
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:999999;
+}
+
+.loader-content{
+    width:330px;
+    text-align:center;
+}
+
+/* =======================
+        LOGO
+======================= */
+
+.loader-logo{
+
+    width:110px;
+    height:110px;
+
+    margin:0 auto 28px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    border-radius:50%;
+
+    background:rgba(255,255,255,.03);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    backdrop-filter:blur(12px);
+
+    box-shadow:
+    0 0 35px rgba(255,255,255,.04);
+
+    animation:logoPulse 2.4s ease-in-out infinite;
+
+}
+
+.loader-logo-img{
+
+    width:92px;
+    height:92px;
+
+    object-fit:contain;
+
+}
+
+/* =======================
+        TITLE
+======================= */
+
+.loader-content h1{
+
+    color:#fff;
+
+    font-size:34px;
+
+    font-weight:700;
+
+    letter-spacing:.8px;
+
+    margin-bottom:10px;
+
+}
+
+.loader-content p{
+
+    color:#8f939a;
+
+    font-size:15px;
+
+    margin-bottom:35px;
+
+    letter-spacing:.4px;
+
+}
+
+/* =======================
+        PROGRESS BAR
+======================= */.loader-progress{
+
+    width:min(300px, 80%);
+
+    height:5px;
+
+    margin:0 auto;
+
+    border-radius:30px;
+
+    overflow:hidden;
+
+    background:rgba(255,255,255,.05);
+
+}
+
+.loader-progress{
+
+    width:240px;
+    height:5px;
+
+    margin:0 auto;
+
+    border-radius:30px;
+
+    overflow:hidden;
+
+    background:rgba(255,255,255,.05);
+
+}
+
+.loader-progress span{
+
+    background:linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,.4),
+        #ffffff,
+        rgba(255,255,255,.4),
+        transparent
+    );
+
+    box-shadow:
+        0 0 15px rgba(255,255,255,.5);
+
+}
+/* =======================
+        ANIMATION
+======================= */
+
+@keyframes loading{
+
+    from{
+        transform:translateX(-150%);
+    }
+
+    to{
+        transform:translateX(350%);
+    }
+
+}
+
+@keyframes logoPulse{
+
+    0%{
+
+        transform:scale(1);
+
+        box-shadow:
+        0 0 20px rgba(255,255,255,.03);
+
+    }
+
+    50%{
+
+        transform:scale(1.06);
+
+        box-shadow:
+        0 0 45px rgba(255,255,255,.08);
+
+    }
+
+    100%{
+
+        transform:scale(1);
+
+        box-shadow:
+        0 0 20px rgba(255,255,255,.03);
+
+    }
+
+}
+
+/* =======================
+        MOBILE
+======================= */
+
+@media(max-width:768px){
+
+.loader-content{
+
+    width:280px;
+      transform:translateY(-35px);
+
+}
+
+.loader-logo{
+
+    width:110px;
+    height:110px;
+
+}
+
+.loader-logo-img{
+
+    width:92px;
+    height:92px;
+
+}
+
+.loader-content h1{
+
+    font-size:36px;
+
+}
+
+.loader-content p{
+
+    font-size:14px;
+
+}
+
+.loader-screen{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+
+}
